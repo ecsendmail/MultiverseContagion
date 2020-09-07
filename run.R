@@ -25,8 +25,9 @@ library(V8)
 ctx <- v8()
 
 # pass both CSV data files contents into JS
-ctx$assign("csv_traffic", csv_traffic)
-ctx$assign("csv_cases", csv_cases)
+ctx$assign("csv_traffic", csv_traffic) # raw data from traffic plan / tickets file
+ctx$assign("csv_cases", csv_cases) # raw data from cases / viral load file
+ctx$assign("number_of_agents", number_of_agents); # number of agents
 
 # set up the simulation
 ctx$source("simulation.js")
