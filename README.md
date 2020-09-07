@@ -23,3 +23,12 @@ The use of AUTO will keep going, hour by hour
 Pressing the AUTO button again will put the system back into manual mode.
 
 The Multiverse can be invoked by double-clicking the MV button (top left)....
+
+## Quick Start: run simulation in R (tested on ubuntu)
+1. run:
+
+sudo ./setup.sh
+
+2 run:
+
+Rscript run.R
