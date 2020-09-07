@@ -6,6 +6,14 @@
 using namespace std;
 using namespace Rcpp;
 
+void find_and_replace(std::string & data, std::string to_match, std::string to_replace){
+    size_t pos = data.find(to_match); // get first occurrence; repeat to end
+    while(pos != std::string::npos){
+        data.replace(pos, to_match.size(), to_replace);  // replace occurrence of Sub String
+        pos = data.find(to_match, pos + to_replace.size()); // get next occurrence from cur posn
+    }
+}
+
 //[[Rcpp::export]]
 String file_read(String args){
   std::string fn = args;
@@ -21,6 +29,11 @@ String file_read(String args){
   // remove trailing delimiter(s) if present
   if(s[bs-2] == '\n') s[bs-2] = '\0';
   if(s[bs-3] == '\r') s[bs-3] = '\0';
-
-  return String(s); // convert c string to r-native object
+  
+  string ret(s);
+  // force delim to Windows as expected by Ernie's JS
+  find_and_replace(ret, string("\r\n"), string("\n"));
+  find_and_replace(ret, string("\n"), string("\r\n"));
+  
+  return String(ret); // convert c string to r-native object
 }

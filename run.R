@@ -1,5 +1,3 @@
-# todo: still need to assert delimiter is /r/n or replace delimiter
-
 # simulation parameters
 csv_traffic_file <- "data/MVDATAge.csv";
 csv_cases_file <- "data/VL1.csv";
@@ -14,24 +12,21 @@ src<-function(x){
 src("file_read.cpp") # read file
 src("max_pid.cpp") # find max pID in csv
 
-csv_traffic<-file_read(csv_traffic_file) # read traffic file
-print(csv_traffic)
-csv_cases<-file_read(csv_cases_file); # read cases file
-print(csv_cases)
-
+csv_traffic<-file_read(csv_traffic_file); # print(csv_traffic); # read traffic file
+csv_cases<-file_read(csv_cases_file); # print(csv_cases); # read cases file
 number_of_agents <- max_pid(csv_traffic) + 1 # determine the number of agents
 
 library(V8)
 ctx <- v8()
 
-# pass both CSV data files contents into JS
-ctx$assign("csv_traffic", csv_traffic) # raw data from traffic plan / tickets file
-ctx$assign("csv_cases", csv_cases) # raw data from cases / viral load file
-ctx$assign("number_of_agents", number_of_agents); # number of agents
+# pass both CSV data files contents, plus number of agents, into JS
+ctx$assign("csv_cases", csv_cases)
+ctx$assign("csv_traffic", csv_traffic) 
+ctx$assign("number_of_agents", number_of_agents);
 
 # set up the simulation
 ctx$source("simulation.js")
 
-# todo: run the simulation
+# todo: run simulation
 
 # todo: extract state space data
