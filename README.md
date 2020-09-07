@@ -5,6 +5,7 @@
 4. CSV File: press Browse.. button and select data/MVDATAge.csv **prescribed agents' traffic pattern: movement between universes**
 5. press CASES button and click on CSV File: press Browse.. and select data/VL1.csv **prescribed initial cases + viral load for agents**
 6. press yellow "Auto" button to start the simulation
+7. press "MV toggle" button to see info on the MultiVerse
 
 ## More information
 The Handbook has all the information needed to run and understand the goals of CovidSIMVL.html
