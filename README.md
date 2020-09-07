@@ -1,3 +1,12 @@
+## Quick Start
+1. clone repo or download files
+2. open index.html in your browser e.g. firefox, chrome, etc.
+3. enter global population size: 100, then press OK
+4. CSV File: press Browse.. button and select data/MVDATAge.csv **prescribed agents' traffic pattern: movement between universes**
+5. press CASES button and click on CSV File: press Browse.. and select data/VL1.csv **prescribed initial cases + viral load for agents**
+6. press yellow "Auto" button to start the simulation
+
+## More information
 The Handbook has all the information needed to run and understand the goals of CovidSIMVL.html
 The version in this github is 2020.08.267MVL1508cM3R12.html
 This needs to be run with the csv files 2020.08.23HundredMingl3OneU.csv and VLone.scv in that order
