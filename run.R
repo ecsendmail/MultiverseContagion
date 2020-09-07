@@ -9,8 +9,8 @@ src<-function(x){
   Rcpp::sourceCpp(x, cacheDir='tmp') ## source c/c++ fxn
 }
 
-src("file_read.cpp") # read file
-src("max_pid.cpp") # find max pID in csv
+src("cpp/file_read.cpp") # read file
+src("cpp/max_pid.cpp") # find max pID in csv
 
 csv_traffic<-file_read(csv_traffic_file); # print(csv_traffic); # read traffic file
 csv_cases<-file_read(csv_cases_file); # print(csv_cases); # read cases file
