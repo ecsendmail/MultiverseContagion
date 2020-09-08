@@ -10,10 +10,9 @@
 // ****************************************************************************
 
 var use_html = true
-try{
+try {
     document // does DOM exist?
-}
-catch{
+} catch {
     use_html = false // if DOM doesn't exist, assume we're running from R
 }
 
@@ -31,8 +30,7 @@ function handleFiles(files) {
             // FileReader are supported.
             console.log("getAsText", files[0])
             getAsText(files[0]);
-        }
-        else{
+        } else {
             alert('FileReader are not supported in this browser.');
         }
     }
@@ -878,13 +876,12 @@ try {
 
 
     M.UCt = 9;
-    if(use_html){
+    if (use_html) {
         M.PCt = prompt("Enter the global population size");
-    }
-    else{
+    } else {
         M.PCt = number_of_agents; // passed in from R/V8 javascript interpreter
     }
-    
+
     M.GreenCt = M.PCt; // these are totalled from U's
     M.YellowCt = 0;
     M.BlueCt = 0;
@@ -1457,16 +1454,17 @@ try {
 
     var canvas, ctx;
 
-    // load canvas
-    canvas = document.getElementById("gameCanvas");
-    ctx = canvas.getContext("2d");
-    ctx.fillStyle = "black";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.globalCompositeOperation = "source-over";
+    if (use_html) {
+        // load canvas
+        canvas = document.getElementById("gameCanvas");
+        ctx = canvas.getContext("2d");
+        ctx.fillStyle = "black";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.globalCompositeOperation = "source-over";
+    }
 
-
-    var travel = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 6, 6, 6, 6, 7, 7, 7, 8, 8, 9];
-    var dIRECTION = [-1, 0, 1];
+    // var travel = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 6, 6, 6, 6, 7, 7, 7, 8, 8, 9];
+    // var dIRECTION = [-1, 0, 1];
     var rand, randint;
 
     //hideMV();
@@ -4055,9 +4053,9 @@ try {
 
 }
 
-if(!use_html){
-  console.log("try to open csv_traffic")
-  processData(csv_traffic);
-  console.log("try to open csv_cases")
-  processData(csv_cases);
+if (!use_html) {
+    console.log("try to open csv_traffic")
+    processData(csv_traffic);
+    console.log("try to open csv_cases")
+    processData(csv_cases);
 }
