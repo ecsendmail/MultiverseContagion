@@ -1,11 +1,12 @@
+library(Rcpp) # run C++ code in R
+library(V8) # run v8 JS interpreter in R
+
 # simulation parameters
 csv_traffic_file <- "data/MVDATAge.csv";
 csv_cases_file <- "data/VL1.csv";
 
-library(Rcpp)
-
 src<-function(x){
-  cat(paste("src(", x, ")\n", sep=""))
+  cat(paste(x, "\n", sep=""))
   Rcpp::sourceCpp(x, cacheDir='tmp') ## source c/c++ fxn
 }
 
@@ -16,8 +17,7 @@ csv_traffic<-file_read(csv_traffic_file); # print(csv_traffic); # read traffic f
 csv_cases<-file_read(csv_cases_file); # print(csv_cases); # read cases file
 number_of_agents <- max_pid(csv_traffic) + 1 # determine the number of agents
 
-library(V8)
-ctx <- v8()
+ctx <- v8() # create v8 instance: javascript interpreter within R
 
 # pass both CSV data files contents, plus number of agents, into JS
 ctx$assign("csv_cases", csv_cases)
@@ -27,6 +27,6 @@ ctx$assign("number_of_agents", number_of_agents);
 # set up the simulation
 ctx$source("simulation.js")
 
-# todo: run simulation
+# run simulation
 
-# todo: extract state space data
+# extract state space data

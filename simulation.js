@@ -27,7 +27,7 @@ function handleFiles(files) {
     if (use_html) {
         // Check for the various File API support.
         if (window.FileReader) {
-            // FileReader are supported.
+            // FileReader supported
             console.log("getAsText", files[0])
             getAsText(files[0]);
         } else {
@@ -39,11 +39,9 @@ function handleFiles(files) {
 function getAsText(fileToRead) {
     console.log(fileToRead);
     var reader = new FileReader();
-    // Handle errors load
-    reader.onload = loadHandler;
+    reader.onload = loadHandler; // handle errors load
     reader.onerror = errorHandler;
-    // Read file into memory as UTF-8
-    reader.readAsText(fileToRead);
+    reader.readAsText(fileToRead); // read file into memory as utf-8
 }
 
 function loadHandler(event) {
@@ -66,10 +64,13 @@ function errorHandler(evt) {
     }
 }
 
-if (!use_html) {
+/*
+ if (!use_html) {
     console.log("try to open csv_traffic")
     handleFiles(csv_traffic);
 }
+*/
+
 
 // ****************************************************************************
 
@@ -1222,7 +1223,6 @@ try {
         this.cDir;
     }
 
-
     function parseL(lineStr) {
         let lineS = lineStr;
         if (lineS == "") return false;
@@ -1284,8 +1284,9 @@ try {
         X.cID = pID;
         X.cS = sno;
         X.cDir = "A";
-        if (D[d].H[h] === undefined || D[d].H[h] == "")
+        if (D[d].H[h] === undefined || D[d].H[h] == "") {
             D[d].H[h] = [];
+        }
         D[d].H[h].push(X);
 
         if (tr.AU == tr.TU) return;
@@ -1303,8 +1304,9 @@ try {
         X.cID = pID;
         X.cS = sno;
         X.cDir = "D";
-        if (D[d].H[h] === undefined || D[d].H[h] == "")
+        if (D[d].H[h] === undefined || D[d].H[h] == "") {
             D[d].H[h] = [];
+        }
         D[d].H[h].push(X);
     }
 
@@ -1314,25 +1316,33 @@ try {
         var lineNo = lines.length;
         if (csvAct == "Population") {
             for (i = 0; i < lineNo; i++) {
-                if (parseL(lines[i]))
+                if (parseL(lines[i])) {
                     setupTicket();
+                }
             }
-            document.getElementById("getFile").style.display = "none";
+            if (use_html) {
+                document.getElementById("getFile").style.display = "none";
+            }
         } else {
             if (csvAct == "Cases") {
                 for (i = 0; i < lineNo; i++) {
                     if (!parseC(lines[i])) break;
                 }
-                //drawAgents(0);
-                //showCounts();
-                document.getElementById("getFile").style.display = "none";
-                //document.getElementById("csvButton").style.display="none";
+
+                if (use_html) {
+                    //drawAgents(0);
+                    //showCounts();
+                    document.getElementById("getFile").style.display = "none";
+                    //document.getElementById("csvButton").style.display="none";
+                }
             }
         }
     }
 
     function caseLoad() {
-        document.getElementById("getFile").style.display = "block";
+        if (use_html) {
+            document.getElementById("getFile").style.display = "block";
+        }
         csvAct = "Cases";
     }
 
@@ -3033,7 +3043,6 @@ try {
     var chart17, chart18, chart19, chart20;
 
     if (use_html) {
-
         CanvasJS.addColorSet("Overview GYBRO",
             [
                 "#008000",
@@ -3063,10 +3072,7 @@ try {
             }]
         });
 
-
         // chart 2 **********************************************
-
-
 
         chart2 = new CanvasJS.Chart("chartContainer2", {
             zoomEnabled: true,
@@ -3091,7 +3097,6 @@ try {
 
         // CHART3 **********************************************************
 
-
         chart3 = new CanvasJS.Chart("chartContainer3", {
             colorSet: "Overview GYBRO",
             zoomEnabled: true,
@@ -3114,8 +3119,6 @@ try {
 
         // *********************************************************************************
         // CHART 4 - GREEN YELLOE BLUE RED over time
-
-
 
         chart4 = new CanvasJS.Chart("chartContainer4", {
             //  theme: "light1",
@@ -3142,9 +3145,6 @@ try {
             }]
         });
 
-
-
-
         CanvasJS.addColorSet("Overview GYBRO",
             [
                 "#008000",
@@ -3153,7 +3153,6 @@ try {
                 "#FF0000",
                 "#FF8C00",
             ]);
-
 
         chart6 = new CanvasJS.Chart("chartContainer6", {
             colorSet: "Overview GYBRO",
@@ -3292,7 +3291,6 @@ try {
                 dataPoints: U[2].endOrange
             }]
         });
-
 
         chart10 = new CanvasJS.Chart("chartContainer10", {
             colorSet: "Overview GYBRO",
@@ -3434,7 +3432,6 @@ try {
             }]
         });
 
-
         chart14 = new CanvasJS.Chart("chartContainer14", {
             colorSet: "Overview GYBRO",
             zoomEnabled: true,
@@ -3472,7 +3469,6 @@ try {
                 dataPoints: U[7].endOrange
             }]
         });
-
 
         chart15 = new CanvasJS.Chart("chartContainer15", {
             colorSet: "Overview GYBRO",
@@ -3549,7 +3545,6 @@ try {
             }]
         });
 
-
         chart17 = new CanvasJS.Chart("chartContainer17", {
             zoomEnabled: true,
             theme: "light2", // "light1", "light2", "dark1", "dark2"
@@ -3573,8 +3568,6 @@ try {
 
         // chart 2 **********************************************
 
-
-
         chart18 = new CanvasJS.Chart("chartContainer18", {
             zoomEnabled: true,
             theme: "light2", // "light1", "light2", "dark1", "dark2"
@@ -3595,9 +3588,7 @@ try {
             }]
         });
 
-
         // CHART3 **********************************************************
-
 
         chart19 = new CanvasJS.Chart("chartContainer19", {
             colorSet: "Overview GYBRO",
@@ -3621,8 +3612,6 @@ try {
 
         // *********************************************************************************
         // CHART 4 - GREEN YELLOE BLUE RED over time
-
-
 
         chart20 = new CanvasJS.Chart("chartContainer20", {
             zoomEnabled: true,
@@ -4056,14 +4045,21 @@ try {
         gctx.strokeStyle = clr;
         gctx.stroke();
     }
-} catch (e) {
-    console.log(e.stack) // use this to print out line number in this file, of error (within R/V8 JS interpreter)
-
+}
+catch(e){ 
+    console.log(e.stack); // use this to print out line number in this file, of error (within R/V8 JS interpreter)
 }
 
-if (!use_html) {
-    console.log("try to open csv_traffic")
-    processData(csv_traffic);
-    console.log("try to open csv_cases")
-    processData(csv_cases);
+try {
+ // try to load the input data
+    if(!use_html){
+        // console.log("try to open csv_traffic")
+        processData(csv_traffic);
+	caseLoad() // switch to cases file
+        // console.log("try to open csv_cases")
+        processData(csv_cases);
+    }
+}
+catch(e){
+    console.log(e.stack);
 }
