@@ -1400,7 +1400,9 @@ try {
             }
             newState(ID, "orange");
         }
-        showUstat(G, ID);
+        if (use_html) {
+            showUstat(G, ID);
+        }
     }
 
     function newState(ID, newState) {
@@ -1571,23 +1573,29 @@ try {
         //    canvTxt(15,30,cD,cH,vU);
         if (clrFlag == -1) {
             clr = P[g].state;
-        } else clr = clrFlag;
-        switch (P[g].role) {
-            case "R":
-                drawC(x, y, size, clr);
-                break;
-            case "A":
-                drawCross(x, y, 2 * size, size / 2, clr);
-                break;
-            case "T":
-                drawRect(x, y, 1.5 * size, 1.5 * size, clr);
+        } else {
+            clr = clrFlag;
+        }
+        if (use_html) {
+            switch (P[g].role) {
+                case "R":
+                    drawC(x, y, size, clr);
+                    break;
+                case "A":
+                    drawCross(x, y, 2 * size, size / 2, clr);
+                    break;
+                case "T":
+                    drawRect(x, y, 1.5 * size, 1.5 * size, clr);
+            }
         }
     }
 
     function drawU() {
         let i, j, k, l;
-        drawRect(0, 0, canWidth, canHeight, "black");
-        canvTxt(15, 30, cD, cH, vU);
+        if (use_html) {
+            drawRect(0, 0, canWidth, canHeight, "black");
+            canvTxt(15, 30, cD, cH, vU);
+        }
         k = U[vU].person.slice(0);
         l = k.length;
         for (i = 0; i < l; i++) {
@@ -1752,12 +1760,16 @@ try {
         let Q;
 
         cycleCount = 0;
-        document.getElementById("dCycl").innerHTML = cycleCount;
+        if (use_html) {
+            document.getElementById("dCycl").innerHTML = cycleCount;
+        }
 
         let cy = cycleCount;
         for (cy = 0; cy < cycleMax; cy++) {
-            if (wU == vU && VIEW == "local") drawRect(0, 0, canWidth, canHeight, "black");
-            if (wU == vU && VIEW == "local") drawEpi();
+            if (use_html) {
+                if (wU == vU && VIEW == "local") drawRect(0, 0, canWidth, canHeight, "black");
+                if (wU == vU && VIEW == "local") drawEpi();
+            }
             Q = U[wU];
             k = Q.person;
             len = k.length;
@@ -1765,21 +1777,27 @@ try {
                 j = k[i];
                 proposeMove(P[j], j);
                 epic = nearestEpicenter(P[j].newX, P[j].newY);
-
                 //        adjminglf(P[j],j,epic);
                 //        findOverlap(P[j],j,U[wU],wU);
                 testOverlap(P[j], j, i);
 
                 if (wU == vU && VIEW == "local") drawAgent(P[j].X, P[j].Y, j, "black");
+
                 P[j].X = P[j].newX;
                 P[j].Y = P[j].newY;
-                if (wU == vU && VIEW == "local") drawAgent(P[j].newX, P[j].newY, j, -1);
-                if (wU == vU && VIEW == "local") showUstat(U[wU], wU);
+                if (wU == vU && VIEW == "local") {
+                    drawAgent(P[j].newX, P[j].newY, j, -1);
+                }
+                if (use_html) {
+                    if (wU == vU && VIEW == "local") showUstat(U[wU], wU);
+                }
             }
         }
 
         if (wU == vU && VIEW == "local") drawU();
-        if (wU == vU && VIEW == "local") showUstat(U[wU], wU);
+        if (use_html) {
+            if (wU == vU && VIEW == "local") showUstat(U[wU], wU);
+        }
     }
 
     // #######################################################################
@@ -2060,15 +2078,22 @@ try {
     function auto() {
         if (MODE == "auto") {
             MODE = "manual";
-            clearInterval(clockTimer);
+            if (use_html) {
+                clearInterval(clockTimer);
+            }
             return;
         }
         MODE = "auto";
-        clockTimer = setInterval(TimesUp, MOTION / FPS);
+        if (use_html) {
+            clockTimer = setInterval(TimesUp, MOTION / FPS);
+        }
     }
 
     function load() {
-        let x = document.getElementById("loadB").innerHTML;
+        var x;
+        if (use_html) {
+            x = document.getElementById("loadB").innerHTML;
+        }
         if (x == "HR++") {
             TimesUp();
             return
@@ -2083,8 +2108,9 @@ try {
         for (let i = 0; i < M.UCt; i++) {
             initNet(U[i], 0);
         }
-
-        document.getElementById("loadB").innerHTML = "HR++";
+        if (use_html) {
+            document.getElementById("loadB").innerHTML = "HR++";
+        }
     }
 
     function TimesUp() {
@@ -2100,49 +2126,58 @@ try {
             advanceTime();
             conductor();
             tabulate();
-
         }
         if (graphFlag == "YES") {
             document.getElementById("grSlider").value = 1910;
             sliderFlag = false;
             graphB()
         }
-
     }
 
     function advanceTime() {
         if (cH == chkMaxTime) {
-            //        alert("End of Day - go home, no more coding!");
+            // alert("End of Day - go home, no more coding!");
             M.clockDay++;
             M.clockHr = 0;
             cD = M.clockDay;
             cH = 0;
             if (D[cD] == "" || D[cD] === undefined) {
                 true
-            } else xD = cD; // day with defined schedule
+            } else {
+                xD = cD; // day with defined schedule
+            }
         } else {
             M.clockHr++;
             cH = M.clockHr;
         }
-        if (MODE == "auto" && cH == toHH && cD == toDD) return true;
-
+        if (MODE == "auto" && cH == toHH && cD == toDD) {
+            return true;
+        }
         cS = 0;
         cH = M.clockHr;
         cT = (cD + (cH + 0.0001) / 24);
+
         drawLocal();
+
         if (VIEW == "MV") {
-            document.getElementById("day").innerHTML = ("DAY:\n" + cD);
-            document.getElementById("hour").innerHTML = ("HOUR:\n" + cH);
+            if (use_html) {
+                document.getElementById("day").innerHTML = ("DAY:\n" + cD);
+                document.getElementById("hour").innerHTML = ("HOUR:\n" + cH);
+            }
         }
         growVL();
     }
 
     function drawLocal() {
         if (VIEW == "local" && MODE == "manual") {
-            drawRect(0, 0, canWidth, canHeight, "black");
-            canvTxt(15, 30, cD, cH, vU);
+            if (use_html) {
+                drawRect(0, 0, canWidth, canHeight, "black");
+                canvTxt(15, 30, cD, cH, vU);
+            }
             drawU();
-            drawEpi();
+            if (use_html) {
+                drawEpi();
+            }
         }
     }
 
@@ -2575,7 +2610,9 @@ try {
                 totConv = totConv + P[i].susCt;
             }
             R0 = totConv / M.OrangeCt;
-            document.getElementById("R0button").innerHTML = R0.toFixed(2);
+            if (use_html) {
+                document.getElementById("R0button").innerHTML = R0.toFixed(2);
+            }
         }
 
         let vNum, vDenom, endV = 0;
@@ -2639,40 +2676,42 @@ try {
         let Y = Q.depT[gen];
 
         if (VIEW == "local") {
-            showUstat(Q, q);
-            chart6.render();
-            chart1.render();
-            chart2.render();
-            chart3.render();
-            chart4.render();
+            if (use_html) {
+                showUstat(Q, q);
+                chart6.render();
+                chart1.render();
+                chart2.render();
+                chart3.render();
+                chart4.render();
 
-            document.getElementById("popStat").innerHTML = Q.Population;
-            document.getElementById("arrStat").innerHTML = (X.resCt + X.attCt + X.visCt);
-            document.getElementById("depStat").innerHTML = (Y.resCt + Y.attCt + Y.visCt);
+                document.getElementById("popStat").innerHTML = Q.Population;
+                document.getElementById("arrStat").innerHTML = (X.resCt + X.attCt + X.visCt);
+                document.getElementById("depStat").innerHTML = (Y.resCt + Y.attCt + Y.visCt);
 
-            document.getElementById("totouch").innerHTML = Q.allTouch;
+                document.getElementById("totouch").innerHTML = Q.allTouch;
 
-            document.getElementById("resCt").innerHTML = Q.Resident;
-            document.getElementById("attCt").innerHTML = Q.Attached;
-            document.getElementById("visCt").innerHTML = Q.Transient;
+                document.getElementById("resCt").innerHTML = Q.Resident;
+                document.getElementById("attCt").innerHTML = Q.Attached;
+                document.getElementById("visCt").innerHTML = Q.Transient;
 
-            document.getElementById("GArr").innerHTML = X.gCt;
-            document.getElementById("YArr").innerHTML = X.yCt;
-            document.getElementById("BArr").innerHTML = X.bCt;
-            document.getElementById("RArr").innerHTML = X.rCt;
-            document.getElementById("OArr").innerHTML = X.oCt;
-            document.getElementById("ResArr").innerHTML = X.resCt;
-            document.getElementById("AttArr").innerHTML = X.attCt;
-            document.getElementById("VisArr").innerHTML = X.visCt;
+                document.getElementById("GArr").innerHTML = X.gCt;
+                document.getElementById("YArr").innerHTML = X.yCt;
+                document.getElementById("BArr").innerHTML = X.bCt;
+                document.getElementById("RArr").innerHTML = X.rCt;
+                document.getElementById("OArr").innerHTML = X.oCt;
+                document.getElementById("ResArr").innerHTML = X.resCt;
+                document.getElementById("AttArr").innerHTML = X.attCt;
+                document.getElementById("VisArr").innerHTML = X.visCt;
 
-            document.getElementById("GDep").innerHTML = Y.gCt;
-            document.getElementById("YDep").innerHTML = Y.yCt;
-            document.getElementById("BDep").innerHTML = Y.bCt;
-            document.getElementById("RDep").innerHTML = Y.rCt;
-            document.getElementById("ODep").innerHTML = Y.oCt;
-            document.getElementById("ResDep").innerHTML = Y.resCt;
-            document.getElementById("AttDep").innerHTML = Y.attCt;
-            document.getElementById("VisDep").innerHTML = Y.visCt;
+                document.getElementById("GDep").innerHTML = Y.gCt;
+                document.getElementById("YDep").innerHTML = Y.yCt;
+                document.getElementById("BDep").innerHTML = Y.bCt;
+                document.getElementById("RDep").innerHTML = Y.rCt;
+                document.getElementById("ODep").innerHTML = Y.oCt;
+                document.getElementById("ResDep").innerHTML = Y.resCt;
+                document.getElementById("AttDep").innerHTML = Y.attCt;
+                document.getElementById("VisDep").innerHTML = Y.visCt;
+            }
         }
         if (VIEW == "MV") {
             if (M.UCt > 0) {
@@ -4045,21 +4084,33 @@ try {
         gctx.strokeStyle = clr;
         gctx.stroke();
     }
-}
-catch(e){ 
+} catch (e) {
     console.log(e.stack); // use this to print out line number in this file, of error (within R/V8 JS interpreter)
 }
 
 try {
- // try to load the input data
-    if(!use_html){
+    // try to load the input data
+    if (!use_html) {
         // console.log("try to open csv_traffic")
         processData(csv_traffic);
-	caseLoad() // switch to cases file
+        caseLoad() // switch to cases file
         // console.log("try to open csv_cases")
         processData(csv_cases);
     }
-}
-catch(e){
+} catch (e) {
     console.log(e.stack);
+}
+
+//try to run the simulation
+try {
+    if (!use_html) {
+        auto();
+        load();
+        for (var i = 0; i < 5000; i++) {
+            console.log("iter ", i)
+            TimesUp();
+        }
+    }
+} catch (e) {
+    console.log(e.stack)
 }
