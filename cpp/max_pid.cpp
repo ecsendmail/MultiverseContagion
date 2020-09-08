@@ -11,24 +11,24 @@ using namespace Rcpp;
 int max_pid(String s){
   int max_j = 0;
   size_t ci = 0;
-  std::vector<std::string> ret;
-  std::istringstream iss(s);
   std::string token;
-  while(getline(iss,token)){
+  std::istringstream iss(s);
+  
+  while(getline(iss,token)){  
     const char * ss = token.c_str();
     size_t nb = strlen(ss) + 1;
     char * ts = (char *)(void *) malloc(nb);
     memset(ts, '\0', nb);
+    
     for(size_t i = 0; i < nb - 1; i++){
       ts[i] = ss[i];
-
     }
-    if(ci > 0){
+    
+    if(ci++ > 0){
       char * token2 = strtok(ts, ",");
       int j = atoi(token2);
       if(j > max_j) max_j = j;
     }
-    ci ++;
   }
   return max_j;
 }
