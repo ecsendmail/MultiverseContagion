@@ -4107,7 +4107,9 @@ try {
         auto();
         load();
         for (var i = 0; i < 5000; i++) {
-            console.log("iter ", i)
+	    if(i % 1000 == 0){
+              console.log("iter ", i)
+	    }
             TimesUp();
         }
     }

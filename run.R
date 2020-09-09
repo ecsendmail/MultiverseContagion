@@ -16,6 +16,7 @@ src("cpp/max_pid.cpp") # find max pID in csv
 csv_traffic<-file_read(csv_traffic_file); # print(csv_traffic); # read traffic file
 csv_cases<-file_read(csv_cases_file); # print(csv_cases); # read cases file
 number_of_agents <- max_pid(csv_traffic) + 1 # determine the number of agents
+cat(paste("n_agents,", number_of_agents, "\n", sep="")) # print out number of agents
 
 ctx <- v8() # create v8 instance: javascript interpreter within R
 
