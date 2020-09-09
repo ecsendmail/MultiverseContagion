@@ -25,9 +25,24 @@ ctx$assign("csv_cases", csv_cases)
 ctx$assign("csv_traffic", csv_traffic) 
 ctx$assign("number_of_agents", number_of_agents);
 
-# set up the simulation
+# set up and run the simulation
 ctx$source("simulation.js")
 
-# run simulation
-
 # extract state space data
+state_names <- ctx$get("state_names")
+state_counts <- ctx$get("state_counts")
+colnames(state_counts) <- state_names # give the matrix column names
+
+pdf("counts.pdf")
+matplot(state_counts,
+        xlim = c(0, nrow(state_counts)),
+        ylim = c(0, max(state_counts)),
+	type="l",
+	lwd = 3,
+	lty="solid",
+	xlab="iteration",
+	ylab="count",
+	main="Individuals per state, per iteration",
+	col = state_names)
+dev.off()
+cat("output written to counts.pdf\n")

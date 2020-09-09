@@ -1,11 +1,4 @@
 // ****************************************************************************
-// define parameters here *****************************************************
-// ****************************************************************************
-
-// csv_traffic = "data/MVDATAge.csv";
-// csv_cases = "data/VL1.csv";
-
-// ****************************************************************************
 // check if DOM (document object model) exists ********************************
 // ****************************************************************************
 
@@ -13,14 +6,13 @@ var use_html = true
 try {
     document // does DOM exist?
 } catch {
-    use_html = false // if DOM doesn't exist, assume we're running from R
+    use_html = false // if DOM doesn't exist, assume we're running from R / v8
 }
 
 // ****************************************************************************
 // file handling **************************************************************
 // ****************************************************************************
 
-//handleFiles("data.csv");
 var lines = [];
 
 function handleFiles(files) {
@@ -64,14 +56,6 @@ function errorHandler(evt) {
     }
 }
 
-/*
- if (!use_html) {
-    console.log("try to open csv_traffic")
-    handleFiles(csv_traffic);
-}
-*/
-
-
 // ****************************************************************************
 
 if (use_html) {
@@ -91,8 +75,6 @@ try {
 
 
     // *********************************** CREATE CANVASES FOR EACH PANE *******************************
-
-    //var i,j,k = 0;
 
     function drawc(x, y, rad, color, ctx) {
         ctx.beginPath();
@@ -595,9 +577,13 @@ try {
     function parseMVnames(x) {
         let i, y, z;
         if (x == "" || x == null) return;
+
+        // is this supposed to be number of universes?
         for (i = 1; i < 10; i++) {
             UN[i].name = "--"; //clear the decks
         }
+
+        // is this supposed to be number of universes?
         for (i = 1; i < 10; i++) {
             y = x.indexOf(",", 0);
             if (y == -1) break;
@@ -834,7 +820,6 @@ try {
     var VLpostPeak = 0.865;
     var VLradius = 12;
 
-
     function ConstructMVC() {
         this.UCt; // count of Universes
         this.PCt;
@@ -918,10 +903,7 @@ try {
     M.tOnset = VLonsetT;
     M.tInert = VLinfEnd;
 
-
     // ************************  this describes a local universe *********************************************************
-
-
 
     function CreateUniverse() {
         this.uID;
@@ -1011,12 +993,11 @@ try {
 
     (function() {
         let i;
-        for (i = 0; i < 9; i++) {
+        for (i = 0; i < M.UCt; i++) {
             U[i] = new CreateUniverse();
             initUniv(U[i], i);
         }
     })();
-
 
     function CreateType() {
         this.gCt = 0;
@@ -1029,7 +1010,6 @@ try {
         this.visCt = 0;
     }
 
-
     function initNet(Q, gen) {
         Q.arr[gen] = new CreateType();
         Q.dep[gen] = [];
@@ -1040,10 +1020,8 @@ try {
         }
     }
 
-
     // *************************** CREATE PERSON PROTOTYPES *************************************************
     //
-
 
     function CreatePerson() { // the persistent info for a person
         this.pID; // issued in multiverse - most of this data generated in MULTIVERSE
@@ -1079,13 +1057,11 @@ try {
         this.ddx;
         this.ddy;
 
-
         /* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
                                         LOCAL PERSON DATA STARTS here
 
-           $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-        */
+           $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ */
 
         this.day;
         this.hour; // strictly local information
@@ -1375,8 +1351,6 @@ try {
         Q.baseSize = Q.baseSize * Math.cbrt(Q.suscIndx);
         Q.currSize = stochast(Q.baseSize, 0.05);
     }
-
-
 
     // must test to see if these are transitions
     function changeState(ID) {
@@ -2216,9 +2190,10 @@ try {
 
     // needs to be for entire population ie M (?)
     function growVL() {
-        let i = 0;
         let newVL = 0;
-        for (i = 0; i < P.length; i++) {
+
+        // for each person
+        for (var i = 0; i < P.length; i++) {
             let Q = P[i];
             if (Q.ViralLoad == 0) continue;
 
@@ -2229,6 +2204,7 @@ try {
 
             let vfactor = 0;
             Q.prevVL = Q.ViralLoad;
+
             if ((cT - Q.tInfect) < Q.tPeakVL) {
                 vfactor = (VLprePeakRate - 1) / (24 * 10);
                 newVL = Q.ViralLoad * (1 + vfactor);
@@ -2236,11 +2212,13 @@ try {
                 vfactor = (1 - VLpostPeak) / (24);
                 newVL = Q.ViralLoad * (1 - vfactor);
             }
+
             let postDays = Math.floor(cT - Q.tInfect);
             let tableVL = 1;
             if (postDays < 20) {
                 tableVL = tViral[postDays];
-            } else(tableVL = 1);
+            } else(tableVL = 1); // ernie is this statement correct?
+
             // console.log("calc vs tableVL "+newVL+","+tableVL);
             Q.ViralLoad = Math.max(Q.ViralLoad, tableVL);
             Q.ViralLoad = stochast(Q.ViralLoad, 0.2);
@@ -4091,28 +4069,102 @@ try {
 try {
     // try to load the input data
     if (!use_html) {
-        // console.log("try to open csv_traffic")
-        processData(csv_traffic);
+        processData(csv_traffic); // open csv traffic file
         caseLoad() // switch to cases file
-        // console.log("try to open csv_cases")
-        processData(csv_cases);
+        processData(csv_cases); // open csv cases file
     }
 } catch (e) {
     console.log(e.stack);
 }
 
+// produce string representation for key-value store e.g. a histogram
+function dic_to_str(x) {
+    var i = 0
+    var s = "{"
+    for (var key in x) {
+        if (i++ > 0) {
+            s += ", "
+        }
+        s += key.toString() + ":" + x[key].toString()
+    }
+    return s + "}"
+}
+
+// difference two key-value stores
+function dic_sub(x, y){
+  for(k in x) if(!(k in y)) return null // assert keys match
+  for(k in y) if(!(k in x)) return null
+ 
+  var z = {} // subtract by element
+  for(k in x) z[k] = x[k] - y[k]
+  return z
+}
+
+// l2 norm for dictionary / key-value store
+function dic_norm(x){
+  var y = 0
+  for(k in x) y += Math.abs(x[k])
+  return y 
+}
+
+// metric to compare dictionaries
+function dic_metric(x, y){
+  return dic_norm(dic_sub(x, y))
+}
+
+function list_to_str(x){
+  s = x[0]
+  if(x.length > 1){
+    for(var i = 1; i < x.length; i++){
+      s += "," + x[i]
+    }
+  }
+  return s
+}
+
+
 //try to run the simulation
+var state_names = ["green", "yellow", "blue", "red", "orange"]
+var state_counts = null // try to pass this back to R
 try {
     if (!use_html) {
         auto();
         load();
-        for (var i = 0; i < 5000; i++) {
-	    if(i % 1000 == 0){
-              console.log("iter ", i)
+	var max_iter_same = 25 // simulation exits after metric is 0 for this many iterations
+	var max_iterations = 100000
+        var last_state_count = null // last iteration's counts for people in each state, for comparison
+	var count_zero = 0 // increment this if metric is zero, zero this if metric is nonzero
+
+	var state_counts = []
+        console.log(list_to_str(state_names))
+
+        for (var i = 0; i < max_iterations; i++) {
+
+            var state_count = {}
+            for (var j = 0; j < state_names.length; j++) state_count[state_names[j]] = 0 // initialize histogram
+            for (var j = 0; j < M.PCt; j++) state_count[P[j].state] += 1 // accumulate by person
+   
+	    var count_list = []
+	    for(var j = 0; j < state_names.length; j++){
+	      count_list.push(state_count[state_names[j]])
 	    }
-            TimesUp();
+	    console.log(count_list)
+	    state_counts.push(count_list) // track all the counts
+
+	    // var info = dic_to_str(state_count) + (last_state_count ? dic_to_str(last_state_count) : "")
+
+	    var d = last_state_count ? (dic_metric(state_count, last_state_count)): 0 // are people changing state?
+            if(d > 0) count_zero = 0 // people are changing state
+            else count_zero += 1 // people aren't changing state
+            // console.log(d, " ", info)
+
+	    if(count_zero >= max_iter_same) break // exit for loop / stop iterating, if we reached a fixed point
+
+	    TimesUp(); // go to next state
+            last_state_count = state_count;
         }
     }
 } catch (e) {
     console.log(e.stack)
 }
+console.log("exit covidSim")
