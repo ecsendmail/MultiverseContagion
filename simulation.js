@@ -4100,7 +4100,7 @@ function dic_sub(x, y){
   return z
 }
 
-// l2 norm for dictionary / key-value store
+// l1 norm for dictionary / key-value store: analogy of "absolute value" for a vector
 function dic_norm(x){
   var y = 0
   for(k in x) y += Math.abs(x[k])
@@ -4109,7 +4109,7 @@ function dic_norm(x){
 
 // metric to compare dictionaries
 function dic_metric(x, y){
-  return dic_norm(dic_sub(x, y))
+  return dic_norm(dic_sub(x, y)) // subtract and then take "absolute value" for vectors
 }
 
 function list_to_str(x){
