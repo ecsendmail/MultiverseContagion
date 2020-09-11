@@ -735,8 +735,6 @@ try {
         upDateGraph(U[vU], vU);
         document.getElementById("day").innerHTML = ("DAY:\n" + cD);
         document.getElementById("hour").innerHTML = ("HOUR:\n" + cH);
-
-
     }
 
 
