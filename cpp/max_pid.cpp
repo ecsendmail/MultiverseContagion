@@ -29,6 +29,7 @@ int max_pid(String s){
       int j = atoi(token2);
       if(j > max_j) max_j = j;
     }
+    free(ts);
   }
   return max_j;
 }

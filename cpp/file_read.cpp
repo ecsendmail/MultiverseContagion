@@ -35,5 +35,7 @@ String file_read(String args){
   find_and_replace(ret, string("\r\n"), string("\n"));
   find_and_replace(ret, string("\n"), string("\r\n"));
   
+  free(s);
+
   return String(ret); // convert c string to r-native object
 }
