@@ -558,16 +558,16 @@ try {
 
 
 
-    var defN = [];
-    defN[1] = "0 HOMEs";
-    defN[2] = "1 Long Term Care Unit";
-    defN[3] = "2 ";
-    defN[4] = "3 ";
-    defN[5] = "4 ";
-    defN[6] = "5 ";
-    defN[7] = "6 ";
-    defN[8] = "7 ";
-    defN[9] = "88 ";
+	var UN = [];
+	UN[0] = "0 CLASSROOM 1";
+	UN[1] = "1 PROJECT/LAB";
+	UN[2] = "2 PLAYGROUND";
+	UN[3] = "3 LUNCHROOM";
+	UN[4] = "4 CLASSROOM 2";
+	UN[5] = "5 TEACHER LOUNGE";
+	UN[6] = "6 LONG TERM CARE";
+	UN[7] = "7 BAR/DANCE/RECEPTION";
+	UN[8] = "8 HOME";
 
     function loadMVnames() {
         var text = prompt("Enter names of the Universes as a list separated by commas. No quotes necessary.");
@@ -578,20 +578,13 @@ try {
         let i, y, z;
         if (x == "" || x == null) return;
 
-        // is this supposed to be number of universes?
-        for (i = 1; i < 10; i++) {
-            UN[i].name = "--"; //clear the decks
-        }
-
-        // is this supposed to be number of universes?
-        for (i = 1; i < 10; i++) {
-            y = x.indexOf(",", 0);
-            if (y == -1) break;
-            UN[i].name = (x.substring(0, y));
-            x = x.substring(y + 1);
-        }
-        UN[i].name = x.substring(0);
-        showMVname();
+		for (i = 0; i < 9; i++) {
+			y = x.indexOf(",", 0);
+			if (y == -1) break;
+			UN[i] = (x.substring(0, y));
+			x = x.substring(y + 1);
+		}
+		showMVname();
     }
 
     function showMVname() {
@@ -626,32 +619,15 @@ try {
         }
     }
 
-
     // ************************************* CREATE MATRIX FOR MUTIVERSE ************************
 
-    function SetUpUniverse() {
-        this.name;
-    }
+	function showMingle(){
+	   var txt = prompt("Set or Change mingle factor FOR THE CURRENT UNIVERSE -- 0.01 to 100.01");
+	   document.getElementById("dMingl").innerHTML = txt;
+		let mn = eval(txt);
+		U[vU].minglf = mn;
+	}
 
-    function CreateMatrixRow() {
-        this.name;
-        this.row = [];
-        this.probability = [];
-    }
-
-    var UN = [];
-
-    for (let i = 1; i < 10; i++) {
-        UN[i] = new SetUpUniverse();
-        UN[i].name = defN[i];
-    }
-
-    var Mx = [];
-
-    for (let i = 1; i < 10; i++) {
-        Mx[i] = new CreateMatrixRow;
-        Mx[i].name = UN[i].name; // probably not needed
-    }
 
     if (use_html) {
         document.getElementById("row1").innerHTML = UN[1].name;
@@ -956,7 +932,7 @@ try {
         U.Resident = 0;
         U.Attached = 0;
         U.Transient = 0;
-        U.minglf = 0;
+        U.minglf = 1;
         U.greenCt = 0;
         U.yellowCt = 0;
         U.blueCt = 0;
@@ -1030,7 +1006,7 @@ try {
         this.role;
         this.suscIndx;
         this.ViralLoad;
-
+		    this.famKey;
         this.convT;
         this.gen;
 
@@ -1093,7 +1069,7 @@ try {
         P.role = "R";
         P.suscIndx = 1;
         P.ViralLoad = 0;
-
+		    P.famKey = -1;
         P.gen = 0;
 
         P.tInfect = 0;
@@ -1211,12 +1187,15 @@ try {
         transfer.TU = eval(lineS[5]);
         transfer.role = lineS[6];
         transfer.Mx = eval(lineS[7]);
-        if (lineS[8] == "" || lineS[8] === undefined) {
-            return true;
-        } else {
-            P[ID].age = eval(lineS[8]);
-            return true;
-        }
+		let trAge = eval(lineS[8]);
+		let trFam = lineS[9];
+		if (ID==pID) {return true}
+		else {
+			P[ID].age = -1;
+			if (trAge!="" && trAge!==undefined){P[ID].age=trAge};
+			P[ID].famKey = -1;
+			if (trFam!="" && trFam!==undefined) {P[ID].famKey=trFam};
+		}; return true;
     }
 
     function setupTicket() {
@@ -1784,12 +1763,10 @@ try {
         let randy = Math.floor(Math.random() * 43);
         G.delY = travel[randy] * G.currSize / 2;
 
-        if (G.minglf == 0) {
-            G.minglf = 1
-        }
+		let sumMing = U[vU].minglf * G.minglf;
 
-        G.delX = G.delX * G.minglf / 10;
-        G.delY = G.delY * G.minglf / 10;
+		G.delX = G.delX * sumMing;
+		G.delY = G.delY * sumMing;
 
         if ((Math.random() * 2) > 1) {
             G.delX = -G.delX;
@@ -1864,7 +1841,12 @@ try {
                     Q.allTouch++;
                     // console.log("overlap g,h = "+g+","+k[j]+": "+G.state+","+F.state);
                 }
-                if (touchFlag) VLtransfer(g, k[j]);
+				if (touchFlag) {
+					if (wU != 8) {VLtransfer(g, k[j])}			//U8 is HOME always
+					else {
+						if (G.famKey == F.famKey && G.famKey != -1) {VLtransfer(g, k[j])};
+					}
+				}
             }
         }
     }
@@ -2004,8 +1986,10 @@ try {
             if (P[j].tInfect == 0) {
                 P[j].tInfect = cT
             }
-            // console.log(P[j].state+" "+j+" infected by "+P[i].state+" "+i);
-            // console.log("VTrans, qVir = "+VTrans+","+qVir);
+			  if (P[j].state=="green") {
+               console.log("j person famKey "+j+":"+P[j].famKey+" infected by "+P[i].state+" person famKey "+i+":"+P[i].famKey+" at gen "+gen+" in Univ"+wU);                    // console.log(P[j].state+" "+j+" infected by "+P[i].state+" "+i);
+			  }
+
         } else {
             let iinfD = Math.floor(ipostInfect);
             if (iinfD < 21) {
@@ -2017,8 +2001,9 @@ try {
             if (P[i].tInfect == 0) { // once for infection
                 P[i].tInfect = cT
             }
-            // console.log(P[i].state+" "+i+" infected by "+P[j].state+" "+j);
-            // console.log("VTrans, qVir = "+VTrans+","+qVir);
+			  if (P[i].state=="green"){
+				console.log("i person famKey "+i+":"+P[i].famKey+" infected by "+P[j].state+" person famKey "+j+":"+P[j].famKey+" at gen "+gen+" in U"+wU);
+			  }
         }
     }
     // &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
@@ -2692,75 +2677,38 @@ try {
             }
         }
         if (VIEW == "MV") {
-            if (M.UCt > 0) {
-                chart7.render()
-            };
-            if (M.UCt > 1) {
-                chart8.render()
-            };
-            if (M.UCt > 2) {
-                chart9.render()
-            };
-            if (M.UCt > 3) {
-                chart10.render()
-            };
-            if (M.UCt > 4) {
-                chart11.render()
-            };
-            if (M.UCt > 5) {
-                chart12.render()
-            };
-            if (M.UCt > 6) {
-                chart13.render()
-            };
-            if (M.UCt > 7) {
-                chart14.render()
-            };
-            if (M.UCt > 8) {
-                chart15.render()
-            };
+			if (M.UCt > 0) { chart7.render() };
+			if (M.UCt > 1) { chart8.render() };
+			if (M.UCt > 2) { chart9.render() };
+			if (M.UCt > 3) { chart10.render() };
+			if (M.UCt > 4) { chart11.render() };
+			if (M.UCt > 5) { chart12.render() };
+			if (M.UCt > 6) { chart13.render() };
+			if (M.UCt > 7) { chart14.render() };
+			if (M.UCt > 8) { chart15.render() };
 
-            chart16.render();
-            chart17.render();
-            chart18.render();
-            chart19.render();
-            chart20.render();
+			chart16.render();
+			chart17.render();
+			chart18.render();
+			chart19.render();
+			chart20.render();
 
-            document.getElementById("TGreen").innerHTML = M.GreenCt;
-            document.getElementById("TYellow").innerHTML = M.YellowCt;
-            document.getElementById("TBlue").innerHTML = M.BlueCt;
-            document.getElementById("TRed").innerHTML = M.RedCt;
-            document.getElementById("TOrange").innerHTML = M.OrangeCt;
-            document.getElementById("trafficB").innerHTML = "TRAFFIC";
+			document.getElementById("TGreen").innerHTML = M.GreenCt;
+			document.getElementById("TYellow").innerHTML = M.YellowCt;
+			document.getElementById("TBlue").innerHTML = M.BlueCt;
+			document.getElementById("TRed").innerHTML = M.RedCt;
+			document.getElementById("TOrange").innerHTML = M.OrangeCt;
+			document.getElementById("trafficB").innerHTML = "TRAFFIC";
 
-            if (M.UCt > 0) {
-                MVtable0();
-                document.getElementById("pane1").innerHTML = U[0].allTouch.toFixed(0).fontcolor("white")
-            };
-            if (M.UCt > 1) {
-                MVtable1()
-            };
-            if (M.UCt > 2) {
-                MVtable2()
-            };
-            if (M.UCt > 3) {
-                MVtable3()
-            };
-            if (M.UCt > 4) {
-                MVtable4()
-            };
-            if (M.UCt > 5) {
-                MVtable5()
-            };
-            if (M.UCt > 6) {
-                MVtable6()
-            };
-            if (M.UCt > 7) {
-                MVtable7()
-            };
-            if (M.UCt > 8) {
-                MVtable8()
-            };
+			if (M.UCt > 0) { MVtable0() };
+			if (M.UCt > 1) { MVtable1() };
+			if (M.UCt > 2) { MVtable2() };
+			if (M.UCt > 3) { MVtable3() };
+			if (M.UCt > 4) { MVtable4() };
+			if (M.UCt > 5) { MVtable5() };
+			if (M.UCt > 6) { MVtable6() };
+			if (M.UCt > 7) { MVtable7() };
+			if (M.UCt > 8) { MVtable8() };
         }
     }
 
@@ -4094,7 +4042,7 @@ function dic_to_str(x) {
 function dic_sub(x, y){
   for(k in x) if(!(k in y)) return null // assert keys match
   for(k in y) if(!(k in x)) return null
- 
+
   var z = {} // subtract by element
   for(k in x) z[k] = x[k] - y[k]
   return z
@@ -4104,7 +4052,7 @@ function dic_sub(x, y){
 function dic_norm(x){
   var y = 0
   for(k in x) y += Math.abs(x[k])
-  return y 
+  return y
 }
 
 // metric to compare dictionaries
@@ -4143,7 +4091,7 @@ try {
             var state_count = {}
             for (var j = 0; j < state_names.length; j++) state_count[state_names[j]] = 0 // initialize histogram
             for (var j = 0; j < M.PCt; j++) state_count[P[j].state] += 1 // accumulate by person
-   
+
 	    var count_list = []
 	    for(var j = 0; j < state_names.length; j++){
 	      count_list.push(state_count[state_names[j]])
