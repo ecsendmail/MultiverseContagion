@@ -588,15 +588,15 @@ try {
     }
 
     function showMVname() {
-        document.getElementById("pane1").innerHTML = UN[1].name.fontcolor("white");
-        document.getElementById("pane2").innerHTML = UN[2].name.fontcolor("white");
-        document.getElementById("pane3").innerHTML = UN[3].name.fontcolor("white");
-        document.getElementById("pane4").innerHTML = UN[4].name.fontcolor("white");
-        document.getElementById("pane5").innerHTML = UN[5].name.fontcolor("white");
-        document.getElementById("pane6").innerHTML = UN[6].name.fontcolor("white");
-        document.getElementById("pane7").innerHTML = UN[7].name.fontcolor("white");
-        document.getElementById("pane8").innerHTML = UN[8].name.fontcolor("white");
-        document.getElementById("pane9").innerHTML = UN[9].name.fontcolor("white");
+        document.getElementById("pane1").innerHTML = UN[0].fontcolor("white");
+        document.getElementById("pane2").innerHTML = UN[1].fontcolor("white");
+        document.getElementById("pane3").innerHTML = UN[2].fontcolor("white");
+        document.getElementById("pane4").innerHTML = UN[3].fontcolor("white");
+        document.getElementById("pane5").innerHTML = UN[4].fontcolor("white");
+        document.getElementById("pane6").innerHTML = UN[5].fontcolor("white");
+        document.getElementById("pane7").innerHTML = UN[6].fontcolor("white");
+        document.getElementById("pane8").innerHTML = UN[7].fontcolor("white");
+        document.getElementById("pane9").innerHTML = UN[8].fontcolor("white");
     }
 
     function rBlues() {
@@ -630,15 +630,15 @@ try {
 
 
     if (use_html) {
-        document.getElementById("row1").innerHTML = UN[1].name;
-        document.getElementById("row2").innerHTML = UN[2].name;
-        document.getElementById("row3").innerHTML = UN[3].name;
-        document.getElementById("row4").innerHTML = UN[4].name;
-        document.getElementById("row5").innerHTML = UN[5].name;
-        document.getElementById("row6").innerHTML = UN[6].name;
-        document.getElementById("row7").innerHTML = UN[7].name;
-        document.getElementById("row8").innerHTML = UN[8].name;
-        document.getElementById("row9").innerHTML = UN[9].name;
+        document.getElementById("row1").innerHTML = UN[0];
+        document.getElementById("row2").innerHTML = UN[1];
+        document.getElementById("row3").innerHTML = UN[2];
+        document.getElementById("row4").innerHTML = UN[3];
+        document.getElementById("row5").innerHTML = UN[4];
+        document.getElementById("row6").innerHTML = UN[5];
+        document.getElementById("row7").innerHTML = UN[6];
+        document.getElementById("row8").innerHTML = UN[7];
+        document.getElementById("row9").innerHTML = UN[8];
         showMVname();
     }
 
