@@ -3692,7 +3692,7 @@ try {
     }
 
     function graphNetwork(gen) {
-        drawNArena();
+        drawNArena(gen);
         graphDDHH(gen);
         loadNet(gen);
         calcdydx();
@@ -3730,11 +3730,11 @@ try {
         clearInterval(Ntimer);
         sliderFlag = true;
         sliderVal = document.getElementById("grSlider").value;
-        console.log("sliderVal = " + sliderVal);
+        //console.log("sliderVal = " + sliderVal);
         genEquiv = Math.floor(sliderVal / 1920 * saveGen);
-        console.log("genEquiv = " + genEquiv);
+        //console.log("genEquiv = " + genEquiv);
         gen = genEquiv;
-        console.log("new gen = " + gen);
+        //console.log("new gen = " + gen);
         graphNetwork(gen)
     }
 
@@ -3800,11 +3800,11 @@ try {
 
     // nodes are drawn, edges created but not drawn till we know what traffic is
 
-    function drawNArena() {
+    function drawNArena(gen) {
         gctx.fillStyle = "Black";
         gctx.fillRect(0, 0, gcanvas.width, gcanvas.height);
         for (let i = 0; i < 9; i++) {
-            drawNC(N[i].x, N[i].y, 20, "midnightblue");
+            drawNC(i, gen, N[i].x, N[i].y, 20, "midnightblue");
         }
     }
 
@@ -3945,7 +3945,7 @@ try {
 
     function Nupdate() {
         drawNRect(0, 0, 800, 700, "black");
-        drawNArena();
+        drawNArena(getContext);
         graphDDHH(gen);
         for (let n = 0; n < 9; n++) {
             if (N[n].to == "" || N[n].to === undefined) continue;
@@ -4014,7 +4014,7 @@ try {
         gctx.fillText(tSTR, x, y);
     }
 
-    function drawNC(x, y, rad, color) { // draw a single node
+    function drawNC(i, gen, x, y, rad, color) { // draw a single node
         gctx.beginPath();
         gctx.arc(x, y, rad, 0, 2 * Math.PI);
         gctx.fillStyle = color;
@@ -4025,9 +4025,9 @@ try {
         gctx.fillStyle = "white";
         gctx.fillText(UN[i],x-40, y+40);
         let A=U[i];
-        let txtdata = A.greenCt.toFixed()+":"+A.yellowCt+":"+A.blueCt.toFixed()+":"+
-                      A.redCt.toFixed()+":"+A.orangeCt.toFixed();
-        gctx.fillText(txtdata,x-20,y+20);        
+        let txtdata = A.logGreen[gen].toFixed()+":"+A.logYellow[gen]+":"+A.logBlue[gen].toFixed()+":"+
+                      A.logRed[gen].toFixed()+":"+A.logOrange[gen].toFixed();
+        gctx.fillText(txtdata,x-20,y+20);
     }
 
 
