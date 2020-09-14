@@ -3636,8 +3636,7 @@ try {
     const ELAPSED = 3500;
     const GRANULARITY = 110;
     var gcanvas, gctx;
-    var Nstart;
-    100
+    var Nstart; 100
     var Ntimer;
     var sliderFlag = false;
     var saveGen = 0;
@@ -3653,7 +3652,7 @@ try {
     }
 
     function CreateEdge() {
-        this.u = 0; // destination node
+        this.u = 0;             // destination node
         this.clr = "green";
         this.ct = 0;
         this.dx = 0;
@@ -3667,7 +3666,6 @@ try {
 
 
     var netFlag = true;
-
     function graphB() {
         graphFlag = "YES";
         if (netFlag) {
@@ -3704,7 +3702,7 @@ try {
         let HH = gen % 24;
         gctx.font = "30px Arial";
         gctx.fillStyle = "Yellow";
-        gctx.fillText("Day: " + DD + "   HR: " + HH, 50, 760);
+        gctx.fillText("Day: " + DD + "   HR: " + HH,50,760);
     }
 
     function graphStop() {
@@ -3726,7 +3724,7 @@ try {
     var sliderVal = 0;
     var genEquiv = 0;
 
-    function graphIn() { // destroy till we get it performing
+    function graphIn() {                                        // destroy till we get it performing
         clearInterval(Ntimer);
         sliderFlag = true;
         sliderVal = document.getElementById("grSlider").value;
@@ -3739,12 +3737,8 @@ try {
     }
 
     function backGraph() {
-        if (!sliderFlag) {
-            return
-        };
-        if (gen == 0) {
-            return
-        };
+        if (!sliderFlag) { return };
+        if(gen == 0){ return };
         // process gen--
         gen--;
         writeSlider(gen);
@@ -3752,12 +3746,8 @@ try {
     }
 
     function foreGraph() {
-        if (!sliderFlag) {
-            return
-        };
-        if (gen == saveGen) {
-            return
-        };
+        if (!sliderFlag) { return };
+        if (gen == saveGen) { return };
         //process gen++
         gen++;
         writeSlider(gen);
@@ -3772,29 +3762,19 @@ try {
 
 
     var N = [];
-
     function startNet() {
         for (let nct = 0; nct < 9; nct++) {
             N[nct] = new CreateNode();
         }
-        N[0].x = 250;
-        N[0].y = 110;
-        N[1].x = 460;
-        N[1].y = 70;
-        N[2].x = 670;
-        N[2].y = 150;
-        N[3].x = 760;
-        N[3].y = 320;
-        N[4].x = 710;
-        N[4].y = 520;
-        N[5].x = 500;
-        N[5].y = 630;
-        N[6].x = 270;
-        N[6].y = 600;
-        N[7].x = 130;
-        N[7].y = 440;
-        N[8].x = 120;
-        N[8].y = 250;
+        N[0].x = 250; N[0].y = 110;
+        N[1].x = 460; N[1].y = 70;
+        N[2].x = 670; N[2].y = 150;
+        N[3].x = 760; N[3].y = 320;
+        N[4].x = 710; N[4].y = 520;
+        N[5].x = 500; N[5].y = 630;
+        N[6].x = 270; N[6].y = 600;
+        N[7].x = 130; N[7].y = 440;
+        N[8].x = 120; N[8].y = 250;
 
     }
 
@@ -3805,22 +3785,18 @@ try {
         gctx.fillRect(0, 0, gcanvas.width, gcanvas.height);
         for (let i = 0; i < 9; i++) {
             drawNC(i, gen, N[i].x, N[i].y, 20, "midnightblue");
+            drawCircleTxt(gctx,N[i].x,N[i].y,i);
         }
     }
 
     var nInst;
-
     function loadNet(gen) {
         for (let i = 0; i < 9; i++) {
             N[i].to = [];
-            if (sumDep(i, gen) == 0) {
-                continue
-            }; // no departures
+            if (sumDep(i, gen) == 0) { continue };    // no departures
             nInst = 0;
             for (j = 0; j < 9; j++) {
-                if (i == j) {
-                    continue
-                }; // skip edge to itself
+                if (i == j) { continue };     // skip edge to itself
                 markEdges(i, j, gen);
             }
         }
@@ -3840,21 +3816,11 @@ try {
 
     function markEdges(i, j, gen) {
         let Y = U[i].dep[gen][j];
-        if (Y.gCt > 0) {
-            loadEdge(i, j, gen, "green")
-        };
-        if (Y.yCt > 0) {
-            loadEdge(i, j, gen, "yellow")
-        };
-        if (Y.bCt > 0) {
-            loadEdge(i, j, gen, "blue")
-        };
-        if (Y.rCt > 0) {
-            loadEdge(i, j, gen, "red")
-        };
-        if (Y.oCt > 0) {
-            loadEdge(i, j, gen, "orange")
-        };
+        if (Y.gCt > 0) { loadEdge(i, j, gen, "green") };
+        if (Y.yCt > 0) { loadEdge(i, j, gen, "yellow") };
+        if (Y.bCt > 0) { loadEdge(i, j, gen, "blue") };
+        if (Y.rCt > 0) { loadEdge(i, j, gen, "red") };
+        if (Y.oCt > 0) { loadEdge(i, j, gen, "orange") };
     }
 
     function loadEdge(i, j, gen, colr) {
@@ -3891,9 +3857,7 @@ try {
     }
 
     function focusN(n) {
-        if (N[n].to == "" || N[n].to === undefined) {
-            return
-        };
+        if (N[n].to == "" || N[n].to === undefined) { return };
         let A = N[n];
         let edges = (A.to).length;
         for (let e = 0; e < edges; e++) {
@@ -3916,12 +3880,8 @@ try {
         tangent = Math.abs((toy - fry) / (tox - frx));
         edge.dx = Math.abs((tox - frx) / GRANULARITY);
         edge.dy = edge.dx * tangent;
-        if (toy < fry) {
-            edge.dy = 0 - edge.dy
-        };
-        if (tox < frx) {
-            edge.dx = 0 - edge.dx
-        };
+        if (toy < fry) { edge.dy = 0 - edge.dy };
+        if (tox < frx) { edge.dx = 0 - edge.dx };
         edge.xi = frx;
         edge.yi = fry;
 
@@ -3933,7 +3893,7 @@ try {
     function Nanimate() {
         Nstart = Date.now();
         clearInterval(Ntimer);
-        Ntimer = setInterval(function() {
+        Ntimer = setInterval(function () {
             Nupdate();
             let timePassed = Date.now() - Nstart;
             if (timePassed >= ELAPSED) {
@@ -3945,7 +3905,7 @@ try {
 
     function Nupdate() {
         drawNRect(0, 0, 800, 700, "black");
-        drawNArena(getContext);
+        drawNArena(gen);
         graphDDHH(gen);
         for (let n = 0; n < 9; n++) {
             if (N[n].to == "" || N[n].to === undefined) continue;
@@ -3987,7 +3947,7 @@ try {
     }
 
 
-    function drawNPath(node, ic) { // baby steps for animation
+    function drawNPath(node, ic) {        // baby steps for animation
         netwTxt(N[node].to[ic].newx, N[node].to[ic].newy, N[node].to[ic].ct.toString(), "black");
         N[node].to[ic].newx = N[node].to[ic].newx + N[node].to[ic].dx;
         N[node].to[ic].newy = N[node].to[ic].newy + N[node].to[ic].dy;
@@ -3999,7 +3959,9 @@ try {
         }
     }
 
-    function connect(fru, tou) { // the line connecting 2 nodes
+
+
+    function connect(fru, tou) {          // the line connecting 2 nodes
         let x1, x2, y1, y2;
         x1 = N[fru].x;
         y1 = N[fru].y;
@@ -4008,13 +3970,13 @@ try {
         drawNLine(x1, y1, x2, y2, "midnightblue");
     }
 
-    function netwTxt(x, y, tSTR, clr) { // text routine
+    function netwTxt(x, y, tSTR, clr) {       // text routine
         gctx.font = "30px Arial";
         gctx.fillStyle = clr;
         gctx.fillText(tSTR, x, y);
     }
 
-    function drawNC(i, gen, x, y, rad, color) { // draw a single node
+    function drawNC(i, gen, x, y, rad, color) {       // draw a single node
         gctx.beginPath();
         gctx.arc(x, y, rad, 0, 2 * Math.PI);
         gctx.fillStyle = color;
@@ -4031,13 +3993,20 @@ try {
     }
 
 
-    function drawNLine(x1, y1, x2, y2, clr) { // draw a single line
+    function drawNLine(x1, y1, x2, y2, clr) {    // draw a single line
         gctx.beginPath();
         gctx.moveTo(x1, y1);
         gctx.lineTo(x2, y2);
         gctx.strokeStyle = clr;
         gctx.stroke();
     }
+
+    function drawCircleTxt(canv,x,y,i) {
+        canv.font = "12px Arial";
+        canv.fillStyle = "white";
+        canv.fillText(i.toFixed(0),x,y);
+    }
+
 } catch (e) {
     console.log(e.stack); // use this to print out line number in this file, of error (within R/V8 JS interpreter)
 }
