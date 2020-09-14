@@ -4021,6 +4021,13 @@ try {
         gctx.fill();
         gctx.stroke();
         gctx.strokeStyle = "black";
+        gctx.font = "12px Courier";
+        gctx.fillStyle = "white";
+        gctx.fillText(UN[i],x-40, y+40);
+        let A=U[i];
+        let txtdata = A.greenCt.toFixed()+":"+A.yellowCt+":"+A.blueCt.toFixed()+":"+
+                      A.redCt.toFixed()+":"+A.orangeCt.toFixed();
+        gctx.fillText(txtdata,x-20,y+20);        
     }
 
 
