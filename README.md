@@ -1,5 +1,5 @@
 ## Quick Start
-1. click on https://ecsendmail.github.io/MultiverseContagion/
+1. click on https://ecsendmail.github.io/MultiverseContagion/   (you should read the parts around 4,5 first)  
 2. OR clone repo, and open index.html in your browser e.g. firefox, chrome, etc.
 3. enter global population size: 100, then press OK
 
@@ -9,10 +9,10 @@
 5. press CASES button and click on CSV File: press Browse.. and select data/VLone.csv **prescribed initial cases + viral load for agents**
 
 ***** To download from /data. double-click on "data", then  
-      a. Select the file, click on it   
-      b. In the next window, find the "raw" button and click on it   
-      c. In the next window, right click to "save as...." into your local directory   
-      d. Then use the files in your local directory in the instructions above
+&nbsp&nbsp&nbsp&nbsp&nbsp a. Select the file, click on it   
+&nbsp&nbsp&nbsp&nbsp&nbsp b. In the next window, find the "raw" button and click on it   
+&nbsp&nbsp&nbsp&nbsp&nbsp c. In the next window, right click to "save as...." into your local directory   
+&nbsp&nbsp&nbsp&nbsp&nbsp d. Then use the files in your local directory in the instructions above
       
 ****** end of special download instructions
 
