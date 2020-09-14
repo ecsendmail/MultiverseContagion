@@ -792,7 +792,7 @@ try {
     var VLinfEnd = 13.2;
     var VLprePeakRate = 1.069; // every 0.1 days
     var VLpostPeak = 0.865;
-    var VLradius = 12;
+    var VLradius = 5;
 
     function ConstructMVC() {
         this.UCt; // count of Universes
