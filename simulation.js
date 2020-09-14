@@ -1408,7 +1408,7 @@ try {
 
     var canWidth = 800;
     var canHeight = 600;
-    var bs = 12; //ball size
+
     var bx = []; //presumably ball center
     var by = [];
     var xv = []; //velocity in x and y directions
@@ -1617,7 +1617,7 @@ try {
         VLradius = pRad;
         let pCt = 0;
         for (pCt = 0; pCt < M.PCt; pCt++) {
-            let rRatio = P[pCt].currSize / p[pCt].baseSize;
+            let rRatio = P[pCt].currSize / P[pCt].baseSize;
             P[pCt].baseSize = VLradius;
             P[pCt].currSize = VLradius * rRatio;
         }
