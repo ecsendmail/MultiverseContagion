@@ -3155,11 +3155,11 @@ try {
             }]
         });
 
-        chart7 = new CanvasJS.Chart("chartContainer7", {
+        var chart7 = new CanvasJS.Chart("chartContainer7", {
             colorSet: "Overview GYBRO",
             zoomEnabled: true,
             title: {
-                text: defN[1]
+                text: UN[0]
             },
             axisY2: {
                 title: "Y + R"
@@ -3190,38 +3190,43 @@ try {
                 type: "column",
                 markerType: "none",
                 dataPoints: U[0].endOrange
-            }]
-        });
+            }
+            ]
+        }
+        );
 
-        chart8 = new CanvasJS.Chart("chartContainer8", {
+        var chart8 = new CanvasJS.Chart("chartContainer8", {
             colorSet: "Overview GYBRO",
             zoomEnabled: true,
             title: {
-                text: defN[2]
+                text: UN[1]
             },
-            data: [{
-                type: "stackedColumn",
-                dataPoints: U[1].endGreen
-            }, {
-                type: "stackedColumn",
-                dataPoints: U[1].endYellow
-            }, {
-                type: "stackedColumn",
-                dataPoints: U[1].endBlue
-            }, {
-                type: "stackedColumn",
-                dataPoints: U[1].endRed
-            }, {
-                type: "stackedColumn",
-                dataPoints: U[1].endOrange
-            }]
-        });
+            data: [
+                {
+                    type: "stackedColumn",
+                    dataPoints: U[1].endGreen
+                }, {
+                    type: "stackedColumn",
+                    dataPoints: U[1].endYellow
+                }, {
+                    type: "stackedColumn",
+                    dataPoints: U[1].endBlue
+                }, {
+                    type: "stackedColumn",
+                    dataPoints: U[1].endRed
+                }, {
+                    type: "stackedColumn",
+                    dataPoints: U[1].endOrange
+                }
+            ]
+        }
+        );
 
-        chart9 = new CanvasJS.Chart("chartContainer9", {
+        var chart9 = new CanvasJS.Chart("chartContainer9", {
             colorSet: "Overview GYBRO",
             zoomEnabled: true,
             title: {
-                text: "Universe 2"
+                text: UN[2]
             },
             axisY2: {
                 title: "Y + R"
@@ -3252,14 +3257,17 @@ try {
                 type: "column",
                 markerType: "none",
                 dataPoints: U[2].endOrange
-            }]
-        });
+            }
+            ]
+        }
+        );
 
-        chart10 = new CanvasJS.Chart("chartContainer10", {
+
+        var chart10 = new CanvasJS.Chart("chartContainer10", {
             colorSet: "Overview GYBRO",
             zoomEnabled: true,
             title: {
-                text: "Universe 3"
+                text: UN[3]
             },
             data: [{
                 type: "stackedColumn",
@@ -3276,14 +3284,17 @@ try {
             }, {
                 type: "stackedColumn",
                 dataPoints: U[3].endOrange
-            }]
-        });
+            }
+            ]
+        }
+        );
 
-        chart11 = new CanvasJS.Chart("chartContainer11", {
+
+        var chart11 = new CanvasJS.Chart("chartContainer11", {
             colorSet: "Overview GYBRO",
             zoomEnabled: true,
             title: {
-                text: "Universe 4"
+                text: UN[4]
             },
             axisY2: {
                 title: "Y + R"
@@ -3314,15 +3325,17 @@ try {
                 type: "line",
                 markerType: "none",
                 dataPoints: U[4].endOrange
-            }]
-        });
+            }
+            ]
+        }
+        );
 
 
-        chart12 = new CanvasJS.Chart("chartContainer12", {
+        var chart12 = new CanvasJS.Chart("chartContainer12", {
             colorSet: "Overview GYBRO",
             zoomEnabled: true,
             title: {
-                text: "Universe 5"
+                text: UN[5]
             },
             axisY2: {
                 title: "Y + R"
@@ -3353,15 +3366,17 @@ try {
                 type: "line",
                 markerType: "none",
                 dataPoints: U[5].endOrange
-            }]
-        });
+            }
+            ]
+        }
+        );
 
 
-        chart13 = new CanvasJS.Chart("chartContainer13", {
+        var chart13 = new CanvasJS.Chart("chartContainer13", {
             colorSet: "Overview GYBRO",
             zoomEnabled: true,
             title: {
-                text: "Universe 6"
+                text: UN[6]
             },
             axisY2: {
                 title: "Y + R"
@@ -3392,14 +3407,17 @@ try {
                 type: "line",
                 markerType: "none",
                 dataPoints: U[6].endOrange
-            }]
-        });
+            }
+            ]
+        }
+        );
 
-        chart14 = new CanvasJS.Chart("chartContainer14", {
+
+        var chart14 = new CanvasJS.Chart("chartContainer14", {
             colorSet: "Overview GYBRO",
             zoomEnabled: true,
             title: {
-                text: "Universe 7"
+                text: UN[7]
             },
             axisY2: {
                 title: "Y + R"
@@ -3430,14 +3448,17 @@ try {
                 type: "line",
                 markerType: "none",
                 dataPoints: U[7].endOrange
-            }]
-        });
+            }
+            ]
+        }
+        );
 
-        chart15 = new CanvasJS.Chart("chartContainer15", {
+
+        var chart15 = new CanvasJS.Chart("chartContainer15", {
             colorSet: "Overview GYBRO",
             zoomEnabled: true,
             title: {
-                text: "Universe 8"
+                text: UN[8]
             },
             axisY2: {
                 title: "Y + R"
@@ -3468,8 +3489,10 @@ try {
                 type: "line",
                 markerType: "none",
                 dataPoints: U[8].endOrange
-            }]
-        });
+            }
+            ]
+        }
+        );
 
         chart16 = new CanvasJS.Chart("chartContainer16", {
             colorSet: "Overview GYBRO",
