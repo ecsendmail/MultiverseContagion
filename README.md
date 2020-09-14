@@ -2,8 +2,12 @@
 1. click on https://ecsendmail.github.io/MultiverseContagion/
 2. OR clone repo, and open index.html in your browser e.g. firefox, chrome, etc.
 3. enter global population size: 100, then press OK
+
+***** for the next part, you may need to download Population.csv and VLone.csv from /data to your local directory
+
 4. CSV File: press Browse.. button and select data/Population.csv **prescribed agents' traffic pattern: movement between universes**
 5. press CASES button and click on CSV File: press Browse.. and select data/VLone.csv **prescribed initial cases + viral load for agents**
+
 6. press yellow "Auto" button a couple of times to start the simulation
 7. press "MV toggle" button to see info on the MultiVerse
 
