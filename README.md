@@ -8,9 +8,9 @@
 4. CSV File: press Browse.. button and select data/Population.csv **prescribed agents' traffic pattern: movement between universes**
 5. press CASES button and click on CSV File: press Browse.. and select data/VLone.csv **prescribed initial cases + viral load for agents**
 
-      Select the file, click on it2. 
-      In the next window, find the "raw" button and click on it3. 
-      In the next window, right click to "save as...." into your local directory4. 
+      Select the file, click on it. 
+      In the next window, find the "raw" button and click on it. 
+      In the next window, right click to "save as...." into your local directory. 
       Then use the files in your local directory in the instructions above
       
 ******
