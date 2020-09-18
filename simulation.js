@@ -1985,7 +1985,8 @@ try {
                 P[j].tInfect = cT
             }
 			  if (P[j].state=="green") {
-               console.log("j person famKey "+j+":"+P[j].famKey+" infected by "+P[i].state+" person famKey "+i+":"+P[i].famKey+" at gen "+gen+" in Univ"+wU);                    // console.log(P[j].state+" "+j+" infected by "+P[i].state+" "+i);
+			   let iInf = M.PCt - M.GreenCt;
+               console.log(iInf+"I j:famKey "+j+":"+P[j].famKey+" infected by "+P[i].state+" i:famKey "+i+":"+P[i].famKey+" at gen "+gen+" in Univ"+wU);                    // console.log(P[j].state+" "+j+" infected by "+P[i].state+" "+i);
 			  }
 
         } else {
@@ -2000,7 +2001,8 @@ try {
                 P[i].tInfect = cT
             }
 			  if (P[i].state=="green"){
-				console.log("i person famKey "+i+":"+P[i].famKey+" infected by "+P[j].state+" person famKey "+j+":"+P[j].famKey+" at gen "+gen+" in U"+wU);
+				let jInf = M.PCt - M.GreenCt;
+				console.log(jInf+"I i:famKey "+i+":"+P[i].famKey+" infected by "+P[j].state+" j:famKey "+j+":"+P[j].famKey+" at gen "+gen+" in U"+wU);
 			  }
         }
     }
