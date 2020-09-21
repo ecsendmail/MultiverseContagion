@@ -622,10 +622,10 @@ try {
     // ************************************* CREATE MATRIX FOR MUTIVERSE ************************
 
 	function showMingle(){
-	   var txt = prompt("Set or Change mingle factor FOR THE CURRENT UNIVERSE -- 0.01 to 100.01");
+	   var txt = prompt("Set or Change mingle factor FOR THE CURRENT UNIVERSE -- from 0.1 to 10");
 	   document.getElementById("dMingl").innerHTML = txt;
 		let mn = eval(txt);
-		U[vU].minglf = mn;
+		U[vU].minglf = mn/10;     // so user can keep the same scale of 1 to 10 for U and Persons
 	}
 
 
@@ -1716,6 +1716,7 @@ try {
         }
 
         let cy = cycleCount;
+
         for (cy = 0; cy < cycleMax; cy++) {
             if (use_html) {
                 if (wU == vU && VIEW == "local") drawRect(0, 0, canWidth, canHeight, "black");
@@ -1985,7 +1986,7 @@ try {
                 P[j].tInfect = cT
             }
 			  if (P[j].state=="green") {
-			   let iInf = M.PCt - M.GreenCt;
+			   let iInf = M.PCt-U[wU].greenCt;
                console.log(iInf+"I j:famKey "+j+":"+P[j].famKey+" infected by "+P[i].state+" i:famKey "+i+":"+P[i].famKey+" at gen "+gen+" in Univ"+wU);                    // console.log(P[j].state+" "+j+" infected by "+P[i].state+" "+i);
 			  }
 
@@ -2001,7 +2002,7 @@ try {
                 P[i].tInfect = cT
             }
 			  if (P[i].state=="green"){
-				let jInf = M.PCt - M.GreenCt;
+				let jInf = M.PCt-U[wU].greenCt;
 				console.log(jInf+"I i:famKey "+i+":"+P[i].famKey+" infected by "+P[j].state+" j:famKey "+j+":"+P[j].famKey+" at gen "+gen+" in U"+wU);
 			  }
         }
@@ -2563,6 +2564,7 @@ try {
         M.Cases = M.RedCt + M.OrangeCt;
         M.logCases[gen] = M.Cases;
         M.logR0[gen] = M.R0;
+
         var totConv = 0;
 
         if (M.OrangeCt > 0) {
@@ -2573,6 +2575,8 @@ try {
                 totConv = totConv + P[i].susCt;
             }
             R0 = totConv / M.OrangeCt;
+            M.R0 = R0;
+            M.logR0[gen] = M.R0;
             if (use_html) {
                 document.getElementById("R0button").innerHTML = R0.toFixed(2);
             }
