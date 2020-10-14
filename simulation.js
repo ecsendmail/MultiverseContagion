@@ -1986,7 +1986,7 @@ try {
                 P[j].tInfect = cT
             }
 			  if (P[j].state=="green") {
-			   let iInf = M.PCt-U[wU].greenCt;
+			   let iInf = M.PCt-M.GreenCt;
                console.log(iInf+"I j:famKey "+j+":"+P[j].famKey+" infected by "+P[i].state+" i:famKey "+i+":"+P[i].famKey+" at gen "+gen+" in Univ"+wU);                    // console.log(P[j].state+" "+j+" infected by "+P[i].state+" "+i);
 			  }
 
@@ -2002,7 +2002,7 @@ try {
                 P[i].tInfect = cT
             }
 			  if (P[i].state=="green"){
-				let jInf = M.PCt-U[wU].greenCt;
+				let jInf = M.PCt-M.GreenCt;
 				console.log(jInf+"I i:famKey "+i+":"+P[i].famKey+" infected by "+P[j].state+" j:famKey "+j+":"+P[j].famKey+" at gen "+gen+" in U"+wU);
 			  }
         }
@@ -2400,6 +2400,7 @@ try {
             document.getElementById("blCt").innerHTML = Q.blueCt;
             document.getElementById("reCt").innerHTML = Q.redCt;
             document.getElementById("orCt").innerHTML = Q.orangeCt;
+            document.getElementById("dMingl").innerHTML = Q.minglf*10;
         }
     }
 
@@ -3207,23 +3208,36 @@ try {
             title: {
                 text: UN[1]
             },
-            data: [
-                {
-                    type: "stackedColumn",
-                    dataPoints: U[1].endGreen
-                }, {
-                    type: "stackedColumn",
-                    dataPoints: U[1].endYellow
-                }, {
-                    type: "stackedColumn",
-                    dataPoints: U[1].endBlue
-                }, {
-                    type: "stackedColumn",
-                    dataPoints: U[1].endRed
-                }, {
-                    type: "stackedColumn",
-                    dataPoints: U[1].endOrange
-                }
+            axisY2: {
+                title: "Y + R"
+            },
+            axisY: {
+                title: "G + B + O"
+            },
+            data: [{
+                type: "column",
+                markerType: "none",
+                dataPoints: U[1].endGreen
+
+            }, {
+                type: "column",
+                axisYType: "secondary",
+                markerType: "none",
+                dataPoints: U[1].endYellow
+            }, {
+                type: "column",
+                markerType: "none",
+                dataPoints: U[1].endBlue
+            }, {
+                type: "column",
+                markerType: "none",
+                axisYType: "secondary",
+                dataPoints: U[1].endRed
+            }, {
+                type: "column",
+                markerType: "none",
+                dataPoints: U[1].endOrange
+            }
             ]
         }
         );
@@ -3268,33 +3282,45 @@ try {
         }
         );
 
-
         var chart10 = new CanvasJS.Chart("chartContainer10", {
             colorSet: "Overview GYBRO",
             zoomEnabled: true,
             title: {
                 text: UN[3]
             },
+            axisY2: {
+                title: "Y + R"
+            },
+            axisY: {
+                title: "G + B + O"
+            },
             data: [{
-                type: "stackedColumn",
+                type: "column",
+                markerType: "none",
                 dataPoints: U[3].endGreen
+
             }, {
-                type: "stackedColumn",
+                type: "column",
+                axisYType: "secondary",
+                markerType: "none",
                 dataPoints: U[3].endYellow
             }, {
-                type: "stackedColumn",
+                type: "column",
+                markerType: "none",
                 dataPoints: U[3].endBlue
             }, {
-                type: "stackedColumn",
+                type: "column",
+                markerType: "none",
+                axisYType: "secondary",
                 dataPoints: U[3].endRed
             }, {
-                type: "stackedColumn",
+                type: "column",
+                markerType: "none",
                 dataPoints: U[3].endOrange
             }
             ]
         }
         );
-
 
         var chart11 = new CanvasJS.Chart("chartContainer11", {
             colorSet: "Overview GYBRO",
