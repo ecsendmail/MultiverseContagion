@@ -4103,7 +4103,7 @@ function list_to_str(x){
 //try to run the simulation
 var state_names = ["green", "yellow", "blue", "red", "orange"]
 var state_counts = null // try to pass this back to R
-var min_iter = 1000
+var min_iter = 2000
 try {
     if (!use_html) {
         auto();
