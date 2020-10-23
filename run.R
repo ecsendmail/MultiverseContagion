@@ -2,8 +2,8 @@ library(Rcpp) # run C++ code in R
 library(V8) # run v8 JS interpreter in R
 
 # simulation parameters
-csv_traffic_file <- "data/MVDATAge.csv";
-csv_cases_file <- "data/VL1.csv";
+csv_traffic_file <- "data/Population.csv";
+csv_cases_file <- "data/VLone.csv";
 
 src<-function(x){
   cat(paste(x, "\n", sep=""))
