@@ -4103,6 +4103,7 @@ function list_to_str(x){
 //try to run the simulation
 var state_names = ["green", "yellow", "blue", "red", "orange"]
 var state_counts = null // try to pass this back to R
+var min_iter = 2000
 try {
     if (!use_html) {
         auto();
@@ -4135,7 +4136,7 @@ try {
             else count_zero += 1 // people aren't changing state
             // console.log(d, " ", info)
 
-	    if(count_zero >= max_iter_same) break // exit for loop / stop iterating, if we reached a fixed point
+	    if(count_zero >= max_iter_same && i >= min_iter) break // exit for loop / stop iterating, if we reached a fixed point
 
 	    TimesUp(); // go to next state
             last_state_count = state_count;
