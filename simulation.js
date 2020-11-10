@@ -2569,13 +2569,15 @@ try {
         var totConv = 0;
 
         if (M.OrangeCt > 0) {
+            let R0Ct = M.OrangeCt;
             for (let i = 0; i < M.PCt; i++) {
                 if (P[i].state != "orange") {
                     continue
                 };
                 totConv = totConv + P[i].susCt;
+                if (P[i].susCt == 0) R0Ct--;
             }
-            R0 = totConv / M.OrangeCt;
+            R0 = totConv / R0Ct;
             M.R0 = R0;
             M.logR0[gen] = M.R0;
             if (use_html) {
