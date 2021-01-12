@@ -622,10 +622,10 @@ try {
     // ************************************* CREATE MATRIX FOR MUTIVERSE ************************
 
 	function showMingle(){
-	   var txt = prompt("Set or Change mingle factor FOR THE CURRENT UNIVERSE -- 0.01 to 100.01");
+	   var txt = prompt("Set or Change mingle factor FOR THE CURRENT UNIVERSE -- from 0.1 to 10");
 	   document.getElementById("dMingl").innerHTML = txt;
 		let mn = eval(txt);
-		U[vU].minglf = mn;
+		U[vU].minglf = mn;     // now this is consistent with U and person scales
 	}
 
 
@@ -1711,11 +1711,12 @@ try {
         let Q;
 
         cycleCount = 0;
-        if (use_html) {
-            document.getElementById("dCycl").innerHTML = cycleCount;
-        }
+//        if (use_html) {
+//            document.getElementById("dCycl").innerHTML = cycleCount;
+//        }
 
         let cy = cycleCount;
+
         for (cy = 0; cy < cycleMax; cy++) {
             if (use_html) {
                 if (wU == vU && VIEW == "local") drawRect(0, 0, canWidth, canHeight, "black");
@@ -1808,8 +1809,8 @@ try {
             G.newY = 10;
             G.delX = G.Y - G.newY;
         }
-        if (G.newY > canWidth) {
-            G.newY = canWidth - 10;
+        if (G.newY > canHeight) {
+            G.newY = canHeight - 10;
             G.delX = G.newY - G.Y;
         }
     }
@@ -1985,7 +1986,7 @@ try {
                 P[j].tInfect = cT
             }
 			  if (P[j].state=="green") {
-			   let iInf = M.PCt - M.GreenCt;
+			   let iInf = M.PCt-M.GreenCt;
                console.log(iInf+"I j:famKey "+j+":"+P[j].famKey+" infected by "+P[i].state+" i:famKey "+i+":"+P[i].famKey+" at gen "+gen+" in Univ"+wU);                    // console.log(P[j].state+" "+j+" infected by "+P[i].state+" "+i);
 			  }
 
@@ -2001,7 +2002,7 @@ try {
                 P[i].tInfect = cT
             }
 			  if (P[i].state=="green"){
-				let jInf = M.PCt - M.GreenCt;
+				let jInf = M.PCt-M.GreenCt;
 				console.log(jInf+"I i:famKey "+i+":"+P[i].famKey+" infected by "+P[j].state+" j:famKey "+j+":"+P[j].famKey+" at gen "+gen+" in U"+wU);
 			  }
         }
@@ -2016,7 +2017,7 @@ try {
     var nU = 0;
 
     var iCycle;
-    var cycleMax = 5;
+    var cycleMax = 1;
     var arrFlag = false;
     var depFlag = false;
 
@@ -2399,6 +2400,7 @@ try {
             document.getElementById("blCt").innerHTML = Q.blueCt;
             document.getElementById("reCt").innerHTML = Q.redCt;
             document.getElementById("orCt").innerHTML = Q.orangeCt;
+            document.getElementById("dMingl").innerHTML = Q.minglf;
         }
     }
 
@@ -2563,16 +2565,21 @@ try {
         M.Cases = M.RedCt + M.OrangeCt;
         M.logCases[gen] = M.Cases;
         M.logR0[gen] = M.R0;
+
         var totConv = 0;
 
         if (M.OrangeCt > 0) {
+            let R0Ct = M.OrangeCt;
             for (let i = 0; i < M.PCt; i++) {
                 if (P[i].state != "orange") {
                     continue
                 };
                 totConv = totConv + P[i].susCt;
+                if (P[i].susCt == 0) R0Ct--;
             }
-            R0 = totConv / M.OrangeCt;
+            R0 = totConv / R0Ct;
+            M.R0 = R0;
+            M.logR0[gen] = M.R0;
             if (use_html) {
                 document.getElementById("R0button").innerHTML = R0.toFixed(2);
             }
@@ -3203,23 +3210,36 @@ try {
             title: {
                 text: UN[1]
             },
-            data: [
-                {
-                    type: "stackedColumn",
-                    dataPoints: U[1].endGreen
-                }, {
-                    type: "stackedColumn",
-                    dataPoints: U[1].endYellow
-                }, {
-                    type: "stackedColumn",
-                    dataPoints: U[1].endBlue
-                }, {
-                    type: "stackedColumn",
-                    dataPoints: U[1].endRed
-                }, {
-                    type: "stackedColumn",
-                    dataPoints: U[1].endOrange
-                }
+            axisY2: {
+                title: "Y + R"
+            },
+            axisY: {
+                title: "G + B + O"
+            },
+            data: [{
+                type: "column",
+                markerType: "none",
+                dataPoints: U[1].endGreen
+
+            }, {
+                type: "column",
+                axisYType: "secondary",
+                markerType: "none",
+                dataPoints: U[1].endYellow
+            }, {
+                type: "column",
+                markerType: "none",
+                dataPoints: U[1].endBlue
+            }, {
+                type: "column",
+                markerType: "none",
+                axisYType: "secondary",
+                dataPoints: U[1].endRed
+            }, {
+                type: "column",
+                markerType: "none",
+                dataPoints: U[1].endOrange
+            }
             ]
         }
         );
@@ -3264,33 +3284,45 @@ try {
         }
         );
 
-
         var chart10 = new CanvasJS.Chart("chartContainer10", {
             colorSet: "Overview GYBRO",
             zoomEnabled: true,
             title: {
                 text: UN[3]
             },
+            axisY2: {
+                title: "Y + R"
+            },
+            axisY: {
+                title: "G + B + O"
+            },
             data: [{
-                type: "stackedColumn",
+                type: "column",
+                markerType: "none",
                 dataPoints: U[3].endGreen
+
             }, {
-                type: "stackedColumn",
+                type: "column",
+                axisYType: "secondary",
+                markerType: "none",
                 dataPoints: U[3].endYellow
             }, {
-                type: "stackedColumn",
+                type: "column",
+                markerType: "none",
                 dataPoints: U[3].endBlue
             }, {
-                type: "stackedColumn",
+                type: "column",
+                markerType: "none",
+                axisYType: "secondary",
                 dataPoints: U[3].endRed
             }, {
-                type: "stackedColumn",
+                type: "column",
+                markerType: "none",
                 dataPoints: U[3].endOrange
             }
             ]
         }
         );
-
 
         var chart11 = new CanvasJS.Chart("chartContainer11", {
             colorSet: "Overview GYBRO",
@@ -4073,6 +4105,7 @@ function list_to_str(x){
 //try to run the simulation
 var state_names = ["green", "yellow", "blue", "red", "orange"]
 var state_counts = null // try to pass this back to R
+var min_iter = 2000
 try {
     if (!use_html) {
         auto();
@@ -4105,7 +4138,7 @@ try {
             else count_zero += 1 // people aren't changing state
             // console.log(d, " ", info)
 
-	    if(count_zero >= max_iter_same) break // exit for loop / stop iterating, if we reached a fixed point
+	    if(count_zero >= max_iter_same && i >= min_iter) break // exit for loop / stop iterating, if we reached a fixed point
 
 	    TimesUp(); // go to next state
             last_state_count = state_count;
