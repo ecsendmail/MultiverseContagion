@@ -625,7 +625,7 @@ try {
 	   var txt = prompt("Set or Change mingle factor FOR THE CURRENT UNIVERSE -- from 0.1 to 10");
 	   document.getElementById("dMingl").innerHTML = txt;
 		let mn = eval(txt);
-		U[vU].minglf = mn;     // now this is consistent with U and person scales
+		U[vU].minglf = mn/10;     // so user can keep the same scale of 1 to 10 for U and Persons
 	}
 
 
@@ -1711,9 +1711,9 @@ try {
         let Q;
 
         cycleCount = 0;
-//        if (use_html) {
-//            document.getElementById("dCycl").innerHTML = cycleCount;
-//        }
+        if (use_html) {
+            document.getElementById("dCycl").innerHTML = cycleCount;
+        }
 
         let cy = cycleCount;
 
@@ -1809,8 +1809,8 @@ try {
             G.newY = 10;
             G.delX = G.Y - G.newY;
         }
-        if (G.newY > canHeight) {
-            G.newY = canHeight - 10;
+        if (G.newY > canWidth) {
+            G.newY = canWidth - 10;
             G.delX = G.newY - G.Y;
         }
     }
@@ -2017,7 +2017,7 @@ try {
     var nU = 0;
 
     var iCycle;
-    var cycleMax = 1;
+    var cycleMax = 5;
     var arrFlag = false;
     var depFlag = false;
 
@@ -2400,7 +2400,7 @@ try {
             document.getElementById("blCt").innerHTML = Q.blueCt;
             document.getElementById("reCt").innerHTML = Q.redCt;
             document.getElementById("orCt").innerHTML = Q.orangeCt;
-            document.getElementById("dMingl").innerHTML = Q.minglf;
+            document.getElementById("dMingl").innerHTML = Q.minglf*10;
         }
     }
 
