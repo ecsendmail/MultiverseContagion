@@ -44,8 +44,15 @@ instrument for the detailed study of contagion-based epidemics.
 ## Quick Start: run simulation in R (tested on ubuntu)
 1. run:
 
+```
 sudo ./setup.sh
+```
 
 2 run:
 
+```
 Rscript run.R
+```
+
+
+<img src="./CovidSIMVL/Simulation Engines/PRIMARY CovidSIMVL/counts.png">
