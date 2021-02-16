@@ -29,6 +29,16 @@ Pressing the AUTO button again will put the system back into manual mode.
 The Multiverse can be invoked by double-clicking the MV button (top left)....
 Within it is a button labeled "TRAFFIC". To get out of it you need to DOUBLE-CLICK the red "STOP/EXIT"
 
+CAVEAT - as it sits, we assume you know something about browsers, devtools, console.logs, WATCH variables of
+interest, and so on if you are intending to run or modify COvidSIMVL.
+
+LICENSE - CovidSIMVL is in the public domain, and available for your download, use, modification and distribution under the terms of
+the GNU License Open Software framework.
+
+Many may just use the /Documents folder as a resource for information about this particular agent-based simulation space, and
+the manuscripts, notes, and powerpoint presentations created around CovidSIMVL as tool and sandbox for exploration, and as an
+instrument for the detailed study of contagion-based epidemics.
+
 
 
 ## Quick Start: run simulation in R (tested on ubuntu)
