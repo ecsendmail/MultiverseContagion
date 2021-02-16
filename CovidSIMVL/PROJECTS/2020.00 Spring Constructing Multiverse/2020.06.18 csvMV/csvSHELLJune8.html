@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<style>
+  th,  td {
+    border: 1px solid black;
+    padding: 3px;
+    text-align: center;
+}
+  th {
+      cursor: pointer;
+  }
+  </style>
+  <p>CovidSim Stochastic Cellular Automata April 2020 @EC_GO - PUBLIC DOMAIN as per GNU GPL LICENSING</p>
+  <body>
+  <script>
+
+  var M = new ConstructMVC;
+  var U = [];                   // local Universes
+  var P = [];                   // all people in the system
+  var T = [];                   // one ticket per person - 24hr or 1 week?
+  var H = [];                   // timer-based schedule of events - arr depart
+
+
+  var cD = 0;       // not sure if we will use as globals
+  var cH = 5;       // initialization of 5AM
+  var cP = 0;
+  var cT = 0;       // for combined time DD*100+HR
+  var cS = 0;         // current stop
+  var pID = 0;
+
+  var vU = 0;   // visible U
+  var wU = 0;   // working U
+
+  var gen = 0;
+
+  const LTC = 1;
+  const HOME = 0;
+
+  function ConstructMVC() {
+        this.UCt;                       // count of Universes
+        this.PCt;
+        this.GreenCt;                   // these are totals of all universes at this time
+        this.YellowCt;
+        this.BlueCt;
+        this.RedCt;
+        this.OrangeCt;                  // total count of population
+        this.clockDay;                  // the Master Clock Day
+        this.clockHr;                 // the Master Clock clock hour
+  }
+
+  function initUniv(U,i){
+        U.uID = i;
+        U.name = "U"+i;
+        U.population = 0;
+        U.Resident = 0;
+        U.Attached = 0;
+        U.Transient = 0;
+        U.minglx = 0;
+        U.greenCt = 0;
+        U.yellowCt = 0;
+        U.blueCt = 0;
+        U.redCt = 0;
+        U.orangeCt = 0;
+        U.canvas = "";
+        U.inBox = [];
+        U.outBox = [];
+        U.day = 0;
+        U.hour = 0;
+        U.person = [];
+  };
+
+  for (i=0; i<9; i++) {
+    U[i] = new CreateUniverse();
+    initUniv(U[i],i);
+  }
+
+  M.UCt = 2;
+  M.PCt = 100;
+
+  M.GreenCt = M.PCt;      // these are totalled from U's
+  M.YellowCt = 0;
+  M.BlueCt = 0;
+  M.RedCt = 0;
+  M.OrangeCt = 0;
+  M.clockDay = 0;
+  M.clockHr = 5;
+
+/// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+function CreateTicket() {
+  this.pID;
+  this.S = [];
+}
+
+
+for (i=0; i<M.PCt; i++){
+    T[i] = new CreateTicket();
+    T[i].pID = i;
+    T[i].S = [];
+}
+
+var H = [];
+
+for (i=0; i<24; i++){
+  H[i] = [];        // we use 0600 to 2200 only FOR NOW
+}
+
+
+
+function CreateStop() {
+  this.uHere;
+  this.ETA;
+  this.uDest;
+  this.ETD;
+  this.R;          // RESIDENT, ATTACHED, TRANSIENT
+  this.M;          // deegree of mingling 0 to 10 - loner to pollster
+}
+
+
+function issueStop(id,sno,uThis,uNext,hrA,hrD,thisR,thisM){
+    if (T[id].S[sno] === undefined) {
+      T[id].S[sno] = new CreateStop();
+    }
+    T[id].S[sno].uHere = uThis;
+    T[id].S[sno].ETA = hrA;
+    T[id].S[sno].uDest = uNext;
+    T[id].S[sno].ETD = hrD;
+    T[id].S[sno].R = thisR;
+    T[id].S[sno].M = thisM;
+
+    H[hrA].push({u:uThis,cID:id,cS:sno,cDir:"A"});
+    if (T[id].S[sno].ETD == -1) return;                // change role or minglex
+    H[hrD].push({u:uThis,cID:id,cS:sno,cDir:"D"});
+}
+
+
+// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+var stopno = 0;
+
+for (i=0; i<50; i++){                     //day-time activity
+    stopno = 0;
+    issueStop(i,stopno,LTC,LTC,6,-1,"R",2);
+
+    stopno = 1;
+    issueStop(i,stopno,LTC,LTC,22,-1,"R",0);
+    }
+
+Ptally = 50;
+
+// ***********************************************************************************
+//
+//                Now we have 30 staff who have role = "attached"
+//                They are not transients but come to be staff so stay longer
+//
+
+
+for (i=0; i<30; i++){
+
+    stopno = 0;
+    issueStop(Ptally+i,stopno,HOME,LTC,0,6,"R",0);
+
+    stopno = 1;
+    issueStop(Ptally+i,stopno,LTC,HOME,6,17,"A",6);
+
+    stopno = 2;
+    issueStop(Ptally+i,stopno,HOME,HOME,17,-1,"R",3);
+
+    stopno = 3;
+    issueStop(Ptally+i,stopno,HOME,HOME,22,-1,"R",1);
+}
+
+Ptally = 80;
+
+// *************************************************************************************
+//
+//              Now we have 10 Home (U2) residents who stay and work
+//              Gardeners, day care, plumbers, housekeepers etc
+//              But they are not "ATTACHeD" but RESIDENT in the U=2
+//
+for (i=0; i<10; i++){
+    stopno = 0;
+    issueStop(Ptally+i,stopno,HOME,HOME,6,-1,"R",6);
+
+    stopno = 1;
+    issueStop(Ptally+i,stopno,HOME,HOME,17,-1,"R",3);
+
+    stopno=3;
+    issueStop(Ptally+i,stopno,HOME,HOME,22,-1,"R",3);
+}
+
+// *************************************************************************************
+//
+//                  these Residents from U=2 have the tasks of shopping,
+//                  recreation in gyms, coffee shops, visiting....here we only
+//                  have them visit LTC for 2hrs in pairs, separated by an hour
+//
+
+Ptally = 90;
+
+var baseT = 6;
+var deltaT = 2;
+var arrive, depart;
+
+for (i=0; i<5; i++){
+    for (j=0;j<2; j++){
+
+        stopno = 0;
+        arrive = baseT;
+        depart = arrive + (i+1)*deltaT;
+        issueStop(Ptally+2*i+j,stopno,HOME,LTC,arrive,depart,"R",3);
+
+        stopno = 1;
+        arrive = depart;
+        depart = arrive + deltaT;
+        issueStop(Ptally+2*i+j,stopno,LTC,HOME,arrive,depart,"T",4);
+
+        stopno = 2;
+        arrive = depart;
+        depart = 22;
+        issueStop(Ptally+2*i+j,stopno,HOME,HOME,arrive,-1,"R",3);
+
+        stopno = 3;
+        arrive = depart;
+        depart = 6;
+        issueStop(Ptally+2*i+j,stopno,HOME,HOME,arrive,-1,"R",3);
+    }
+}
+
+// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+</script>
+</body>
+
+</html>

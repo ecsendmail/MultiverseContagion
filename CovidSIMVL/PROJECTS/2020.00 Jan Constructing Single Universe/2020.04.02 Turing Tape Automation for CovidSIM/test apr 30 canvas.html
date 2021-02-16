@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+<style>
+  th,  td {
+    border: 1px solid red;
+    padding: 3px;
+    text-align: center;
+}
+  th {
+      cursor: pointer;
+  }
+
+#myTab {
+  display: block;
+}
+
+#AgeTab {
+  display: none;
+}
+
+#RaceTab {
+  display: none;
+}
+
+#pane1 {
+  top: 0px;
+  letf:0px;
+  width:300px;
+  height:300px;
+  border: 2px;
+  border-color: red;
+  background-color: LightYellow;
+  cursor: pointer;
+  position: absolute;
+  display: block;
+}
+
+#pane2 {
+  top: 0px;
+  letf:300px;
+  width:300px;
+  height:300px;
+  border: 2px;
+  border-color: red;
+  cursor: pointer;
+}
+
+#pane3 {
+  top: 0px;
+  letf:600px;
+  width:300px;
+  height:300px;
+  border: 2px;
+  border-color: red;
+  cursor: pointer;
+}
+
+#pane4 {
+  top: 300px;
+  letf:0px;
+  width:300px;
+  height:300px;
+  border: 2px;
+  border-color: red;
+  cursor: pointer;
+}
+
+#pane5 {
+  top: 300px;
+  letf:300px;
+  width:300px;
+  height:300px;
+  border: 2px;
+  border-color: red;
+  cursor: pointer;
+}
+
+#pane6 {
+  top: 300px;
+  letf:600px;
+  width:300px;
+  height:300px;
+  border: 2px;
+  border-color: red;
+  cursor: pointer;
+}
+
+#fields {
+  display: block;
+}
+
+
+
+
+</style>
+</head>
+<body>
+
+  <canvas id="theCanvas" width="2000" height="1000"
+          style="border:1px solid #d3d3d3;
+                position: fixed;"
+
+  </canvas>
+
+<div id=pane1 onclick=selPane1()>a</div>
+<div id=pane2 onclick=selPane2()>b</div>
+<div id=pane3 onclick=selPane3()>c</div>
+<div id=pane4 onclick=selPane4()>d</div>
+<div id=pane5 onclick=selPane5()>e</div>
+<div id=pane6 onclick=selPane5()>f</div>
+
+<script>
+
+
+
+function selPane1() {
+  alert("Pane 1");
+}
+
+function selPane2() {
+  alert("Pane 2");
+}
+
+function selPane3() {
+  alert("Pane 3");
+}
+
+function selPane4() {
+  alert("Pane 4");
+}
+
+function selPane5() {
+  alert("Pane 5");
+}
+
+function selPane6() {
+  alert("Pane 6");
+}
+
+
+
+
+
+
+
+function CreatePane() {
+  this.height;
+  this.width;
+  this.x;
+  this.y;
+}
+
+var pane = [];
+
+var offX, offY;
+offX = 100;
+offY = 150;
+
+var i,j;
+for (i=0; i<3; i++){
+  for (j=0; j<3; j++) {
+      pane[i+(j*3)] = new CreatePane;
+      pane[i+(j*3)].height = parseInt(200);
+      pane[i+(j*3)].width = parseInt(300);
+      pane[i+(j*3)].x = parseInt(i*parseInt(300)+offX);
+      pane[i+(j*3)].y = parseInt(j*parseInt(300)+offY);
+  }
+}
+
+
+//draw them()
+
+ctx.strokeStyle = "white";
+ctx.fillStyle = "red";
+ctx.font = "20px Georgia";
+ctx.lineWidth = 2;
+
+for (i=0;i<9; i++){
+  ctx.fillRect(pane[i].x, pane[i].y, pane[i].height, pane[i].width);
+  ctx.strokeRect(pane[i].x, pane[i].y, pane[i].height, pane[i].width);
+}
+
+var mouseX, mouseY;
+theCanvas.addEventListener("mousemove", onmousemove, false);
+theCanvas.addEventListener("click", onMouseClick, false);
+*/
+/*
+function onmousemove(e){
+  var i,j, here;
+
+  mouseX = parseInt(e.clientX - theCanvas.offsetLeft);
+  mouseY = parseInt(e.clientY - theCanvas.offsetTop);
+  ctx.fillStyle = "red";
+  ctx.fillRect(pane[0].x, pane[0].y, pane[0].height, pane[0].width);
+  ctx.strokeRect(pane[0].x, pane[0].y, pane[0].height, pane[0].width);
+  ctx.fillStyle = "white";
+  ctx.fillText(mouseX-offX, offX+40,offY+40);
+  ctx.fillText(mouseY-offY, offX+80,offY+40);
+
+  for (i=0; i<3; i++){
+      if (mouseX < parseInt(pane[i].x+pane[i].width)){
+        break;
+      }
+  }
+  for (j=0; j<3; j++){
+    if (mouseY < parseInt(pane[j].y+pane[j].height))
+    {
+      break;
+    }
+  }
+  alert("i,j="+i+","+j);
+  here = i+j*3;
+  alert("here = "+here);
+
+
+
+  ctx.fillStyle = "white";
+  ctx.fillText(here, pane[here].x+pane[here].width/2, pane[here].y+pane[here].height/2);
+//  ctx.fillStyle = "red";
+//  ctx.fillRect(pane[here].x, pane[here].y, pane[here].height, pane[here].width);
+///  ctx.strokeRect(pane[here].x, pane[here].y, pane[here].height, pane[here].width);
+
+
+
+}
+
+
+function onMouseClick() {
+  alert("mouse clicked");
+}
+
+
+*/
+
+
+/*
+ctx.strokeStyle = "white";
+ctx.fillStyle = "red";
+ctx.lineWidth = 1;
+ctx.fillRect(300,300,300,300);
+ctx.strokeRect(300,300,300,300);
+
+ctx.fillStyle = "blue";
+ctx.fillRect(0,300,300,300);
+ctx.strokeRect(0,300,300,300);
+
+ctx.fillStyle = "grey";
+ctx.fillRect(300,0,300,300);
+ctx.strokeRect(300,0,300,300);
+
+
+ctx.fillStyle = "black";
+ctx.fillRect(0,0,300,300);
+ctx.strokeRect(0,0,300,300);
+
+
+pane[0] = new CreatePane;
+  pane[0].x = 300;
+  pane[0].y = 300;
+  alert(pane[0].x);
+  alert(pane[0].x + 5);
+
+
+
+
+
+
+function Person(first, last, age, eyecolor) {
+  this.firstName = first;
+  this.lastName = last;
+  this.age = age;
+  this.tur = [];
+
+}
+
+function Turing(){
+  this.start;
+  this.blues;
+  this.travel;
+  this.incubate;
+  this.infect;
+  this.mode;
+  this.factor;
+  this.hazard;
+}
+
+*/
+
+</script>
+
+
+
+</body>
+</html>

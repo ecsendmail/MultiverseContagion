@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+  *{
+    box-sizing: border-box;
+  }
+
+
+
+/* Create three equal columns that floats next to each other */
+
+
+
+
+
+#pane1 {
+  left:100px;
+  top: 25px;
+  border-width:1px;
+  cursor:pointer;
+  height:300px;
+  width:300px;
+  position: absolute;
+}
+
+#pane2 {
+  left:400px;
+  top: 25px;
+  padding: 10px;
+  border-width:1px;
+  cursor:pointer;
+  height:300px;
+  width:300px;
+  position: absolute;
+}
+
+#pane3 {
+  left:700px;
+  top: 25px;
+  padding: 10px;
+  border-width:1px;
+  cursor:pointer;
+  height:300px;
+  width:300px;
+  position: absolute;
+}
+
+#pane4 {
+  left:100px;
+  top: 325px;
+  padding: 10px;
+  border-width:1px;
+  cursor:pointer;
+  height:300px;
+  width:300px;
+  position: absolute;
+}
+
+#pane5 {
+  left:400px;
+  top: 325px;
+  padding: 10px;
+  border-width:1px;
+  cursor:pointer;
+  height:300px;
+  width:300px;
+  position: absolute;
+}
+
+#pane6 {
+  left:700px;
+  top: 325px;
+  padding: 10px;
+  border-width:1px;
+  cursor:pointer;
+  height:300px;
+  width:300px;
+  position: absolute;
+}
+
+#pane7 {
+  left:100px;
+  top: 625px;
+  padding: 10px;
+  border-width:1px;
+  cursor:pointer;
+  height:300px;
+  width:300px;
+  position: absolute;
+}
+
+#pane8 {
+  left:400px;
+  top: 625px;
+  padding: 10px;
+  border-width:1px;
+  cursor:pointer;
+  height:300px;
+  width:300px;
+  position: absolute;
+}
+
+#pane9 {
+  left:700px;
+  top: 625px;
+  border-width:1px;
+  cursor:pointer;
+  height:300px;
+  width:300px;
+  position: absolute;
+}
+
+.container {
+  position: absolute;
+  background: #0FF;
+}
+
+
+#windowpane {
+  display: block;
+}
+
+
+  th,  td {
+    border: 1px solid black;
+    padding: 3px;
+    text-align: center;
+}
+  th {
+      cursor: pointer;
+  }
+
+
+#MV-menu {
+  top: 25px;
+  left: 1050px;
+  position: absolute;
+  display: block;
+}
+
+</style>
+
+<body>
+
+<div id=windowpane>
+    <div id="pane1"  onclick=selPane1() style="background-color:#aaa; border-color:red; border-style:solid;">Pane1</div>
+    <div id="pane2"  onclick=selPane2() style="background-color:#aaa; border-color:red; border-style:solid;">Pane2</div>
+    <div id="pane3"  onclick=selPane3() style="background-color:#aaa; border-color:red; border-style:solid;">Pane3</div>
+    <div id="pane4"  onclick=selPane4() style="background-color:#aaa; border-color:red; border-style:solid;">Pane4</div>
+    <div id="pane5"  onclick=selPane5() style="background-color:#aaa; border-color:red; border-style:solid;">Pane5</div>
+    <div id=pane6  onclick=selPane6() style="background-color:#aaa; border-color:red; border-style:solid;">Pane6</div>
+    <div id=pane7  onclick=selPane7() style="background-color:#aaa; border-color:red; border-style:solid;">Pane7</div>
+    <div id=pane8  onclick=selPane8() style="background-color:#aaa; border-color:red; border-style:solid;">Pane8</div>
+    <div id=pane9  onclick=selPane9() style="background-color:#aaa; border-color:red; border-style:solid;">Pane9</div>
+</div>
+
+<!--
+   <canvas id="myCanvas" width="2000" height="1000"
+           style="border:1px solid #d3d3d3; left=50; top=50">
+    </canvas>
+-->
+
+
+    <div id="fields" class = "containter">
+        <canvas id="canp1" style="position:absolute; border: 1px solid blue"></canvas>
+        <canvas id="canp2" style="position:absolute; border: 1px solid blue"></canvas>
+        <canvas id="canp3" style="position:absolute; border: 1px solid blue"></canvas>
+        <canvas id="canp4" style="position:absolute; border: 1px solid blue"></canvas>
+        <canvas id="canp5" style="position:absolute; border: 1px solid blue"></canvas>
+        <canvas id="canp6" style="position:absolute; border: 1px solid blue"></canvas>
+        <canvas id="canp7" style="position:absolute; border: 1px solid blue"></canvas>
+        <canvas id="canp8" style="position:absolute; border: 1px solid blue"></canvas>
+        <canvas id="canp9" style="position:absolute; border: 1px solid blue"></canvas>
+    </div>
+
+    <div>
+        <table ID="MV-menu">
+          <tr>
+            <th onclick="loadMVnames()">SPEED</th>
+          </tr>
+          <tr>
+            <td id="MV-name">universe</td>
+          </tr>
+        </table>
+    </div>
+
+
+</head>
+<script>
+
+var speed = 3000;
+
+function loadMVnames() {
+  speed = prompt("Enter speed: try 3000 to 30000");
+  document.getElementById("MV-name").innerHTML = speed;
+  clearInterval(intID);
+  intID = setInterval(update,speed/FPS);
+}
+
+  var winP = [];
+
+  function CreateWinP() {
+    this.ctx1
+  }
+
+  for (i=1;i<10;i++){
+    winP[i] = new CreateWinP;
+  }
+
+
+  var canp1 = document.getElementById("canp1");
+  canp1.width = 300;
+  canp1.height = 250;
+  canp1.style.top = "75px";
+  canp1.style.left = "100px";
+
+  var ctx1 = canp1.getContext("2d");
+
+
+  ctx1.fillStyle = "lightgrey";
+  ctx1.fillRect(0,0,canp1.width, canp1.height);
+  drawc(10,10,8,"green",ctx1);
+
+// ********************************************************
+
+  var canp2 = document.getElementById("canp2");
+  canp2.width = 300;
+  canp2.height = 250;
+  canp2.style.top = "75px";
+  canp2.style.left = "400px";
+
+  var ctx2 = canp2.getContext("2d");
+
+
+  ctx2.fillStyle = "lightgrey";
+  ctx2.fillRect(0,0,canp2.width, canp2.height);
+  drawc(10,10,8,"green",ctx2);
+
+// *********************************************************************
+
+  var canp3 = document.getElementById("canp3");
+  canp3.width = 300;
+  canp3.height = 250;
+  canp3.style.top = "75px";
+  canp3.style.left = "700px";
+
+  var ctx3 = canp3.getContext("2d");
+
+
+  ctx3.fillStyle = "lightgrey";
+  ctx3.fillRect(0,0,canp3.width, canp3.height);
+  drawc(10,10,8,"green",ctx3);
+
+  // ********************************************************
+
+  var canp4 = document.getElementById("canp4");
+  canp4.width = 300;
+  canp4.height = 250;
+  canp4.style.top = "375px";
+  canp4.style.left = "100px";
+
+  var ctx4 = canp4.getContext("2d");
+
+
+  ctx4.fillStyle = "lightgrey";
+  ctx4.fillRect(0,0,canp4.width, canp4.height);
+  drawc(10,10,8,"green",ctx4);
+
+  // ********************************************************
+
+  var canp5 = document.getElementById("canp5");
+  canp5.width = 300;
+  canp5.height = 250;
+  canp5.style.top = "374px";
+  canp5.style.left = "400px";
+
+  var ctx5 = canp5.getContext("2d");
+
+
+  ctx5.fillStyle = "lightgrey";
+  ctx5.fillRect(0,0,canp5.width, canp5.height);
+  drawc(10,10,8,"green",ctx5);
+
+  // ********************************************************
+
+  var canp6 = document.getElementById("canp6");
+  canp6.width = 300;
+  canp6.height = 250;
+  canp6.style.top = "375px";
+  canp6.style.left = "700px";
+
+  var ctx6 = canp6.getContext("2d");
+
+
+  ctx6.fillStyle = "lightgrey";
+  ctx6.fillRect(0,0,canp6.width, canp6.height);
+  drawc(10,10,8,"green",ctx6);
+
+  // ********************************************************
+
+  var canp7 = document.getElementById("canp7");
+  canp7.width = 300;
+  canp7.height = 250;
+  canp7.style.top = "675px";
+  canp7.style.left = "100px";
+
+  var ctx7 = canp7.getContext("2d");
+
+
+  ctx7.fillStyle = "lightgrey";
+  ctx7.fillRect(0,0,canp7.width, canp7.height);
+  drawc(10,10,8,"green",ctx7);
+
+  // ********************************************************
+
+  var canp8 = document.getElementById("canp8");
+  canp8.width = 300;
+  canp8.height = 250;
+  canp8.style.top = "675px";
+  canp8.style.left = "400px";
+
+  var ctx8 = canp8.getContext("2d");
+
+
+  ctx8.fillStyle = "lightgrey";
+  ctx8.fillRect(0,0,canp8.width, canp8.height);
+  drawc(10,10,8,"green",ctx8);
+
+  // ********************************************************
+
+  var canp9 = document.getElementById("canp9");
+  canp9.width = 300;
+  canp9.height = 250;
+  canp9.style.top = "675px";
+  canp9.style.left = "700px";
+
+  var ctx9 = canp9.getContext("2d");
+
+
+  ctx9.fillStyle = "lightgrey";
+  ctx9.fillRect(0,0,canp9.width, canp9.height);
+  drawc(10,10,8,"green",ctx9);
+
+  // ********************************************************
+
+  var winP = [];
+
+  function CreateWinP() {
+    this.ctx;
+    this.canp;
+  }
+
+  for (i=1;i<10;i++){
+    winP[i] = new CreateWinP;
+  }
+
+winP[1].ctx = ctx1;
+winP[1].canp = canp1;
+winP[2].ctx = ctx2;
+winP[2].canp = canp2;
+winP[3].ctx = ctx3;
+winP[3].canp = canp3;
+winP[4].ctx = ctx4;
+winP[4].canp = canp4;
+winP[5].ctx = ctx5;
+winP[5].canp = canp5;
+winP[6].ctx = ctx6;
+winP[6].canp = canp6;
+winP[7].ctx = ctx7;
+winP[7].canp = canp7;
+winP[8].ctx = ctx8;
+winP[8].canp = canp8;
+winP[9].ctx = ctx9;
+winP[9].canp = canp9;
+
+
+  function drawc(x,y,rad,color,ctx){
+    ctx.beginPath();
+    ctx.arc(x,y,rad,0,2*Math.PI);
+    ctx.fillStyle = color;
+    ctx.fill();
+    ctx.stroke();
+    ctx.strokeStyle = "black";
+  }
+
+
+
+
+
+function selPane1() {
+  alert("Pane 1");
+  document.getElementById("pane1").innerHTML = "Hello World";
+}
+
+function selPane2() {
+  alert("Pane 2");
+  alert("making them all disappear except canvas");
+  document.getElementById("windowpane").style.display = "none";
+  document.getElementById("fields").style.display = "none";
+
+}
+
+function selPane3() {
+  alert("Pane 3");
+}
+
+function selPane4() {
+  alert("Pane 4");
+  document.getElementById("pane4").innerHTML = "Hello World 4";
+}
+
+function selPane5() {
+  alert("Pane 5");
+}
+
+function selPane6() {
+  alert("Pane 6");
+    document.getElementById("pane6").innerHTML = "Hello World 6";
+}
+
+function selPane7() {
+  alert("Pane 7");
+    document.getElementById("pane7").innerHTML = "Hello World 7";
+}
+
+function selPane8() {
+  alert("Pane 8");
+    document.getElementById("pane8").innerHTML = "Hello World 8";
+}
+
+function selPane9() {
+  alert("Pane ");
+    document.getElementById("pane9").innerHTML = "Hello World 9";
+}
+
+
+const FPS = 30;
+ var bs = 10;    //ball size
+ var bx = [];      //presumably ball center
+ var by = [];
+ var xv = [];    //velocity in x and y directions
+ var yv = [];
+ var bColor = [];
+
+// var canvas, ctx;
+ var nBalls = 5;
+
+for (ct=1;ct<10;ct++){
+   ballInit(ct);
+}
+
+colorTab = [];
+colorTab[1] = "crimson";
+colorTab[2] = "CornflowerBlue"
+colorTab[3] = "yellow";
+colorTab[4] = "Chartreuse"
+colorTab[5] = "DarkSeaGreen";
+colorTab[6] = "DarkCyan";
+colorTab[7] = "DarkOrange";
+colorTab[8] = "DeepPink";
+colorTab[9] = "DodgerBlue";
+
+
+ // load canvas
+ //canvas = document.getElementById("gameCanvas");
+// ctx = canvas.getContext("2d");
+
+ // set up interval (game loop)
+var intID = setInterval(update,5168/FPS);     //update every 1/30th sec
+
+function ballInit(w){
+     for (i=1; i<nBalls+1; i++){
+         bx[i] = parseInt(winP[w].canp.width/2) + i;
+         by[i] = parseInt(winP[w].canp.height/2) + i;
+         bColor[i] = 0x00000F + i*0xFFf;
+
+       //  random ball starting speed (between 100 and 200)
+         xv[i] = parseInt(Math.floor(Math.random() * 76 + 25) / FPS);
+         yv[i] = parseInt(Math.floor(Math.random() * 76 + 25) / FPS);
+
+       //  random ball dIRECTION
+       if (Math.floor(Math.random() * 2) == 0){
+         xv[i] = -xv[i];
+       }
+       if (Math.floor(Math.random() * 2) == 0){
+         yv[i] = -yv[i];
+       }
+     }
+}
+
+var i,w;
+var halfStr, strResult;
+var preFix = "#";
+
+ // update function
+function update(){
+     // move the Ball
+   for (w=1;w<10;w++){
+     callBalls(w);
+   }
+}
+
+function callBalls(w){
+   extinguish(w);
+   for (i=1; i<nBalls+1; i++){
+     bx[i] = bx[i] + xv[i];
+     by[i] = by[i] + yv[i];
+
+     // bounce the ball off each wall
+     if ((bx[i] - bs/2) <0 && xv[i]<0){
+       xv[i] = -xv[i];
+     }
+     if ((bx[i] + bs/2) > winP[w].canp.width && xv[i]>0){
+       xv[i] = -xv[i];
+     }
+     if ((by[i] - bs/2) <0 && yv[i]<0){
+       yv[i] = -yv[i];
+     }
+     if ((by[i] + bs/2) > winP[w].canp.height && yv[i]>0){
+       yv[i] = -yv[i];
+     }
+
+//   if (w==1) bColor[i]="green";
+/*     halfStr = bColor[i].toString(16);
+     strResult = preFix.concat(halfStr);
+     bColor[i] = bColor[i] + i*0x00FFF0;
+     if (bColor[i] > 0xFFF000){
+       bColor[i] = 0x00000F + i*0x000F1f*w;
+     }
+*/
+     //alert(strResult);
+     assert(i,w);
+   };
+ }
+
+function extinguish(w){
+    winP[w].ctx.fillStyle = "black";
+    winP[w].ctx.fillRect(0,0, winP[w].canp.width, winP[w].canp.height);
+}
+
+function assert(i,w){
+    var x,y,z, wcolor;
+
+
+
+      x = (bx[(i)] - bs/2);
+      y = (by[(i)] - bs/2);
+      z=w;
+//      z = (w+i)%9+1;
+      wcolor = parseInt(Math.floor(Math.random()*9))+1;
+//      alert(wcolor);
+//      alert(colorTab[wcolor]);
+
+
+  //    alert("x,y,color,z= "+x+","+y+","+colorTab[z]+","+z);
+//      drawc(x,y, 5, colorTab[wcolor], winP[z].ctx);
+//      drawc(bx[i]- bs/2, by[i] - bs/2+w, 4, colorTab[wcolor], ctx);
+
+
+        winP[w].ctx.fillStyle = colorTab[wcolor];
+        winP[w].ctx.fillRect(bx[i]- bs/2, by[i] - bs/2, bs, bs);
+}
+
+
+</script>
+
+
+
+</body>
+</html>

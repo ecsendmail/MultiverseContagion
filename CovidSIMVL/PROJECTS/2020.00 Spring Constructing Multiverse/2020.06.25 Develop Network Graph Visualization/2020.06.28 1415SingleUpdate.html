@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Bouncing Ball</title>
+  <style>
+
+
+  </style>
+</head>
+
+<body>
+
+
+<button onclick="press()">press</button>
+<canvas id="gameCanvas" width="800" height="700"></canvas>
+
+
+
+
+
+<script>
+
+
+    // declare variables
+    const FPS = 30;
+    var canvas, ctx;
+
+    // load canvas
+    canvas = document.getElementById("gameCanvas");
+    ctx = canvas.getContext("2d");
+    ctx.fillStyle = "black";
+    ctx.fillRect(0,0, canvas.width, canvas.height);
+
+    function CreateNode(){
+      this.x;
+      this.y;
+      this.to = [];
+      this.fr = [];
+    }
+
+    function CreateEdge(){
+      this.u;
+      this.clr;
+      this.dx;
+      this.dy;
+      this.xi;
+      this.yi;
+      this.newx;
+      this.newy;
+      this.steps;
+    }
+
+    var N = [];
+    for (let nct=0; nct<9;nct++){
+      N[nct] = new CreateNode();
+    };
+
+
+
+    N[0].to[0] = new CreateEdge();
+    let m = N[0].to[0];
+    m.u = 5;
+    m.clr = "green";
+
+    N[0].to[1] = new CreateEdge();
+    m = N[0].to[1];
+    m.u = 5;
+    m.clr = "green";
+
+    m = N[0].to[2] = new CreateEdge();
+    m = N[0].to[2];
+    m.u = 5;
+    m.clr = "blue";
+
+    N[0].to[3] = new CreateEdge();
+    m = N[0].to[3]
+    m.u = 7;
+    m.clr = "red";
+
+    N[0].to[4] = new CreateEdge();
+    m = N[0].to[4];
+    m.u = 7;
+    m.clr = "red";
+
+    m = N[3].to[0] = new CreateEdge();
+    m = N[3].to[0];
+    m.u = 0;
+    m.clr = "green";
+
+    m = N[3].to[1] = new CreateEdge();
+    m = N[3].to[1];
+    m.u = 0;
+    m.clr = "yellow";
+
+    N[3].to[2] = new CreateEdge();
+    m = N[3].to[2]
+    m.u = 0;
+    m.clr = "orange";
+
+    N[3].to[3] = new CreateEdge();
+    m = N[3].to[3];
+    m.u = 7;
+    m.clr = "red";
+
+    m = N[3].to[4] = new CreateEdge();
+    m = N[3].to[4];
+    m.u = 7;
+    m.clr = "blue";
+
+
+
+
+
+
+
+    function focusN(n){
+       if (N[n].to == "" || N[n].to === undefined) return;
+       let A = N[n];
+       let edges = (A.to).length;
+       for (let e=0; e<edges;e++){
+            calcE(n,e);      // fr u to edge
+        }
+    }
+
+
+    function calcE(n,e){
+      let tangent;
+      let A = N[n];
+      let edge = A.to[e];
+      let tou = edge.u;
+
+      let tox = N[tou].x;
+      let toy = N[tou].y;
+
+      let frx = N[n].x;
+      let fry = N[n].y;
+
+      tangent = Math.abs((toy-fry)/(tox-frx));
+      edge.dx = Math.abs((tox-frx)/100);
+      edge.dy = edge.dx*tangent;
+      if (toy<fry) edge.dy = 0-edge.dy;
+      if (tox<frx) edge.dx = 0-edge.dx;
+      edge.xi = frx;
+      edge.yi = fry;
+
+      edge.steps = 0;
+      edge.newx = frx;
+      edge.newy = fry;
+    }
+
+
+
+
+//    drawArena();
+//    connect(0,5);
+//    focusN(0);
+
+  var flag = true;
+  function press(){
+       if (flag){
+          drawArena();
+          calcdydx();
+          animate();
+          flag = false;
+       } else {
+          flag = true;
+          clearInterval(timerA);
+       }
+    }
+
+function calcdydx(){
+    let n;
+    for (n=0;n<9;n++){
+      focusN(n);
+    }
+}
+
+
+
+    var start;
+    var timer;
+
+
+    function animate(){
+      start = Date.now();
+      timerA = setInterval(function() {
+        update();
+        let timePassed = Date.now() - start;
+        if (timePassed >= 8500) {
+          clearInterval(timerA); // finish the animation after 2 seconds
+          return;
+        }
+      }, 40);
+    }
+
+    function update(){
+      drawRect(0,0,800,700,"black");
+      drawArena();
+      for (let n=0;n<9;n++){
+          if (N[n].to == "" || N[n].to === undefined) continue;
+          showNode(n);
+      }
+    }
+
+    function showNode(n){
+      let A = N[n];
+      let edges = (A.to).length;
+      for (let e=0; e<edges; e++){
+          showEdge(n,e);
+      }
+    }
+
+    function showEdge(n,e){
+      let A = N[n];
+      let edge = A.to[e];
+      let tou = edge.u;
+      let tox = N[tou].x;
+      let toy = N[tou].y;
+
+      drawLine(A.x,A.y,tox,toy,"midnightblue");
+      drawPath(n,e);
+      let timePassed = Date.now() - start;
+      if (timePassed >= 100*e)
+         drawPath(n,e);
+      if (N[n].to[e].dx==0 && N[n].to[e].dy==0)
+         clearInterval(timerA);
+      }
+
+
+
+
+
+    function drawPath(node,ic){
+        N[node].to[ic].newx = N[node].to[ic].newx + N[node].to[ic].dx;
+        N[node].to[ic].newy = N[node].to[ic].newy + N[node].to[ic].dy;
+        drawC(N[node].to[ic].newx,N[node].to[ic].newy,7,N[node].to[ic].clr);
+        N[node].to[ic].steps++;
+        if (N[node].to[ic].steps >=105){
+          N[node].to[ic].dx = 0;
+          N[node].to[ic].dy = 0;
+        }
+    }
+
+   function drawArena(){
+      N[0].x = 200; N[0].y = 60;
+      N[1].x = 410; N[1].y = 20;
+      N[2].x = 620; N[2].y = 100;
+      N[3].x = 710; N[3].y = 270;
+      N[4].x = 660; N[4].y = 470;
+      N[5].x = 450; N[5].y = 580;
+      N[6].x = 220; N[6].y = 550;
+      N[7].x = 80; N[7].y = 390;
+      N[8].x = 70; N[8].y = 200;
+      for (let i=0; i<9; i++){
+        drawC(N[i].x,N[i].y,20,"midnightblue");
+      }
+    }
+
+    function connect(fru,tou){
+      let x1,x2,y1,y2;
+      x1 = N[fru].x;
+      y1 = N[fru].y;
+      x2 = N[tou].x;
+      y2 = N[tou].y;
+      drawLine(x1,y1,x2,y2,"midnightblue");
+    }
+
+
+    function drawC(x,y,rad,color){
+        ctx.beginPath();
+        ctx.arc(x,y,rad,0,2*Math.PI);
+        ctx.fillStyle = color;
+        ctx.fill();
+        ctx.stroke();
+        ctx.strokeStyle = "black";
+    }
+
+    function drawCross(x,y,width,height,clr){
+        ctx.beginPath();
+        ctx.moveTo(x,y);
+        ctx.fillStyle = clr;
+        ctx.fillRect(x,y,width,height);
+        ctx.fillRect(Math.round(x+width/2-height/2),Math.round(y+height/2-width/2),height,width);
+    }
+
+    function drawRect(x,y,width,height,clr){
+        ctx.beginPath();
+        ctx.moveTo(x,y);
+        ctx.fillStyle = clr;
+        ctx.fillRect(x,y,width,height);
+    }
+
+    function drawLine(x1,y1,x2,y2,clr){
+        ctx.beginPath();
+        ctx.moveTo(x1,y1);
+        ctx.lineTo(x2,y2);
+        ctx.strokeStyle = clr;
+        ctx.stroke();
+    }
+    </script>
+  </body>
+</html>

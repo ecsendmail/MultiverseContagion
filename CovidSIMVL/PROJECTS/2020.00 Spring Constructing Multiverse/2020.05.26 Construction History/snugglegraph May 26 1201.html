@@ -1,0 +1,2102 @@
+<!DOCTYPE html>
+<html>
+<style>
+  th,  td {
+    border: 1px solid red;
+    padding: 3px;
+    text-align: center;
+}
+  th {
+      cursor: pointer;
+  }
+
+#myTab {
+    display: block;
+  }
+
+#AgeTab {
+    display: none;
+  }
+
+#RaceTab {
+    display: none;
+  }
+
+#chartContainer6 {
+  border: 1px solid pink;
+  position: static;
+  left: 2px;
+  top:200px;
+}
+
+</style>
+<p>CovidSim Stochastic Cellular Automata April 2020 @EC_GO - PUBLIC DOMAIN as per GNU GPL LICENSING</p>
+<body>
+
+
+  <div class="topnav">
+    <table ID="myTab">
+      <tr>
+        <th onclick="loadPop()">Population RESET</th>
+        <th onclick="loadBlues()" bgcolor=LightBlue>Add Blues</th>
+        <th id ="popClick" onclick="showPop()" bgcolor=lightgreen>Click Me</th>
+        <th>Greens</th>
+        <th>Yellows</th>
+        <th>Blues</th>
+        <th>Reds</th>
+        <th onclick="showDist()">TRAVEL</th>
+        <th onclick="showIncD()">Incubation days</th>
+        <th onclick="showInfD()" bgcolor=LightBlue>Infectious Days</th>
+        <th onclick="showInfM()" bgcolor=LightBlue>Infection Mode</th>
+        <th onclick="showInfR()" bgcolor=LightBlue>InfGrowth Rate</th>
+        <th onclick="showCliD()">RED days</th>
+        <th onclick="showPradius()">Hazard Radius</th>
+        <th id=popClick onclick="showAnimate()">Animation</th>
+        <th onclick="endChart()">Show Chart</th>
+        <th id="ageSel" onclick="selAgeRisk()" bgcolor=red style="cursor:pointer">Age Group Risk</th>
+      </tr>
+      <tr>
+        <td id="dPopn"></td>
+        <td id="dCont"></td>
+        <td id="dGen">0</td>
+        <td id="grCt">1</td>
+        <td id="yeCt">0</td>
+        <td id="blCt">0</td>
+        <td id="reCt">0</td>
+        <td id="dDist">7</td>
+        <td id="dIncD">2</td>
+        <td id="dInfD">5</td>
+        <td id="dInfM">3</td>
+        <td id="dInfR">1.1</td>
+        <td id="dCliD">1</td>
+        <td id="dPrad">20</td>
+        <td id="dAnim">5</td>
+        <td></td>
+        <td onclick="selRaceRisk()" bgcolor=red style="cursor:pointer">Race Based Risk</td>
+      </tr>
+    </table>
+    <table id="AgeTab">
+      <tr>
+        <th onclick="ageGroup()" style="cursor:pointer">AGE GROUP</th>
+        <th onclick="agePop()" style="cursor:pointer">% Population</th>
+        <th onclick="ageCase()" style="cursor:pointer">% Cases</th>
+        <th onclick="ageRisk()" style="cursor:pointer">Model Risk</th>
+        <th onclick="selModelMenu()" bgcolor=lightgreen >RETURN</th>
+      </tr>
+
+      <tr>
+        <td id="aG0">0 to 9</td>
+        <td id="ap0" ></td>
+        <td id="aC0" ></td>
+        <td id="aR0" ></td>
+      </tr>
+      <tr>
+        <td id="aG1" >10 to 19</td>
+        <td id="ap1" ></td>
+        <td id="aC1" ></td>
+        <td id="aR1" ></td>
+      </tr>
+      <tr>
+        <td id="aG2" >20 to 29</td>
+        <td id="ap2" ></td>
+        <td id="aC2" ></td>
+        <td id="aR2" ></td>
+      </tr>
+      <tr>
+        <td id="aG3" >32 to 39</td>
+        <td id="ap3" ></td>
+        <td id="aC3" ></td>
+        <td id="aR3" ></td>
+      </tr>
+      <tr>
+        <td id="aG4">40 to 49</td>
+        <td id="ap4" ></td>
+        <td id="aC4" ></td>
+        <td id="aR4" ></td>
+      </tr>
+      <tr>
+        <td id="aG5">50 to 59</td>
+        <td id="ap5" ></td>
+        <td id="aC5" ></td>
+        <td id="aR5" ></td>
+      </tr>
+      <tr>
+        <td id="aG6">65 to 69</td>
+        <td id="ap6" ></td>
+        <td id="aC6" ></td>
+        <td id="aR6" ></td>
+      </tr>
+      <tr>
+        <td id="aG7">70 to 79</td>
+        <td id="ap7" ></td>
+        <td id="aC7" ></td>
+        <td id="aR7" ></td>
+      </tr>
+      <tr>
+        <td id="aG8">87 to 89</td>
+        <td id="ap8" ></td>
+        <td id="aC8" ></td>
+        <td id="aR8" ></td>
+      </tr>
+      <tr>
+        <td id="aG9">90+</td>
+        <td id="ap9" ></td>
+        <td id="aC9" ></td>
+        <td id="aR9" ></td>
+      </tr>
+      <tr>
+        <td id="aG10">--</td>
+        <td id="ap10" >--</td>
+        <td id="aC10" >--</td>
+        <td id="aR10" >--</td>
+
+
+    </table>
+    <table id="RaceTab">
+      <tr>
+        <th onclick="raceName()" style="cursor:pointer">RACE or Ethnicity</th>
+        <th onclick="racePop()" style="cursor:pointer">% of Popn</th>
+        <th onclick="raceCase()" style="cursor:pointer">% of Cases</th>
+        <th onclick="raceRisk()" style="cursor:pointer">Model Risk</th>
+        <th onclick="retModelMenu()" bgcolor=DarkSeaGreen >RETURN</th>
+      </tr>
+
+      <tr>
+        <td id="rN0"></td>
+        <td id="rP0"></td>
+        <td id="rC0"></td>
+        <td id="rR0"></td>
+      </tr>
+      <tr>
+        <td id="rN1"></td>
+        <td id="rP1"></td>
+        <td id="rC1"></td>
+        <td id="rR1"></td>
+      </tr>
+      <tr>
+        <td id="rN2"></td>
+        <td id="rP2"></td>
+        <td id="rC2"></td>
+        <td id="rR2"></td>
+      </tr>
+      <tr>
+        <td id="rN3"></td>
+        <td id="rP3"></td>
+        <td id="rC3"></td>
+        <td id="rR3"></td>
+      </tr>
+      <tr>
+        <td id="rN4"></td>
+        <td id="rP4"></td>
+        <td id="rC4"></td>
+        <td id="rR4"></td>
+      </tr>
+      <tr>
+        <td id="rN5"></td>
+        <td id="rP5"></td>
+        <td id="rC5"></td>
+        <td id="rR5"></td>
+      </tr>
+      <tr>
+        <td id="rN6"></td>
+        <td id="rP6"></td>
+        <td id="rC6"></td>
+        <td id="rR6"></td>
+      </tr>
+      <tr>
+        <td id="rN7"></td>
+        <td id="rP7"></td>
+        <td id="rC7"></td>
+        <td id="rR7"></td>
+      </tr>
+      <tr>
+        <td id="rN8"></td>
+        <td id="rP8"></td>
+        <td id="rC8"></td>
+        <td id="rR8"></td>
+      </tr>
+
+    </table>
+  </div>
+
+  <div id="chartContainer6" style="height: 150px; width: 300px; display: block;">abcde</div>
+  <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
+
+
+  <canvas id="myCanvas" width="1200" height="600"
+          style="border:1px solid #d3d3d3;">
+  </canvas>
+
+<script>
+
+
+
+
+function endChart(){
+
+  var i;
+
+  var endRedData = new Array(gen+1);
+    logRed[0] = 0;
+    for (i=0; i<gen+1; i++){
+      endRedData[i] = {y: logRed[i], label: i};
+    }
+
+  var chart1 = new CanvasJS.Chart("chartContainer1", {
+      	animationEnabled: true,
+      	theme: "light2", // "light1", "light2", "dark1", "dark2"
+      	title:{
+      		text: "TOTAL Cases to Date"
+  	},
+  	axisY: {
+  		title: "Number of Clinical or Positive"
+  	},
+    width:500,
+  	data: [{
+  		type: "column",
+  		showInLegend: true,
+  		legendMarkerColor: "grey",
+  		legendText: "Days since beginning",
+  		dataPoints: endRedData
+  	}]
+  });
+  chart1.render();
+
+// chart 2 **********************************************
+  var del1, del2;
+  var endRedDelta = new Array(gen+1);
+  logRed[0] = 0;
+  endRedDelta[0] = {y:0, label:0};
+
+  for (i=1; i<gen+1; i++){
+    del1 = logRed[i];
+    del2 = logRed[i-1];
+    del1 = del1-del2;
+//    // alert("i+del1+del2 "+i+","+logRed[i]+","+logRed[i-1]);
+//    // alert("del1 = "+del1);
+    endRedDelta[i] = {y: del1, label: i};
+  }
+
+  var chart2 = new CanvasJS.Chart("chartContainer2", {
+    animationEnabled: true,
+    theme: "light2", // "light1", "light2", "dark1", "dark2"
+    title:{
+      text: "Daily NEW Cases"
+    },
+    axisY: {
+      title: "Number of Clinical or Positive"
+    },
+    width:500,
+    data: [{
+      type: "column",
+      showInLegend: true,
+      legendMarkerColor: "grey",
+      legendText: "Days since beginning",
+      dataPoints: endRedDelta
+  }]
+  });
+  chart2.render();
+
+
+// CHART3 **********************************************************
+
+  var endVelocity = new Array(gen+1);
+  var endV, vNum, vDenom;
+
+  endVelocity[0] = {y:0, label:0};
+
+  for (i=1; i<gen+1; i++){
+      vNum = endRedDelta[i].y;
+      vDenom = endRedData[i-1].y;
+      if (vDenom!=0){
+        endV = parseFloat((vNum/vDenom)*100);
+      }
+        else {
+          endV = 0
+        };
+      endVelocity[i] = {y: endV, label: i};
+  }
+
+  var chart3 = new CanvasJS.Chart("chartContainer3", {
+  animationEnabled: true,
+  zoomEnabled: true,
+  theme: "light2", // "light1", "light2", "dark1", "dark2"
+  title:{
+    text: "Percent Increase over Previous TOTAL"
+  },
+  axisY: {
+    title: "Percent Increase"
+  },
+  width:500,
+  data: [{
+    type: "line",
+    showInLegend: true,
+    legendMarkerColor: "grey",
+    legendText: "Days since beginning",
+    dataPoints: endVelocity
+  }]
+  });
+  chart3.render();
+
+
+// *********************************************************************************
+// CHART 4 - GREEN YELLOE BLUE RED over time
+
+    var endGreen = new Array(gen+1);
+    var endYellow = new Array(gen+1);
+    var endBlue = new Array(gen+1);
+    var endRed = new Array(gen+1);
+
+    for (i=0;i<gen+1; i++){
+      endGreen[i] = {y:logGreen[i], label:i};
+      endYellow[i] = {y:logYellow[i], label:i};
+      endBlue[i] = {y:logBlue[i], label:i};
+      endRed[i] = {y:logRed[i], label:i};
+    }
+
+  var chart4 = new CanvasJS.Chart("chartContainer4", {
+  //  theme: "light1",
+    colorSet: "Overview GYBRO",
+    title:{
+      text: "Progress of Transitions"
+    },
+      data: [
+    {
+      type: "stackedColumn",
+      dataPoints: endGreen
+    },  {
+      type: "stackedColumn",
+      dataPoints: endYellow
+    },  {
+      type: "stackedColumn",
+      dataPoints: endBlue
+    },  {
+      type: "stackedColumn",
+      dataPoints: endRed
+    }
+      ]
+    }
+  );
+  chart4.render();
+
+  if (!ageFlag) return;
+
+// CHART 5 - Age-Based Groups - Numbers T(0) and T(now)
+
+var ageNGreen = new Array(ageCount+1);
+var ageNYellow = new Array(ageCount+1);
+var ageNBlue = new Array(ageCount+1);
+var ageNRed = new Array(ageCount+1);
+var ageNOrange = new Array(ageCount+1);
+
+/*
+for (i=0;i<ageCount;i++){
+  alert(pAges[i][0]);
+  alert("Number "+pAges[i][4].num);
+  alert("Green: "+pAges[i][4].gre);
+  alert("Yellow: "+pAges[i][4].yel);
+  alert("Blue: "+pAges[i][4].blu);
+  alert("Red: "+pAges[i][4].red);
+  alert("Orange: "+pAges[i][4].ora);
+}
+*/
+
+var perc = 0;
+pAges[ageCount][0] = "Other";         //now we call them visitors
+for (i=0;i<ageCount+1; i++){
+
+  if (pAges[i][4].num != 0){
+    perc = (pAges[i][4].gre/pAges[i][4].num*100).toFixed(2)
+  } else  perc = 0;
+  ageNGreen[i] = {y:pAges[i][4].gre, label: pAges[i][0], no: pAges[i][4].num, per: perc };
+
+  if (pAges[i][4].num != 0){
+    perc = (pAges[i][4].yel/pAges[i][4].num*100).toFixed(2)
+  } else  perc = 0;
+  ageNYellow[i] = {y:pAges[i][4].yel, label: pAges[i][0], no: pAges[i][4].num, per: perc};
+
+  if (pAges[i][4].num != 0){
+    perc = (pAges[i][4].blu/pAges[i][4].num*100).toFixed(2)
+  } else  perc = 0;
+  ageNBlue[i] = {y:pAges[i][4].blu, label: pAges[i][0], no: pAges[i][4].num, per: perc};
+
+  if (pAges[i][4].num != 0){
+    perc = (pAges[i][4].red/pAges[i][4].num*100).toFixed(2)
+  } else  perc = 0;
+  ageNRed[i] = {y:pAges[i][4].red, label: pAges[i][0], no: pAges[i][4].num, per: perc};
+
+  if (pAges[i][4].num != 0){
+    perc = (pAges[i][4].ora/pAges[i][4].num*100).toFixed(2)
+  } else  perc = 0;
+  ageNOrange[i] = {y:pAges[i][4].ora, label: pAges[i][0], no: pAges[i][4].num, per: perc};
+}
+
+var chart5 = new CanvasJS.Chart("chartContainer5", {
+//  theme: "light1",
+colorSet: "Overview GYBRO",
+title:{
+  text: "Progress of Transitions in Age Classes"
+},
+  data: [
+{
+  type: "stackedColumn",
+  toolTipContent: "<b>Uninfected:</b> {y}<br>{per}% of {no}",
+  dataPoints: ageNGreen
+},  {
+  type: "stackedColumn",
+  toolTipContent: "Incubating:</b> {y}<br>{per}% of {no}",
+  dataPoints: ageNYellow
+},  {
+  type: "stackedColumn",
+  toolTipContent: "Infectious:</b> {y}<br>{per}% of {no}}",
+  dataPoints: ageNBlue
+},  {
+  type: "stackedColumn",
+  toolTipContent: "Diagnosed:</b> {y}<br>{per}% of {no}",
+  dataPoints: ageNRed
+},  {
+  type: "stackedColumn",
+  toolTipContent: "Isolated:</b> {y}<br>{per}% of {no}",
+  dataPoints: ageNOrange
+}
+  ]
+}
+);
+chart5.render();
+pAges[ageCount][0] = "--"        // restore for conditionals in program
+}
+
+
+
+// **************************************************************************************
+// START OF PROGRAM
+
+var ageFlag = false;
+var raceFlag = false;
+
+var xSIZE = 1000;
+var ySIZE = 600;
+var tRAVEL = [1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,3,3,3,3,3,3,4,4,4,4,4,5,5,5,5,5,5,6,6,6,6,6,10,10,10,30,30,50];
+var dIRECTION = [-1,0,1];
+var rand, randint;
+
+
+
+// ***********************************************************************************
+
+var contagion = true;
+
+var greenCt, yellowCt, blueCt, redCt, orangeCt = 0;
+
+// THESE ARE ADDED PER GENERATION BUT IT ISN'T CLEAR THAT THEY HAVE AN ENTRY PER GENERATION?
+// SEE TABULATE() ROUTINE - YES, I SEE THEY ARE
+
+var logDay = [];
+var logGreen = [];
+var logYellow = [];
+var logBlue = [];
+var logRed = []; logRed[0] = 0;
+var logOrange = [];
+var logPop = [];
+var logTravel = [];
+var logIncubate = [];
+var logInfectD = [];
+var logInfectM = [];
+var logInfGrow = [];
+var logRedD = [];
+var logPsize = [];
+
+// ************************************************************************************
+// DATA FOR AN entity
+
+
+var pID = [];
+var pX = [];
+var pY = [];
+var pSize = [];       //radius = initial size; changes with infectivity & susceptibility
+var pOldSz = [];
+
+var pColor = [];      //green = susc; yellow=incub; blue=transmitter; red=cliniical; purple=recovered
+var pStatus = [];     //same as color but color may be used for vector display
+var pfInfectMode = [];    // 0 = constant; 1=increase with days by 25%; 2=superspreader at 5x radius
+var pfInfectRate = [];
+var pIncDay = [];     //number of incubation days
+var pTransCount = [];   //days of transmit count
+var pTransMax = [];     //no. of transmitting days
+var pClinCount = [];    //count of clinical days
+var pxAgeGp = [];       // age-gp of the entity
+var pfSusc = [];        //starts at 1
+
+var newX = [];
+var newY = [];
+var delX = [];
+var delY = [];
+
+var OldX = [];
+var OldY = [];
+var ddx = [];
+var ddy = [];
+
+var Population = 36;    //1600
+var radius = 50;        //20
+
+var newBlue = 4;
+var avgSus = 1;
+var fDist = 40;
+var avgIncDays = 7;     //2
+var avgInfDays = 5;
+var infectMode = 0;     //3
+var avgInfRate = 1.1;   //this is a compunding rate
+var avgClinDays = 1;
+
+
+
+var drawMSEC = 1000;
+var drawCycle = 400;
+var FPS = 30;
+var aniGoal = 5;          //count of click cycles
+var myClick;
+
+var canvas = document.getElementById("myCanvas");
+var ctx = canvas.getContext("2d");
+ctx.fillStyle = "black";
+ctx.fillRect(0,0,canvas.width, canvas.height);
+ctx.globalCompositeOperation = "source-atop";
+
+
+
+var posn;
+var pRow, pCol, pMaxRadius;
+var pShape, pSep;
+
+// *********************************************************************************
+// THESE ARE INITIALIZATION AND UTILITY ROUTINES
+
+function dTable(){
+  document.getElementById("dPopn").innerHTML = Population;
+  document.getElementById("dCont").innerHTML = newBlue;
+  document.getElementById("dGen").innerHTML = 0;
+  document.getElementById("grCt").innerHTML = 0;
+  document.getElementById("yeCt").innerHTML = 0;
+  document.getElementById("blCt").innerHTML = 0;
+  document.getElementById("reCt").innerHTML = 0;
+  document.getElementById("dDist").innerHTML = fDist;
+  document.getElementById("dIncD").innerHTML = avgIncDays;
+  document.getElementById("dInfD").innerHTML = avgInfDays;
+  document.getElementById("dInfM").innerHTML = infectMode;
+  document.getElementById("dInfR").innerHTML = avgInfRate;
+  document.getElementById("dCliD").innerHTML = avgClinDays;
+  document.getElementById("dPrad").innerHTML = radius;
+  document.getElementById("dAnim").innerHTML = aniGoal;
+}
+
+
+window.onload = function(){
+  CanvasJS.addColorSet("Overview GYBRO",
+     [
+     "#008000",
+     "#FFD700",
+     "#1E90FF",
+     "#FF0000",
+     "#FF8C00",
+    ]);
+}
+
+if (infectMode == 3) document.getElementById("dInfR").innerHTML = avgInfRate;
+dTable();
+calcRowCol();
+drawBalls(0);   //draw the color of the drawBalls
+//// alert("Visual Epidemic Simulation @EC_GO 2020");
+
+
+function calcRowCol(){
+  var sqrtN;
+
+  //  N entities in 1000 x 600 space; call sqrtN ALPHA
+
+  //assume minimum radius of 2 with separation of 6 - one more than diameter
+  //each entity needs 4 (diam) + 2 + 2 = 8
+  // so maxRows is 600/8 = 75 rows
+
+  //if ALPHA < 75  we can fit into a square
+  //otherwise we have to use a rectangle
+
+  //max is (600/8) in rows and (100/8 in columns
+  //and we have to start at (d,d) for first entity
+  // where d is diameter
+
+  //so max rectangle is 125 x 75 = 9,375 entities
+  //max square array is 75 x 75 = 5625 ENTITIES
+
+  //so if population is less than 5625 we can create square
+  //otherwise we have to create a rectangle
+
+  //to optimize H & L such that H and L are close we use ALPHA
+  // rows, and parcel out the remainder of N - ALPHA into columns of
+  // ALPHA items each.......
+
+
+  if (Population > 9625)
+    Population = 9625;
+    sqrtN = Math.floor(Math.sqrt(Population));
+
+    pSep = Math.floor(ySIZE/sqrtN);
+    pMaxRadius = Math.floor(pSep/4);
+
+    if (pMaxRadius < radius){
+        radius = pMaxRadius;
+        document.getElementById("dPrad").innerHTML = radius;
+    };
+    pRow = sqrtN;
+    pCol = Math.ceil(Population/sqrtN);
+
+    pInit(pRow,pCol,pSep);
+    if (newBlue > 0) {
+      execAddBlues(newBlue);
+  }
+}
+
+function initTallies(){
+  var i;
+
+  gen=0;
+  greenCt = Population;
+  yellowCt = 0;
+  blueCt = 0;
+  redCt = 0;
+  orangeCt = 0;
+  document.getElementById("dGen").innerHTML = gen;
+  document.getElementById("grCt").innerHTML = greenCt;
+  document.getElementById("yeCt").innerHTML = yellowCt;
+  document.getElementById("blCt").innerHTML = blueCt;
+  document.getElementById("reCt").innerHTML = redCt;
+
+  for (i=0; i<Population+1; i++){
+    logDay[i] = 0;
+    logGreen[i] = 0;
+    logYellow[i] = 0;
+    logBlue[i] = 0;
+    logRed[i] = 0;
+    logOrange[i] = 0;
+    logPop[i] = 0;
+    logTravel[i] = 0;
+    logIncubate[i] = 0;
+    logInfectD[i] = 0;
+    logInfGrow[i] = 0;
+    logRedD[i] = 0;
+    logPsize[i] = 0;
+  }
+
+  if (ageFlag) initAgeTally();
+
+}
+
+
+function pInit(pRow,pCol,pSep){
+// need to initialize canvas, age-risk tallies, logs
+
+  var i, diam;
+  document.getElementById("ageSel").style.backgroundColor = "red";
+  clearCanvas();
+
+
+  ageFlag = false;
+  raceFlag = false;
+
+  initTallies();
+  gen=0;
+  greenCt = Population;
+  yellowCt = 0;
+  blueCt = 0;
+  redCt = 0;
+  orangeCt = 0;
+  document.getElementById("dGen").innerHTML = gen;
+  document.getElementById("grCt").innerHTML = greenCt;
+  document.getElementById("yeCt").innerHTML = yellowCt;
+  document.getElementById("blCt").innerHTML = blueCt;
+  document.getElementById("reCt").innerHTML = redCt;
+
+  diam = 2*radius;
+  i = 0;
+
+  for (x=0; x<pCol; x++){
+    for (y=0; y<pRow; y++){
+      if (i>Population) break;
+      i++;
+      pID[i] = i;                  //unique identifier may need
+      pX[i] = x*pSep+diam;     // D is initial offset
+      pY[i] = y*pSep+diam;
+      OldX[i] = pX[i];
+      OldY[i] = pY[i];
+
+      //// alert("i="+i+" X="+pX[i]+" Y="+pY[i]);
+
+      pOldSz[i] = radius;
+      pColor[i] = "gray";
+
+
+      // SUSCEPTIBILITY DISTRIBUTION GOES HERE
+
+      pfSusc[i] = 1;
+
+      //
+      pSize[i] = radius * pfSusc[i];
+      pfInfectMode[i] = infectMode;
+      pfInfectRate[i] = avgInfRate;
+      pStatus[i] = "green";
+
+    }
+  }
+  // draw population initial
+
+  document.getElementById("grCt").innerHTML = greenCt;
+  document.getElementById("yeCt").innerHTML = yellowCt;
+  document.getElementById("blCt").innerHTML = blueCt;
+}
+
+function drawBalls(bClr){
+
+  var i,j,k;
+  if (avgInfRate == 99) alert("In drawBalls");
+  for (k=1; k<Population+1; k++){
+    if (bClr!=0){
+      drawc(pX[k],pY[k],pSize[k],"MidnightBlue")
+    } else {
+      drawc(pX[k],pY[k],pOldSz[k],"black");
+      drawc(pX[k],pY[k],pSize[k],pColor[k])
+    }
+  }
+}
+
+
+function finddelXY(i){
+  if (avgInfRate == 99) alert("In finddelXY");
+
+  randint = Math.floor(34*Math.random());
+  if (pColor[i]=="blue" || pColor[i]=="red"){
+      delX[i] = (pSize[i]*4) + fDist*tRAVEL[randint]
+  } else {
+      delX[i] = (pSize[i]/20 + fDist/20*tRAVEL[randint]);
+  }
+  randint = Math.floor(34*Math.random());
+  if (pColor[i]=="blue" || pColor[i]=="red"){
+      delY[i] = (pSize[i]*4) + fDist*tRAVEL[randint]
+  } else {
+      delY[i] = (pSize[i]/20 + fDist/20*tRAVEL[randint]);
+  }
+  randint = Math.floor(3*Math.random());            //'random direction
+  //alert("X randint = "+randint);
+  if (dIRECTION[randint]==-1){
+      delX[i] = -delX[i];
+    } else {
+      if (dIRECTION[randint]==0){
+        delX[i]=0;
+      }
+    }
+
+  randint = Math.floor(3*Math.random());
+  //  alert("Y randint = "+randint);
+  if (dIRECTION[randint]==-1){
+      delY[i] = -delY[i];
+    } else {
+        if (dIRECTION[randint]==0){
+            delY[i]=0;
+        }
+    }
+}
+
+function drawc(x,y,rad,color){
+  ctx.beginPath();
+  ctx.arc(x,y,rad,0,2*Math.PI);
+  ctx.fillStyle = color;
+  ctx.fill();
+  ctx.stroke();
+  ctx.strokeStyle = "black";
+}
+
+function drawVectors(i){
+  if ((Math.abs(newX[i]-pX[i])==0) && (Math.abs(newY[i]-pY[i])==0)){
+    pColor[i] = "white";
+  };
+
+  if (Math.abs(newX[i]-pX[i])>20){
+    pColor[i] = "red";
+    };
+  if (Math.abs(newY[i]-pY[i])>20){
+      pColor[i] = "red";
+    };
+
+  if (Math.abs(newX[i]-pX[i])>30){
+      pColor[i] = "blue";
+    };
+  if (Math.abs(newY[i]-pY[i])>30){
+      pColor[i] = "blue";
+  };
+
+  if (Math.abs(newX[i]-pX[i])>50){
+    pColor[i] = "yellow";
+  };
+  if (Math.abs(newY[i]-pY[i])>50){
+    pColor[i] = "yellow";
+  };
+  pColor[36] = "orange";
+  pColor[46] = "black";
+  pColor[65] = "orange";
+
+  ctx.moveTo(pX[i],pY[i]);
+  ctx.lineTo(newX[i], newY[i]);
+  ctx.lineWidth = 2;
+  ctx.strokeStyle = 'blue';
+  ctx.stroke();
+}
+
+function clearCanvas(){
+  ctx.fillStyle = "black";
+  ctx.fillRect(0,0,canvas.width, canvas.height);
+}
+
+
+
+function drawPop(){
+  if (avgInfRate == 99) alert("In drawPop");
+for (i=1; i<Population+1; i++){
+  drawc(OldX[i],OldY[i],pSize[i],"black");
+  if(ddx[i]<0){
+    // are we at destination or beyond it
+    if (OldX[i] == pX[i] || OldX[i] < pX[i]){
+      ddx[i] = 0
+    }
+  } else {
+    if (OldX[i] == pX[i] || OldX[i] > pX[i]){
+      ddx[i] = 0
+    }
+  };
+  OldX[i] = OldX[i] + ddx[i];
+  if(ddy[i]<0){
+    if (OldY[i] == pY[i] || OldY[i] < pY[i]){
+      ddy[i] = 0
+    }
+  } else {
+    if (OldY[i] == pY[i] || OldY[i] > pY[i]){
+      ddy[i] = 0
+    }
+  };
+  OldY[i] = OldY[i] + ddy[i];
+  drawc(OldX[i],OldY[i],pSize[i],pColor[i]);
+  }
+}
+
+// **********************************************************************************
+// THIS IS WHERE THINGS START BY DEFINING A POPULATION -
+// BEWARE - THE DEFAULT MIGHT BE USED, SO THIS MAY NOT BE CALLED FOR STARTING Simulation
+
+
+function loadPop(){
+
+  endGreen = [];
+  endYellow = [];
+  endBlue = [];
+  endRed = [];
+  endRedDelta = [];
+
+
+
+  var txt = prompt("Enter population - initial set to 100 \nBeware the canvas size is only 1200x800",Population);
+  Population = parseInt(txt);
+  document.getElementById("dPopn").innerHTML = Population;
+  dTable();
+  newBlue = 0;
+  calcRowCol();
+  drawBalls(0);
+
+  chart6.options.data[0].dataPoints = [];
+  chart6.options.data[0].dataPoints = endGreen;
+  chart6.options.data[1].dataPoints = [];
+  chart6.options.data[1].dataPoints = endYellow;
+  chart6.options.data[2].dataPoints = [];
+  chart6.options.data[2].dataPoints = endBlue;;
+  chart6.options.data[3].dataPoints = [];
+  chart6.options.data[3].dataPoints = endRed;
+  chart6.options.data[4].dataPoints = [];
+  chart6.options.data[4].dataPoints = endRedDelta
+
+  }
+
+function shuffle(){
+  var i,j,k,m,n;
+  m = Population+2;
+
+  for (j=1;j<4;j++){        //do this three times
+    for (i=1;i<Population+1;i++){
+      k = parseInt(1+Math.round(Math.random()*(Population-1)));
+      pSize[m] = pSize[i];
+      pColor[m] = pColor[i];
+      pStatus[m] = pStatus[i];
+      pfInfectMode[m] = pfInfectMode[i];
+      pfInfectRate[m] = pfInfectRate[i];
+      pIncDay[m] = pIncDay[i];
+      pTransCount[m] = pTransCount[i];
+      pTransMax[m] = pTransMax[i];
+      pClinCount[m] = pClinCount[i];
+      pxAgeGp[m] = pxAgeGp[i];
+      pfSusc[m] = pfSusc[i];
+      newX[m] = newX[i];
+      newY[m] = newY[i];
+      delX[m] = delX[i];
+      delY[m] = delY[i];
+      OldX[m] = OldX[i];
+      OldY[m] = OldY[i];
+      ddx[m] = ddx[i];
+      ddy[m] = ddy[i];
+
+//      pX[i] = pX[k];
+//      pY[i] = pY[k];
+      pSize[i] = pSize[k];
+      pColor[i] = pColor[k];
+      pStatus[i] = pStatus[k];
+      pfInfectMode[i] = pfInfectMode[k];
+      pfInfectRate[i] = pfInfectRate[k];
+      pIncDay[i] = pIncDay[k];
+      pTransCount[i] = pTransCount[k];
+      pTransMax[i] = pTransMax[k];
+      pClinCount[i] = pClinCount[k];
+      pxAgeGp[i] = pxAgeGp[k];
+      pfSusc[i] = pfSusc[k];
+      newX[i] = newX[k];
+      newY[i] = newY[k];
+      delX[i] = delX[k];
+      delY[i] = delY[k];
+      OldX[i] = OldX[k];
+      OldY[i] = OldY[k];
+      ddx[i] = ddx[k];
+      ddy[i] = ddy[k];
+
+//      pX[k] = pX[m];
+//      pY[k] = pY[m];
+      pSize[k] = pSize[m];
+      pColor[k] = pColor[m];
+      pStatus[k] = pStatus[m];
+      pfInfectMode[k] = pfInfectMode[m];
+      pfInfectRate[k] = pfInfectRate[m];
+      pIncDay[k] = pIncDay[m];
+      pTransCount[k] = pTransCount[m];
+      pTransMax[k] = pTransMax[m];
+      pClinCount[k] = pClinCount[m];
+      pxAgeGp[k] = pxAgeGp[m];
+      pfSusc[k] = pfSusc[m];
+      newX[k] = newX[m];
+      newY[k] = newY[m];
+      delX[k] = delX[m];
+      delY[k] = delY[m];
+      OldX[k] = OldX[m];
+      OldY[k] = OldY[m];
+      ddx[k] = ddx[m];
+      ddy[k] = ddy[m];
+      //alert(" at endxi,xk="+pX[i]+","+pX[k]);
+
+      // alert("k+m+n "+k+","+m+","+n);
+    }
+  }
+  //alert(" at end xi,xk="+pX[1]+","+pX[2]);
+}
+
+function addBlues(cut){
+  // These are "external" BLUES and not part of the age-Risk POPULATION
+  // but of course they are infective! They form the sees of the contagion
+  // they have an infective period which is stochastic
+
+  // The stachastic nature of these are randmomized from count of days already infective
+  // while the maximum is determinate at  avgMax
+
+  var n, k;
+
+  for (k=1;k<cut+1;k++){
+    Population++;
+    n = Population;
+    blueCt++;
+
+    if (ageFlag) {
+      pAges[ageCount][4].num++;
+      pAges[ageCount][4].blu++;
+    }
+
+    pID[n] = n;
+    pSize[n] = radius;
+    pOldSz[n] = pSize[n];
+    pColor[n] = "blue";
+    pStatus[n] = "blue";
+    pfInfectMode[n] = infectMode;
+    pfInfectRate[n] = avgInfRate;
+    pIncDay[n] = avgIncDays;
+    pTransCount[n] = parseInt(Math.floor(Math.random()*avgInfDays/5*4+avgInfDays/5));
+    pTransMax[n] = avgInfDays;
+    pClinCount[n] = 0;
+    pxAgeGp[n] = -1;
+    pfSusc[n] = 1;
+
+    newX[n] = 0;
+    newY[n] = 0;
+    delX[n] = 0;
+    delY[n] = 0;
+
+    OldX[n] = 0;
+    OldY[n] = 0;
+    ddx[n] = 0;
+    ddy[n] = 0;
+
+
+    squeeze(n);       //squeese in a blue
+    OldX[n] = pX[n];
+    OldY[n] = pY[n];
+  }
+  document.getElementById("blCt").innerHTML = blueCt;
+}
+
+function squeeze(n){
+  pX[n] = parseInt(Math.floor(Math.random()*xSIZE/4*3));
+  pY[n] = parseInt(Math.floor(Math.random()*ySIZE/8*7));
+  if (avgInfRate == 99) alert("n,pX,pY = "+n+","+pX[n]+","+pY[n]);
+}
+
+function loadBlues(){
+  var pBlue = prompt("Enter number of PERSONs to ADD as transmitters (BLUE):", newBlue);
+  newBlue = parseInt(pBlue);
+  document.getElementById("dCont").innerHTML = newBlue;
+  execAddBlues(newBlue);
+}
+
+function execAddBlues(newBlue){
+  addBlues(newBlue);
+  drawBalls(0);
+  newBlue = 0;
+  document.getElementById("dCont").innerHTML = newBlue;
+//  shuffle();
+  drawBalls(0);
+
+}
+
+// ****************************************************************************************
+//
+// THIS FUNCTION IS THE HEART OF THE SIMULATION - EACH CLICK IS A NEW PERIOD EG DAY
+var gen;
+gen = 0;
+
+function showPop(){
+if (avgInfRate == 99) alert("In showpop");
+//    clearCanvas;
+    ctx.fillStyle = "black";
+    ctx.fillRect(0,0,canvas.width, canvas.height);
+    goPop();    //takes a step and moves the entities
+    gen++;
+    tabulate();
+
+    document.getElementById("dGen").innerHTML = gen;
+    document.getElementById("grCt").innerHTML = greenCt;
+    document.getElementById("yeCt").innerHTML = yellowCt;
+    document.getElementById("blCt").innerHTML = blueCt;
+    document.getElementById("reCt").innerHTML = redCt;
+
+}
+
+// ****************************************************************************************
+// THIS IS WHERE WE INITIATE THE MOVEMENTS - POPUPDATE, CHECK OUT OF FRAME, SET UP Animation
+//
+function goPop(){
+  var i;
+    if (avgInfRate == 99) alert("In goPop");
+//  clearCanvas();
+//  drawThem;
+                                    //animate to new positions
+  popUpdate();                      //checks transitions
+  drawThem();
+  changeP();
+}
+
+function tabulate(){
+  logDay[gen] = gen;
+  logGreen[gen] = greenCt;
+  logYellow[gen] = yellowCt;
+  logBlue[gen] = blueCt;
+  logRed[gen] = redCt;
+  logOrange[gen] = orangeCt;
+  logPop[gen] = Population;
+  logTravel[gen] = fDist;
+  logIncubate[gen] = avgIncDays;
+  logInfectD[gen] = avgInfDays;
+  logInfectM[gen] = infectMode;
+  logInfGrow[gen] = avgInfRate;
+  logRedD[gen] = avgClinDays;
+  logPsize[gen] = radius;
+  upDateGraph();
+}
+
+
+var realTimer;
+var endGreen = [];
+var endYellow = [];
+var endBlue = [];
+var endRed = [];
+var endRedDelta = [];
+
+  CanvasJS.addColorSet("Overview GYBRO",
+     [
+     "#008000",
+     "#FFD700",
+     "#1E90FF",
+     "#FF0000",
+     "#FF8C00",
+    ]);
+
+
+var chart6 = new CanvasJS.Chart("chartContainer6",{
+    colorSet: "Overview GYBRO",
+    title:{
+      text: "Progress of Epidemic"
+    },
+    axisY2: {
+      title: "deltas"
+    },
+    axisY: {
+      title: "Total Susceptibles and Cases"
+    },
+    data: [{
+    type: "line",
+    markerType: "none",
+    dataPoints: endGreen
+
+  },  {
+    type: "line",
+    axisYType: "secondary",
+    markerType: "none",
+    dataPoints: endYellow
+  },  {
+    type: "line",
+    markerType: "none",
+    axisYType: "secondary",
+    dataPoints: endBlue
+  },  {
+    type: "line",
+    markerType:"none",
+    dataPoints: endRed
+  },  {
+    type: "line",
+    axisType: "secondary",
+    markerType: "none",
+    dataPoints: endRedDelta
+    }
+    ]
+  }
+);
+
+
+function upDateGraph(){
+  endGreen.push({y:logGreen[gen], x:gen});
+  endYellow.push({y:logYellow[gen],x:gen});
+  endBlue.push({y:logBlue[gen],x:gen});
+  endRed.push({y:logRed[gen],x:gen});
+  if (gen > 0){
+    var del = logRed[gen]-logRed[gen-1];
+    endRedDelta.push({y:del,x:gen});
+  } else
+    endRedDelta.push({y:0,x:gen});
+  chart6.render();
+}
+
+
+
+//population move
+function popUpdate(){
+  if (avgInfRate == 99) alert("in popupdate");
+var i;
+for (i=1; i<Population+1; i++){
+//  clearCanvas;
+  finddelXY(i);
+  OldX[i] = pX[i];
+  OldY[i] = pY[i];
+  //CHECK BOUNDARIES
+  checkBounds(i);
+  calcDeltas(i);
+//  if (dVect) {
+//      drawVectors(i);
+//  }
+
+//  pColor[i] = "green";    //this was for vectors and to turn oranges back
+
+  pX[i] = newX[i];
+  pY[i] = newY[i];
+//  if (dVect==false){
+//    pColor[i] = "green";
+//  }
+  }
+}
+
+function checkBounds(i){
+  while (pX[i] + delX[i] > xSIZE || pX[i] + delX[i]<0){
+    delX[i] = -delX[i]*0.5;
+  };
+  while (pY[i] + delY[i] > ySIZE || pY[i] + delY[i] <0){
+    delY[i] = -delY[i]*0.5;
+  }
+
+  newX[i] = pX[i] + delX[i];
+  newY[i] = pY[i] + delY[i];
+  if (avgInfRate == 99){
+    // alert("final i, deX, delY = "+i+","+delX[i]+","+delY[i]);
+    // alert("pX,pY = "+pX[i]+","+pY[i]);
+    // alert("newX, newY "+newX[i]+","+newY[i]);
+  }
+}
+
+function calcDeltas(i){           //for animation
+  ddx[i] = Math.floor(parseInt(delX[i]/drawCycle));
+  if (ddx[i] == 0) {
+    if (delX[i]<0){
+      ddx[i] = -1
+    }
+    else {
+      ddx[i] = 1;
+    }
+  }
+  ddy[i] = Math.floor(parseInt(delY[i]/drawCycle));
+  if (ddy[i] == 0) {
+    if (delY[i]<0){
+      ddy[i] = -1}
+    else {
+      ddy[i] = 1;
+    }
+  }
+}
+
+// ***********************************************************************************
+// THIS IS WHERE WE CONSIDER EACH ENTITY AND WHAT HAPPENS TO ITS STATUS THIS CYCLE
+//
+function changeP(){
+  if (avgInfRate == 99) alert("In changeP");
+    if (contagion) {
+      for (i=1;i<Population+1;i++){
+        // alert("In ChangeP "+pStatus[i]);
+      pColor[i] = pStatus[i];
+      //start of cycle - now turn all yellows to blue
+      testYellow(i);
+      //start of cycle - and turn all blues to red
+      testBlue(i);
+      //start of cycle - turn Reds to purple out of circulation
+      testRed(i);
+      //now test for collisions and infections
+      collision(i);
+    }
+  }
+ }
+
+function testYellow(i){
+  //*****************************************************
+  // when Yellow turns Blue, the Max is stochastic range from current average infectious Days
+  // the initial count is zero
+
+  if (pStatus[i]!="yellow"){
+    return;
+  };
+    //// alert("Test Yellow "+pIncDay[i]);
+    pIncDay[i]--;    //time to turn BLUE
+    if (pIncDay[i]==0 || pIncDay[i]<0){
+      pStatus[i]="blue";
+      pColor[i] = "blue";
+      //pSize[i]=pOldSz[i];           //restore to original size
+      blueCt++;
+      yellowCt--;
+
+      if(ageFlag){
+        var ageR = pxAgeGp[i];
+        pAges[ageR][4].yel--;
+        pAges[ageR][4].blu++;
+      }
+      pTransMax[i] = Math.floor((Math.random()*avgInfDays/3)+(2/3*avgInfDays));    //assume this will always be 1 or more
+      pTransCount[i] = 0;           //will transmit today
+      // code follows for infectivity - change pSize
+
+      pfInfectMode[i] = infectMode;
+
+      //NOW CALCULATE ACTUAL INFECTION RATE (size)
+      //// alert("pInfect"+pInfectMode[i]);
+      if (pfInfectMode[i] == 0){    //constant present size
+        pfInfectRate[i] = 0;
+        return;
+      };
+      if (pfInfectMode[i] == 1){    //doubles over duration of BLUE
+          pfInfectRate[i] = parseFloat(1/pTransMax[i]);   //will be adding delta
+          //// alert("1+"+pfInfectRate[i]);
+          return;
+      }
+      if (pfInfectMode[i] == 2){    //triples over duration of BLUE
+          pfInfectRate[i] = parseFloat(2*(1/pTransMax[i]));  //delta is 2X
+          //// alert("2+"+pfInfectRate[i]);
+          return;
+      }
+      if (pfInfectMode[i] == 3){     //compound increase by X% daily
+          pfInfectRate[i] = avgInfRate;
+          //// alert("3+"+pInfectRate[i]);
+          return;
+      }
+    }
+}
+
+function testBlue(i){
+  if (pStatus[i]=="blue"){
+    reSizeBlue(i);
+    pTransCount[i] = pTransCount[i]+1;
+    //// alert("BlueDays="+pTransCount[i]+","+pTransMax[i]);
+    if (pTransCount[i] > pTransMax[i]){
+      //now we turn the blue to red
+      pStatus[i] = "red";
+      pColor[i] = "red";
+      redCt++;
+      blueCt--;
+
+      if (ageFlag && pxAgeGp[i] == -1){
+        pAges[ageCount][4].red++
+        pAges[ageCount][4].blu--;
+      } else {
+        if (ageFlag && pxAgeGp[i] != -1) {
+          pAges[pxAgeGp[i]][4].red++;
+          pAges[pxAgeGp[i]][4].blu--;
+        }
+      }
+
+      pClinCount[i] = 0;
+      pTransCount[i] = 0;     //reset blue
+      pTransMax[i] = avgInfDays;
+      //code for size of red follows
+      //pSize[i] = radius;
+   }
+  }
+}
+
+function reSizeBlue(i){
+
+/*  if (infectMode==3){
+       // alert("pfInfectmode = "+pfInfectMode[i]);
+       // alert("pfInfectRate[i] = "+i+","+pfInfectRate[i]);
+       // alert("avgInfRate = "+avgInfRate);
+  }
+*/
+  if (pTransCount[i]==pTransMax[i] || pTransCount[i]>pTransMax[i]){       //last day - don not grow
+    return;
+  }
+  //// alert("TestBlue "+pfInfectMode[i]+);
+
+  if (pfInfectMode[i] == 0){    //constant present size do nothing
+    return;
+  };
+  if ((pfInfectMode[i] == 1)||(pfInfectMode[i]==2)){       //doubles over duration of BLUE
+      //// alert("mode 1 and 2 "+ pfInfectRate[i]);
+      pSize[i] = pSize[i] + (pTransCount[i]*pfInfectRate[i]);    //will be adding delta
+      //// alert("new size "+pSize[i]);
+      return;
+  }
+  if (pfInfectMode[i] == 3){     //compound increase by X% daily
+      pSize[i] = pSize[i]*pfInfectRate[i];
+//      // alert("newpSize[i] = "+i+","+pSize[i]);
+//      // alert(pSize[i]);
+      return;
+  }
+}
+
+function testRed(i){
+  if (pStatus[i]=="red"){
+    pClinCount[i]++;
+    if (pClinCount[i] > avgClinDays){
+      pClinCount[i] = 0;
+      pStatus[i] = "orange";
+      pColor[i] = "orange";
+      orangeCt++;
+
+      if (ageFlag && pxAgeGp[i] == -1){
+        pAges[ageCount][4].ora++
+        pAges[ageCount][4].red--;
+      } else {
+        if (ageFlag && pxAgeGp[i] != -1) {
+          pAges[pxAgeGp[i]][4].ora++;
+          pAges[pxAgeGp[i]][4].red--;
+        }
+      }
+
+      pSize[i] = 6;
+    }
+  }
+}
+
+var iXmin, iXmax, iYmin, iYmax, jXmin, jXmax, jYmin, jYmax;
+var interBool = false;
+var raDist;
+
+function collision(i){
+  if (avgInfRate == 99) alert("In collision");
+  var j;
+  for (j=1; j<Population+1; j++){
+    if (i != j){
+      xDelta = (pX[i]-pX[j])**2;
+      yDelta = (pY[i]-pY[j])**2;
+      yLength = Math.sqrt(xDelta+yDelta);
+      raDist = parseInt(yLength);
+
+      if (raDist > (pSize[i]+pSize[j])){
+        interBool = false;
+      } else {
+        interBool = true;
+      }
+      if (interBool) pChange(i,j);
+    }
+  }
+}
+
+var greenPt, otherPt;
+
+function pChange(i,j){
+  if (avgInfRate == 99) alert("In pChange");
+  if (pStatus[i] == pStatus[j]){
+    return;
+  } else {
+    if ((pStatus[i]=="green")||(pStatus[j]=="green")){
+      modify(i,j);
+    }
+  }
+}
+
+function modify(i,j){
+  if (avgInfRate == 99) alert("In Modify");
+    if (pStatus[i]=="green") {
+      greenPt=i;
+      otherPt=j;
+    } else {
+      if (pStatus[j]=="green"){
+        greenPt=j;
+        otherPt=i;
+      };
+    }
+    if ((pStatus[otherPt]=="orange")||(pStatus[otherPt]=="yellow")) {
+      return;
+    }
+
+    pStatus[greenPt] = "yellow";
+    pColor[greenPt] = "yellow";
+    yellowCt++;
+    greenCt--;
+
+    if (ageFlag) {
+      var ageR = pxAgeGp[greenPt];
+      pAges[ageR][4].gre--;
+      pAges[ageR][4].yel++;
+    }
+
+    // The incubation periods are stochastic from the range of average Incubation days
+
+    pIncDay[greenPt] = Math.floor((Math.random()*avgIncDays/3)+(2/3*avgIncDays));
+  }
+
+//dVect = false;
+function showVect(){
+  var vecTt = prompt("W-G-R-B-Y for distances + line vectors: Y or N", "Y");
+  if (vecTxt == "Y"){
+      dVect = true;
+  } else {
+    dVect = false;
+    vecTxt = "N";
+  }
+//  document.getElementById("dVect").innerHTML = vecTxt;
+}
+
+function showDist(){
+    var txt;
+    var distTxt = prompt("Enter tRAVEL distance factor:", fDist);
+    if (distTxt == null || distTxt == "") {
+      txt = "-0";
+    } else {
+      txt = distTxt;
+    }
+    document.getElementById("dDist").innerHTML = txt;
+    fDist = parseFloat(txt);
+  }
+
+
+function showIncD(){
+  var incTxt = prompt("Enter number of days of incubation - for YELLOWs", avgIncDays);
+  var incDays = parseInt(incTxt);
+  document.getElementById("dIncD").innerHTML = incDays;
+  avgIncDays = incDays;
+}
+
+
+function showInfD(){
+  var infTxt = prompt("Enter number of days of transmission - for BLUEs", newBlue);
+  var infDays = parseInt(infTxt);
+  document.getElementById("dInfD").innerHTML = infDays;
+  avgInfDays = infDays;
+}
+
+function showInfM(){
+  var infTxt = prompt("Mode of Transmission \n  0 = Constant \n  1 = 2x in infectious period \n  2 = 3x in period \n  3 = compound rate", avgInfRate);
+  var infMode = parseInt(infTxt);
+  if ((infMode>3)||(infMode<1)){
+    infMode=0;
+  }
+  document.getElementById("dInfM").innerHTML = infMode;
+  infectMode = infMode;
+
+  if (infectMode==3){
+    showInfR();
+  };
+  if (infectMode == 2) {
+      avgInfRate = parseFloat(2/avgInfDays);
+  };
+  if (infectMode==1){
+      avgInfRate = parseFloat(1/avgInfDays);
+  };
+  var inf;
+  for (inf=1; inf<Population+1; inf++){
+    pfInfectMode[inf] = infectMode;
+    pfInfectRate[inf] = avgInfRate;
+  }
+}
+
+
+function showInfR(){
+  var infTxt = prompt("Enter multiplier per day growth rate - for BLUEs \n     Example 1.2 is 20% day over day growth", avgInfRate);
+  var infRate = parseFloat(infTxt);
+  document.getElementById("dInfR").innerHTML = infRate;
+  avgInfRate = infRate;
+  var inf;
+  for (inf=1; inf<Population+1; inf++){
+    pfInfectMode[inf] = infectMode;
+    pfInfectRate[inf] = avgInfRate;
+  }
+}
+
+function showCliD(){
+  var cliTxt = prompt("Detection is either becoming symptomatic or testing POSITIVE \nEnter # days of tranmission after clinical positive - for REDs", avgClinDays);
+  var cliDays = parseInt(cliTxt);
+  document.getElementById("dCliD").innerHTML = cliDays;
+  avgClinDays = cliDays;
+}
+
+function showPradius(){
+  var i;
+  var praTxt = prompt("Enter radius of personal safety \nThe smaller the extent of isolation", radius);
+  var pRadi = parseInt(praTxt);
+  document.getElementById("dPrad").innerHTML = pRadi;
+  radius = pRadi;
+
+  for (i=1; i<Population+1; i++){
+    if (pStatus[i]=="orange"){
+      pSize[i]=6;
+    } else {
+    pRatio = parseFloat(radius/pOldSz[i]);
+    pSize[i]=radius + pRatio;     //the new size plus a bit
+    }
+  };
+
+  clearCanvas();
+  for (i=1; i<Population+1; i++){
+      drawc(pX[i],pY[i],pSize[i],pColor[i]);
+  }
+ }
+
+//*********** THE ANIMATION ROUTINES HERE  ******************************
+
+function drawThem(){
+  if (avgInfRate == 99) alert("In drawThem");
+  var i;
+  for (i=1;i<drawCycle;i++){
+      setTimeout(drawPop,drawMSEC/FPS);
+  }
+    drawBalls(1);
+}
+
+function showAnimate(){
+  var aniTxt = prompt("Number of animation cycles (mouseclick days) before a pause \n To continue with existing value press [ENTER] \n You can reset paramters here for interventions",aniGoal);
+  if (aniTxt == null || aniTxt == "" || aniTxt=="0"){
+    aniTxt = 0;
+    clearInterval(myClick);
+    aniGoal = 0;
+  };
+  aniGoal = parseInt(aniTxt);
+  document.getElementById("dAnim").innerHTML = aniTxt;
+
+  clearInterval(myClick);
+  aniCt= 0;
+
+  if (aniGoal!=0){
+    myClick = setTimeout(clickButton,5);
+  }
+}
+
+function clickButton(){
+      aniCt++;
+      document.querySelector("#popClick").click();
+      if (aniCt == aniGoal) {
+        clearInterval(myClick)
+      } else
+      clickButton;
+}
+
+// **************************************************************************************
+// THESE HAVE TO DO WITH AGE-BASED RISK AND IF WE DO IT, RACE-BASED RISK
+
+// These are defaults in case you are lazy and don't want to enter a new Model
+// The population %s are for BC
+// The case %s are averaged from Spain and Italy (see wiki)
+// Instead of entering a model by hand, best to save the list in a word <fieldset>
+// then paste the appropriate list of values to set up the Model
+
+
+
+var pAges = [];
+pAges[0] = ["0 to 9",9.25,0.55,0, {}];
+pAges[1] = ["10 to 19",10.29,0.65,0, {}];
+pAges[2] = ["20 to 29",13.62,5.20,0];
+pAges[3] = ["30 to 39",14.15,8.95,0];
+pAges[4] = ["40 to 49",12.75,14.30,0];
+pAges[5] = ["50 to 59",14.27,19.5,0];
+pAges[6] = ["60 to 69",13.00,15.95,0];
+pAges[7] = ["70 to 79",8.15,15.5,0];
+pAges[8] = ["80 to 89",3.60,14.25,0];
+pAges[9] = ["90+",0.92,5.05,0];
+pAges[10] = ["--",0,0,0];
+
+pAges[0][4] = {"num":0, "gre":0, "yel":0, "blu":0, "red":0, "ora":0}
+pAges[1][4] = {"num":0, "gre":0, "yel":0, "blu":0, "red":0, "ora":0}
+pAges[2][4] = {"num":0, "gre":0, "yel":0, "blu":0, "red":0, "ora":0}
+pAges[3][4] = {"num":0, "gre":0, "yel":0, "blu":0, "red":0, "ora":0}
+pAges[4][4] = {"num":0, "gre":0, "yel":0, "blu":0, "red":0, "ora":0}
+pAges[5][4] = {"num":0, "gre":0, "yel":0, "blu":0, "red":0, "ora":0}
+pAges[6][4] = {"num":0, "gre":0, "yel":0, "blu":0, "red":0, "ora":0}
+pAges[7][4] = {"num":0, "gre":0, "yel":0, "blu":0, "red":0, "ora":0}
+pAges[8][4] = {"num":0, "gre":0, "yel":0, "blu":0, "red":0, "ora":0}
+pAges[9][4] = {"num":0, "gre":0, "yel":0, "blu":0, "red":0, "ora":0}
+pAges[10][4] = {"num":0, "gre":0, "yel":0, "blu":0, "red":0, "ora":0}
+
+
+var pRace = [];                 //0=name; 1=pop%; 2=case%; 3=risk
+pRace[0] = ["---",0,0,0];
+pRace[1] = ["---",0,0,0];
+pRace[2] = ["---",0,0,0];
+pRace[3] = ["---",0,0,0];
+pRace[4] = ["---",0,0,0];
+pRace[5] = ["---",0,0,0];
+pRace[6] = ["---",0,0,0];
+pRace[7] = ["---",0,0,0];
+pRace[8] = ["---",0,0,0];
+
+function initAgeTally(){
+  var i;
+
+  for (i=0;i<11;i++){
+    pAges[i][4].num=0;
+    pAges[i][4].gre=0;
+    pAges[i][4].yel=0;
+    pAges[i][4].blu=0;
+    pAges[i][4].red=0;
+    pAges[i][4].ora=0;
+  }
+
+}
+
+function selAgeRisk(){
+  ageFlag = true;
+  document.getElementById("ageSel").style.backgroundColor = "lightgreen";
+
+
+  document.getElementById("myTab").style.display="none";
+  document.getElementById("AgeTab").style.display="block";
+  initAgeTally();
+  calcARisk();
+  showAgeGp();
+  // alert("In selAgeRisk, about to AssignAR()");
+  assignAR();
+  clearCanvas();
+  popUpdate();
+  drawThem();
+//  drawBalls(0);
+}
+
+function selRaceRisk(){
+  raceFlag = true;
+  document.getElementById("myTab").style.display="none";
+  document.getElementById("RaceTab").style.display="block";
+  showRNames();
+}
+
+function selModelMenu(){
+  document.getElementById("AgeTab").style.display="none";
+  document.getElementById("myTab").style.display="block";
+  // alert("in selModeMenu just changing visibilities");
+}
+
+function retModelMenu(){
+  document.getElementById("RaceTab").style.display="none";
+  document.getElementById("myTab").style.display="block";
+}
+
+
+function ageGroup(){
+  var x,y,z;
+  var i;
+  var ageStr = prompt("Enter ALL the age-group ranges (like '0-9') separated by ','");
+  x = ageStr;
+  if (x == "" || x == null) return;
+  for (i=0;i<11;i++){
+    pAges[1][0] = "--";      //clear the decks
+  }
+  for (i=0; i<13; i++){
+    y = x.indexOf(",",0);
+    if (y== -1) break;
+    pAges[i][0] = (x.substring(0,y));
+    x = x.substring(y+1);
+  }
+  pAges[i][0] = x.substring(0);
+  ageCount = i;
+  showAgeN();
+}
+
+function agePop(){
+  var x,y,z;
+  var i;
+  var ageStr = prompt("Enter ALL the age-group population demographics % separated by ','");
+  x = ageStr;
+  for (i=0; i<13; i++){
+    y = x.indexOf(",",0);
+    if (y== -1) break;
+    pAges[i][1] = parseInt(x.substring(0,y));
+    x = x.substring(y+1);
+  }
+  pAges[i][1] = x.substring(0);
+  showAgeP();
+}
+
+function ageCase(){
+  var x,y,z;
+  var i;
+  var ageStr = prompt("Enter all REFERENCE Covid CASE % by age-group, separated by ','");
+  x = ageStr;
+  for (i=0; i<13; i++){
+    y = x.indexOf(",",0);
+    if (y== -1) break;
+    pAges[i][2] = parseInt(x.substring(0,y));
+    x = x.substring(y+1);
+  }
+  pAges[i][2] = x.substring(0);
+  showAgeC();
+  calcARisk();
+}
+
+function ageRisk(){
+  var x,y,z;
+  var i;
+  var ageStr = prompt("Calculate the model risk for each age group");
+/*
+  x = ageStr;
+  // alert(x);
+  if (x!=-1 || !x){
+      for (i=0; i<13; i++){
+        y = x.indexOf(",",0);
+        if (y== -1) break;
+        pAges[i][3] = parseInt(x.substring(0,y));
+        x = x.substring(y+1);
+      };
+      pAges[i][3] = x.substring(0);
+  }
+  */
+  calcARisk();
+}
+
+function calcARisk(){
+  var i,j,k,r;
+  // we use the square root of the ratio between case% and age% (Relative Risk)
+  // because the susceptibility we model as the area of the circle
+  // describing the person, so the factor to apply is the square
+  // root of the raw Relative Risk
+
+  for (i=0; i<ageCount;i++){
+    if (pAges[i][0] != "--") {
+      j = pAges[i][2];      //case %
+      k = pAges[i][1];      //popn %
+      r = Math.sqrt(j/k).toFixed(2);
+      pAges[i][3] = r;
+    }
+  }
+  showAgeR();
+}
+
+function showAgeN(){
+  document.getElementById("aG0").innerHTML = pAges[0][0];
+  document.getElementById("aG1").innerHTML = pAges[1][0];
+  document.getElementById("aG2").innerHTML = pAges[2][0];
+  document.getElementById("aG3").innerHTML = pAges[3][0];
+  document.getElementById("aG4").innerHTML = pAges[4][0];
+  document.getElementById("aG5").innerHTML = pAges[5][0];
+  document.getElementById("aG6").innerHTML = pAges[6][0];
+  document.getElementById("aG7").innerHTML = pAges[7][0];
+  document.getElementById("aG8").innerHTML = pAges[8][0];
+  document.getElementById("aG9").innerHTML = pAges[9][0];
+}
+
+function showAgeP(){
+  document.getElementById("ap0").innerHTML = pAges[0][1];
+  document.getElementById("ap1").innerHTML = pAges[1][1];
+  document.getElementById("ap2").innerHTML = pAges[2][1];
+  document.getElementById("ap3").innerHTML = pAges[3][1];
+  document.getElementById("ap4").innerHTML = pAges[4][1];
+  document.getElementById("ap5").innerHTML = pAges[5][1];
+  document.getElementById("ap6").innerHTML = pAges[6][1];
+  document.getElementById("ap7").innerHTML = pAges[7][1];
+  document.getElementById("ap8").innerHTML = pAges[8][1];
+  document.getElementById("ap9").innerHTML = pAges[9][1];
+}
+
+function showAgeC(){
+  document.getElementById("aC0").innerHTML = pAges[0][2];
+  document.getElementById("aC1").innerHTML = pAges[3][2];
+  document.getElementById("aC2").innerHTML = pAges[2][2];
+  document.getElementById("aC3").innerHTML = pAges[3][2];
+  document.getElementById("aC4").innerHTML = pAges[4][2];
+  document.getElementById("aC5").innerHTML = pAges[5][2];
+  document.getElementById("aC6").innerHTML = pAges[6][2];
+  document.getElementById("aC7").innerHTML = pAges[7][2];
+  document.getElementById("aC8").innerHTML = pAges[8][2];
+  document.getElementById("aC9").innerHTML = pAges[9][2];
+}
+
+function showAgeR(){
+  document.getElementById("aR0").innerHTML = pAges[0][3];
+  document.getElementById("aR1").innerHTML = pAges[1][3];
+  document.getElementById("aR2").innerHTML = pAges[2][3];
+  document.getElementById("aR3").innerHTML = pAges[3][3];
+  document.getElementById("aR4").innerHTML = pAges[4][3];
+  document.getElementById("aR5").innerHTML = pAges[5][3];
+  document.getElementById("aR6").innerHTML = pAges[6][3];
+  document.getElementById("aR7").innerHTML = pAges[7][3];
+  document.getElementById("aR8").innerHTML = pAges[8][3];
+  document.getElementById("aR9").innerHTML = pAges[9][3];
+}
+
+function showAgeGp(){
+  showAgeN();
+  showAgeP();
+  showAgeC();
+  showAgeR();
+}
+
+function raceName(){
+  var x,y,z;
+  var i;
+  var raceStr = prompt("Enter ALL the RACE or ETHNICITY names in a list, separated by commas");
+
+  x = raceStr;
+  // alert(x);
+  for (i=0; i<11; i++){
+    y = x.indexOf(",",0);
+    if (y== -1) break;
+    pRace[i][0] = x.substring(0,y);
+    x = x.substring(y+1);
+  }
+  pRace[i][0] = x.substring(0);
+  showRNames();
+}
+
+function racePop(){
+  var x,y,z;
+  var i;
+  var ageStr = prompt("Enter ALL the RACE or ETHNIC group population % separated by ','");
+  x = ageStr;
+  // alert(x);
+  for (i=0; i<13; i++){
+    y = x.indexOf(",",0);
+    if (y== -1) break;
+    pRace[i][1] = parseInt(x.substring(0,y));
+    x = x.substring(y+1);
+  }
+  pRace[i][1] = x.substring(0);
+  showRPop();
+}
+
+
+function raceCase(){
+  var x,y,z;
+  var i;
+  var ageStr = prompt("Enter all REFERENCE Covid CASE % by RACE or ETHNIC group, separated by ','");
+  x = ageStr;
+  // alert(x);
+  for (i=0; i<13; i++){
+    y = x.indexOf(",",0);
+    if (y== -1) break;
+    pRace[i][2] = parseInt(x.substring(0,y));
+    x = x.substring(y+1);
+  }
+  pRace[i][2] = x.substring(0);
+  showRCase();
+  calcRace();
+  showRaceGp();
+}
+
+function raceRisk(){
+  var x,y,z;
+  var i;
+  var raceStr = prompt("Calculate the model risk for each RACE or ETHNIC group","");
+/*
+  x = ageStr;
+  // alert(x);
+  if (x!=-1 || !x){
+      for (i=0; i<13; i++){
+        y = x.indexOf(",",0);
+        if (y== -1) break;
+        pAges[i][3] = parseInt(x.substring(0,y));
+        x = x.substring(y+1);
+      };
+      pAges[i][3] = x.substring(0);
+  }
+  */
+  calcRace();
+  showRaceGp();
+}
+
+function calcRace(){
+  var i,j,k,r;
+  // we use the square root of the ratio between case% and age% (Relative Risk)
+  // because the susceptibility we model as the area of the circle
+  // describing the person, so the factor to apply is the square
+  // root of the raw Relative Risk
+
+  for (i=0; i<10;i++){
+    j = pRace[i][2];      //case %
+    k = pRace[i][1];      //popn %
+    r = (j/k).toFixed(2);
+    pRace[i][3] = r;
+  }
+}
+
+
+function showRaceGp(){
+  showRNames();
+  showRPop();
+  showRCase();
+  document.getElementById("rR0").innerHTML = pRace[0][3];
+  document.getElementById("rR1").innerHTML = pRace[1][3];
+  document.getElementById("rR2").innerHTML = pRace[2][3];
+  document.getElementById("rR3").innerHTML = pRace[3][3];
+  document.getElementById("rR4").innerHTML = pRace[4][3];
+  document.getElementById("rR5").innerHTML = pRace[5][3];
+  document.getElementById("rR6").innerHTML = pRace[6][3];
+  document.getElementById("rR7").innerHTML = pRace[7][3];
+  document.getElementById("rR8").innerHTML = pRace[8][3];
+}
+
+function showRNames(){
+
+    document.getElementById("rN0").innerHTML = pRace[0][0];
+    document.getElementById("rN1").innerHTML = pRace[1][0];
+    document.getElementById("rN2").innerHTML = pRace[2][0];
+    document.getElementById("rN3").innerHTML = pRace[3][0];
+    document.getElementById("rN4").innerHTML = pRace[4][0];
+    document.getElementById("rN5").innerHTML = pRace[5][0];
+    document.getElementById("rN6").innerHTML = pRace[6][0];
+    document.getElementById("rN7").innerHTML = pRace[7][0];
+    document.getElementById("rN8").innerHTML = pRace[8][0];
+}
+
+function showRPop(){
+    document.getElementById("rP0").innerHTML = pRace[0][1];
+    document.getElementById("rP1").innerHTML = pRace[1][1];
+    document.getElementById("rP2").innerHTML = pRace[2][1];
+    document.getElementById("rP3").innerHTML = pRace[3][1];
+    document.getElementById("rP4").innerHTML = pRace[4][1];
+    document.getElementById("rP5").innerHTML = pRace[5][1];
+    document.getElementById("rP6").innerHTML = pRace[6][1];
+    document.getElementById("rP7").innerHTML = pRace[7][1];
+    document.getElementById("rP8").innerHTML = pRace[8][1];
+}
+
+function showRCase(){
+    document.getElementById("rC0").innerHTML = pRace[0][2];
+    document.getElementById("rC1").innerHTML = pRace[1][2];
+    document.getElementById("rC2").innerHTML = pRace[2][2];
+    document.getElementById("rC3").innerHTML = pRace[3][2];
+    document.getElementById("rC4").innerHTML = pRace[4][2];
+    document.getElementById("rC5").innerHTML = pRace[5][2];
+    document.getElementById("rC6").innerHTML = pRace[6][2];
+    document.getElementById("rC7").innerHTML = pRace[7][2];
+    document.getElementById("rC8").innerHTML = pRace[8][2];
+}
+
+// ****************************************************************************************
+// THESE ROUTINES SET UP POPULATION TO ACCOUNT FOR RISKS AND WILL CALL ON SIZE CHANGES
+var ageCount = 10;
+function assignAR(){
+//  // alert("in assignAR");
+  var i,j,k
+  var popLo, popNum, popHi, popAccum = 0;
+
+  for (i=0;i<12;i++){
+    if (pAges[i][0]=="--"){
+      break;
+    }
+  }
+//  // alert("i and ageCount "+i);
+  ageCount = i;
+
+  popLo = 0;
+  popHi  = 0;
+  popAccum = 0;
+  for (i=0; i<ageCount; i++){
+    popLo = popHi + 1;
+    popNum = parseInt(Math.round(pAges[i][1]*Population/100));
+    if (pAges[i+1][0]=="--"){
+      popNum = Population - popAccum;      //round out population so everyone is in a group
+    }
+    popHi = popLo + popNum - 1;
+    for (j=popLo; j<popHi+1; j++){
+      pxAgeGp[j] = i;
+    }
+    popAccum = popAccum + popNum;
+  }
+  applyAgeRisk();
+  shuffle();
+  changeP();
+  popUpdate();
+  clearCanvas();
+  drawThem();
+//  drawBalls(0);
+}
+
+function applyAgeRisk(){
+  var i,j;
+
+  for (i=1; i<(Population+1); i++){
+    j = pxAgeGp[i];
+
+    //we are keeping the pfSusc[i] as 1 for now, reserving it for some
+    //future purpose; we modify p[i] using AgeRisk table itself
+
+    pSize[i] = pSize[i]*pAges[j][3];
+
+    // now we enter the data structure for keeping track of state
+    pAges[j][4].num++;
+    if (pColor[i] == "blue") {
+      pAges[j][4].blu++
+    } else {
+      pAges[j][4].gre++;
+    }
+  }
+}
+</script>
+
+</head>
+<body>
+<div id="chartContainer1" style="height: 370px; width: 45%; display: inline-block;"></div>
+<div id="chartContainer2" style="height: 370px; width: 45%%;display: inline-block;"></div><br>
+<div id="chartContainer3" style="height: 370px; width: 45%; display: inline-block;"></div>
+<div id="chartContainer4" style="height: 370px; width: 45%%; display: inline-block;"></div><br>
+<div id="chartContainer5" style="height: 370px; width: 45%%; display: inline-block;"></div>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
+</body>
+</html>

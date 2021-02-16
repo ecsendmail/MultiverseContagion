@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <style>
+    th,  td {
+      border: 1px solid black;
+      padding: 3px;
+      text-align: center;
+  }
+    th {
+        cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <p>CovidSim Stochastic Agent Based Model April 2020 @EC_GO - PUBLIC DOMAIN as per GNU GPL LICENSING</p>
+
+<script>
+
+// **************************** CREATE UNIVERSES **********************************************
+
+alert("cre");
+function CreateUniverse() {
+  this.Uid;
+  this.num;
+  this.population;
+  this.UmingleRate;
+  this.inBox;
+  this.outBox;
+  this.day;
+  this.hour;
+  this.person = [];                   // can we get away with using same variable name?
+}
+var u;
+var U = [];
+
+for (u=0;u<10;u++){
+  U[u] = new CreateUniverse();
+  U[u].num = u;
+}
+
+alert("cre");
+alert(U[1].num);
+alert("dre");
+
+
+// **************************** CREATE ITINERARY PROTOTYPES ********************************************
+
+function CreateItinerary() {
+  this.pID;
+  this.stop = [];
+}
+
+function CreateStop() {
+  this.U;
+  this.arrive;        // optional choices are too hard, so we go with sequential for now
+  this.duration;
+  this.role;          // RESIDENT, ATTACHED, TRANSIENT
+  this.mingle;        // deegree of mingling 0 to 10 - loner to pollster
+}
+
+
+// *************************** CREATE PERSON PROTOTYPES *************************************************
+
+function CreatePerson() {
+  this.pID;                   // issued in multiverse - most of this data generated in MULTIVERSE
+  this.pLocalqNo;                // issued on arrival at a univerise
+  this.risks = [];            // risks eg age, co-morbid, race,
+  this.state;                 // uninfected; incubating; infectious; disagnosed; inert
+  this.incStart;              // date of infection and transition to incubating
+  this.incDays;
+  this.incMax;
+  this.infectStart;           // date of transition to infectious
+  this.infectDays;
+  this.infectMax;
+  this.infectMode;
+  this.infectRate;
+  this.diagStart;             // date of transition from asymtpomatic to diagnosed
+  this.diagDays;
+  this.diagMax;
+  this.inertStart;            // date of transition to INERT
+  this.inertDays;             // days since becoming inert
+  this.local;            // strictly local information
+  this.trips = [];            // every person comes bearing own itinerary - sequence of universe stops
+}
+
+function CreateLocalInfo() {
+  this.pID;
+  this.pSeqNo;
+  this.role;
+  this.ETA;
+  this.ETD;
+  this.radius;
+  this.pX;
+  this.pY;
+  this.OldX;
+  this.OldY;
+  this.newX;
+  this.newY;
+  this.delX;
+  this.delY;
+  this.ddx;
+  this.ddy;
+}
+
+
+// **************************** let's try creating a person **********************************
+var p
+var P = [];                          // unique persons in the Multiverse
+  for (p=0; p<10; p++){
+    P[p] = new CreatePerson;         // multiverse will create age-gp
+    P[p].pID = p;
+    P[p].state = "green";
+  }
+
+
+P[0].local = new CreateLocalInfo();
+P[0].local.role = "ATTACHED";
+alert("local role is "+P[0].local.role);
+P[1].local = new CreateLocalInfo();
+P[1].local.role = "RESIDENT";
+alert("local 1 "+P[1].local.role);
+alert("local 0 "+P[0].local.role);
+
+
+
+// **************************** start at 0600 end at 2200 *************************************
+
+const HRperDAY = 16;
+const HRBASE = 6;
+
+var dayCount;
+var dayTrial = 2;
+var iDay;
+var iHour;
+var hour;
+
+hour = (0+HRBASE)%HRBASE;
+
+function abc(){
+
+};
+
+for (iDay=0; iDay<dayTrial; iDay++){
+  for (iHour=6; iHour<23; iHour++){
+
+    /*
+    alert("Day = "+iDay+"   Hour = "+iHour);
+    alert("check hourly stuff");
+    alert("do 30 periods of activity each hour");
+    alert("now we will do a different activity each universe");
+    alert("and we will preserve the setInterval timers for each one too");
+
+    */
+  }
+  alert("new Day = day "+iDay+"    Hour is "+iHour);
+};
+
+</script>
+</body>
+</html>

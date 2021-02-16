@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<style>
+</style>
+
+<body>
+
+<script>
+
+function mySave(){                // SAVE ENTIRE COLLECTION
+  // ================== first update ENTITY and TOPIC =====================
+  // ==== replace old entity in TOPIC =====================================
+
+  if (currEntity>0){        //update TOPIC
+      TOPIC.splice(currEntity,1,ENTITY);
+  };
+
+  if (currTopic>0){
+    COLLECTION.splice(currTopic,1,TOPIC);
+  }
+
+      var saveData = (function () {
+      var a = document.createElement("a");
+      document.body.appendChild(a);
+      a.style = "display: none";
+      return function (data, fileName) {
+          var json = JSON.stringify(data),
+              blob = new Blob([json], {type: "octet/stream"}),
+              url = window.URL.createObjectURL(blob);
+
+          a.href = url;
+          a.download = fileName;
+          a.click();
+          window.URL.revokeObjectURL(url);
+      };
+  }());
+
+  var data = {x: COLLECTION},
+      fileName = "collection02.json";
+  saveData(data, fileName);
+}
+function iLoad(xFile){
+  function readFile(file)
+  {
+      var rFile = new XMLHttpRequest();
+      rFile.open("GET", file, false);
+      rFile.onreadystatechange = function ()
+      {
+          if(rFile.readyState === 4)
+          {
+              if(rFile.status === 200 || rFile.status == 0)
+              {
+                  var result = rFile.responseText;
+                  loadresult = result;
+              }
+          }
+      }
+      rFile.send(null);
+  }
+readFile(xFile);
+}
+
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html>
+<style>
+  th,  td {
+    border: 1px solid black;
+    padding: 3px;
+    text-align: center;
+}
+  th {
+      cursor: pointer;
+  }
+  </style>
+  <p>CovidSim Stochastic Cellular Automata April 2020 @EC_GO - PUBLIC DOMAIN as per GNU GPL LICENSING</p>
+
+  <body>
+  <canvas id="gameCanvas" width="800" height="600"></canvas>
+  <button onclick="startClock()" type="button" style="cursor:pointer">start</button>
+  <button onclick="aniMate()" type="button" style="cursor:pointer">animate</button>
+  <script>
+
+
+  // **************************** SETUP FOR TICKETS AND TIME-TABLE FOR SINGLE UNIVERSE **********
+  //
+  //                      THIS WILL BE EXTENDED ONCE WE GET ONC GOING
+  //
+  // 88888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
+
+  // **************************** CREATE ITINERARY PROTOTYPES ********************************************
+
+
+
+  var u;
+  var U = [];
+
+  const LTC = 2;
+  const HOME = 1;
+
+
+  var MV = new ConstructMVC();
+  MV.UCt = 9;
+  MV.PCt = 100;
+
+  var MU;
+
+  for (i=0; i<MV.UCt; i++) {
+    MV.U[i] = new CreateUniverse();
+    MV.U[i].Uid = i;
+  };
+
+  var i,j,k;
+
+  function ConstructMVC() {
+    this.UCt;                       // count of Universes
+    this.U = [];                    // the Universe Data seen by MVC
+    this.Uname;
+    this.PCt;                       // count of population
+    this.P = [];                    // the population seen by MVC
+    this.T = [];                    // the TICKETS by hour of action
+    this.clockDay;                  // the Master Clock Day
+    this.clockHour;                 // the Master Clock clock hour
+  }
+
+  // *********************************************************************************
+  function CreateUniverse() {
+    this.Uid;
+    this.name;
+    this.population;
+    this.Residents
+    this.Attacheds;
+    this.Transients;
+    this.UmingleRate;
+    this.canvas;
+    this.inBox;
+    this.outBox;
+    this.day;
+    this.hour;
+    this.person = [];                   // can we get away with using same variable name?
+  }
+
+//          WE CAN CREATE THESE BUT NOT USE THEM FOR NOW TILL WE INTEGRATE MULTIVERSE    &&&&&&&&&&&&&&&
+//          +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//
+
+/*
+  for (i=0; i<MV.PCt; i++){
+    MV.P[i] = new CreatePerson();
+    MV.P[i].pID = i;                      // unique identifier
+    MV.P[i].state = "G";
+    MV.T[i] = new CreateTicket();        // G=goodtogo; Y=Yow-stung; B=Buggy; R=red-handed O=Out
+    MV.T[i].pID = i;
+  }
+*/
+
+// *************************** CREATE PERSON PROTOTYPES *************************************************
+//
+//
+var metState = "green";
+var metIncStart = 0;
+var metIncDays = 0;
+var metIncMax = 14;
+var metInfectSt = 0;
+var metInfectDays = 0;
+var metInfectMax = 7;
+var metInfectMode = 0;
+var metInfectRate = 0.2;
+var metDiagStart = 0;
+var metDiagDays = 0;
+var metDiagMax = 14;
+var metInertStart = 0;
+var metInertDays = 0;
+
+
+function CreatePerson() {
+      this.pID;                   // issued in multiverse - most of this data generated in MULTIVERSE
+      this.pLocalNo;             // issued on arrival at a univerise
+      this.risks = [];            // risks eg age, co-morbid, race,
+      this.state;                 // uninfected; incubating; infectious; disagnosed; inert
+
+      this.incStart;              // date of infection and transition to incubating
+      this.incDays;
+      this.incMax;
+      this.infectStart;           // date of transition to infectious
+      this.infectDays;
+      this.infectMax;
+      this.infectMode;
+      this.infectRate;
+      this.diagStart;             // date of transition from asymtpomatic to diagnosed
+      this.diagDays;
+      this.diagMax;
+      this.inertStart;            // date of transition to INERT
+      this.inertDays;             // days since becoming inert
+
+      this.local;                 // strictly local information
+      this.ticketCt;
+      this.stops = [];
+}
+
+function CreateLocalInfo() {
+      this.pID;
+      this.pSeqNo;
+      this.role;
+      this.ETA;
+      this.ETD;
+      this.size;
+      this.minglx;
+      this.clr;
+      this.X;
+      this.Y;
+      this.OldX;
+      this.OldY;
+      this.newX;
+      this.newY;
+      this.delX;
+      this.delY;
+      this.ddx;
+      this.ddy;
+}
+
+
+
+var P = [];
+
+for (i=0; i<MV.PCt; i++){
+      P[i] = new CreatePerson;
+      P[i].pID = i;
+      P[i].pLocalID = i;
+      P[i].state = metState;
+      P[i].incStart = metIncStart;
+      P[i].indDay = metIncDays;
+      P[i].incMax = metIncMax;
+      P[i].infectStart = metInfectSt;
+      P[i].infectDays = metInfectDays;
+      P[i].infectMax = metInfectMax;
+      P[i].infectMode = metInfectMode;
+      P[i].infectRate = metInfectRate;
+      P[i].diagStart  = metDiagStart;
+      P[i].diagMax = metDiagMax;
+      P[i].inertStart = metInertStart;
+      P[i].inertDays = metInertDays;
+}
+
+
+// %%%%%%%%%%%%%%%%%%%%%%%%% NOW SET UP ALL THE LOCAL INFO BEFORE SPECIALIZING $$$$$$$$$$$$$$$$$$$$$$
+//
+
+var L = [];
+var T = [];
+
+for (i=0; i<MV.PCt; i++){
+      L[i] = new CreateLocalInfo;
+      L[i].pID = i;
+      L[i].pSeqNo = i;
+      L[i].role = "R";
+      L[i].size = 6;
+      L[i].minglx = 2;
+      L[i].X = 0;
+      L[i].Y = 0;
+      L[i].newX = 0;
+      L[i].newY = 0;
+
+      T[i] = new CreateTicket();
+      T[i].pID = i;
+      T[i].S = [];
+}
+/*
+    for (i=10;i<15;i++){
+      L[i] = new CreateLocalInfo;
+      L[i].pID = i;
+      L[i].pSeqNo = i;
+      L[i].role = "A";
+      L[i].size = 6;
+      L[i].minglx = 8;
+      L[i].X = 0;
+      L[i].Y = 0;
+      L[i].newX = 0;
+      L[i].newY = 0;
+    }
+
+    for (i=15;i<20;i++){
+      L[i] = new CreateLocalInfo;
+      L[i].pID = i;
+      L[i].pSeqNo = i;
+      L[i].role = "T";
+      L[i].size = 6;
+      L[i].minglx = 2;
+      L[i].X = 0;
+      L[i].Y = 0;
+      L[i].newX = 0;
+      L[i].newY = 0;
+    }
+
+    P[12].state = "blue";
+    P[17].state = "blue";
+*/
+
+  // ******************************************************************************************************
+  //
+  //                              CREATE SCHEDULE AND TICKET POINTERS TO PERSONS BY HOUR
+  //
+  // ******************************************************************************************************
+  //
+
+//  function CreateSchedule(){
+//    this.U = [];
+//  }
+
+//  function CreateET(){
+
+function CreateSchedule(){
+  	this.Slot = [];
+}
+
+function CreateSlot(){
+    this.U;
+    this.ClD;
+    this.sno;
+    this.dir;
+}
+
+var H = [];
+
+for (i=0; i<24; i++){
+  H[i] = [];        // we use 0600 to 2200 only FOR NOW
+}
+
+//    for (j=0; j<MV.UCt; j++) {
+//  		H[i].U[j] = new CreateET();
+//  	}
+
+
+function CreateTicket() {
+    this.pID;
+    this.S = [];
+}
+
+function CreateStop() {
+    this.Uhere;
+    this.ETA;
+    this.Udest;
+    this.ETD;
+    this.R;          // RESIDENT, ATTACHED, TRANSIENT
+    this.M;          // deegree of mingling 0 to 10 - loner to pollster
+}
+
+function issueStop(ind,sno,Uthis,Unext,hrA,hrD,thisR,thisM){
+  if (T[ind].S[sno] === undefined) {
+    T[ind].S[sno] = new CreateStop();
+  }
+	T[ind].S[sno].Uhere = Uthis;
+	T[ind].S[sno].ETA = hrA;
+	T[ind].S[sno].Udest = Unext;
+	T[ind].S[sno].ETD = hrD;
+	T[ind].S[sno].R = thisR;
+	T[ind].S[sno].M = thisM;
+
+
+  H[hrA].push({cU:Uthis,cID:ind,cS:sno,cDir:"A"});
+  H[hrD].push({cU:Uthis,cID:ind,cS:sno,cDir:"D"});
+
+}
+
+// ********************** 50 Resident ONLY deaprt = 9999 ****************************
+//
+//                        this would be rare - LTC, army barracks, prisons, ships ***
+//                        30 one-way tickets into LTC - for now; they can go out later
+//
+
+var stopno = 0;
+
+for (i=0; i<50; i++){                     //day-time activity
+	stopno = 0;
+	issueStop(i,stopno,LTC,LTC,6,22,"R",3);
+
+	stopno = 1;
+	issueStop(i,stopno,LTC,LTC,22,6,"R",1);
+  }
+Ptally = 50;
+
+// ***********************************************************************************
+//
+//                Now we have 30 staff who have role = "attached"
+//                They are not transients but come to be staff so stay longer
+//
+
+
+for (i=0; i<30; i++){
+
+	stopno = 0;
+	issueStop(Ptally+i,stopno,LTC,HOME,6,17,"A",7);
+
+	stopno = 1;
+	issueStop(Ptally+i,stopno,HOME,HOME,17,22,"R",3);
+
+	stopno = 2;
+	issueStop(Ptally+i,stopno,HOME,HOME,22,6,"R",1);
+}
+
+Ptally = 80;
+
+// *************************************************************************************
+//
+//              Now we have 10 Home (U2) residents who stay and work
+//              Gardeners, day care, plumbers, housekeepers etc
+//              But they are not "ATTACHeD" but RESIDENT in the U=2
+//
+for (i=0; i<10; i++){
+
+	stopno = 0;
+	issueStop(Ptally+i,stopno,HOME,HOME,6,17,"R",6);
+
+ 	stopno = 1;
+	issueStop(Ptally+i,stopno,HOME,HOME,17,22,"R",3);
+
+	stopno=3;
+	issueStop(Ptally+i,stopno,HOME,HOME,22,6,"R",3);
+}
+
+// *************************************************************************************
+//
+//                  these Residents from U=2 have the tasks of shopping,
+//                  recreation in gyms, coffee shops, visiting....here we only
+//                  have them visit LTC for 2hrs in pairs, separated by an hour
+//
+
+Ptally = 90;
+
+var baseT = 6;
+var deltaT = 2;
+var arrive, depart;
+
+for (i=0; i<5; i++){
+  for (j=0;j<2; j++){
+
+	stopno = 0;
+	arrive = baseT;
+	depart = arrive + (i+1)*deltaT;
+	issueStop(Ptally+2*i+j,stopno,HOME,LTC,arrive,depart,"R",3);
+
+	stopno = 1;
+	arrive = depart;
+	depart = arrive + deltaT;
+	issueStop(Ptally+2*i+j,stopno,LTC,HOME,arrive,depart,"T",4);
+
+
+	stopno = 2;
+	arrive = depart;
+	depart = 22;
+	issueStop(Ptally+2*i+j,stopno,HOME,HOME,arrive,depart,"R",3);
+
+
+  stopno = 3;
+	arrive = depart;
+	depart = 6;
+	issueStop(Ptally+2*i+j,stopno,HOME,HOME,arrive,depart,"R",3);
+  }
+}
+
+
+
+/*
+function issueStop(ind,sno,Uthis,Unext,hrA,hrD,thisR,thisM){
+  if (MV.T[ind].S[sno] === undefined) {
+    MV.T[ind].S[sno] = new CreateStop();
+  }
+	MV.T[ind].S[sno].Uhere = Uthis;
+	MV.T[ind].S[sno].ETA = hrA;
+	MV.T[ind].S[sno].Udest = Unext;
+	MV.T[ind].S[sno].ETD = hrD;
+	MV.T[ind].S[sno].R = thisR;
+	MV.T[ind].S[sno].M = thisM;
+
+	H[hrA].U[Uthis].arrive.push(ind);
+	H[hrD].U[Uthis].leave.push(ind);
+}
+*/
+
+
+
+  // **************************** let's try creating a person ********************
+
+
+  // **************************************** test area
+
+
+  // **************************** start at 0600 end at 2200 *************************************
+
+  const HRperDAY = 16;
+  const HRBASE = 6;
+
+  var dayCount;
+  var dayTrial = 2;
+  var iDay = 0;
+  var iHour = 5;
+  var hour;
+
+  hour = (0+HRBASE)%HRBASE;
+  function tickTock(){
+    iHour = iHour + 1;
+    if (iHour = 24){
+      iDay = iDay + 1;
+      iHour = 0;
+    }
+  }
+
+
+
+
+const FPS = 30;
+var canWidth = 800;
+var canHeight = 600;
+var bs = 12;    //ball size
+var bx = [];      //presumably ball center
+var by = [];
+var xv = [];    //velocity in x and y directions
+var yv = [];
+var bColor = [];
+
+var canvas, ctx;
+
+// load canvas
+canvas = document.getElementById("gameCanvas");
+ctx = canvas.getContext("2d");
+ctx.fillStyle = "black";
+ctx.fillRect(0,0,canvas.width, canvas.height);
+ctx.globalCompositeOperation = "source-over";
+
+// set up interval (game loop)
+//  setInterval(update,500/FPS);     //update every 1/30th sec
+
+var travel = [1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,3,3,3,3,3,3,4,4,4,4,4,5,5,5,5,5,5,6,6,6,6,7,8,9,10,30,40,50];
+var dIRECTION = [-1,0,1];
+var rand, randint;
+
+
+
+
+  function Epicenter(){
+    this.X;
+    this.Y;
+    this.perim;
+  }
+
+  var epic1 = new Epicenter;
+    epic1.X = canWidth/4;
+    epic1.Y = canHeight/4;
+    epic1.perim = 30;
+  var epic2 = new Epicenter;
+    epic2.X = canWidth/4;
+    epic2.Y = canHeight/4*3;
+    epic2.perim = 30;
+  var epic3 = new Epicenter;
+    epic3.X = canWidth/4*3;
+    epic3.Y = canHeight/4;
+    epic3.perim =30;
+  var epic4 = new Epicenter;;
+    epic4.X = canWidth/4*3;
+    epic4.Y = canHeight/4*3;
+    epic4.perim = 30;
+  var epic5 = new Epicenter;
+    epic5.X = canWidth/2;
+    epic5.Y = canHeight/2;
+    epic5.perim = 30;
+
+
+function drawC(x,y,rad,color){
+	  ctx.beginPath();
+	  ctx.arc(x,y,rad,0,2*Math.PI);
+	  ctx.fillStyle = color;
+	  ctx.fill();
+	  ctx.stroke();
+	  ctx.strokeStyle = "black";
+}
+
+function drawCross(x,y,width,height,clr){
+  ctx.beginPath();
+  ctx.moveTo(x,y);
+  ctx.fillStyle = clr;
+
+  ctx.fillRect(x,y,width,height);
+  ctx.fillRect(Math.round(x+width/2-height/2),Math.round(y+height/2-width/2),height,width);
+}
+
+function drawRect(x,y,width,height,clr){
+	ctx.beginPath();
+	ctx.moveTo(x,y);
+	ctx.fillStyle = clr;
+	ctx.fillRect(x,y,width,height);
+}
+drawCross(epic1.X, epic1.Y, 5,1,"pink");
+drawCross(epic2.X, epic2.Y, 5,1,"pink");
+drawCross(epic3.X, epic3.Y, 5,1,"pink");
+drawCross(epic4.X, epic4.Y, 5,1,"pink");
+drawCross(epic5.X, epic5.Y, 5,1,"pink");
+
+
+// this needs to be expanded to include the universe as a parameter
+// the seqno and counts for the universe needs to be there
+
+var LTCpop = 0;
+
+function injectXY(L,indx,stop){
+  LTCpop++;
+  L.X= Math.floor(Math.random()*canWidth);
+  L.Y = Math.floor(Math.random()*canHeight);
+  L.newX = L.X;
+  L.newY = L.Y;
+  L.role = T[indx].S[stop].R;
+  L.minglx = T[indx].S[stop].M;
+  drawAgent(L.X,L.Y,indx,-1);
+}
+
+function drawAgent(x,y,indx,clrFlag){
+  var clr, size;
+  size  = L[indx].size;
+  if (clrFlag == -1){
+    clr = P[indx].state;
+  } else clr = clrFlag;
+  switch (L[indx].role){
+    case "R":
+      drawC(x,y,size,clr);
+      break;
+    case "A":
+      drawCross(x,y,2*size,size/2,clr);
+      break;
+    case "T":
+      drawRect(x,y,1.5*size,1.5*size,clr);
+  }
+}
+
+
+var delX, delY;
+function proposeMove(L){
+    rand = Math.floor(Math.random()*43);
+    L.delX = travel[rand]*L.size/2;
+    rand = Math.floor(Math.random()*43);
+    L.delY = travel[rand]*L.size/2;
+
+    var indx = L.pID;
+    if (P[indx].state == "blue") {
+      L.delX = L.delX * L.minglx;
+      L.delY = L.delY * L.minglx;
+    }
+
+    if (Math.floor(Math.random() * 2) == 0){
+      L.delX = -L.delX;
+    }
+    if (Math.floor(Math.random() * 2) == 0){
+      L.delY = -L.delY;
+    }
+    L.newX = L.X + L.delX;
+    L.newY = L.Y + L.delY;
+
+    testWall(L);
+}
+
+
+function testWall(L){
+
+    if (L.newX - L.size/2 <0 && L.delX<0){
+      L.delX = -L.delX;
+    }
+    if (L.newX + L.size/2 > canWidth && L.delX>0){
+      L.delX = -L.delX;
+    }
+    if (L.newY - L.size/2 <0 && L.delY<0){
+      L.delY = -L.delY;
+    }
+    if (L.newY + L.size/2 > canHeight && L.delY>0){
+      L.delY = -L.delY;
+    }
+
+    L.newX = L.X + L.delX;
+    L.newY = L.Y + L.delY;
+}
+
+function nearestEpicenter(x,y){
+  var dist1, dist2, dist3, dist4, win1, win2, winner1, winner2;
+  dist1 = Math.floor((x-epic1.X)**2 + (y-epic1.Y)**2);
+  dist2 = Math.floor((x-epic2.X)**2 + (y-epic2.Y)**2);
+  dist3 = Math.floor((x-epic3.X)**2 + (y-epic3.Y)**2);
+  dist4 = Math.floor((x-epic4.X)**2 + (y-epic4.Y)**2);
+  dist5 = Math.floor((x-epic5.X)**2 + (y-epic5.Y)**2);
+
+
+  if (dist2 > dist1) {
+    win1 = dist1;
+    winner1 = epic1;
+  } else {
+    win1 = dist2;
+    winner1 = epic2;
+  }
+
+  if (dist4 > dist3){
+    win2 = dist3;
+    winner2 = epic3;
+  } else {
+    win2 = dist4;
+    winner2 = epic4;
+  }
+
+  if (win2 > win1){
+    if (win1>dist5){
+      return(epic5)
+    } else return(winner1)
+  } else {
+    if (win2>dist5){
+      return(epic5)
+    } else return(winner2);
+  }
+}
+
+function adjMinglx(L,epic){
+  var delX, delY, indx;
+  indx = L.pID;
+  L.delX = Math.abs(Math.floor((L.newX - epic.X)/L.minglx));
+  L.delY = Math.abs(Math.floor((L.newY - epic.Y)/L.minglx));
+
+  /*
+  if (P[indx].state == "blue"){
+    if (delX <100) L.delX = -L.delX;
+    if (delY <100) L.delY = -L.delY;
+  }
+  */
+
+
+  if (L.newX > epic.X){
+    L.newX = Math.max((epic.X+epic.perim),L.newX-L.delX)
+  } else {
+    L.newX = Math.min((epic.X-epic.perim),L.newX+L.delX);
+  }
+  if (L.newY > epic.Y){
+    L.newY = Math.max((epic.Y+epic.perim),L.newY-L.delY)
+  } else {
+    L.newY = Math.min((epic.Y-epic.perim),L.newY+L.delY);
+  }
+
+  L.newX = L.newX + Math.floor(Math.random()*5);      // avoid strict duplicate positions
+  L.newY = L.newY + Math.floor(Math.random()*5);
+}
+
+/*
+for (i=0;i<20;i++){
+    injectXY(L[i],i);
+}
+*/
+
+
+function findOverlap(indx){
+  var i,j, delta, inter1, inter2, inter3, inter4, del;
+  for (i=0;i<20;i++){
+      if (i!=indx){
+          inter1 = Math.pow((L[i].X-L[indx].newX),2);
+          inter2 = Math.pow((L[i].Y-L[indx].newY),2);
+          inter3 = inter1 + inter2;
+          inter4 = Math.sqrt(inter3);
+          if (inter4 < (L[i].size+L[indx].size)) {
+            if (P[i].state != "blue" && P[indx].state != "blue")
+              break;
+            if (P[i].state == "blue" && P[indx].state == "blue")
+              break;
+            if (P[i].state == "blue") {
+              inter1 = indx
+            }  else inter1 = i;
+            P[inter1].state = "yellow";
+          }
+          del = 10;
+          if (Math.abs(L[i].X - L[indx].newX) < 5 && i != indx){
+                if (Math.floor(Math.random()*2) < 1){
+                    L[indx].newX = L[i].X - del;
+                } else {
+                    L[indx].newX = L[i].X + del;
+                }
+          }
+          if (Math.abs(L[i].Y - L[indx].newY) < 5 && i != indx){
+                if (Math.floor(Math.random()*2) < 1){
+                    L[indx].newY = L[i].Y + del;
+                } else {
+                    L[indx].newY = L[i].Y - del;
+                }
+          }
+       }
+  }
+}
+
+
+// THIS NEEDS ADAPTATION TO UNIVERSES
+
+var i = -1;
+var epic;
+
+
+function startIt(){
+  var i;
+  drawRect(0,0,canWidth,canHeight,"black");
+  for (i=0;i<LTCpop;i++){
+    drawAgent(L[i].X,L[i].Y,i,"pink");
+    proposeMove(L[i]);
+    epic = nearestEpicenter(L[i].newX,L[i].newY);
+    drawCross(epic.X,epic.Y,5,1,"teal");
+    testWall(L[i]);
+    adjMinglx(L[i],epic);
+    findOverlap(i);
+    /*
+    switch (L[i].role){
+      case "R": P[i].state = "teal";
+        break;
+      case "A": P[i].state = "red";
+        break;
+      case "T": P[i].state = "blue";
+    }
+    */
+
+    drawAgent(L[i].newX,L[i].newY,i,-1);
+    drawAgent(L[i].X,L[i].Y,i,"black");
+    L[i].X = L[i].newX;
+    L[i].Y = L[i].newY;
+    drawCross(epic.X,epic.Y,5,1,"pink");
+    drawAgent(L[i].newX,L[i].newY,i,-1);
+    moveIt(i);
+  }
+}
+
+
+function moveIt(indx){
+  var i;
+  for (i=0;i<20;i++){
+        drawAgent(L[i].X,L[i].Y,i,-1);
+  }
+}
+
+
+var anFlag = false;
+var setID;
+
+function aniMate(){
+    if (!anFlag){
+      setID = setInterval(startIt,3600/FPS)
+      anFlag = true;
+    } else {
+      clearInterval(setID);
+      anFlag = false;
+    }
+}
+
+
+// ****************************  SEMAPHORE SECTION *********************
+
+var iCycle;
+var tHour;
+var cycleTime = 30;
+var arrFlag = false;
+var depFlag = false;
+
+var currDay;
+currDay = 0;
+tHour = 5;
+chkMaxTime = 24;
+
+
+var semP, semQ, semR, semS;
+semQ = true;;
+semP = true;
+semR = true;
+semS = true;
+
+
+function execClock(){
+  clockTimer = setInterval(startClock,100);
+  conductorTimer = setInterval(startClock,2000);
+}
+
+
+
+  // assign evertyhing
+  // prepare the TICKETS
+  // get ready - to inject people into UNIVERSES
+  // set clock to 0600
+  // GO
+  // 30 cycles of moving all people inside {U}
+  // tickTock - advance clock
+  // exit all {U} of people on TICKETS
+  // inject new people
+  // cycle 30 cycles
+  // tick tock - advance clock
+  // exit and inject people
+
+  // tickTock()     clock was set by 0500 to start up
+  // now it is 0600
+  // do departures for iHour
+  // do arrivals for iHour
+
+// drawRect(0,0,canWidth,canHeight,"black");
+
+var currDay;
+currDay = 0;
+tHour = 5;
+chkMaxTime = 24;
+
+var currStop = 0;
+var clockTimer;
+var conductorTimer;
+
+
+function startClock(){
+    clearInterval(conductorTimer);
+    if (semP)
+      advanceTime();        //advance time
+    if (semQ)
+      matchTime();        // are there stops at this time
+    if (semR)
+      matchStation();      // is the stop for this U
+//    if (semS)
+//      advancePeople();
+}
+
+function advanceTime(){
+  if (tHour == chkMaxTime){
+      tHour = 0;
+      currDay++;
+  } else {
+    tHour++;
+    currStop = 0;
+  }
+  semP = false;
+  semQ = true;
+}
+
+function matchTime(){
+  if (H[tHour] === undefined || H[tHour] == ""){
+    semP = true;
+    semR = false;
+    return;
+  }
+  arrLength = H[tHour].length;
+  if (currStop == arrLength){         // end of stops
+    semP = true;
+    semR = false;
+    return;
+  }
+  semR = true;
+}
+
+// if there is a match, set up for person and action
+
+function matchStation(){
+  if (H[tHour][currStop].cU == LTC){        // this stop matches
+    conductorFlag = true;
+    conductorTimer = setInterval(conductor,1000);
+  } else {
+    currStop++;
+    semQ = true;
+  }
+}
+
+// this function uses tHour and currStop as set above
+// this function is called by the timer when matchStation finds a GO
+// this function in turns calls the StartClock function
+
+// so the StartClock finds a match, and initiates the conductor timer
+// the conductor timer initiates the StartClock - it only advances once
+// unless it is initiated by a setInterval and stopped by clearInterval
+
+// a BUTTON could initiate the setInterval for StartClock, and the
+// conductor() could stop the interval timer....but how does the whole
+// system come to a stop? There has to be an EXTERNAL stop because
+// the StartClock and conductor() just repeats the same day after day
+
+// to stop, the external button has to know the ID, which we could put
+// into a common object - don't have to do that if it is a global variable
+// ah but if it starts and stops all the time, then we do...
+
+// var stopID;
+// var clID = setInterval();
+// stopID = clID;
+// clearInterval(stopID);
+// this way we can stop the setInterval internally many times if we like
+
+// and we are poposing to do that in the conductor() rotuine, which says he ..
+// wait up on the train till we get everyone on and off....
+
+function conductor(){
+  var slot, action, pID;
+
+  clearInterval(clockTimer);
+
+  slot = H[tHour][currStop].cS;
+  action = H[tHour][currStop].cDir;
+  pID = H[tHour][currStop].cID;
+
+  if (action == "A") inject(pID,slot);
+  if (action == "D") expel(pID, slot);
+
+  if (currStop = arrLength){
+    currStop++;
+    clockTimer = setInterval(startClock,1000);
+  }
+}
+/*
+    arrLength = H[tHour].arrive.length;
+    currStop = 0;
+    if (semQ) {
+      if (currStop = arrLength){               // end of list
+        semP = true;
+        return;
+      } else {
+
+
+      }
+
+        if (H[tHour].arrive === undefined || H[tHour].arrive == ""){
+    }
+
+    if (H[tHour].arrive === undefined || H[tHour].arrive == ""){
+          arrFlag = false;
+          depFlag = false;
+    //      alert("The time is "+tHour+" o'clock and all is well")
+        } else {
+    //    	alert("At "+tHour+" o'clock, we are working!");
+          arrLength = H[tHour].arrive.length;
+          chkArrive(arrLength);
+
+        }
+      }
+//  clearInterval(setID);
+}
+
+if (tHour == chkMaxTime){
+    tHour = 0;
+    currDay++;
+} else {
+  tHour++;
+  semP = false;
+};
+*/
+var arrL, arrID, arrStop, arrLength;
+
+function checkArrive(arrLength){
+    var cID, i, here, next, stop;
+//    alert("tHour length is "+H[tHour].arrive.length);
+    for (i=0; iarrLength; i++){
+  //  	alert(H[tHour].arrive[i].cU);
+    	here = H[tHour].arrive[i].cU;
+      if (here == LTC){
+          cID = H[tHour].arrive[i].cID;
+          stop = H[tHour].arrive[i].cS;
+          if (T[cID].S[stop].ETA == tHour) {
+          	 injectXY(L[cID],cID,stop);
+   //             injectXY(L[cID],cID,stop);
+//                alert("insert cID = "+cID);
+
+            }
+        }
+    }
+}
+
+function checkDepart(){
+  var cID, i, here, next, stop, tickets;
+//  alert("tHour length is "+H[tHour].leave.length);
+  tickets = H[tHour].leave.length;
+  for (i=0; i<tickets; i++){
+      if (H[tHour].arrive[i].cU == LTC){
+          cID = H[tHour].leave[i].cID;
+          stop = H[tHour].leave[i].cS;
+          if (T[cID].S[stop].ETD == tHour) {
+              here = T[cID].S[stop].Uhere;
+              next = T[cID].S[stop].Udest;
+              if (here == next) {
+  //              alert("stay here")
+              } else {
+//                alert("remove cID = "+cID);
+              }
+          }
+      }
+  }
+}
+
+
+
+function goOneHour(){
+var i;
+  setID = setInterval(startIt,3600/FPS)
+
+  for (i=0;i<30;i++){
+        startIt();
+}
+  clearInterval(setID);
+
+
+  }
+
+// startTheClock();
+
+
+  </script>
+  </body>
+
+  </html>

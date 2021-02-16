@@ -1,0 +1,1802 @@
+Some messages have been moved to the Issues panel.
+AgeVaxH35.js:871 Sat Jan 23 2021 15:40:52 GMT-0800 (Pacific Standard Time)
+AgeVaxH35.js:872 CovidSIMVL Mode1 and Mod2 Hybrid 35d
+AgeVaxH35.js:873 Mode 1 >13 and <36 is 75%
+AgeVaxH35.js:874 Mode 2 >28 is 95%; >13 and <29 is 75%
+AgeVaxH35.js:4464 exit covidSim
+AgeVaxH35.js:23 getAsText File {name: "Popn1000.csv", lastModified: 1611430642000, lastModifiedDate: Sat Jan 23 2021 11:37:22 GMT-0800 (Pacific Standard Time), webkitRelativePath: "", size: 23944, …}
+AgeVaxH35.js:32 File {name: "Popn1000.csv", lastModified: 1611430642000, lastModifiedDate: Sat Jan 23 2021 11:37:22 GMT-0800 (Pacific Standard Time), webkitRelativePath: "", size: 23944, …}
+AgeVaxH35.js:23 getAsText File {name: "VL1ageGp2.csv", lastModified: 1611004274000, lastModifiedDate: Mon Jan 18 2021 13:11:14 GMT-0800 (Pacific Standard Time), webkitRelativePath: "", size: 65, …}
+AgeVaxH35.js:32 File {name: "VL1ageGp2.csv", lastModified: 1611004274000, lastModifiedDate: Mon Jan 18 2021 13:11:14 GMT-0800 (Pacific Standard Time), webkitRelativePath: "", size: 65, …}
+AgeVaxH35.js:1675 Red Days changed to 8.2
+AgeVaxH35.js:1697 New Hazard Radius = 2.1
+AgeVaxH35.js:1711 new Mingle Factor = 0.95
+AgeVaxH35.js:1719 Age Group 9,100 1st shot; 2nd auto in 35days
+AgeVaxH35.js:1725 AgeGp =9 To be vaccinated=100%
+AgeVaxH35.js:1736 (1000) [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, …]
+AgeVaxH35.js:1752 ageGp9 count: 18 List: 982,983,984,985,986,987,988,989,990,991,992,993,994,995,996,997,998,999
+AgeVaxH35.js:1780 Vaccination list = 18
+AgeVaxH35.js:1794 AgeGp9 vaccinated 18 List: 997,983,982,989,996,988,987,995,999,991,998,985,986,992,984,993,994,990
+AgeVaxH35.js:1719 Age Group 8,100 1st shot; 2nd auto in 35days
+AgeVaxH35.js:1725 AgeGp =8 To be vaccinated=100%
+AgeVaxH35.js:1736 (1000) [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, …]
+AgeVaxH35.js:1752 ageGp8 count: 33 List: 949,950,951,952,953,954,955,956,957,958,959,960,961,962,963,964,965,966,967,968,969,970,971,972,973,974,975,976,977,978,979,980,981
+AgeVaxH35.js:1780 Vaccination list = 33
+AgeVaxH35.js:1794 AgeGp8 vaccinated 33 List: 963,956,971,964,970,977,954,949,979,974,973,962,952,955,978,980,953,951,958,976,966,965,961,969,950,957,981,975,967,972,959,968,960
+AgeVaxH35.js:1719 Age Group 7,100 1st shot; 2nd auto in 35days
+AgeVaxH35.js:1725 AgeGp =7 To be vaccinated=100%
+AgeVaxH35.js:1736 (1000) [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, …]
+AgeVaxH35.js:1752 ageGp7 count: 47 List: 902,903,904,905,906,907,908,909,910,911,912,913,914,915,916,917,918,919,920,921,922,923,924,925,926,927,928,929,930,931,932,933,934,935,936,937,938,939,940,941,942,943,944,945,946,947,948
+AgeVaxH35.js:1780 Vaccination list = 47
+AgeVaxH35.js:1794 AgeGp7 vaccinated 47 List: 917,936,934,945,902,908,910,927,932,939,911,914,942,940,944,948,928,916,933,923,947,915,943,941,918,930,904,920,929,919,907,931,913,937,926,946,912,909,925,938,905,906,924,903,921,935,922
+​ 1I x:ageGp:fam 234:2:-1 by blue 150:2:-1 at gen6 Univ0 prob=0.562
+​ 2I x:ageGp:fam 862:6:-1 by blue 150:2:-1 at gen13 Univ0 prob=0.216
+​ 3I x:ageGp:fam 718:5:-1 by red 150:2:-1 at gen62 Univ0 prob=0.176
+​ 4I x:ageGp:fam 36:0:-1 by blue 234:2:-1 at gen84 Univ0 prob=0.289
+​ 4I x:ageGp:fam 32:0:-1 by blue 862:6:-1 at gen85 Univ0 prob=0.847
+​ 4I x:ageGp:fam 178:2:-1 by blue 234:2:-1 at gen85 Univ0 prob=0.567
+​ 7I x:ageGp:fam 811:5:-1 by blue 234:2:-1 at gen89 Univ0 prob=0.258
+​ 8I x:ageGp:fam 68:1:-1 by blue 862:6:-1 at gen91 Univ0 prob=0.938
+​ 8I x:ageGp:fam 651:4:-1 by red 150:2:-1 at gen91 Univ0 prob=0.783
+​ 8I x:ageGp:fam 799:5:-1 by blue 862:6:-1 at gen91 Univ0 prob=0.711
+​ 11I x:ageGp:fam 723:5:-1 by blue 234:2:-1 at gen96 Univ0 prob=0.892
+​ 12I x:ageGp:fam 861:6:-1 by blue 234:2:-1 at gen110 Univ0 prob=0.340
+​ 12I x:ageGp:fam 51:1:-1 by red 150:2:-1 at gen111 Univ0 prob=0.457
+​ 14I x:ageGp:fam 286:2:-1 by red 150:2:-1 at gen114 Univ0 prob=0.780
+​ 15I x:ageGp:fam 932:7:-1 by blue 862:6:-1 at gen125 Univ0 prob=0.220
+​ 16I x:ageGp:fam 585:4:-1 by blue 32:0:-1 at gen137 Univ0 prob=0.099
+​ 17I x:ageGp:fam 946:7:-1 by red 862:6:-1 at gen141 Univ0 prob=0.650
+​ 18I x:ageGp:fam 539:3:-1 by red 862:6:-1 at gen143 Univ0 prob=0.603
+​ 18I x:ageGp:fam 661:4:-1 by red 862:6:-1 at gen143 Univ0 prob=0.062
+​ 20I x:ageGp:fam 599:4:-1 by blue 718:5:-1 at gen145 Univ0 prob=0.483
+​ 21I x:ageGp:fam 813:5:-1 by red 234:2:-1 at gen149 Univ0 prob=0.772
+​ 22I x:ageGp:fam 143:2:-1 by red 234:2:-1 at gen154 Univ0 prob=0.679
+​ 23I x:ageGp:fam 434:3:-1 by blue 811:5:-1 at gen162 Univ0 prob=0.281
+​ 24I x:ageGp:fam 768:5:-1 by blue 32:0:-1 at gen167 Univ0 prob=0.887
+​ 24I x:ageGp:fam 864:6:-1 by blue 68:1:-1 at gen167 Univ0 prob=0.297
+​ 24I x:ageGp:fam 136:2:-1 by blue 651:4:-1 at gen168 Univ0 prob=0.350
+​ 26I x:ageGp:fam 11:0:-1 by blue 286:2:-1 at gen169 Univ0 prob=0.919
+​ 26I x:ageGp:fam 857:6:-1 by yellow 434:3:-1 at gen169 Univ0 prob=0.772
+​ 27I x:ageGp:fam 409:3:-1 by blue 68:1:-1 at gen170 Univ0 prob=0.780
+​ 27I x:ageGp:fam 225:2:-1 by yellow 434:3:-1 at gen170 Univ0 prob=0.077
+​ 27I x:ageGp:fam 365:3:-1 by blue 811:5:-1 at gen170 Univ0 prob=0.449
+​ 29I x:ageGp:fam 226:2:-1 by yellow 365:3:-1 at gen171 Univ0 prob=0.081
+​ 33I x:ageGp:fam 798:5:-1 by red 862:6:-1 at gen175 Univ0 prob=0.855
+​ 34I x:ageGp:fam 912:7:-1 by blue 723:5:-1 at gen179 Univ0 prob=0.323
+​ 34I x:ageGp:fam 14:0:-1 by blue 861:6:-1 at gen180 Univ0 prob=0.347
+​ 36I x:ageGp:fam 894:6:-1 by red 862:6:-1 at gen183 Univ0 prob=0.658
+​ 37I x:ageGp:fam 883:6:-1 by yellow 585:4:-1 at gen186 Univ0 prob=0.934
+​ 37I x:ageGp:fam 100:1:-1 by blue 51:1:-1 at gen187 Univ0 prob=0.566
+​ 37I x:ageGp:fam 231:2:-1 by blue 286:2:-1 at gen187 Univ0 prob=0.280
+​ 37I x:ageGp:fam 913:7:-1 by blue 286:2:-1 at gen187 Univ0 prob=0.502
+​ 41I x:ageGp:fam 306:2:-1 by blue 51:1:-1 at gen189 Univ0 prob=0.890
+​ 41I x:ageGp:fam 444:3:-1 by blue 723:5:-1 at gen189 Univ0 prob=0.254
+​ 41I x:ageGp:fam 209:2:-1 by blue 68:1:-1 at gen190 Univ0 prob=0.622
+​ 44I x:ageGp:fam 457:3:-1 by blue 723:5:-1 at gen195 Univ0 prob=0.944
+​ 45I x:ageGp:fam 53:1:-1 by blue 599:4:-1 at gen198 Univ0 prob=0.886
+​ 45I x:ageGp:fam 534:3:-1 by blue 723:5:-1 at gen198 Univ0 prob=0.084
+​ 45I x:ageGp:fam 818:5:-1 by blue 599:4:-1 at gen198 Univ0 prob=0.494
+​ 45I x:ageGp:fam 785:5:-1 by blue 599:4:-1 at gen199 Univ0 prob=0.877
+​ 49I x:ageGp:fam 74:1:-1 by blue 723:5:-1 at gen201 Univ0 prob=0.825
+​ 49I x:ageGp:fam 937:7:-1 by red 36:0:-1 at gen202 Univ0 prob=0.977
+​ 51I x:ageGp:fam 107:1:-1 by blue 946:7:-1 at gen209 Univ0 prob=0.705
+​ 51I x:ageGp:fam 64:1:-1 by blue 585:4:-1 at gen210 Univ0 prob=0.194
+​ 53I x:ageGp:fam 391:3:-1 by blue 434:3:-1 at gen212 Univ0 prob=0.111
+​ 54I x:ageGp:fam 748:5:-1 by blue 51:1:-1 at gen215 Univ0 prob=0.645
+​ 54I x:ageGp:fam 602:4:-1 by blue 723:5:-1 at gen216 Univ0 prob=0.614
+​ 54I x:ageGp:fam 659:4:-1 by blue 723:5:-1 at gen216 Univ0 prob=0.827
+​ 54I x:ageGp:fam 810:5:-1 by blue 946:7:-1 at gen216 Univ0 prob=0.154
+​ 55I x:ageGp:fam 641:4:-1 by blue 286:2:-1 at gen217 Univ0 prob=0.461
+​ 59I x:ageGp:fam 989:9:-1 by blue 11:0:-1 at gen219 Univ0 prob=0.806
+​ 60I x:ageGp:fam 734:5:-1 by blue 946:7:-1 at gen222 Univ0 prob=0.537
+​ 60I x:ageGp:fam 758:5:-1 by blue 599:4:-1 at gen223 Univ0 prob=0.053
+​ 62I x:ageGp:fam 887:6:-1 by blue 225:2:-1 at gen227 Univ0 prob=0.000
+​ 62I x:ageGp:fam 764:5:-1 by blue 813:5:-1 at gen227 Univ0 prob=0.243
+​ 64I x:ageGp:fam 384:3:-1 by blue 409:3:-1 at gen229 Univ0 prob=0.138
+​ 65I x:ageGp:fam 199:2:-1 by red 723:5:-1 at gen232 Univ0 prob=0.253
+​ 66I x:ageGp:fam 765:5:-1 by blue 434:3:-1 at gen234 Univ0 prob=0.217
+​ 67I x:ageGp:fam 355:2:-1 by blue 143:2:-1 at gen237 Univ0 prob=0.329
+​ 68I x:ageGp:fam 952:8:-1 by red 286:2:-1 at gen240 Univ0 prob=0.898
+​ 68I x:ageGp:fam 140:2:-1 by red 723:5:-1 at gen241 Univ0 prob=0.069
+​ 70I x:ageGp:fam 515:3:-1 by blue 11:0:-1 at gen244 Univ0 prob=0.711
+​ 71I x:ageGp:fam 172:2:-1 by blue 14:0:-1 at gen246 Univ0 prob=0.289
+​ 71I x:ageGp:fam 58:1:-1 by blue 599:4:-1 at gen246 Univ0 prob=0.234
+​ 71I x:ageGp:fam 487:3:-1 by red 286:2:-1 at gen246 Univ0 prob=0.013
+​ 74I x:ageGp:fam 453:3:-1 by blue 599:4:-1 at gen249 Univ0 prob=0.676
+​ 74I x:ageGp:fam 129:1:-1 by red 286:2:-1 at gen250 Univ0 prob=0.635
+​ 74I x:ageGp:fam 461:3:-1 by yellow 453:3:-1 at gen250 Univ0 prob=0.087
+​ 77I x:ageGp:fam 897:6:-1 by blue 14:0:-1 at gen254 Univ0 prob=0.136
+​ 77I x:ageGp:fam 133:2:-1 by blue 100:1:-1 at gen254 Univ0 prob=0.108
+​ 79I x:ageGp:fam 392:3:-1 by blue 457:3:-1 at gen259 Univ0 prob=0.735
+​ 79I x:ageGp:fam 966:8:-1 by blue 913:7:-1 at gen260 Univ0 prob=0.007
+​ 81I x:ageGp:fam 287:2:-1 by red 286:2:-1 at gen262 Univ0 prob=0.027
+​ 81I x:ageGp:fam 967:8:-1 by blue 913:7:-1 at gen262 Univ0 prob=0.414
+​ 81I x:ageGp:fam 277:2:-1 by blue 913:7:-1 at gen263 Univ0 prob=0.581
+​ 83I x:ageGp:fam 327:2:-1 by blue 913:7:-1 at gen264 Univ0 prob=0.156
+​ 83I x:ageGp:fam 498:3:-1 by blue 457:3:-1 at gen264 Univ0 prob=0.660
+​ 86I x:ageGp:fam 579:4:-1 by red 51:1:-1 at gen267 Univ0 prob=0.725
+​ 87I x:ageGp:fam 839:6:-1 by blue 602:4:-1 at gen269 Univ0 prob=0.059
+​ 87I x:ageGp:fam 790:5:-1 by red 861:6:-1 at gen270 Univ0 prob=0.530
+​ 87I x:ageGp:fam 970:8:-1 by red 861:6:-1 at gen270 Univ0 prob=0.644
+​ 88I x:ageGp:fam 155:2:-1 by blue 457:3:-1 at gen271 Univ0 prob=0.189
+​ 90I x:ageGp:fam 415:3:-1 by blue 913:7:-1 at gen272 Univ0 prob=0.279
+​ 90I x:ageGp:fam 621:4:-1 by blue 434:3:-1 at gen272 Univ0 prob=0.483
+​ 90I x:ageGp:fam 532:3:-1 by yellow 970:8:-1 at gen272 Univ0 prob=0.424
+​ 91I x:ageGp:fam 488:3:-1 by blue 64:1:-1 at gen273 Univ0 prob=0.754
+​ 95I x:ageGp:fam 508:3:-1 by red 723:5:-1 at gen276 Univ0 prob=0.984
+​ 95I x:ageGp:fam 655:4:-1 by blue 818:5:-1 at gen276 Univ0 prob=0.780
+​ 95I x:ageGp:fam 42:1:-1 by red 286:2:-1 at gen277 Univ0 prob=0.144
+​ 95I x:ageGp:fam 329:2:-1 by blue 434:3:-1 at gen277 Univ0 prob=0.268
+​ 95I x:ageGp:fam 403:3:-1 by blue 434:3:-1 at gen277 Univ0 prob=0.655
+​ 97I x:ageGp:fam 856:6:-1 by blue 74:1:-1 at gen278 Univ0 prob=0.309
+​ 101I x:ageGp:fam 740:5:-1 by red 286:2:-1 at gen283 Univ0 prob=0.979
+​ 101I x:ageGp:fam 869:6:-1 by red 286:2:-1 at gen284 Univ0 prob=0.327
+​ 101I x:ageGp:fam 364:3:-1 by blue 913:7:-1 at gen284 Univ0 prob=0.423
+​ 104I x:ageGp:fam 733:5:-1 by blue 785:5:-1 at gen288 Univ0 prob=0.508
+​ 105I x:ageGp:fam 105:1:-1 by red 434:3:-1 at gen290 Univ0 prob=0.432
+​ 105I x:ageGp:fam 138:2:-1 by yellow 140:2:-1 at gen290 Univ0 prob=0.294
+​ 105I x:ageGp:fam 908:7:-1 by blue 199:2:-1 at gen291 Univ0 prob=0.824
+​ 107I x:ageGp:fam 732:5:-1 by blue 785:5:-1 at gen292 Univ0 prob=0.645
+​ 109I x:ageGp:fam 166:2:-1 by blue 457:3:-1 at gen295 Univ0 prob=0.440
+​ 109I x:ageGp:fam 658:4:-1 by red 409:3:-1 at gen295 Univ0 prob=0.348
+​ 111I x:ageGp:fam 405:3:-1 by blue 457:3:-1 at gen299 Univ0 prob=0.426
+​ 111I x:ageGp:fam 763:5:-1 by blue 487:3:-1 at gen299 Univ0 prob=0.966
+​ 113I x:ageGp:fam 326:2:-1 by red 226:2:-1 at gen301 Univ0 prob=0.301
+​ 113I x:ageGp:fam 62:1:-1 by blue 602:4:-1 at gen302 Univ0 prob=0.553
+​ 114I x:ageGp:fam 160:2:-1 by blue 461:3:-1 at gen303 Univ0 prob=0.427
+​ 116I x:ageGp:fam 730:5:-1 by blue 453:3:-1 at gen305 Univ0 prob=0.050
+​ 116I x:ageGp:fam 48:1:-1 by blue 457:3:-1 at gen306 Univ0 prob=0.182
+​ 116I x:ageGp:fam 419:3:-1 by blue 887:6:-1 at gen306 Univ0 prob=0.301
+​ 119I x:ageGp:fam 26:0:-1 by blue 53:1:-1 at gen308 Univ0 prob=0.107
+​ 119I x:ageGp:fam 282:2:-1 by blue 966:8:-1 at gen308 Univ0 prob=0.135
+​ 121I x:ageGp:fam 838:6:-1 by blue 952:8:-1 at gen310 Univ0 prob=0.793
+​ 121I x:ageGp:fam 312:2:-1 by blue 287:2:-1 at gen311 Univ0 prob=0.996
+​ 122I x:ageGp:fam 284:2:-1 by blue 129:1:-1 at gen312 Univ0 prob=0.002
+​ 122I x:ageGp:fam 697:5:-1 by blue 355:2:-1 at gen312 Univ0 prob=0.420
+​ 125I x:ageGp:fam 34:0:-1 by blue 952:8:-1 at gen314 Univ0 prob=0.624
+​ 125I x:ageGp:fam 93:1:-1 by blue 140:2:-1 at gen314 Univ0 prob=0.552
+​ 125I x:ageGp:fam 96:1:-1 by red 225:2:-1 at gen314 Univ0 prob=0.332
+​ 125I x:ageGp:fam 656:4:-1 by red 225:2:-1 at gen314 Univ0 prob=0.601
+​ 125I x:ageGp:fam 936:7:-1 by red 457:3:-1 at gen314 Univ0 prob=0.043
+​ 125I x:ageGp:fam 477:3:-1 by blue 966:8:-1 at gen314 Univ0 prob=0.638
+​ 131I x:ageGp:fam 610:4:-1 by blue 355:2:-1 at gen316 Univ0 prob=0.537
+​ 131I x:ageGp:fam 4:0:-1 by blue 140:2:-1 at gen317 Univ0 prob=0.275
+​ 131I x:ageGp:fam 433:3:-1 by blue 487:3:-1 at gen317 Univ0 prob=0.084
+​ 131I x:ageGp:fam 583:4:-1 by blue 602:4:-1 at gen317 Univ0 prob=0.210
+​ 135I x:ageGp:fam 512:3:-1 by red 913:7:-1 at gen319 Univ0 prob=0.140
+​ 136I x:ageGp:fam 867:6:-1 by blue 140:2:-1 at gen321 Univ0 prob=0.013
+​ 136I x:ageGp:fam 787:5:-1 by blue 140:2:-1 at gen322 Univ0 prob=0.549
+​ 138I x:ageGp:fam 833:6:-1 by blue 140:2:-1 at gen325 Univ0 prob=0.691
+​ 138I x:ageGp:fam 528:3:-1 by blue 487:3:-1 at gen326 Univ0 prob=0.679
+​ 138I x:ageGp:fam 636:4:-1 by blue 970:8:-1 at gen326 Univ0 prob=0.537
+​ 139I x:ageGp:fam 895:6:-1 by blue 58:1:-1 at gen327 Univ0 prob=0.518
+​ 141I x:ageGp:fam 196:2:-1 by red 785:5:-1 at gen328 Univ0 prob=0.459
+​ 143I x:ageGp:fam 698:5:-1 by blue 952:8:-1 at gen334 Univ0 prob=0.650
+​ 143I x:ageGp:fam 25:0:-1 by red 457:3:-1 at gen335 Univ0 prob=0.690
+​ 145I x:ageGp:fam 664:4:-1 by blue 453:3:-1 at gen337 Univ0 prob=0.252
+​ 146I x:ageGp:fam 759:5:-1 by blue 487:3:-1 at gen339 Univ0 prob=0.622
+​ 146I x:ageGp:fam 514:3:-1 by red 641:4:-1 at gen339 Univ0 prob=0.639
+​ 146I x:ageGp:fam 570:4:-1 by blue 327:2:-1 at gen340 Univ0 prob=0.626
+​ Vax prevented 931 ageGp7 by 415 gen340
+​ 148I x:ageGp:fam 831:6:-1 by blue 733:5:-1 at gen341 Univ0 prob=0.566
+​ Vax prevented 918 ageGp7 by 913 gen341
+​ Vax prevented 937 ageGp7 by 887 gen342
+​ 150I x:ageGp:fam 6:0:-1 by blue 415:3:-1 at gen344 Univ0 prob=0.483
+​ 150I x:ageGp:fam 223:2:-1 by blue 453:3:-1 at gen344 Univ0 prob=0.572
+​ 150I x:ageGp:fam 578:4:-1 by blue 277:2:-1 at gen344 Univ0 prob=0.298
+​ Vax prevented 931 ageGp7 by 415 gen344
+​ Vax prevented 937 ageGp7 by 226 gen348
+​ 153I x:ageGp:fam 90:1:-1 by blue 327:2:-1 at gen349 Univ0 prob=0.062
+​ Vax prevented 936 ageGp7 by 457 gen349
+​ 153I x:ageGp:fam 802:5:-1 by blue 869:6:-1 at gen349 Univ0 prob=0.774
+​ 153I x:ageGp:fam 668:4:-1 by red 457:3:-1 at gen350 Univ0 prob=0.006
+​ Vax prevented 936 ageGp7 by 457 gen350
+​ 155I x:ageGp:fam 320:2:-1 by blue 415:3:-1 at gen351 Univ0 prob=0.039
+​ Vax prevented 937 ageGp7 by 621 gen351
+​ Vax prevented 908 ageGp7 by 659 gen353
+​ 157I x:ageGp:fam 177:2:-1 by blue 856:6:-1 at gen354 Univ0 prob=0.178
+​ Vax prevented 936 ageGp7 by 970 gen354
+​ 157I x:ageGp:fam 770:5:-1 by blue 487:3:-1 at gen355 Univ0 prob=0.277
+​ 158I x:ageGp:fam 689:4:-1 by blue 655:4:-1 at gen356 Univ0 prob=0.911
+​ Vax prevented 936 ageGp7 by 970 gen356
+​ 159I x:ageGp:fam 791:5:-1 by blue 740:5:-1 at gen357 Univ0 prob=0.613
+​ Vax prevented 912 ageGp7 by 14 gen361
+​ Vax prevented 912 ageGp7 by 172 gen364
+​ Vax prevented 913 ageGp7 by 364 gen364
+​ 161I x:ageGp:fam 450:3:-1 by blue 740:5:-1 at gen364 Univ0 prob=0.885
+​ 161I x:ageGp:fam 832:6:-1 by blue 138:2:-1 at gen365 Univ0 prob=0.885
+​ Vax prevented 913 ageGp7 by 364 gen365
+​ 162I x:ageGp:fam 878:6:-1 by blue 282:2:-1 at gen366 Univ0 prob=0.332
+​ Vax prevented 920 ageGp7 by 282 gen366
+​ Vax prevented 913 ageGp7 by 364 gen366
+​ 162I x:ageGp:fam 874:6:-1 by blue 869:6:-1 at gen366 Univ0 prob=0.382
+​ 165I x:ageGp:fam 866:6:-1 by red 913:7:-1 at gen369 Univ0 prob=0.243
+​ 165I x:ageGp:fam 593:4:-1 by blue 327:2:-1 at gen370 Univ0 prob=0.733
+​ 165I x:ageGp:fam 841:6:-1 by blue 970:8:-1 at gen370 Univ0 prob=0.263
+​ 166I x:ageGp:fam 370:3:-1 by blue 327:2:-1 at gen371 Univ0 prob=0.400
+​ 166I x:ageGp:fam 752:5:-1 by red 457:3:-1 at gen371 Univ0 prob=0.170
+​ 170I x:ageGp:fam 15:0:-1 by blue 740:5:-1 at gen373 Univ0 prob=0.468
+​ 170I x:ageGp:fam 38:0:-1 by blue 856:6:-1 at gen374 Univ0 prob=0.734
+​ 171I x:ageGp:fam 807:5:-1 by blue 364:3:-1 at gen375 Univ0 prob=0.944
+​ Vax prevented 928 ageGp7 by 895 gen377
+​ 173I x:ageGp:fam 854:6:-1 by blue 403:3:-1 at gen378 Univ0 prob=0.503
+​ 173I x:ageGp:fam 760:5:-1 by blue 415:3:-1 at gen378 Univ0 prob=0.248
+​ 173I x:ageGp:fam 830:6:-1 by blue 856:6:-1 at gen378 Univ0 prob=0.226
+​ Vax prevented 928 ageGp7 by 895 gen378
+​ Vax prevented 937 ageGp7 by 419 gen379
+​ 176I x:ageGp:fam 414:3:-1 by blue 415:3:-1 at gen380 Univ0 prob=0.172
+​ Vax prevented 997 ageGp9 by 833 gen380
+​ Vax prevented 967 ageGp8 by 952 gen381
+​ 177I x:ageGp:fam 782:5:-1 by blue 4:0:-1 at gen384 Univ0 prob=0.206
+​ 177I x:ageGp:fam 418:3:-1 by red 327:2:-1 at gen384 Univ0 prob=0.367
+​ 177I x:ageGp:fam 402:3:-1 by blue 415:3:-1 at gen384 Univ0 prob=0.123
+​ Vax prevented 952 ageGp8 by 967 gen384
+​ 177I x:ageGp:fam 592:4:-1 by blue 698:5:-1 at gen385 Univ0 prob=0.852
+​ No transmit 952 ageGp8 on 967 ageGp8 gen385
+​ Vax prevented 902 ageGp7 by 93 gen387
+​ 181I x:ageGp:fam 685:4:-1 by blue 869:6:-1 at gen387 Univ0 prob=0.821
+​ Vax prevented 952 ageGp8 by 140 gen388
+​ 182I x:ageGp:fam 637:4:-1 by blue 93:1:-1 at gen389 Univ0 prob=0.671
+​ Vax prevented 970 ageGp8 by 277 gen390
+​ 182I x:ageGp:fam 513:3:-1 by blue 869:6:-1 at gen390 Univ0 prob=0.775
+​ 183I x:ageGp:fam 307:2:-1 by blue 93:1:-1 at gen391 Univ0 prob=0.475
+​ 183I x:ageGp:fam 565:4:-1 by blue 869:6:-1 at gen391 Univ0 prob=0.707
+​ 186I x:ageGp:fam 705:5:-1 by blue 787:5:-1 at gen394 Univ0 prob=0.188
+​ Vax prevented 989 ageGp9 by 172 gen395
+​ 186I x:ageGp:fam 794:5:-1 by blue 312:2:-1 at gen395 Univ0 prob=0.219
+​ 188I x:ageGp:fam 589:4:-1 by blue 364:3:-1 at gen397 Univ0 prob=0.027
+​ 188I x:ageGp:fam 793:5:-1 by blue 512:3:-1 at gen397 Univ0 prob=0.561
+​ Vax prevented 916 ageGp7 by 528 gen398
+​ 190I x:ageGp:fam 216:2:-1 by blue 4:0:-1 at gen399 Univ0 prob=0.322
+​ Vax prevented 916 ageGp7 by 528 gen399
+​ 190I x:ageGp:fam 716:5:-1 by blue 833:6:-1 at gen399 Univ0 prob=0.805
+​ 190I x:ageGp:fam 847:6:-1 by red 952:8:-1 at gen399 Univ0 prob=0.910
+​ Vax prevented 931 ageGp7 by 6 gen401
+​ 193I x:ageGp:fam 322:2:-1 by blue 867:6:-1 at gen401 Univ0 prob=0.347
+​ 194I x:ageGp:fam 257:2:-1 by red 415:3:-1 at gen403 Univ0 prob=0.255
+​ 194I x:ageGp:fam 918:7:-1 by blue 895:6:-1 at gen404 Univ0 prob=0.974
+​ 195I x:ageGp:fam 285:2:-1 by blue 833:6:-1 at gen405 Univ0 prob=0.510
+​ 196I x:ageGp:fam 345:2:-1 by red 869:6:-1 at gen406 Univ0 prob=0.837
+​ Vax prevented 989 ageGp9 by 392 gen406
+​ Vax prevented 938 ageGp7 by 697 gen406
+​ 197I x:ageGp:fam 152:2:-1 by blue 802:5:-1 at gen407 Univ0 prob=0.327
+​ 197I x:ageGp:fam 358:2:-1 by blue 867:6:-1 at gen407 Univ0 prob=0.853
+​ 197I x:ageGp:fam 635:4:-1 by red 655:4:-1 at gen407 Univ0 prob=0.288
+​ 198I x:ageGp:fam 885:6:-1 by blue 4:0:-1 at gen408 Univ0 prob=0.581
+​ 201I x:ageGp:fam 421:3:-1 by blue 833:6:-1 at gen409 Univ0 prob=0.049
+​ 203I x:ageGp:fam 825:6:-1 by blue 732:5:-1 at gen411 Univ0 prob=0.639
+​ 204I x:ageGp:fam 60:1:-1 by blue 512:3:-1 at gen414 Univ0 prob=0.987
+​ 204I x:ageGp:fam 386:3:-1 by blue 282:2:-1 at gen414 Univ0 prob=0.760
+​ 204I x:ageGp:fam 330:2:-1 by blue 833:6:-1 at gen414 Univ0 prob=0.995
+​ 204I x:ageGp:fam 475:3:-1 by blue 477:3:-1 at gen414 Univ0 prob=0.552
+​ Vax prevented 970 ageGp8 by 664 gen414
+​ 204I x:ageGp:fam 527:3:-1 by red 655:4:-1 at gen415 Univ0 prob=0.085
+​ 209I x:ageGp:fam 29:0:-1 by blue 867:6:-1 at gen418 Univ0 prob=0.403
+​ 209I x:ageGp:fam 521:3:-1 by blue 570:4:-1 at gen419 Univ0 prob=0.699
+​ 209I x:ageGp:fam 639:4:-1 by red 952:8:-1 at gen419 Univ0 prob=0.452
+​ 212I x:ageGp:fam 604:4:-1 by blue 6:0:-1 at gen421 Univ0 prob=0.061
+​ 212I x:ageGp:fam 7:0:-1 by blue 512:3:-1 at gen421 Univ0 prob=0.059
+​ Vax prevented 938 ageGp7 by 312 gen423
+​ 214I x:ageGp:fam 39:0:-1 by blue 6:0:-1 at gen424 Univ0 prob=0.962
+​ Vax prevented 908 ageGp7 by 160 gen424
+​ Vax prevented 918 ageGp7 by 895 gen424
+​ 214I x:ageGp:fam 900:6:-1 by blue 6:0:-1 at gen425 Univ0 prob=0.914
+​ 216I x:ageGp:fam 851:6:-1 by blue 320:2:-1 at gen427 Univ0 prob=0.900
+​ 216I x:ageGp:fam 893:6:-1 by blue 320:2:-1 at gen428 Univ0 prob=0.142
+​ Vax prevented 908 ageGp7 by 160 gen429
+​ 218I x:ageGp:fam 190:2:-1 by blue 4:0:-1 at gen430 Univ0 prob=0.494
+​ Vax prevented 938 ageGp7 by 312 gen430
+​ Vax prevented 935 ageGp7 by 532 gen430
+​ 218I x:ageGp:fam 580:4:-1 by blue 689:4:-1 at gen430 Univ0 prob=0.850
+​ Vax prevented 938 ageGp7 by 312 gen433
+​ 220I x:ageGp:fam 817:5:-1 by red 405:3:-1 at gen433 Univ0 prob=0.626
+​ Vax prevented 938 ageGp7 by 770 gen433
+​ Vax prevented 935 ageGp7 by 532 gen434
+​ Vax prevented 920 ageGp7 by 869 gen434
+​ Vax prevented 938 ageGp7 by 312 gen435
+​ 221I x:ageGp:fam 315:2:-1 by red 936:7:-1 at gen435 Univ0 prob=0.024
+​ Vax prevented 935 ageGp7 by 664 gen435
+​ Vax prevented 938 ageGp7 by 312 gen436
+​ Vax prevented 938 ageGp7 by 312 gen437
+​ Vax prevented 920 ageGp7 by 869 gen437
+​ 222I x:ageGp:fam 701:5:-1 by red 4:0:-1 at gen438 Univ0 prob=0.311
+​ 222I x:ageGp:fam 264:2:-1 by blue 782:5:-1 at gen439 Univ0 prob=0.025
+​ Vax prevented 938 ageGp7 by 697 gen439
+​ Vax prevented 916 ageGp7 by 878 gen441
+​ 224I x:ageGp:fam 218:2:-1 by red 528:3:-1 at gen443 Univ0 prob=0.929
+​ 224I x:ageGp:fam 502:3:-1 by blue 593:4:-1 at gen443 Univ0 prob=0.379
+​ 226I x:ageGp:fam 413:3:-1 by red 697:5:-1 at gen446 Univ0 prob=0.165
+​ 226I x:ageGp:fam 955:8:-1 by blue 593:4:-1 at gen446 Univ0 prob=0.758
+​ Vax prevented 916 ageGp7 by 528 gen447
+​ Vax prevented 916 ageGp7 by 528 gen448
+​ 228I x:ageGp:fam 420:3:-1 by blue 320:2:-1 at gen450 Univ0 prob=0.646
+​ Vax prevented 928 ageGp7 by 370 gen450
+​ 228I x:ageGp:fam 91:1:-1 by blue 874:6:-1 at gen451 Univ0 prob=0.221
+​ 228I x:ageGp:fam 191:2:-1 by blue 760:5:-1 at gen451 Univ0 prob=0.996
+​ 228I x:ageGp:fam 242:2:-1 by blue 760:5:-1 at gen451 Univ0 prob=0.727
+​ 228I x:ageGp:fam 275:2:-1 by red 787:5:-1 at gen451 Univ0 prob=0.030
+​ 228I x:ageGp:fam 931:7:-1 by blue 370:3:-1 at gen451 Univ0 prob=0.915
+​ 229I x:ageGp:fam 353:2:-1 by yellow 918:7:-1 at gen452 Univ0 prob=0.639
+​ 229I x:ageGp:fam 648:4:-1 by blue 414:3:-1 at gen452 Univ0 prob=0.993
+​ 236I x:ageGp:fam 66:1:-1 by red 833:6:-1 at gen454 Univ0 prob=0.059
+​ 236I x:ageGp:fam 115:1:-1 by blue 414:3:-1 at gen454 Univ0 prob=0.648
+​ Vax prevented 931 ageGp7 by 370 gen454
+​ 236I x:ageGp:fam 393:3:-1 by blue 793:5:-1 at gen454 Univ0 prob=0.569
+​ 236I x:ageGp:fam 341:2:-1 by red 833:6:-1 at gen455 Univ0 prob=0.441
+​ 239I x:ageGp:fam 612:4:-1 by blue 320:2:-1 at gen456 Univ0 prob=0.908
+​ 239I x:ageGp:fam 928:7:-1 by red 895:6:-1 at gen456 Univ0 prob=0.896
+​ 240I x:ageGp:fam 657:4:-1 by blue 6:0:-1 at gen457 Univ0 prob=0.385
+​ 242I x:ageGp:fam 75:1:-1 by red 732:5:-1 at gen458 Univ0 prob=0.148
+​ 243I x:ageGp:fam 30:0:-1 by red 833:6:-1 at gen459 Univ0 prob=0.080
+​ 243I x:ageGp:fam 938:7:-1 by red 759:5:-1 at gen459 Univ0 prob=0.914
+​ 244I x:ageGp:fam 168:2:-1 by blue 918:7:-1 at gen460 Univ0 prob=0.361
+​ Vax prevented 931 ageGp7 by 370 gen460
+​ 247I x:ageGp:fam 52:1:-1 by blue 402:3:-1 at gen462 Univ0 prob=0.592
+​ 247I x:ageGp:fam 550:4:-1 by blue 513:3:-1 at gen463 Univ0 prob=0.824
+​ 247I x:ageGp:fam 550:4:-1 by blue 802:5:-1 at gen463 Univ0 prob=0.631
+​ 248I x:ageGp:fam 387:3:-1 by red 4:0:-1 at gen464 Univ0 prob=0.937
+​ 248I x:ageGp:fam 344:2:-1 by blue 421:3:-1 at gen464 Univ0 prob=0.086
+​ Vax prevented 931 ageGp7 by 370 gen464
+​ 249I x:ageGp:fam 5:0:-1 by blue 716:5:-1 at gen465 Univ0 prob=0.346
+​ 252I x:ageGp:fam 356:2:-1 by red 787:5:-1 at gen467 Univ0 prob=0.297
+​ 252I x:ageGp:fam 22:0:-1 by red 6:0:-1 at gen468 Univ0 prob=0.459
+​ 252I x:ageGp:fam 526:3:-1 by blue 685:4:-1 at gen468 Univ0 prob=0.437
+​ 253I x:ageGp:fam 679:4:-1 by blue 878:6:-1 at gen469 Univ0 prob=0.264
+​ 256I x:ageGp:fam 443:3:-1 by red 6:0:-1 at gen471 Univ0 prob=0.506
+​ 256I x:ageGp:fam 535:3:-1 by blue 414:3:-1 at gen472 Univ0 prob=0.860
+​ 257I x:ageGp:fam 63:1:-1 by blue 257:2:-1 at gen473 Univ0 prob=0.674
+​ 257I x:ageGp:fam 228:2:-1 by blue 793:5:-1 at gen473 Univ0 prob=0.755
+​ 258I x:ageGp:fam 572:4:-1 by red 320:2:-1 at gen474 Univ0 prob=0.224
+​ 258I x:ageGp:fam 496:3:-1 by blue 716:5:-1 at gen474 Univ0 prob=0.261
+​ 258I x:ageGp:fam 714:5:-1 by red 664:4:-1 at gen474 Univ0 prob=0.701
+​ 260I x:ageGp:fam 485:3:-1 by red 4:0:-1 at gen475 Univ0 prob=0.892
+​ 263I x:ageGp:fam 803:5:-1 by red 6:0:-1 at gen476 Univ0 prob=0.501
+​ 263I x:ageGp:fam 466:3:-1 by red 787:5:-1 at gen476 Univ0 prob=0.572
+​ Vax prevented 999 ageGp9 by 716 gen476
+​ Vax prevented 931 ageGp7 by 895 gen477
+​ 266I x:ageGp:fam 999:9:-1 by blue 716:5:-1 at gen478 Univ0 prob=0.807
+​ Vax prevented 938 ageGp7 by 697 gen479
+​ 267I x:ageGp:fam 474:3:-1 by blue 685:4:-1 at gen480 Univ0 prob=0.772
+​ Vax prevented 931 ageGp7 by 895 gen480
+​ 267I x:ageGp:fam 18:0:-1 by red 833:6:-1 at gen481 Univ0 prob=0.778
+​ Vax prevented 935 ageGp7 by 358 gen481
+​ 268I x:ageGp:fam 889:6:-1 by red 6:0:-1 at gen482 Univ0 prob=0.272
+​ 268I x:ageGp:fam 56:1:-1 by blue 900:6:-1 at gen482 Univ0 prob=0.806
+​ 268I x:ageGp:fam 561:4:-1 by red 90:1:-1 at gen482 Univ0 prob=0.913
+​ Vax prevented 922 ageGp7 by 190 gen483
+​ 269I x:ageGp:fam 725:5:-1 by red 833:6:-1 at gen483 Univ0 prob=0.603
+​ 269I x:ageGp:fam 859:6:-1 by red 833:6:-1 at gen483 Univ0 prob=0.034
+​ 272I x:ageGp:fam 70:1:-1 by blue 918:7:-1 at gen484 Univ0 prob=0.927
+​ 274I x:ageGp:fam 525:3:-1 by blue 705:5:-1 at gen485 Univ0 prob=0.225
+​ 276I x:ageGp:fam 368:3:-1 by blue 580:4:-1 at gen488 Univ0 prob=0.497
+​ 277I x:ageGp:fam 769:5:-1 by blue 414:3:-1 at gen492 Univ0 prob=0.510
+​ Vax prevented 935 ageGp7 by 358 gen493
+​ 277I x:ageGp:fam 774:5:-1 by blue 830:6:-1 at gen493 Univ0 prob=0.047
+​ 278I x:ageGp:fam 220:2:-1 by blue 830:6:-1 at gen494 Univ0 prob=0.224
+​ 280I x:ageGp:fam 192:2:-1 by blue 307:2:-1 at gen496 Univ0 prob=0.968
+​ 280I x:ageGp:fam 189:2:-1 by blue 39:0:-1 at gen497 Univ0 prob=0.406
+​ 280I x:ageGp:fam 109:1:-1 by blue 330:2:-1 at gen497 Univ0 prob=0.539
+​ 281I x:ageGp:fam 812:5:-1 by blue 414:3:-1 at gen498 Univ0 prob=0.827
+​ 284I x:ageGp:fam 249:2:-1 by red 833:6:-1 at gen500 Univ0 prob=0.822
+​ 284I x:ageGp:fam 650:4:-1 by red 593:4:-1 at gen501 Univ0 prob=0.179
+​ 284I x:ageGp:fam 691:5:-1 by blue 885:6:-1 at gen501 Univ0 prob=0.522
+​ 285I x:ageGp:fam 692:5:-1 by red 833:6:-1 at gen502 Univ0 prob=0.687
+​ 288I x:ageGp:fam 870:6:-1 by red 90:1:-1 at gen506 Univ0 prob=0.823
+​ 288I x:ageGp:fam 870:6:-1 by blue 386:3:-1 at gen506 Univ0 prob=0.714
+​ 288I x:ageGp:fam 10:0:-1 by red 414:3:-1 at gen507 Univ0 prob=0.268
+​ 289I x:ageGp:fam 603:4:-1 by red 15:0:-1 at gen508 Univ0 prob=0.024
+​ 289I x:ageGp:fam 124:1:-1 by blue 851:6:-1 at gen508 Univ0 prob=0.358
+​ 289I x:ageGp:fam 722:5:-1 by blue 918:7:-1 at gen508 Univ0 prob=0.174
+​ 290I x:ageGp:fam 253:2:-1 by blue 716:5:-1 at gen509 Univ0 prob=0.555
+​ 293I x:ageGp:fam 114:1:-1 by blue 218:2:-1 at gen510 Univ0 prob=0.783
+​ 295I x:ageGp:fam 755:5:-1 by red 15:0:-1 at gen512 Univ0 prob=0.147
+​ 296I x:ageGp:fam 640:4:-1 by blue 341:2:-1 at gen514 Univ0 prob=0.590
+​ 297I x:ageGp:fam 638:4:-1 by red 414:3:-1 at gen516 Univ0 prob=0.527
+​ Vax prevented 956 ageGp8 by 52 gen517
+​ 297I x:ageGp:fam 427:3:-1 by red 513:3:-1 at gen517 Univ0 prob=0.597
+​ 297I x:ageGp:fam 551:4:-1 by blue 635:4:-1 at gen517 Univ0 prob=0.539
+​ Vax prevented 997 ageGp9 by 604 gen517
+​ 297I x:ageGp:fam 881:6:-1 by red 878:6:-1 at gen517 Univ0 prob=0.552
+​ Vax prevented 955 ageGp8 by 885 gen517
+​ Vax prevented 916 ageGp7 by 15 gen518
+​ 301I x:ageGp:fam 646:4:-1 by blue 275:2:-1 at gen519 Univ0 prob=0.942
+​ 301I x:ageGp:fam 273:2:-1 by yellow 22:0:-1 at gen520 Univ0 prob=0.884
+​ Vax prevented 997 ageGp9 by 657 gen520
+​ Vax prevented 935 ageGp7 by 502 gen521
+​ 303I x:ageGp:fam 157:2:-1 by red 307:2:-1 at gen522 Univ0 prob=0.762
+​ Vax prevented 997 ageGp9 by 242 gen524
+​ 304I x:ageGp:fam 276:2:-1 by blue 535:3:-1 at gen524 Univ0 prob=0.903
+​ 304I x:ageGp:fam 618:4:-1 by blue 7:0:-1 at gen525 Univ0 prob=0.137
+​ Vax prevented 928 ageGp7 by 315 gen526
+​ 305I x:ageGp:fam 472:3:-1 by blue 443:3:-1 at gen526 Univ0 prob=0.420
+​ 306I x:ageGp:fam 984:9:-1 by blue 420:3:-1 at gen527 Univ0 prob=0.878
+​ Vax prevented 978 ageGp8 by 15 gen528
+​ 307I x:ageGp:fam 147:2:-1 by blue 218:2:-1 at gen528 Univ0 prob=0.095
+​ 307I x:ageGp:fam 844:6:-1 by blue 496:3:-1 at gen528 Univ0 prob=0.476
+​ 308I x:ageGp:fam 524:3:-1 by blue 275:2:-1 at gen529 Univ0 prob=0.925
+​ Vax prevented 984 ageGp9 by 420 gen530
+​ Vax prevented 984 ageGp9 by 420 gen531
+​ Vax prevented 935 ageGp7 by 714 gen531
+​ 311I x:ageGp:fam 291:2:-1 by blue 341:2:-1 at gen532 Univ0 prob=0.687
+​ 311I x:ageGp:fam 299:2:-1 by red 885:6:-1 at gen533 Univ0 prob=0.261
+​ Vax prevented 997 ageGp9 by 657 gen533
+​ Vax prevented 997 ageGp9 by 242 gen534
+​ Vax prevented 978 ageGp8 by 413 gen534
+​ Vax prevented 997 ageGp9 by 657 gen535
+​ 313I x:ageGp:fam 935:7:-1 by red 29:0:-1 at gen536 Univ0 prob=0.995
+​ 313I x:ageGp:fam 323:2:-1 by red 716:5:-1 at gen536 Univ0 prob=0.810
+​ Vax prevented 978 ageGp8 by 413 gen536
+​ Vax prevented 997 ageGp9 by 657 gen536
+​ Vax prevented 918 ageGp7 by 793 gen537
+​ Vax prevented 935 ageGp7 by 29 gen538
+​ Vax prevented 978 ageGp8 by 413 gen538
+​ 315I x:ageGp:fam 446:3:-1 by blue 496:3:-1 at gen539 Univ0 prob=0.201
+​ Vax prevented 978 ageGp8 by 938 gen539
+​ 316I x:ageGp:fam 149:2:-1 by red 685:4:-1 at gen541 Univ0 prob=0.204
+​ 316I x:ageGp:fam 459:3:-1 by red 830:6:-1 at gen541 Univ0 prob=0.841
+​ 316I x:ageGp:fam 750:5:-1 by blue 648:4:-1 at gen541 Univ0 prob=0.810
+​ Vax prevented 938 ageGp7 by 413 gen542
+​ Vax prevented 978 ageGp8 by 413 gen542
+​ No transmit 938 ageGp7 on 978 ageGp8 gen542
+​ 319I x:ageGp:fam 809:5:-1 by red 414:3:-1 at gen543 Univ0 prob=0.890
+​ 319I x:ageGp:fam 186:2:-1 by blue 900:6:-1 at gen544 Univ0 prob=0.461
+​ 319I x:ageGp:fam 206:2:-1 by blue 485:3:-1 at gen544 Univ0 prob=0.284
+​ 319I x:ageGp:fam 479:3:-1 by blue 535:3:-1 at gen544 Univ0 prob=0.538
+​ 323I x:ageGp:fam 483:3:-1 by blue 368:3:-1 at gen546 Univ0 prob=0.884
+​ 323I x:ageGp:fam 745:5:-1 by red 421:3:-1 at gen546 Univ0 prob=0.999
+​ 323I x:ageGp:fam 821:6:-1 by blue 52:1:-1 at gen547 Univ0 prob=0.551
+​ Vax prevented 978 ageGp8 by 413 gen547
+​ Vax prevented 956 ageGp8 by 63 gen548
+​ 326I x:ageGp:fam 800:5:-1 by blue 63:1:-1 at gen550 Univ0 prob=0.796
+​ 326I x:ageGp:fam 144:2:-1 by blue 341:2:-1 at gen550 Univ0 prob=0.917
+​ 326I x:ageGp:fam 849:6:-1 by red 152:2:-1 at gen551 Univ0 prob=0.683
+​ 326I x:ageGp:fam 294:2:-1 by red 421:3:-1 at gen551 Univ0 prob=0.210
+​ 328I x:ageGp:fam 456:3:-1 by blue 30:0:-1 at gen552 Univ0 prob=0.165
+​ Vax prevented 918 ageGp7 by 513 gen552
+​ 330I x:ageGp:fam 78:1:-1 by blue 341:2:-1 at gen553 Univ0 prob=0.647
+​ 330I x:ageGp:fam 134:2:-1 by red 521:3:-1 at gen553 Univ0 prob=0.993
+​ 330I x:ageGp:fam 997:9:-1 by blue 168:2:-1 at gen553 Univ0 prob=0.912
+​ 331I x:ageGp:fam 127:1:-1 by blue 18:0:-1 at gen554 Univ0 prob=0.379
+​ 331I x:ageGp:fam 731:5:-1 by blue 18:0:-1 at gen554 Univ0 prob=0.603
+​ Vax prevented 956 ageGp8 by 63 gen554
+​ Vax prevented 997 ageGp9 by 168 gen554
+​ 334I x:ageGp:fam 756:5:-1 by blue 218:2:-1 at gen555 Univ0 prob=0.633
+​ 334I x:ageGp:fam 440:3:-1 by red 705:5:-1 at gen555 Univ0 prob=0.303
+​ 336I x:ageGp:fam 533:3:-1 by blue 496:3:-1 at gen556 Univ0 prob=0.695
+​ 338I x:ageGp:fam 176:2:-1 by blue 275:2:-1 at gen557 Univ0 prob=0.646
+​ 339I x:ageGp:fam 102:1:-1 by blue 341:2:-1 at gen558 Univ0 prob=0.923
+​ Vax prevented 922 ageGp7 by 782 gen558
+​ Vax prevented 922 ageGp7 by 782 gen559
+​ 340I x:ageGp:fam 815:5:-1 by blue 803:5:-1 at gen559 Univ0 prob=0.797
+​ 342I x:ageGp:fam 67:1:-1 by red 330:2:-1 at gen561 Univ0 prob=0.549
+​ Vax prevented 935 ageGp7 by 358 gen561
+​ Vax prevented 935 ageGp7 by 29 gen562
+​ Vax prevented 918 ageGp7 by 70 gen562
+​ 342I x:ageGp:fam 623:4:-1 by red 386:3:-1 at gen562 Univ0 prob=0.220
+​ 343I x:ageGp:fam 65:1:-1 by blue 612:4:-1 at gen563 Univ0 prob=0.526
+​ Vax prevented 935 ageGp7 by 29 gen564
+​ Vax prevented 984 ageGp9 by 253 gen564
+​ 345I x:ageGp:fam 79:1:-1 by blue 648:4:-1 at gen565 Univ0 prob=0.332
+​ 345I x:ageGp:fam 278:2:-1 by blue 769:5:-1 at gen565 Univ0 prob=0.814
+​ 347I x:ageGp:fam 261:2:-1 by red 386:3:-1 at gen568 Univ0 prob=0.771
+​ 347I x:ageGp:fam 693:5:-1 by red 307:2:-1 at gen568 Univ0 prob=0.948
+​ 347I x:ageGp:fam 789:5:-1 by blue 341:2:-1 at gen568 Univ0 prob=0.301
+​ 347I x:ageGp:fam 77:1:-1 by red 580:4:-1 at gen569 Univ0 prob=0.659
+​ 347I x:ageGp:fam 922:7:-1 by red 782:5:-1 at gen569 Univ0 prob=0.958
+​ Vax prevented 922 ageGp7 by 782 gen570
+​ Vax prevented 922 ageGp7 by 782 gen571
+​ 352I x:ageGp:fam 72:1:-1 by red 421:3:-1 at gen572 Univ0 prob=0.211
+​ 352I x:ageGp:fam 314:2:-1 by blue 275:2:-1 at gen572 Univ0 prob=0.839
+​ 352I x:ageGp:fam 744:5:-1 by blue 443:3:-1 at gen573 Univ0 prob=0.007
+​ Vax prevented 928 ageGp7 by 356 gen574
+​ 355I x:ageGp:fam 617:4:-1 by red 685:4:-1 at gen575 Univ0 prob=0.751
+​ Vax prevented 984 ageGp9 by 7 gen576
+​ Vax prevented 984 ageGp9 by 22 gen576
+​ 356I x:ageGp:fam 372:3:-1 by red 421:3:-1 at gen577 Univ0 prob=0.187
+​ Vax prevented 955 ageGp8 by 859 gen577
+​ 356I x:ageGp:fam 858:6:-1 by blue 803:5:-1 at gen578 Univ0 prob=0.744
+​ 357I x:ageGp:fam 792:5:-1 by blue 276:2:-1 at gen579 Univ0 prob=0.412
+​ Vax prevented 961 ageGp8 by 368 gen579
+​ Vax prevented 993 ageGp9 by 18 gen581
+​ 359I x:ageGp:fam 24:0:-1 by blue 603:4:-1 at gen581 Univ0 prob=0.740
+​ 359I x:ageGp:fam 146:2:-1 by blue 472:3:-1 at gen581 Univ0 prob=0.792
+​ 359I x:ageGp:fam 194:2:-1 by yellow 291:2:-1 at gen581 Univ0 prob=0.107
+​ 359I x:ageGp:fam 754:5:-1 by blue 603:4:-1 at gen581 Univ0 prob=0.715
+​ 359I x:ageGp:fam 665:4:-1 by yellow 291:2:-1 at gen582 Univ0 prob=0.352
+​ 363I x:ageGp:fam 806:5:-1 by blue 603:4:-1 at gen583 Univ0 prob=0.124
+​ Vax prevented 919 ageGp7 by 716 gen583
+​ 364I x:ageGp:fam 742:5:-1 by red 60:1:-1 at gen584 Univ0 prob=0.019
+​ Vax prevented 941 ageGp7 by 472 gen584
+​ 364I x:ageGp:fam 676:4:-1 by red 885:6:-1 at gen584 Univ0 prob=0.789
+​ Vax prevented 972 ageGp8 by 18 gen585
+​ 365I x:ageGp:fam 805:5:-1 by red 580:4:-1 at gen585 Univ0 prob=0.872
+​ Vax prevented 955 ageGp8 by 249 gen586
+​ 368I x:ageGp:fam 972:8:-1 by blue 18:0:-1 at gen587 Univ0 prob=0.934
+​ Vax prevented 978 ageGp8 by 147 gen587
+​ Vax prevented 978 ageGp8 by 147 gen588
+​ 368I x:ageGp:fam 486:3:-1 by blue 769:5:-1 at gen588 Univ0 prob=0.735
+​ 369I x:ageGp:fam 180:2:-1 by blue 774:5:-1 at gen589 Univ0 prob=0.465
+​ 369I x:ageGp:fam 363:3:-1 by blue 803:5:-1 at gen589 Univ0 prob=0.899
+​ Vax prevented 978 ageGp8 by 413 gen589
+​ Vax prevented 978 ageGp8 by 413 gen590
+​ Vax prevented 923 ageGp7 by 648 gen590
+​ Vax prevented 935 ageGp7 by 691 gen590
+​ Vax prevented 911 ageGp7 by 803 gen590
+​ 372I x:ageGp:fam 141:2:-1 by red 648:4:-1 at gen591 Univ0 prob=0.651
+​ 372I x:ageGp:fam 804:5:-1 by blue 525:3:-1 at gen592 Univ0 prob=0.618
+​ Vax prevented 972 ageGp8 by 18 gen593
+​ 373I x:ageGp:fam 390:3:-1 by blue 524:3:-1 at gen593 Univ0 prob=0.180
+​ Vax prevented 978 ageGp8 by 413 gen593
+​ 374I x:ageGp:fam 122:1:-1 by blue 812:5:-1 at gen594 Univ0 prob=0.814
+​ 375I x:ageGp:fam 106:1:-1 by blue 18:0:-1 at gen595 Univ0 prob=0.834
+​ Vax prevented 972 ageGp8 by 18 gen595
+​ 375I x:ageGp:fam 300:2:-1 by blue 638:4:-1 at gen595 Univ0 prob=0.467
+​ Vax prevented 935 ageGp7 by 691 gen595
+​ 376I x:ageGp:fam 104:1:-1 by blue 157:2:-1 at gen596 Univ0 prob=0.518
+​ 376I x:ageGp:fam 588:4:-1 by blue 603:4:-1 at gen596 Univ0 prob=0.791
+​ 378I x:ageGp:fam 480:3:-1 by blue 276:2:-1 at gen597 Univ0 prob=0.607
+​ Vax prevented 944 ageGp7 by 769 gen597
+​ 380I x:ageGp:fam 318:2:-1 by blue 646:4:-1 at gen598 Univ0 prob=0.281
+​ Vax prevented 944 ageGp7 by 769 gen598
+​ Vax prevented 944 ageGp7 by 769 gen599
+​ Vax prevented 972 ageGp8 by 18 gen600
+​ 382I x:ageGp:fam 777:5:-1 by blue 291:2:-1 at gen600 Univ0 prob=0.617
+​ 382I x:ageGp:fam 576:4:-1 by blue 368:3:-1 at gen600 Univ0 prob=0.677
+​ 382I x:ageGp:fam 778:5:-1 by blue 603:4:-1 at gen600 Univ0 prob=0.187
+​ 382I x:ageGp:fam 553:4:-1 by blue 56:1:-1 at gen601 Univ0 prob=0.783
+​ 382I x:ageGp:fam 677:4:-1 by blue 472:3:-1 at gen601 Univ0 prob=0.330
+​ Vax prevented 902 ageGp7 by 701 gen601
+​ 385I x:ageGp:fam 19:0:-1 by red 938:7:-1 at gen602 Univ0 prob=0.291
+​ Vax prevented 902 ageGp7 by 701 gen602
+​ 387I x:ageGp:fam 121:1:-1 by blue 472:3:-1 at gen603 Univ0 prob=0.684
+​ 387I x:ageGp:fam 797:5:-1 by blue 646:4:-1 at gen603 Univ0 prob=0.553
+​ 388I x:ageGp:fam 680:4:-1 by red 18:0:-1 at gen604 Univ0 prob=0.890
+​ 390I x:ageGp:fam 780:5:-1 by blue 253:2:-1 at gen605 Univ0 prob=0.078
+​ Vax prevented 949 ageGp8 by 291 gen605
+​ Vax prevented 980 ageGp8 by 580 gen605
+​ 391I x:ageGp:fam 682:4:-1 by yellow 176:2:-1 at gen606 Univ0 prob=0.686
+​ Vax prevented 949 ageGp8 by 291 gen606
+​ 391I x:ageGp:fam 738:5:-1 by blue 638:4:-1 at gen606 Univ0 prob=0.091
+​ Vax prevented 944 ageGp7 by 769 gen606
+​ Vax prevented 944 ageGp7 by 769 gen607
+​ 394I x:ageGp:fam 465:3:-1 by blue 10:0:-1 at gen608 Univ0 prob=0.273
+​ 394I x:ageGp:fam 252:2:-1 by blue 291:2:-1 at gen608 Univ0 prob=0.693
+​ 394I x:ageGp:fam 549:4:-1 by red 275:2:-1 at gen608 Univ0 prob=0.597
+​ Vax prevented 923 ageGp7 by 572 gen608
+​ 394I x:ageGp:fam 562:4:-1 by blue 472:3:-1 at gen609 Univ0 prob=0.148
+​ Vax prevented 923 ageGp7 by 353 gen610
+​ 397I x:ageGp:fam 591:4:-1 by blue 638:4:-1 at gen610 Univ0 prob=0.010
+​ Vax prevented 972 ageGp8 by 18 gen611
+​ Vax prevented 980 ageGp8 by 483 gen611
+​ Vax prevented 944 ageGp7 by 769 gen611
+​ 399I x:ageGp:fam 490:3:-1 by blue 78:1:-1 at gen612 Univ0 prob=0.024
+​ 399I x:ageGp:fam 437:3:-1 by blue 124:1:-1 at gen612 Univ0 prob=0.865
+​ Vax prevented 944 ageGp7 by 769 gen612
+​ 399I x:ageGp:fam 128:1:-1 by red 525:3:-1 at gen613 Univ0 prob=0.394
+​ No transmit 984 ageGp9 on 919 ageGp7 gen613
+​ Vax prevented 935 ageGp7 by 955 gen613
+​ 401I x:ageGp:fam 476:3:-1 by blue 844:6:-1 at gen614 Univ0 prob=0.778
+​ 402I x:ageGp:fam 321:2:-1 by red 341:2:-1 at gen615 Univ0 prob=0.909
+​ Vax prevented 986 ageGp9 by 603 gen615
+​ 403I x:ageGp:fam 772:5:-1 by blue 67:1:-1 at gen616 Univ0 prob=0.768
+​ 403I x:ageGp:fam 101:1:-1 by red 657:4:-1 at gen616 Univ0 prob=0.237
+​ 406I x:ageGp:fam 788:5:-1 by blue 147:2:-1 at gen618 Univ0 prob=0.034
+​ 406I x:ageGp:fam 673:4:-1 by red 192:2:-1 at gen619 Univ0 prob=0.694
+​ 406I x:ageGp:fam 871:6:-1 by blue 479:3:-1 at gen619 Univ0 prob=0.997
+​ 406I x:ageGp:fam 819:5:-1 by blue 638:4:-1 at gen619 Univ0 prob=0.398
+​ 406I x:ageGp:fam 871:6:-1 by blue 750:5:-1 at gen619 Univ0 prob=0.981
+​ 407I x:ageGp:fam 582:4:-1 by red 18:0:-1 at gen620 Univ0 prob=0.694
+​ 407I x:ageGp:fam 151:2:-1 by blue 78:1:-1 at gen620 Univ0 prob=0.199
+​ Vax prevented 916 ageGp7 by 413 gen620
+​ Vax prevented 921 ageGp7 by 750 gen620
+​ 410I x:ageGp:fam 154:2:-1 by blue 821:6:-1 at gen621 Univ0 prob=0.431
+​ Vax prevented 980 ageGp8 by 483 gen621
+​ Vax prevented 921 ageGp7 by 750 gen621
+​ 412I x:ageGp:fam 688:4:-1 by blue 483:3:-1 at gen622 Univ0 prob=0.004
+​ Vax prevented 955 ageGp8 by 618 gen622
+​ Vax prevented 923 ageGp7 by 353 gen623
+​ Vax prevented 944 ageGp7 by 769 gen623
+​ 414I x:ageGp:fam 473:3:-1 by blue 294:2:-1 at gen625 Univ0 prob=0.751
+​ Vax prevented 944 ageGp7 by 769 gen625
+​ Vax prevented 972 ageGp8 by 18 gen626
+​ Vax prevented 956 ageGp8 by 769 gen626
+​ Vax prevented 944 ageGp7 by 769 gen627
+​ 415I x:ageGp:fam 920:7:-1 by blue 849:6:-1 at gen627 Univ0 prob=0.871
+​ Vax prevented 955 ageGp8 by 66 gen628
+​ 415I x:ageGp:fam 944:7:-1 by red 769:5:-1 at gen628 Univ0 prob=0.990
+​ Vax prevented 921 ageGp7 by 10 gen629
+​ Vax prevented 906 ageGp7 by 147 gen629
+​ Vax prevented 947 ageGp7 by 648 gen629
+​ Vax prevented 944 ageGp7 by 769 gen629
+​ Vax prevented 920 ageGp7 by 849 gen629
+​ Vax prevented 921 ageGp7 by 10 gen630
+​ Vax prevented 950 ageGp8 by 806 gen631
+​ Vax prevented 928 ageGp7 by 859 gen631
+​ 417I x:ageGp:fam 76:1:-1 by blue 78:1:-1 at gen632 Univ0 prob=0.761
+​ 417I x:ageGp:fam 269:2:-1 by yellow 806:5:-1 at gen632 Univ0 prob=0.855
+​ 417I x:ageGp:fam 373:3:-1 by yellow 806:5:-1 at gen632 Univ0 prob=0.285
+​ 417I x:ageGp:fam 986:9:-1 by blue 24:0:-1 at gen633 Univ0 prob=0.775
+​ Vax prevented 962 ageGp8 by 440 gen633
+​ 417I x:ageGp:fam 702:5:-1 by red 646:4:-1 at gen633 Univ0 prob=0.122
+​ 417I x:ageGp:fam 717:5:-1 by red 803:5:-1 at gen633 Univ0 prob=0.670
+​ Vax prevented 962 ageGp8 by 440 gen634
+​ Vax prevented 942 ageGp7 by 472 gen635
+​ 423I x:ageGp:fam 54:1:-1 by blue 127:1:-1 at gen636 Univ0 prob=0.251
+​ 423I x:ageGp:fam 211:2:-1 by blue 806:5:-1 at gen636 Univ0 prob=0.497
+​ Vax prevented 935 ageGp7 by 109 gen639
+​ Vax prevented 962 ageGp8 by 440 gen639
+​ Vax prevented 944 ageGp7 by 648 gen639
+​ 425I x:ageGp:fam 334:2:-1 by blue 291:2:-1 at gen640 Univ0 prob=0.261
+​ 425I x:ageGp:fam 741:5:-1 by blue 147:2:-1 at gen641 Univ0 prob=0.741
+​ 426I x:ageGp:fam 174:2:-1 by blue 972:8:-1 at gen642 Univ0 prob=0.880
+​ Vax prevented 905 ageGp7 by 984 gen643
+​ 428I x:ageGp:fam 204:2:-1 by blue 792:5:-1 at gen645 Univ0 prob=0.692
+​ 428I x:ageGp:fam 634:4:-1 by blue 844:6:-1 at gen646 Univ0 prob=0.936
+​ 429I x:ageGp:fam 826:6:-1 by red 18:0:-1 at gen647 Univ0 prob=0.549
+​ Vax prevented 923 ageGp7 by 803 gen647
+​ 430I x:ageGp:fam 236:2:-1 by red 612:4:-1 at gen648 Univ0 prob=0.839
+​ Vax prevented 978 ageGp8 by 261 gen648
+​ 430I x:ageGp:fam 499:3:-1 by blue 318:2:-1 at gen648 Univ0 prob=0.926
+​ Vax prevented 947 ageGp7 by 750 gen648
+​ 431I x:ageGp:fam 20:0:-1 by red 18:0:-1 at gen649 Univ0 prob=0.123
+​ 433I x:ageGp:fam 771:5:-1 by blue 127:1:-1 at gen650 Univ0 prob=0.156
+​ 435I x:ageGp:fam 451:3:-1 by blue 789:5:-1 at gen653 Univ0 prob=0.631
+​ Vax prevented 947 ageGp7 by 750 gen653
+​ 435I x:ageGp:fam 80:1:-1 by red 984:9:-1 at gen654 Univ0 prob=0.156
+​ Vax prevented 997 ageGp9 by 858 gen654
+​ Vax prevented 911 ageGp7 by 744 gen655
+​ Vax prevented 942 ageGp7 by 792 gen655
+​ Vax prevented 997 ageGp9 by 858 gen655
+​ Vax prevented 999 ageGp9 by 691 gen656
+​ 437I x:ageGp:fam 8:0:-1 by blue 805:5:-1 at gen657 Univ0 prob=0.915
+​ 437I x:ageGp:fam 399:3:-1 by blue 294:2:-1 at gen657 Univ0 prob=0.681
+​ Vax prevented 915 ageGp7 by 524 gen657
+​ 437I x:ageGp:fam 816:5:-1 by blue 486:3:-1 at gen658 Univ0 prob=0.171
+​ Vax prevented 915 ageGp7 by 524 gen658
+​ Vax prevented 980 ageGp8 by 805 gen658
+​ 439I x:ageGp:fam 950:8:-1 by blue 19:0:-1 at gen659 Univ0 prob=0.979
+​ 439I x:ageGp:fam 398:3:-1 by blue 806:5:-1 at gen659 Univ0 prob=0.724
+​ 439I x:ageGp:fam 721:5:-1 by blue 483:3:-1 at gen659 Univ0 prob=0.582
+​ Vax prevented 950 ageGp8 by 806 gen659
+​ 440I x:ageGp:fam 823:6:-1 by blue 465:3:-1 at gen660 Univ0 prob=0.754
+​ 443I x:ageGp:fam 613:4:-1 by blue 972:8:-1 at gen661 Univ0 prob=0.678
+​ Vax prevented 940 ageGp7 by 665 gen661
+​ Vax prevented 980 ageGp8 by 805 gen661
+​ Vax prevented 923 ageGp7 by 79 gen662
+​ Vax prevented 915 ageGp7 by 440 gen662
+​ Vax prevented 935 ageGp7 by 186 gen663
+​ Vax prevented 911 ageGp7 by 809 gen663
+​ 445I x:ageGp:fam 911:7:-1 by red 809:5:-1 at gen664 Univ0 prob=0.804
+​ Vax prevented 923 ageGp7 by 79 gen665
+​ Vax prevented 911 ageGp7 by 744 gen665
+​ Vax prevented 921 ageGp7 by 10 gen666
+​ Vax prevented 980 ageGp8 by 805 gen666
+​ Vax prevented 911 ageGp7 by 809 gen666
+​ 446I x:ageGp:fam 98:1:-1 by blue 849:6:-1 at gen667 Univ0 prob=0.241
+​ Vax prevented 902 ageGp7 by 109 gen667
+​ Vax prevented 956 ageGp8 by 134 gen667
+​ 446I x:ageGp:fam 708:5:-1 by blue 437:3:-1 at gen667 Univ0 prob=0.267
+​ Vax prevented 911 ageGp7 by 744 gen667
+​ 446I x:ageGp:fam 670:4:-1 by blue 146:2:-1 at gen668 Univ0 prob=0.732
+​ Vax prevented 911 ageGp7 by 744 gen668
+​ 448I x:ageGp:fam 886:6:-1 by blue 294:2:-1 at gen669 Univ0 prob=0.254
+​ Vax prevented 940 ageGp7 by 665 gen670
+​ Vax prevented 991 ageGp9 by 176 gen671
+​ Vax prevented 922 ageGp7 by 372 gen671
+​ Vax prevented 980 ageGp8 by 805 gen671
+​ 450I x:ageGp:fam 73:1:-1 by blue 680:4:-1 at gen672 Univ0 prob=0.158
+​ Vax prevented 923 ageGp7 by 79 gen672
+​ Vax prevented 921 ageGp7 by 122 gen672
+​ 450I x:ageGp:fam 963:8:-1 by blue 480:3:-1 at gen672 Univ0 prob=0.888
+​ Vax prevented 911 ageGp7 by 809 gen672
+​ 450I x:ageGp:fam 292:2:-1 by red 524:3:-1 at gen673 Univ0 prob=0.509
+​ 450I x:ageGp:fam 548:4:-1 by blue 486:3:-1 at gen673 Univ0 prob=0.795
+​ Vax prevented 909 ageGp7 by 792 gen674
+​ Vax prevented 974 ageGp8 by 821 gen675
+​ 454I x:ageGp:fam 16:0:-1 by blue 804:5:-1 at gen676 Univ0 prob=0.104
+​ 454I x:ageGp:fam 435:3:-1 by blue 24:0:-1 at gen676 Univ0 prob=0.886
+​ Vax prevented 991 ageGp9 by 176 gen676
+​ Vax prevented 997 ageGp9 by 124 gen677
+​ 454I x:ageGp:fam 463:3:-1 by blue 797:5:-1 at gen677 Univ0 prob=0.911
+​ Vax prevented 921 ageGp7 by 638 gen677
+​ 456I x:ageGp:fam 853:6:-1 by red 127:1:-1 at gen678 Univ0 prob=0.565
+​ Vax prevented 939 ageGp7 by 318 gen678
+​ 457I x:ageGp:fam 671:4:-1 by blue 819:5:-1 at gen679 Univ0 prob=0.124
+​ 458I x:ageGp:fam 840:6:-1 by red 524:3:-1 at gen680 Univ0 prob=0.375
+​ 459I x:ageGp:fam 876:6:-1 by red 78:1:-1 at gen681 Univ0 prob=0.570
+​ Vax prevented 939 ageGp7 by 318 gen681
+​ 460I x:ageGp:fam 868:6:-1 by blue 480:3:-1 at gen682 Univ0 prob=0.237
+​ Vax prevented 991 ageGp9 by 646 gen682
+​ 461I x:ageGp:fam 538:3:-1 by blue 76:1:-1 at gen683 Univ0 prob=0.545
+​ 461I x:ageGp:fam 85:1:-1 by blue 871:6:-1 at gen683 Univ0 prob=0.168
+​ 461I x:ageGp:fam 132:2:-1 by red 800:5:-1 at gen683 Univ0 prob=0.634
+​ 461I x:ageGp:fam 503:3:-1 by blue 465:3:-1 at gen683 Univ0 prob=0.415
+​ 461I x:ageGp:fam 991:9:-1 by blue 682:4:-1 at gen683 Univ0 prob=0.788
+​ Vax prevented 986 ageGp9 by 756 gen683
+​ 462I x:ageGp:fam 704:5:-1 by blue 486:3:-1 at gen684 Univ0 prob=0.578
+​ Vax prevented 940 ageGp7 by 665 gen685
+​ 468I x:ageGp:fam 41:1:-1 by red 440:3:-1 at gen686 Univ0 prob=0.950
+​ 468I x:ageGp:fam 574:4:-1 by blue 871:6:-1 at gen686 Univ0 prob=0.682
+​ Vax prevented 986 ageGp9 by 603 gen686
+​ Vax prevented 956 ageGp8 by 141 gen687
+​ 468I x:ageGp:fam 184:2:-1 by blue 972:8:-1 at gen687 Univ0 prob=0.649
+​ Vax prevented 950 ageGp8 by 603 gen687
+​ Vax prevented 986 ageGp9 by 603 gen687
+​ Vax prevented 921 ageGp7 by 122 gen688
+​ 470I x:ageGp:fam 647:4:-1 by red 294:2:-1 at gen688 Univ0 prob=0.668
+​ 470I x:ageGp:fam 958:8:-1 by red 638:4:-1 at gen688 Univ0 prob=0.757
+​ 471I x:ageGp:fam 949:8:-1 by blue 321:2:-1 at gen689 Univ0 prob=0.877
+​ Vax prevented 986 ageGp9 by 603 gen689
+​ 471I x:ageGp:fam 855:6:-1 by blue 754:5:-1 at gen689 Univ0 prob=0.790
+​ Vax prevented 949 ageGp8 by 321 gen690
+​ Vax prevented 950 ageGp8 by 756 gen690
+​ Vax prevented 990 ageGp9 by 819 gen690
+​ Vax prevented 921 ageGp7 by 122 gen691
+​ 475I x:ageGp:fam 280:2:-1 by blue 777:5:-1 at gen692 Univ0 prob=0.514
+​ 475I x:ageGp:fam 653:4:-1 by blue 804:5:-1 at gen692 Univ0 prob=0.894
+​ Vax prevented 990 ageGp9 by 819 gen692
+​ 475I x:ageGp:fam 361:3:-1 by blue 300:2:-1 at gen693 Univ0 prob=0.898
+​ Vax prevented 949 ageGp8 by 321 gen693
+​ 477I x:ageGp:fam 274:2:-1 by red 756:5:-1 at gen694 Univ0 prob=0.952
+​ 477I x:ageGp:fam 484:3:-1 by blue 788:5:-1 at gen694 Univ0 prob=0.504
+​ Vax prevented 947 ageGp7 by 688 gen697
+​ Vax prevented 947 ageGp7 by 688 gen698
+​ 480I x:ageGp:fam 302:2:-1 by red 792:5:-1 at gen699 Univ0 prob=0.269
+​ 480I x:ageGp:fam 773:5:-1 by blue 106:1:-1 at gen700 Univ0 prob=0.746
+​ Vax prevented 950 ageGp8 by 147 gen700
+​ 482I x:ageGp:fam 586:4:-1 by red 754:5:-1 at gen702 Univ0 prob=0.740
+​ 483I x:ageGp:fam 233:2:-1 by red 665:4:-1 at gen704 Univ0 prob=0.445
+​ 483I x:ageGp:fam 460:3:-1 by blue 680:4:-1 at gen704 Univ0 prob=0.156
+​ 485I x:ageGp:fam 747:5:-1 by blue 972:8:-1 at gen706 Univ0 prob=0.668
+​ 485I x:ageGp:fam 863:6:-1 by red 792:5:-1 at gen706 Univ0 prob=0.643
+​ 485I x:ageGp:fam 35:0:-1 by blue 437:3:-1 at gen707 Univ0 prob=0.041
+​ 485I x:ageGp:fam 164:2:-1 by red 792:5:-1 at gen707 Univ0 prob=0.194
+​ Vax prevented 934 ageGp7 by 269 gen707
+​ 485I x:ageGp:fam 468:3:-1 by blue 486:3:-1 at gen707 Univ0 prob=0.814
+​ Vax prevented 923 ageGp7 by 323 gen708
+​ 487I x:ageGp:fam 362:3:-1 by blue 777:5:-1 at gen708 Univ0 prob=0.819
+​ 487I x:ageGp:fam 672:4:-1 by red 440:3:-1 at gen708 Univ0 prob=0.850
+​ 490I x:ageGp:fam 27:0:-1 by blue 582:4:-1 at gen709 Univ0 prob=0.728
+​ Vax prevented 991 ageGp9 by 151 gen709
+​ Vax prevented 935 ageGp7 by 186 gen709
+​ Vax prevented 934 ageGp7 by 269 gen710
+​ Vax prevented 958 ageGp8 by 750 gen710
+​ 493I x:ageGp:fam 575:4:-1 by blue 211:2:-1 at gen711 Univ0 prob=0.483
+​ 493I x:ageGp:fam 687:4:-1 by blue 318:2:-1 at gen712 Univ0 prob=0.680
+​ 493I x:ageGp:fam 590:4:-1 by blue 334:2:-1 at gen712 Univ0 prob=0.968
+​ Vax prevented 949 ageGp8 by 334 gen712
+​ Vax prevented 942 ageGp7 by 465 gen712
+​ Vax prevented 956 ageGp8 by 562 gen712
+​ Vax prevented 991 ageGp9 by 80 gen713
+​ Vax prevented 915 ageGp7 by 334 gen713
+​ Vax prevented 950 ageGp8 by 756 gen713
+​ Vax prevented 905 ageGp7 by 809 gen713
+​ Vax prevented 986 ageGp9 by 920 gen713
+​ 496I x:ageGp:fam 23:0:-1 by blue 154:2:-1 at gen714 Univ0 prob=0.341
+​ 496I x:ageGp:fam 469:3:-1 by blue 106:1:-1 at gen714 Univ0 prob=0.235
+​ Vax prevented 958 ageGp8 by 750 gen714
+​ Vax prevented 978 ageGp8 by 788 gen714
+​ Vax prevented 920 ageGp7 by 986 gen714
+​ 496I x:ageGp:fam 207:2:-1 by blue 19:0:-1 at gen715 Univ0 prob=0.716
+​ Vax prevented 991 ageGp9 by 80 gen715
+​ 496I x:ageGp:fam 408:3:-1 by blue 154:2:-1 at gen715 Univ0 prob=0.914
+​ Vax prevented 905 ageGp7 by 809 gen715
+​ Vax prevented 919 ageGp7 by 984 gen715
+​ 498I x:ageGp:fam 120:1:-1 by red 665:4:-1 at gen716 Univ0 prob=0.647
+​ 498I x:ageGp:fam 814:5:-1 by blue 154:2:-1 at gen716 Univ0 prob=0.948
+​ 498I x:ageGp:fam 560:4:-1 by red 294:2:-1 at gen716 Univ0 prob=0.802
+​ Vax prevented 948 ageGp7 by 300 gen716
+​ 500I x:ageGp:fam 2:0:-1 by blue 334:2:-1 at gen717 Univ0 prob=0.687
+​ Vax prevented 911 ageGp7 by 204 gen718
+​ Vax prevented 986 ageGp9 by 920 gen719
+​ Vax prevented 905 ageGp7 by 121 gen721
+​ 504I x:ageGp:fam 135:2:-1 by blue 819:5:-1 at gen721 Univ0 prob=0.372
+​ 505I x:ageGp:fam 251:2:-1 by red 792:5:-1 at gen723 Univ0 prob=0.446
+​ Vax prevented 974 ageGp8 by 738 gen723
+​ Vax prevented 958 ageGp8 by 821 gen723
+​ Vax prevented 978 ageGp8 by 77 gen724
+​ 505I x:ageGp:fam 620:4:-1 by red 390:3:-1 at gen724 Univ0 prob=0.265
+​ 505I x:ageGp:fam 696:5:-1 by red 792:5:-1 at gen724 Univ0 prob=0.662
+​ Vax prevented 974 ageGp8 by 738 gen724
+​ Vax prevented 905 ageGp7 by 121 gen725
+​ 506I x:ageGp:fam 305:2:-1 by blue 582:4:-1 at gen725 Univ0 prob=0.120
+​ Vax prevented 974 ageGp8 by 738 gen725
+​ 508I x:ageGp:fam 331:2:-1 by blue 321:2:-1 at gen726 Univ0 prob=0.230
+​ 508I x:ageGp:fam 428:3:-1 by red 777:5:-1 at gen726 Univ0 prob=0.640
+​ 511I x:ageGp:fam 735:5:-1 by blue 73:1:-1 at gen728 Univ0 prob=0.203
+​ 511I x:ageGp:fam 644:4:-1 by red 300:2:-1 at gen728 Univ0 prob=0.270
+​ 511I x:ageGp:fam 796:5:-1 by blue 826:6:-1 at gen728 Univ0 prob=0.002
+​ 514I x:ageGp:fam 250:2:-1 by blue 399:3:-1 at gen731 Univ0 prob=0.615
+​ 514I x:ageGp:fam 608:4:-1 by blue 20:0:-1 at gen732 Univ0 prob=0.355
+​ Vax prevented 980 ageGp8 by 483 gen732
+​ Vax prevented 978 ageGp8 by 623 gen732
+​ 515I x:ageGp:fam 346:2:-1 by blue 334:2:-1 at gen733 Univ0 prob=0.277
+​ 515I x:ageGp:fam 400:3:-1 by red 792:5:-1 at gen733 Univ0 prob=0.671
+​ Vax prevented 963 ageGp8 by 480 gen733
+​ 516I x:ageGp:fam 335:2:-1 by blue 204:2:-1 at gen734 Univ0 prob=0.129
+​ 518I x:ageGp:fam 239:2:-1 by blue 334:2:-1 at gen735 Univ0 prob=0.014
+​ Vax prevented 978 ageGp8 by 623 gen735
+​ Vax prevented 950 ageGp8 by 986 gen735
+​ Vax prevented 991 ageGp9 by 194 gen738
+​ 520I x:ageGp:fam 523:3:-1 by red 680:4:-1 at gen738 Univ0 prob=0.721
+​ 520I x:ageGp:fam 605:4:-1 by blue 950:8:-1 at gen738 Univ0 prob=0.663
+​ Vax prevented 978 ageGp8 by 920 gen738
+​ 520I x:ageGp:fam 354:2:-1 by red 972:8:-1 at gen739 Univ0 prob=0.393
+​ Vax prevented 923 ageGp7 by 702 gen739
+​ Vax prevented 962 ageGp8 by 294 gen740
+​ 522I x:ageGp:fam 388:3:-1 by red 738:5:-1 at gen740 Univ0 prob=0.040
+​ Vax prevented 923 ageGp7 by 702 gen740
+​ Vax prevented 930 ageGp7 by 122 gen741
+​ 523I x:ageGp:fam 123:1:-1 by blue 398:3:-1 at gen741 Univ0 prob=0.863
+​ Vax prevented 949 ageGp8 by 490 gen741
+​ 524I x:ageGp:fam 262:2:-1 by blue 184:2:-1 at gen742 Univ0 prob=0.158
+​ 524I x:ageGp:fam 262:2:-1 by blue 204:2:-1 at gen742 Univ0 prob=0.932
+​ Vax prevented 942 ageGp7 by 819 gen743
+​ 526I x:ageGp:fam 55:1:-1 by blue 54:1:-1 at gen744 Univ0 prob=0.448
+​ 526I x:ageGp:fam 256:2:-1 by blue 647:4:-1 at gen745 Univ0 prob=0.530
+​ Vax prevented 934 ageGp7 by 269 gen745
+​ 528I x:ageGp:fam 214:2:-1 by blue 816:5:-1 at gen747 Univ0 prob=0.075
+​ Vax prevented 949 ageGp8 by 67 gen748
+​ Vax prevented 981 ageGp8 by 154 gen748
+​ 528I x:ageGp:fam 775:5:-1 by blue 717:5:-1 at gen748 Univ0 prob=0.610
+​ 529I x:ageGp:fam 1:0:-1 by blue 174:2:-1 at gen749 Univ0 prob=0.227
+​ Vax prevented 993 ageGp9 by 73 gen749
+​ 529I x:ageGp:fam 163:2:-1 by blue 398:3:-1 at gen749 Univ0 prob=0.454
+​ Vax prevented 991 ageGp9 by 194 gen749
+​ 529I x:ageGp:fam 843:6:-1 by red 363:3:-1 at gen749 Univ0 prob=0.785
+​ Vax prevented 948 ageGp7 by 688 gen749
+​ Vax prevented 939 ageGp7 by 773 gen749
+​ 530I x:ageGp:fam 376:3:-1 by red 665:4:-1 at gen750 Univ0 prob=0.946
+​ Vax prevented 958 ageGp8 by 141 gen751
+​ 533I x:ageGp:fam 293:2:-1 by blue 911:7:-1 at gen751 Univ0 prob=0.457
+​ Vax prevented 940 ageGp7 by 853 gen751
+​ Vax prevented 994 ageGp9 by 853 gen751
+​ Vax prevented 958 ageGp8 by 141 gen752
+​ Vax prevented 994 ageGp9 by 853 gen752
+​ 535I x:ageGp:fam 675:4:-1 by blue 334:2:-1 at gen753 Univ0 prob=0.299
+​ 535I x:ageGp:fam 406:3:-1 by blue 671:4:-1 at gen753 Univ0 prob=0.405
+​ 535I x:ageGp:fam 518:3:-1 by blue 702:5:-1 at gen753 Univ0 prob=0.729
+​ 535I x:ageGp:fam 667:4:-1 by blue 826:6:-1 at gen753 Univ0 prob=0.479
+​ Vax prevented 950 ageGp8 by 398 gen754
+​ Vax prevented 926 ageGp7 by 399 gen755
+​ 539I x:ageGp:fam 349:2:-1 by blue 963:8:-1 at gen756 Univ0 prob=0.171
+​ 539I x:ageGp:fam 749:5:-1 by blue 73:1:-1 at gen757 Univ0 prob=0.323
+​ Vax prevented 941 ageGp7 by 121 gen758
+​ 540I x:ageGp:fam 259:2:-1 by red 151:2:-1 at gen758 Univ0 prob=0.294
+​ Vax prevented 950 ageGp8 by 398 gen758
+​ Vax prevented 957 ageGp8 by 435 gen758
+​ 541I x:ageGp:fam 69:1:-1 by red 154:2:-1 at gen759 Univ0 prob=0.442
+​ Vax prevented 991 ageGp9 by 451 gen759
+​ 542I x:ageGp:fam 175:2:-1 by red 24:0:-1 at gen760 Univ0 prob=0.492
+​ Vax prevented 959 ageGp8 by 164 gen760
+​ Vax prevented 991 ageGp9 by 451 gen761
+​ Vax prevented 925 ageGp7 by 184 gen762
+​ 544I x:ageGp:fam 564:4:-1 by red 54:1:-1 at gen763 Univ0 prob=0.542
+​ Vax prevented 958 ageGp8 by 85 gen763
+​ 544I x:ageGp:fam 111:1:-1 by blue 911:7:-1 at gen763 Univ0 prob=0.790
+​ 544I x:ageGp:fam 822:6:-1 by blue 863:6:-1 at gen763 Univ0 prob=0.030
+​ Vax prevented 941 ageGp7 by 121 gen764
+​ Vax prevented 940 ageGp7 by 853 gen765
+​ Vax prevented 925 ageGp7 by 963 gen765
+​ Vax prevented 905 ageGp7 by 480 gen766
+​ 547I x:ageGp:fam 606:4:-1 by blue 853:6:-1 at gen767 Univ0 prob=0.998
+​ 547I x:ageGp:fam 915:7:-1 by blue 73:1:-1 at gen768 Univ0 prob=0.962
+​ Vax prevented 987 ageGp9 by 911 gen769
+​ 549I x:ageGp:fam 416:3:-1 by red 19:0:-1 at gen770 Univ0 prob=0.117
+​ Vax prevented 915 ageGp7 by 73 gen770
+​ Vax prevented 941 ageGp7 by 121 gen770
+​ Vax prevented 957 ageGp8 by 435 gen770
+​ 549I x:ageGp:fam 957:8:-1 by blue 435:3:-1 at gen771 Univ0 prob=0.963
+​ 550I x:ageGp:fam 981:8:-1 by red 154:2:-1 at gen772 Univ0 prob=0.999
+​ Vax prevented 911 ageGp7 by 465 gen772
+​ 550I x:ageGp:fam 715:5:-1 by blue 816:5:-1 at gen772 Univ0 prob=0.090
+​ 551I x:ageGp:fam 820:5:-1 by blue 164:2:-1 at gen773 Univ0 prob=0.747
+​ Vax prevented 921 ageGp7 by 574 gen774
+​ 554I x:ageGp:fam 366:3:-1 by red 680:4:-1 at gen775 Univ0 prob=0.861
+​ 554I x:ageGp:fam 81:1:-1 by blue 435:3:-1 at gen776 Univ0 prob=0.770
+​ Vax prevented 978 ageGp8 by 274 gen776
+​ 556I x:ageGp:fam 417:3:-1 by blue 704:5:-1 at gen780 Univ0 prob=0.708
+​ 556I x:ageGp:fam 441:3:-1 by red 465:3:-1 at gen780 Univ0 prob=0.285
+​ Vax prevented 921 ageGp7 by 574 gen780
+​ Vax prevented 919 ageGp7 by 682 gen780
+​ 556I x:ageGp:fam 703:5:-1 by red 300:2:-1 at gen781 Univ0 prob=0.888
+​ Vax prevented 994 ageGp9 by 473 gen781
+​ 556I x:ageGp:fam 643:4:-1 by blue 560:4:-1 at gen781 Univ0 prob=0.521
+​ Vax prevented 934 ageGp7 by 588 gen781
+​ Vax prevented 925 ageGp7 by 204 gen782
+​ Vax prevented 934 ageGp7 by 588 gen782
+​ Vax prevented 919 ageGp7 by 682 gen782
+​ Vax prevented 925 ageGp7 by 204 gen783
+​ Vax prevented 921 ageGp7 by 574 gen783
+​ 560I x:ageGp:fam 162:2:-1 by blue 164:2:-1 at gen784 Univ0 prob=0.797
+​ 560I x:ageGp:fam 200:2:-1 by blue 863:6:-1 at gen785 Univ0 prob=0.268
+​ Vax prevented 950 ageGp8 by 986 gen785
+​ 561I x:ageGp:fam 394:3:-1 by blue 704:5:-1 at gen786 Univ0 prob=0.526
+​ Vax prevented 941 ageGp7 by 437 gen786
+​ 562I x:ageGp:fam 369:3:-1 by blue 164:2:-1 at gen787 Univ0 prob=0.116
+​ 562I x:ageGp:fam 494:3:-1 by blue 469:3:-1 at gen787 Univ0 prob=0.468
+​ 562I x:ageGp:fam 627:4:-1 by blue 863:6:-1 at gen787 Univ0 prob=0.873
+​ 563I x:ageGp:fam 396:3:-1 by red 54:1:-1 at gen788 Univ0 prob=0.034
+​ Vax prevented 919 ageGp7 by 354 gen788
+​ Vax prevented 941 ageGp7 by 437 gen788
+​ 563I x:ageGp:fam 890:6:-1 by blue 523:3:-1 at gen788 Univ0 prob=0.076
+​ 566I x:ageGp:fam 544:4:-1 by blue 23:0:-1 at gen789 Univ0 prob=0.029
+​ Vax prevented 993 ageGp9 by 73 gen789
+​ Vax prevented 994 ageGp9 by 560 gen789
+​ Vax prevented 963 ageGp8 by 204 gen790
+​ 568I x:ageGp:fam 762:5:-1 by red 334:2:-1 at gen790 Univ0 prob=0.492
+​ 568I x:ageGp:fam 684:4:-1 by blue 388:3:-1 at gen790 Univ0 prob=0.558
+​ 568I x:ageGp:fam 555:4:-1 by red 819:5:-1 at gen790 Univ0 prob=0.521
+​ Vax prevented 994 ageGp9 by 560 gen790
+​ Vax prevented 921 ageGp7 by 574 gen790
+​ 569I x:ageGp:fam 497:3:-1 by blue 2:0:-1 at gen791 Univ0 prob=0.466
+​ Vax prevented 993 ageGp9 by 2 gen792
+​ 572I x:ageGp:fam 230:2:-1 by blue 468:3:-1 at gen792 Univ0 prob=0.579
+​ Vax prevented 941 ageGp7 by 437 gen792
+​ 574I x:ageGp:fam 193:2:-1 by blue 23:0:-1 at gen794 Univ0 prob=0.476
+​ Vax prevented 991 ageGp9 by 451 gen794
+​ 574I x:ageGp:fam 17:0:-1 by red 944:7:-1 at gen795 Univ0 prob=0.784
+​ 574I x:ageGp:fam 222:2:-1 by blue 55:1:-1 at gen795 Univ0 prob=0.981
+​ 574I x:ageGp:fam 481:3:-1 by blue 233:2:-1 at gen795 Univ0 prob=0.110
+​ 574I x:ageGp:fam 308:2:-1 by blue 250:2:-1 at gen795 Univ0 prob=0.378
+​ 574I x:ageGp:fam 389:3:-1 by red 548:4:-1 at gen795 Univ0 prob=0.506
+​ Vax prevented 957 ageGp8 by 435 gen796
+​ 575I x:ageGp:fam 739:5:-1 by red 963:8:-1 at gen796 Univ0 prob=0.008
+​ Vax prevented 920 ageGp7 by 207 gen797
+​ Vax prevented 994 ageGp9 by 280 gen797
+​ 580I x:ageGp:fam 709:5:-1 by red 963:8:-1 at gen797 Univ0 prob=0.757
+​ 581I x:ageGp:fam 281:2:-1 by blue 23:0:-1 at gen798 Univ0 prob=0.826
+​ 582I x:ageGp:fam 529:3:-1 by blue 696:5:-1 at gen799 Univ0 prob=0.479
+​ 584I x:ageGp:fam 552:4:-1 by blue 23:0:-1 at gen801 Univ0 prob=0.082
+​ 584I x:ageGp:fam 505:3:-1 by blue 23:0:-1 at gen802 Univ0 prob=0.068
+​ 584I x:ageGp:fam 351:2:-1 by blue 135:2:-1 at gen802 Univ0 prob=0.195
+​ 584I x:ageGp:fam 238:2:-1 by blue 251:2:-1 at gen802 Univ0 prob=0.241
+​ Vax prevented 930 ageGp7 by 548 gen802
+​ 584I x:ageGp:fam 720:5:-1 by blue 696:5:-1 at gen802 Univ0 prob=0.863
+​ Vax prevented 978 ageGp8 by 741 gen803
+​ Vax prevented 948 ageGp7 by 214 gen804
+​ 589I x:ageGp:fam 520:3:-1 by blue 855:6:-1 at gen804 Univ0 prob=0.843
+​ Vax prevented 905 ageGp7 by 796 gen805
+​ 590I x:ageGp:fam 828:6:-1 by blue 164:2:-1 at gen806 Univ0 prob=0.587
+​ 590I x:ageGp:fam 509:3:-1 by blue 361:3:-1 at gen806 Univ0 prob=0.834
+​ Vax prevented 925 ageGp7 by 400 gen806
+​ Vax prevented 905 ageGp7 by 796 gen806
+​ 590I x:ageGp:fam 581:4:-1 by red 911:7:-1 at gen807 Univ0 prob=0.439
+​ Vax prevented 950 ageGp8 by 741 gen807
+​ Vax prevented 925 ageGp7 by 335 gen808
+​ 592I x:ageGp:fam 573:4:-1 by blue 460:3:-1 at gen808 Univ0 prob=0.191
+​ Vax prevented 961 ageGp8 by 23 gen809
+​ 593I x:ageGp:fam 374:3:-1 by red 816:5:-1 at gen809 Univ0 prob=0.375
+​ Vax prevented 962 ageGp8 by 886 gen809
+​ 594I x:ageGp:fam 482:3:-1 by blue 468:3:-1 at gen810 Univ0 prob=0.446
+​ Vax prevented 962 ageGp8 by 886 gen810
+​ 595I x:ageGp:fam 597:4:-1 by red 280:2:-1 at gen811 Univ0 prob=0.185
+​ 595I x:ageGp:fam 342:2:-1 by red 911:7:-1 at gen811 Univ0 prob=0.547
+​ 596I x:ageGp:fam 781:5:-1 by blue 250:2:-1 at gen812 Univ0 prob=0.675
+​ Vax prevented 921 ageGp7 by 468 gen812
+​ Vax prevented 905 ageGp7 by 747 gen813
+​ Vax prevented 993 ageGp9 by 73 gen814
+​ Vax prevented 965 ageGp8 by 251 gen814
+​ 599I x:ageGp:fam 296:2:-1 by red 816:5:-1 at gen814 Univ0 prob=0.381
+​ 599I x:ageGp:fam 711:5:-1 by blue 346:2:-1 at gen814 Univ0 prob=0.026
+​ Vax prevented 905 ageGp7 by 747 gen814
+​ 599I x:ageGp:fam 848:6:-1 by blue 814:5:-1 at gen814 Univ0 prob=0.177
+​ Vax prevented 993 ageGp9 by 73 gen815
+​ 599I x:ageGp:fam 240:2:-1 by blue 814:5:-1 at gen815 Univ0 prob=0.653
+​ Vax prevented 903 ageGp7 by 251 gen815
+​ Vax prevented 905 ageGp7 by 747 gen815
+​ 602I x:ageGp:fam 835:6:-1 by blue 175:2:-1 at gen816 Univ0 prob=0.736
+​ Vax prevented 905 ageGp7 by 747 gen816
+​ 603I x:ageGp:fam 303:2:-1 by red 398:3:-1 at gen817 Univ0 prob=0.337
+​ Vax prevented 925 ageGp7 by 400 gen817
+​ 603I x:ageGp:fam 530:3:-1 by red 574:4:-1 at gen817 Univ0 prob=0.666
+​ Vax prevented 993 ageGp9 by 564 gen817
+​ Vax prevented 925 ageGp7 by 400 gen818
+​ 606I x:ageGp:fam 44:1:-1 by red 399:3:-1 at gen819 Univ0 prob=0.223
+​ Vax prevented 903 ageGp7 by 251 gen819
+​ 606I x:ageGp:fam 808:5:-1 by red 911:7:-1 at gen819 Univ0 prob=0.279
+​ 606I x:ageGp:fam 97:1:-1 by red 868:6:-1 at gen820 Univ0 prob=0.909
+​ Vax prevented 903 ageGp7 by 251 gen820
+​ 608I x:ageGp:fam 145:2:-1 by red 911:7:-1 at gen821 Univ0 prob=0.682
+​ Vax prevented 948 ageGp7 by 214 gen821
+​ Vax prevented 965 ageGp8 by 251 gen821
+​ 608I x:ageGp:fam 678:4:-1 by red 816:5:-1 at gen821 Univ0 prob=0.682
+​ 609I x:ageGp:fam 948:7:-1 by blue 214:2:-1 at gen822 Univ0 prob=0.964
+​ Vax prevented 939 ageGp7 by 796 gen822
+​ Vax prevented 963 ageGp8 by 27 gen823
+​ 611I x:ageGp:fam 165:2:-1 by blue 814:5:-1 at gen823 Univ0 prob=0.248
+​ Vax prevented 965 ageGp8 by 251 gen824
+​ Vax prevented 965 ageGp8 by 251 gen825
+​ 613I x:ageGp:fam 629:4:-1 by red 280:2:-1 at gen825 Univ0 prob=0.151
+​ Vax prevented 925 ageGp7 by 400 gen825
+​ Vax prevented 905 ageGp7 by 613 gen825
+​ Vax prevented 939 ageGp7 by 796 gen825
+​ Vax prevented 978 ageGp8 by 741 gen826
+​ Vax prevented 939 ageGp7 by 796 gen826
+​ Vax prevented 925 ageGp7 by 868 gen826
+​ Vax prevented 948 ageGp7 by 214 gen827
+​ Vax prevented 903 ageGp7 by 251 gen827
+​ Vax prevented 994 ageGp9 by 399 gen827
+​ 614I x:ageGp:fam 879:6:-1 by red 435:3:-1 at gen827 Univ0 prob=0.421
+​ 614I x:ageGp:fam 447:3:-1 by blue 696:5:-1 at gen827 Univ0 prob=0.670
+​ Vax prevented 985 ageGp9 by 855 gen827
+​ 614I x:ageGp:fam 510:3:-1 by red 855:6:-1 at gen828 Univ0 prob=0.847
+​ Vax prevented 948 ageGp7 by 958 gen828
+​ Vax prevented 905 ageGp7 by 613 gen829
+​ Vax prevented 965 ageGp8 by 251 gen830
+​ No transmit 958 ageGp8 on 948 ageGp7 gen830
+​ Vax prevented 905 ageGp7 by 613 gen831
+​ Vax prevented 948 ageGp7 by 958 gen831
+​ Vax prevented 993 ageGp9 by 73 gen832
+​ 617I x:ageGp:fam 268:2:-1 by blue 814:5:-1 at gen832 Univ0 prob=0.713
+​ Vax prevented 976 ageGp8 by 20 gen834
+​ Vax prevented 965 ageGp8 by 251 gen834
+​ 618I x:ageGp:fam 517:3:-1 by blue 735:5:-1 at gen835 Univ0 prob=0.456
+​ Vax prevented 934 ageGp7 by 586 gen835
+​ 618I x:ageGp:fam 632:4:-1 by blue 69:1:-1 at gen836 Univ0 prob=0.637
+​ Vax prevented 910 ageGp7 by 911 gen836
+​ Vax prevented 917 ageGp7 by 293 gen837
+​ 620I x:ageGp:fam 49:1:-1 by blue 214:2:-1 at gen838 Univ0 prob=0.492
+​ 620I x:ageGp:fam 411:3:-1 by blue 69:1:-1 at gen838 Univ0 prob=0.921
+​ Vax prevented 965 ageGp8 by 369 gen838
+​ Vax prevented 993 ageGp9 by 564 gen838
+​ Vax prevented 934 ageGp7 by 81 gen839
+​ Vax prevented 987 ageGp9 by 369 gen841
+​ 622I x:ageGp:fam 545:4:-1 by blue 606:4:-1 at gen841 Univ0 prob=0.064
+​ Vax prevented 948 ageGp7 by 958 gen841
+​ 623I x:ageGp:fam 338:2:-1 by blue 544:4:-1 at gen844 Univ0 prob=0.882
+​ 623I x:ageGp:fam 609:4:-1 by red 963:8:-1 at gen844 Univ0 prob=0.023
+​ 623I x:ageGp:fam 185:2:-1 by blue 715:5:-1 at gen845 Univ0 prob=0.429
+​ Vax prevented 987 ageGp9 by 251 gen845
+​ Vax prevented 976 ageGp8 by 523 gen845
+​ Vax prevented 994 ageGp9 by 647 gen845
+​ Vax prevented 987 ageGp9 by 251 gen846
+​ 625I x:ageGp:fam 454:3:-1 by blue 715:5:-1 at gen846 Univ0 prob=0.371
+​ Vax prevented 948 ageGp7 by 958 gen846
+​ Vax prevented 994 ageGp9 by 647 gen847
+​ 627I x:ageGp:fam 37:0:-1 by red 911:7:-1 at gen848 Univ0 prob=0.001
+​ Vax prevented 976 ageGp8 by 523 gen848
+​ 627I x:ageGp:fam 84:1:-1 by red 853:6:-1 at gen849 Univ0 prob=0.774
+​ Vax prevented 934 ageGp7 by 175 gen849
+​ Vax prevented 948 ageGp7 by 388 gen850
+​ 629I x:ageGp:fam 506:3:-1 by red 251:2:-1 at gen851 Univ0 prob=0.397
+​ Vax prevented 987 ageGp9 by 251 gen851
+​ 629I x:ageGp:fam 506:3:-1 by blue 369:3:-1 at gen851 Univ0 prob=0.309
+​ Vax prevented 987 ageGp9 by 369 gen851
+​ 629I x:ageGp:fam 737:5:-1 by blue 715:5:-1 at gen851 Univ0 prob=0.985
+​ 629I x:ageGp:fam 112:1:-1 by red 468:3:-1 at gen852 Univ0 prob=0.581
+​ Vax prevented 948 ageGp7 by 814 gen852
+​ Vax prevented 909 ageGp7 by 822 gen852
+​ 631I x:ageGp:fam 713:5:-1 by blue 69:1:-1 at gen853 Univ0 prob=0.133
+​ 631I x:ageGp:fam 167:2:-1 by red 855:6:-1 at gen853 Univ0 prob=0.738
+​ 631I x:ageGp:fam 795:5:-1 by blue 957:8:-1 at gen853 Univ0 prob=0.900
+​ 632I x:ageGp:fam 431:3:-1 by blue 69:1:-1 at gen854 Univ0 prob=0.700
+​ Vax prevented 917 ageGp7 by 293 gen854
+​ Vax prevented 994 ageGp9 by 481 gen854
+​ Vax prevented 925 ageGp7 by 775 gen854
+​ Vax prevented 953 ageGp8 by 855 gen855
+​ 636I x:ageGp:fam 694:5:-1 by blue 520:3:-1 at gen856 Univ0 prob=0.439
+​ Vax prevented 956 ageGp8 by 361 gen857
+​ Vax prevented 994 ageGp9 by 481 gen857
+​ Vax prevented 976 ageGp8 by 696 gen857
+​ Vax prevented 926 ageGp7 by 560 gen858
+​ Vax prevented 926 ageGp7 by 560 gen859
+​ Vax prevented 965 ageGp8 by 251 gen860
+​ 637I x:ageGp:fam 903:7:-1 by blue 369:3:-1 at gen860 Univ0 prob=0.958
+​ Vax prevented 926 ageGp7 by 560 gen860
+​ Vax prevented 915 ageGp7 by 590 gen860
+​ Vax prevented 934 ageGp7 by 586 gen861
+​ Vax prevented 909 ageGp7 by 822 gen861
+​ Vax prevented 917 ageGp7 by 293 gen862
+​ Vax prevented 965 ageGp8 by 251 gen863
+​ Vax prevented 903 ageGp7 by 369 gen863
+​ 638I x:ageGp:fam 901:6:-1 by red 560:4:-1 at gen863 Univ0 prob=0.437
+​ Vax prevented 976 ageGp8 by 162 gen864
+​ 639I x:ageGp:fam 630:4:-1 by blue 69:1:-1 at gen865 Univ0 prob=0.336
+​ 639I x:ageGp:fam 245:2:-1 by blue 505:3:-1 at gen865 Univ0 prob=0.416
+​ 639I x:ageGp:fam 316:2:-1 by blue 482:3:-1 at gen865 Univ0 prob=0.770
+​ 639I x:ageGp:fam 649:4:-1 by blue 351:2:-1 at gen865 Univ0 prob=0.108
+​ Vax prevented 987 ageGp9 by 820 gen866
+​ Vax prevented 962 ageGp8 by 949 gen866
+​ 643I x:ageGp:fam 426:3:-1 by red 251:2:-1 at gen868 Univ0 prob=0.206
+​ 643I x:ageGp:fam 645:4:-1 by blue 293:2:-1 at gen868 Univ0 prob=0.571
+​ 643I x:ageGp:fam 622:4:-1 by blue 308:2:-1 at gen868 Univ0 prob=0.624
+​ Vax prevented 942 ageGp7 by 468 gen868
+​ Vax prevented 976 ageGp8 by 696 gen868
+​ 643I x:ageGp:fam 290:2:-1 by blue 308:2:-1 at gen869 Univ0 prob=0.795
+​ Vax prevented 917 ageGp7 by 293 gen869
+​ Vax prevented 909 ageGp7 by 822 gen870
+​ Vax prevented 933 ageGp7 by 193 gen871
+​ 647I x:ageGp:fam 436:3:-1 by blue 715:5:-1 at gen871 Univ0 prob=0.840
+​ 647I x:ageGp:fam 987:9:-1 by blue 820:5:-1 at gen871 Univ0 prob=0.971
+​ Vax prevented 933 ageGp7 by 69 gen872
+​ Vax prevented 994 ageGp9 by 280 gen872
+​ Vax prevented 933 ageGp7 by 69 gen873
+​ Vax prevented 909 ageGp7 by 145 gen873
+​ Vax prevented 933 ageGp7 by 193 gen874
+​ 649I x:ageGp:fam 210:2:-1 by blue 505:3:-1 at gen874 Univ0 prob=0.692
+​ Vax prevented 921 ageGp7 by 574 gen874
+​ 649I x:ageGp:fam 179:2:-1 by blue 505:3:-1 at gen875 Univ0 prob=0.394
+​ Vax prevented 940 ageGp7 by 308 gen875
+​ 649I x:ageGp:fam 801:5:-1 by blue 529:3:-1 at gen875 Univ0 prob=0.356
+​ Vax prevented 974 ageGp8 by 361 gen876
+​ Vax prevented 907 ageGp7 by 428 gen876
+​ Vax prevented 909 ageGp7 by 447 gen876
+​ Vax prevented 910 ageGp7 by 808 gen877
+​ 652I x:ageGp:fam 767:5:-1 by blue 308:2:-1 at gen878 Univ0 prob=0.565
+​ 652I x:ageGp:fam 663:4:-1 by blue 520:3:-1 at gen878 Univ0 prob=0.207
+​ 652I x:ageGp:fam 493:3:-1 by blue 193:2:-1 at gen879 Univ0 prob=0.507
+​ Vax prevented 995 ageGp9 by 715 gen879
+​ Vax prevented 953 ageGp8 by 81 gen880
+​ Vax prevented 948 ageGp7 by 230 gen880
+​ 654I x:ageGp:fam 340:2:-1 by blue 281:2:-1 at gen880 Univ0 prob=0.288
+​ 655I x:ageGp:fam 407:3:-1 by blue 238:2:-1 at gen881 Univ0 prob=0.040
+​ Vax prevented 982 ageGp9 by 400 gen881
+​ 656I x:ageGp:fam 761:5:-1 by blue 369:3:-1 at gen882 Univ0 prob=0.904
+​ Vax prevented 982 ageGp9 by 400 gen882
+​ 657I x:ageGp:fam 94:1:-1 by blue 581:4:-1 at gen883 Univ0 prob=0.475
+​ 657I x:ageGp:fam 884:6:-1 by blue 281:2:-1 at gen883 Univ0 prob=0.827
+​ Vax prevented 940 ageGp7 by 308 gen883
+​ Vax prevented 987 ageGp9 by 828 gen884
+​ Vax prevented 940 ageGp7 by 308 gen885
+​ Vax prevented 987 ageGp9 by 828 gen885
+​ 660I x:ageGp:fam 478:3:-1 by yellow 632:4:-1 at gen886 Univ0 prob=0.612
+​ Vax prevented 987 ageGp9 by 828 gen886
+​ 660I x:ageGp:fam 198:2:-1 by blue 555:4:-1 at gen887 Univ0 prob=0.587
+​ Vax prevented 994 ageGp9 by 222 gen887
+​ 661I x:ageGp:fam 126:1:-1 by blue 17:0:-1 at gen888 Univ0 prob=0.288
+​ 661I x:ageGp:fam 554:4:-1 by blue 552:4:-1 at gen888 Univ0 prob=0.209
+​ 661I x:ageGp:fam 896:6:-1 by blue 848:6:-1 at gen888 Univ0 prob=0.865
+​ 665I x:ageGp:fam 681:4:-1 by blue 828:6:-1 at gen890 Univ0 prob=0.242
+​ Vax prevented 909 ageGp7 by 145 gen891
+​ 665I x:ageGp:fam 559:4:-1 by blue 296:2:-1 at gen891 Univ0 prob=0.273
+​ Vax prevented 961 ageGp8 by 411 gen891
+​ 666I x:ageGp:fam 83:1:-1 by blue 530:3:-1 at gen892 Univ0 prob=0.116
+​ 666I x:ageGp:fam 786:5:-1 by blue 193:2:-1 at gen892 Univ0 prob=0.006
+​ 667I x:ageGp:fam 367:3:-1 by red 111:1:-1 at gen893 Univ0 prob=0.218
+​ Vax prevented 977 ageGp8 by 193 gen893
+​ Vax prevented 994 ageGp9 by 629 gen893
+​ Vax prevented 953 ageGp8 by 81 gen895
+​ Vax prevented 953 ageGp8 by 81 gen896
+​ 670I x:ageGp:fam 614:4:-1 by blue 296:2:-1 at gen896 Univ0 prob=0.234
+​ 670I x:ageGp:fam 442:3:-1 by red 915:7:-1 at gen896 Univ0 prob=0.029
+​ 670I x:ageGp:fam 633:4:-1 by blue 505:3:-1 at gen897 Univ0 prob=0.349
+​ 670I x:ageGp:fam 547:4:-1 by red 644:4:-1 at gen897 Univ0 prob=0.905
+​ Vax prevented 916 ageGp7 by 575 gen897
+​ Vax prevented 903 ageGp7 by 808 gen897
+​ Vax prevented 987 ageGp9 by 828 gen897
+​ Vax prevented 982 ageGp9 by 518 gen898
+​ Vax prevented 903 ageGp7 by 808 gen898
+​ Vax prevented 934 ageGp7 by 163 gen899
+​ 674I x:ageGp:fam 449:3:-1 by blue 165:2:-1 at gen899 Univ0 prob=0.778
+​ 674I x:ageGp:fam 248:2:-1 by blue 555:4:-1 at gen899 Univ0 prob=0.664
+​ Vax prevented 985 ageGp9 by 520 gen899
+​ Vax prevented 980 ageGp8 by 165 gen900
+​ Vax prevented 965 ageGp8 by 251 gen900
+​ Vax prevented 980 ageGp8 by 408 gen900
+​ Vax prevented 982 ageGp9 by 518 gen900
+​ Vax prevented 987 ageGp9 by 828 gen900
+​ 676I x:ageGp:fam 875:6:-1 by blue 185:2:-1 at gen901 Univ0 prob=0.222
+​ Vax prevented 960 ageGp8 by 185 gen901
+​ Vax prevented 987 ageGp9 by 238 gen901
+​ Vax prevented 965 ageGp8 by 251 gen901
+​ Vax prevented 909 ageGp7 by 447 gen901
+​ Vax prevented 982 ageGp9 by 518 gen901
+​ Vax prevented 978 ageGp8 by 163 gen902
+​ Vax prevented 960 ageGp8 by 185 gen902
+​ 676I x:ageGp:fam 235:2:-1 by red 957:8:-1 at gen902 Univ0 prob=0.943
+​ Vax prevented 921 ageGp7 by 509 gen902
+​ Vax prevented 982 ageGp9 by 518 gen902
+​ 677I x:ageGp:fam 753:5:-1 by red 69:1:-1 at gen903 Univ0 prob=0.220
+​ Vax prevented 977 ageGp8 by 193 gen903
+​ 677I x:ageGp:fam 404:3:-1 by blue 530:3:-1 at gen903 Univ0 prob=0.950
+​ Vax prevented 921 ageGp7 by 509 gen903
+​ Vax prevented 987 ageGp9 by 828 gen903
+​ Vax prevented 977 ageGp8 by 193 gen904
+​ Vax prevented 909 ageGp7 by 369 gen904
+​ 678I x:ageGp:fam 566:4:-1 by blue 510:3:-1 at gen904 Univ0 prob=0.152
+​ Vax prevented 980 ageGp8 by 165 gen905
+​ 680I x:ageGp:fam 598:4:-1 by red 441:3:-1 at gen905 Univ0 prob=0.733
+​ 680I x:ageGp:fam 829:6:-1 by red 715:5:-1 at gen905 Univ0 prob=0.086
+​ 681I x:ageGp:fam 542:4:-1 by blue 431:3:-1 at gen906 Univ0 prob=0.042
+​ 681I x:ageGp:fam 985:9:-1 by blue 520:3:-1 at gen906 Univ0 prob=0.995
+​ Vax prevented 934 ageGp7 by 207 gen907
+​ Vax prevented 942 ageGp7 by 351 gen907
+​ 685I x:ageGp:fam 587:4:-1 by red 293:2:-1 at gen908 Univ0 prob=0.015
+​ Vax prevented 909 ageGp7 by 447 gen908
+​ Vax prevented 977 ageGp8 by 193 gen909
+​ 685I x:ageGp:fam 537:3:-1 by blue 632:4:-1 at gen909 Univ0 prob=0.871
+​ Vax prevented 959 ageGp8 by 627 gen909
+​ 685I x:ageGp:fam 666:4:-1 by red 957:8:-1 at gen909 Univ0 prob=0.700
+​ 686I x:ageGp:fam 337:2:-1 by blue 281:2:-1 at gen910 Univ0 prob=0.415
+​ Vax prevented 959 ageGp8 by 627 gen910
+​ 689I x:ageGp:fam 455:3:-1 by blue 84:1:-1 at gen912 Univ0 prob=0.279
+​ 689I x:ageGp:fam 169:2:-1 by blue 482:3:-1 at gen912 Univ0 prob=0.492
+​ Vax prevented 909 ageGp7 by 349 gen912
+​ 689I x:ageGp:fam 571:4:-1 by blue 510:3:-1 at gen912 Univ0 prob=0.093
+​ 689I x:ageGp:fam 784:5:-1 by blue 597:4:-1 at gen912 Univ0 prob=0.562
+​ Vax prevented 934 ageGp7 by 175 gen913
+​ 693I x:ageGp:fam 631:4:-1 by blue 185:2:-1 at gen915 Univ0 prob=0.066
+​ 693I x:ageGp:fam 467:3:-1 by blue 281:2:-1 at gen915 Univ0 prob=0.250
+​ 693I x:ageGp:fam 410:3:-1 by blue 510:3:-1 at gen915 Univ0 prob=0.371
+​ 693I x:ageGp:fam 156:2:-1 by blue 630:4:-1 at gen916 Univ0 prob=0.431
+​ Vax prevented 977 ageGp8 by 193 gen916
+​ 697I x:ageGp:fam 297:2:-1 by blue 454:3:-1 at gen918 Univ0 prob=0.352
+​ Vax prevented 940 ageGp7 by 290 gen919
+​ 697I x:ageGp:fam 727:5:-1 by blue 505:3:-1 at gen919 Univ0 prob=0.959
+​ Vax prevented 987 ageGp9 by 162 gen920
+​ Vax prevented 942 ageGp7 by 296 gen920
+​ Vax prevented 987 ageGp9 by 162 gen921
+​ 699I x:ageGp:fam 137:2:-1 by blue 530:3:-1 at gen922 Univ0 prob=0.717
+​ Vax prevented 960 ageGp8 by 185 gen922
+​ 699I x:ageGp:fam 131:2:-1 by red 555:4:-1 at gen923 Univ0 prob=0.528
+​ 699I x:ageGp:fam 183:2:-1 by blue 338:2:-1 at gen923 Univ0 prob=0.017
+​ Vax prevented 993 ageGp9 by 366 gen923
+​ 700I x:ageGp:fam 92:1:-1 by blue 426:3:-1 at gen924 Univ0 prob=0.515
+​ Vax prevented 951 ageGp8 by 185 gen924
+​ 700I x:ageGp:fam 652:4:-1 by blue 338:2:-1 at gen924 Univ0 prob=0.770
+​ Vax prevented 951 ageGp8 by 185 gen925
+​ 702I x:ageGp:fam 500:3:-1 by red 518:3:-1 at gen925 Univ0 prob=0.703
+​ 702I x:ageGp:fam 563:4:-1 by blue 645:4:-1 at gen925 Univ0 prob=0.213
+​ Vax prevented 987 ageGp9 by 162 gen926
+​ 704I x:ageGp:fam 569:4:-1 by blue 630:4:-1 at gen926 Univ0 prob=0.973
+​ 706I x:ageGp:fam 837:6:-1 by blue 167:2:-1 at gen927 Univ0 prob=0.474
+​ 706I x:ageGp:fam 541:4:-1 by red 193:2:-1 at gen927 Univ0 prob=0.475
+​ Vax prevented 933 ageGp7 by 193 gen927
+​ 706I x:ageGp:fam 882:6:-1 by blue 493:3:-1 at gen927 Univ0 prob=0.922
+​ 707I x:ageGp:fam 336:2:-1 by blue 678:4:-1 at gen928 Univ0 prob=0.909
+​ Vax prevented 934 ageGp7 by 163 gen929
+​ 710I x:ageGp:fam 888:6:-1 by blue 185:2:-1 at gen929 Univ0 prob=0.095
+​ Vax prevented 994 ageGp9 by 396 gen929
+​ Vax prevented 978 ageGp8 by 163 gen932
+​ 712I x:ageGp:fam 458:3:-1 by blue 903:7:-1 at gen932 Univ0 prob=0.926
+​ 712I x:ageGp:fam 258:2:-1 by blue 510:3:-1 at gen933 Univ0 prob=0.802
+​ 712I x:ageGp:fam 660:4:-1 by blue 506:3:-1 at gen933 Univ0 prob=0.306
+​ 715I x:ageGp:fam 430:3:-1 by red 293:2:-1 at gen936 Univ0 prob=0.093
+​ Vax prevented 909 ageGp7 by 761 gen936
+​ Vax prevented 940 ageGp7 by 290 gen937
+​ 715I x:ageGp:fam 381:3:-1 by blue 436:3:-1 at gen937 Univ0 prob=0.885
+​ 717I x:ageGp:fam 113:1:-1 by blue 478:3:-1 at gen939 Univ0 prob=0.872
+​ 717I x:ageGp:fam 959:8:-1 by yellow 681:4:-1 at gen939 Univ0 prob=0.966
+​ Vax prevented 990 ageGp9 by 808 gen940
+​ 719I x:ageGp:fam 86:1:-1 by red 494:3:-1 at gen941 Univ0 prob=0.574
+​ 719I x:ageGp:fam 148:2:-1 by blue 245:2:-1 at gen942 Univ0 prob=0.141
+​ 720I x:ageGp:fam 173:2:-1 by blue 37:0:-1 at gen943 Univ0 prob=0.129
+​ Vax prevented 940 ageGp7 by 606 gen943
+​ 721I x:ageGp:fam 125:1:-1 by blue 245:2:-1 at gen944 Univ0 prob=0.418
+​ Vax prevented 951 ageGp8 by 185 gen944
+​ Vax prevented 987 ageGp9 by 530 gen944
+​ Vax prevented 940 ageGp7 by 622 gen944
+​ Vax prevented 903 ageGp7 by 808 gen944
+​ 722I x:ageGp:fam 88:1:-1 by red 293:2:-1 at gen945 Univ0 prob=0.288
+​ 722I x:ageGp:fam 271:2:-1 by blue 436:3:-1 at gen945 Univ0 prob=0.931
+​ 722I x:ageGp:fam 872:6:-1 by blue 436:3:-1 at gen945 Univ0 prob=0.221
+​ 723I x:ageGp:fam 13:0:-1 by red 81:1:-1 at gen946 Univ0 prob=0.585
+​ 723I x:ageGp:fam 324:2:-1 by blue 338:2:-1 at gen946 Univ0 prob=0.892
+​ 726I x:ageGp:fam 568:4:-1 by red 145:2:-1 at gen947 Univ0 prob=0.207
+​ Vax prevented 961 ageGp8 by 167 gen947
+​ Vax prevented 933 ageGp7 by 193 gen948
+​ Vax prevented 930 ageGp7 by 559 gen949
+​ Vax prevented 940 ageGp7 by 606 gen949
+​ 729I x:ageGp:fam 601:4:-1 by blue 630:4:-1 at gen950 Univ0 prob=0.116
+​ 729I x:ageGp:fam 310:2:-1 by red 981:8:-1 at gen951 Univ0 prob=0.019
+​ Vax prevented 965 ageGp8 by 720 gen951
+​ Vax prevented 959 ageGp8 by 820 gen951
+​ 731I x:ageGp:fam 28:0:-1 by blue 245:2:-1 at gen954 Univ0 prob=0.566
+​ Vax prevented 926 ageGp7 by 901 gen954
+​ Vax prevented 907 ageGp7 by 222 gen955
+​ 731I x:ageGp:fam 654:4:-1 by red 366:3:-1 at gen955 Univ0 prob=0.370
+​ 731I x:ageGp:fam 712:5:-1 by blue 737:5:-1 at gen955 Univ0 prob=0.269
+​ 732I x:ageGp:fam 108:1:-1 by red 510:3:-1 at gen956 Univ0 prob=0.985
+​ 732I x:ageGp:fam 317:2:-1 by blue 985:9:-1 at gen956 Univ0 prob=0.121
+​ Vax prevented 933 ageGp7 by 633 gen956
+​ Vax prevented 910 ageGp7 by 645 gen956
+​ Vax prevented 904 ageGp7 by 808 gen956
+​ Vax prevented 977 ageGp8 by 193 gen958
+​ Vax prevented 926 ageGp7 by 606 gen958
+​ Vax prevented 959 ageGp8 by 761 gen958
+​ 736I x:ageGp:fam 241:2:-1 by blue 94:1:-1 at gen959 Univ0 prob=0.548
+​ Vax prevented 926 ageGp7 by 290 gen960
+​ Vax prevented 948 ageGp7 by 389 gen960
+​ Vax prevented 961 ageGp8 by 167 gen961
+​ Vax prevented 940 ageGp7 by 622 gen961
+​ Vax prevented 974 ageGp8 by 948 gen962
+​ Vax prevented 959 ageGp8 by 162 gen964
+​ Vax prevented 926 ageGp7 by 308 gen964
+​ Vax prevented 982 ageGp9 by 529 gen964
+​ Vax prevented 910 ageGp7 by 645 gen964
+​ Vax prevented 961 ageGp8 by 167 gen965
+​ 737I x:ageGp:fam 347:2:-1 by blue 631:4:-1 at gen965 Univ0 prob=0.658
+​ Vax prevented 990 ageGp9 by 369 gen965
+​ Vax prevented 982 ageGp9 by 529 gen965
+​ 737I x:ageGp:fam 899:6:-1 by blue 631:4:-1 at gen965 Univ0 prob=0.143
+​ Vax prevented 959 ageGp8 by 828 gen965
+​ Vax prevented 940 ageGp7 by 622 gen966
+​ 737I x:ageGp:fam 625:4:-1 by blue 985:9:-1 at gen966 Univ0 prob=0.965
+​ 740I x:ageGp:fam 289:2:-1 by red 185:2:-1 at gen969 Univ0 prob=0.317
+​ Vax prevented 969 ageGp8 by 517 gen969
+​ Vax prevented 956 ageGp8 by 547 gen970
+​ 741I x:ageGp:fam 187:2:-1 by red 530:3:-1 at gen972 Univ0 prob=0.019
+​ 741I x:ageGp:fam 504:3:-1 by blue 245:2:-1 at gen972 Univ0 prob=0.680
+​ 741I x:ageGp:fam 699:5:-1 by blue 245:2:-1 at gen972 Univ0 prob=0.627
+​ 741I x:ageGp:fam 507:3:-1 by blue 630:4:-1 at gen972 Univ0 prob=0.061
+​ 741I x:ageGp:fam 873:6:-1 by blue 587:4:-1 at gen972 Univ0 prob=0.336
+​ Vax prevented 990 ageGp9 by 645 gen972
+​ Vax prevented 933 ageGp7 by 633 gen973
+​ Vax prevented 992 ageGp9 by 185 gen974
+​ 746I x:ageGp:fam 464:3:-1 by blue 631:4:-1 at gen974 Univ0 prob=0.027
+​ Vax prevented 916 ageGp7 by 835 gen974
+​ Vax prevented 992 ageGp9 by 185 gen975
+​ Vax prevented 961 ageGp8 by 167 gen976
+​ 747I x:ageGp:fam 516:3:-1 by yellow 652:4:-1 at gen976 Univ0 prob=0.517
+​ 747I x:ageGp:fam 171:2:-1 by red 509:3:-1 at gen977 Univ0 prob=0.756
+​ Vax prevented 909 ageGp7 by 645 gen978
+​ Vax prevented 961 ageGp8 by 167 gen979
+​ Vax prevented 907 ageGp7 by 222 gen979
+​ Vax prevented 904 ageGp7 by 808 gen979
+​ Vax prevented 926 ageGp7 by 84 gen980
+​ Vax prevented 921 ageGp7 by 449 gen980
+​ Vax prevented 964 ageGp8 by 614 gen980
+​ Vax prevented 993 ageGp9 by 517 gen982
+​ 749I x:ageGp:fam 288:2:-1 by blue 985:9:-1 at gen983 Univ0 prob=0.569
+​ Vax prevented 926 ageGp7 by 622 gen984
+​ 750I x:ageGp:fam 385:3:-1 by blue 631:4:-1 at gen985 Univ0 prob=0.272
+​ Vax prevented 926 ageGp7 by 622 gen985
+​ Vax prevented 953 ageGp8 by 666 gen985
+​ 750I x:ageGp:fam 142:2:-1 by red 240:2:-1 at gen986 Univ0 prob=0.637
+​ 750I x:ageGp:fam 359:3:-1 by red 185:2:-1 at gen986 Univ0 prob=0.936
+​ Vax prevented 917 ageGp7 by 458 gen986
+​ Vax prevented 926 ageGp7 by 622 gen986
+​ Vax prevented 926 ageGp7 by 622 gen987
+​ Vax prevented 960 ageGp8 by 630 gen987
+​ 751I x:ageGp:fam 706:5:-1 by blue 631:4:-1 at gen987 Univ0 prob=0.677
+​ Vax prevented 940 ageGp7 by 622 gen988
+​ 754I x:ageGp:fam 491:3:-1 by blue 571:4:-1 at gen989 Univ0 prob=0.130
+​ Vax prevented 974 ageGp8 by 948 gen991
+​ Vax prevented 969 ageGp8 by 86 gen993
+​ 755I x:ageGp:fam 181:2:-1 by blue 183:2:-1 at gen993 Univ0 prob=0.933
+​ Vax prevented 974 ageGp8 by 948 gen993
+​ 755I x:ageGp:fam 119:1:-1 by blue 173:2:-1 at gen994 Univ0 prob=0.375
+​ 755I x:ageGp:fam 439:3:-1 by blue 156:2:-1 at gen994 Univ0 prob=0.329
+​ 755I x:ageGp:fam 265:2:-1 by red 505:3:-1 at gen994 Univ0 prob=0.016
+​ 755I x:ageGp:fam 432:3:-1 by blue 537:3:-1 at gen994 Univ0 prob=0.140
+​ Vax prevented 948 ageGp7 by 467 gen994
+​ 755I x:ageGp:fam 489:3:-1 by yellow 872:6:-1 at gen994 Univ0 prob=0.073
+​ Vax prevented 933 ageGp7 by 537 gen994
+​ 755I x:ageGp:fam 836:6:-1 by blue 569:4:-1 at gen994 Univ0 prob=0.139
+​ 756I x:ageGp:fam 501:3:-1 by blue 985:9:-1 at gen995 Univ0 prob=0.107
+​ 756I x:ageGp:fam 594:4:-1 by red 505:3:-1 at gen995 Univ0 prob=0.594
+​ 756I x:ageGp:fam 611:4:-1 by blue 633:4:-1 at gen995 Univ0 prob=0.623
+​ 762I x:ageGp:fam 254:2:-1 by red 185:2:-1 at gen996 Univ0 prob=0.502
+​ 762I x:ageGp:fam 357:2:-1 by blue 631:4:-1 at gen996 Univ0 prob=0.695
+​ 762I x:ageGp:fam 662:4:-1 by red 436:3:-1 at gen996 Univ0 prob=0.347
+​ Vax prevented 926 ageGp7 by 767 gen997
+​ Vax prevented 961 ageGp8 by 297 gen998
+​ 768I x:ageGp:fam 933:7:-1 by blue 537:3:-1 at gen998 Univ0 prob=0.995
+​ 768I x:ageGp:fam 246:2:-1 by red 185:2:-1 at gen999 Univ0 prob=0.570
+​ 769I x:ageGp:fam 626:4:-1 by blue 183:2:-1 at gen1000 Univ0 prob=0.422
+​ 769I x:ageGp:fam 926:7:-1 by red 290:2:-1 at gen1000 Univ0 prob=0.991
+​ Vax prevented 940 ageGp7 by 901 gen1000
+​ 770I x:ageGp:fam 82:1:-1 by red 316:2:-1 at gen1001 Univ0 prob=0.286
+​ 773I x:ageGp:fam 12:0:-1 by yellow 712:5:-1 at gen1003 Univ0 prob=0.862
+​ Vax prevented 994 ageGp9 by 455 gen1003
+​ 774I x:ageGp:fam 21:0:-1 by yellow 108:1:-1 at gen1005 Univ0 prob=0.089
+​ 774I x:ageGp:fam 59:1:-1 by blue 837:6:-1 at gen1005 Univ0 prob=0.063
+​ 776I x:ageGp:fam 110:1:-1 by blue 566:4:-1 at gen1008 Univ0 prob=0.278
+​ 776I x:ageGp:fam 429:3:-1 by blue 631:4:-1 at gen1008 Univ0 prob=0.454
+​ Vax prevented 933 ageGp7 by 537 gen1008
+​ Vax prevented 903 ageGp7 by 559 gen1008
+​ 776I x:ageGp:fam 726:5:-1 by blue 258:2:-1 at gen1009 Univ0 prob=0.796
+​ 776I x:ageGp:fam 260:2:-1 by red 454:3:-1 at gen1009 Univ0 prob=0.606
+​ 776I x:ageGp:fam 462:3:-1 by red 630:4:-1 at gen1009 Univ0 prob=0.662
+​ Vax prevented 933 ageGp7 by 537 gen1009
+​ 778I x:ageGp:fam 729:5:-1 by blue 569:4:-1 at gen1010 Univ0 prob=0.525
+​ Vax prevented 993 ageGp9 by 86 gen1011
+​ Vax prevented 993 ageGp9 by 517 gen1012
+​ Vax prevented 903 ageGp7 by 169 gen1013
+​ Vax prevented 926 ageGp7 by 901 gen1013
+​ 782I x:ageGp:fam 9:0:-1 by blue 430:3:-1 at gen1014 Univ0 prob=0.044
+​ Vax prevented 980 ageGp8 by 49 gen1014
+​ Vax prevented 990 ageGp9 by 645 gen1014
+​ Vax prevented 926 ageGp7 by 901 gen1014
+​ Vax prevented 977 ageGp8 by 148 gen1015
+​ Vax prevented 977 ageGp8 by 179 gen1015
+​ 782I x:ageGp:fam 203:2:-1 by red 879:6:-1 at gen1015 Univ0 prob=0.610
+​ Vax prevented 977 ageGp8 by 317 gen1015
+​ 784I x:ageGp:fam 304:2:-1 by blue 28:0:-1 at gen1018 Univ0 prob=0.868
+​ Vax prevented 990 ageGp9 by 645 gen1018
+​ 784I x:ageGp:fam 766:5:-1 by blue 28:0:-1 at gen1019 Univ0 prob=0.747
+​ 784I x:ageGp:fam 710:5:-1 by blue 113:1:-1 at gen1019 Univ0 prob=0.965
+​ 784I x:ageGp:fam 683:4:-1 by blue 310:2:-1 at gen1019 Univ0 prob=0.891
+​ Vax prevented 990 ageGp9 by 645 gen1019
+​ Vax prevented 940 ageGp7 by 901 gen1019
+​ 785I x:ageGp:fam 690:5:-1 by blue 258:2:-1 at gen1020 Univ0 prob=0.207
+​ Vax prevented 904 ageGp7 by 430 gen1020
+​ Vax prevented 940 ageGp7 by 901 gen1020
+​ 788I x:ageGp:fam 438:3:-1 by blue 410:3:-1 at gen1021 Univ0 prob=0.777
+​ 789I x:ageGp:fam 205:2:-1 by red 411:3:-1 at gen1022 Univ0 prob=0.242
+​ 789I x:ageGp:fam 719:5:-1 by red 245:2:-1 at gen1022 Univ0 prob=0.266
+​ Vax prevented 960 ageGp8 by 271 gen1022
+​ Vax prevented 926 ageGp7 by 290 gen1022
+​ 790I x:ageGp:fam 470:3:-1 by red 630:4:-1 at gen1023 Univ0 prob=0.422
+​ Vax prevented 903 ageGp7 by 88 gen1024
+​ 792I x:ageGp:fam 776:5:-1 by blue 336:2:-1 at gen1024 Univ0 prob=0.854
+​ Vax prevented 921 ageGp7 by 449 gen1025
+​ 794I x:ageGp:fam 960:8:-1 by blue 289:2:-1 at gen1028 Univ0 prob=0.972
+​ 794I x:ageGp:fam 558:4:-1 by blue 28:0:-1 at gen1029 Univ0 prob=0.979
+​ Vax prevented 924 ageGp7 by 156 gen1029
+​ Vax prevented 924 ageGp7 by 156 gen1030
+​ 796I x:ageGp:fam 161:2:-1 by blue 899:6:-1 at gen1032 Univ0 prob=0.135
+​ 796I x:ageGp:fam 116:1:-1 by red 478:3:-1 at gen1033 Univ0 prob=0.588
+​ Vax prevented 979 ageGp8 by 337 gen1033
+​ 796I x:ageGp:fam 536:3:-1 by blue 872:6:-1 at gen1033 Univ0 prob=0.476
+​ Vax prevented 979 ageGp8 by 337 gen1034
+​ Vax prevented 974 ageGp8 by 467 gen1034
+​ 797I x:ageGp:fam 492:3:-1 by blue 652:4:-1 at gen1034 Univ0 prob=0.034
+​ Vax prevented 917 ageGp7 by 645 gen1034
+​ Vax prevented 959 ageGp8 by 681 gen1034
+​ Vax prevented 994 ageGp9 by 455 gen1035
+​ Vax prevented 917 ageGp7 by 645 gen1035
+​ 800I x:ageGp:fam 834:6:-1 by blue 464:3:-1 at gen1036 Univ0 prob=0.208
+​ 800I x:ageGp:fam 270:2:-1 by red 436:3:-1 at gen1037 Univ0 prob=0.710
+​ Vax prevented 933 ageGp7 by 569 gen1037
+​ 800I x:ageGp:fam 736:5:-1 by red 786:5:-1 at gen1037 Univ0 prob=0.452
+​ 801I x:ageGp:fam 188:2:-1 by blue 625:4:-1 at gen1038 Univ0 prob=0.067
+​ 801I x:ageGp:fam 339:2:-1 by red 410:3:-1 at gen1038 Univ0 prob=0.071
+​ 803I x:ageGp:fam 227:2:-1 by red 571:4:-1 at gen1039 Univ0 prob=0.396
+​ 806I x:ageGp:fam 424:3:-1 by blue 173:2:-1 at gen1041 Univ0 prob=0.862
+​ 806I x:ageGp:fam 221:2:-1 by blue 173:2:-1 at gen1042 Univ0 prob=0.370
+​ 807I x:ageGp:fam 377:3:-1 by red 337:2:-1 at gen1043 Univ0 prob=0.485
+​ Vax prevented 943 ageGp7 by 430 gen1043
+​ Vax prevented 924 ageGp7 by 156 gen1044
+​ Vax prevented 994 ageGp9 by 455 gen1044
+​ Vax prevented 953 ageGp8 by 985 gen1044
+​ 809I x:ageGp:fam 783:5:-1 by blue 108:1:-1 at gen1045 Univ0 prob=0.161
+​ 809I x:ageGp:fam 700:5:-1 by red 407:3:-1 at gen1045 Univ0 prob=0.176
+​ Vax prevented 943 ageGp7 by 430 gen1045
+​ 811I x:ageGp:fam 118:1:-1 by blue 357:2:-1 at gen1047 Univ0 prob=0.403
+​ 811I x:ageGp:fam 425:3:-1 by blue 888:6:-1 at gen1047 Univ0 prob=0.131
+​ 811I x:ageGp:fam 0:0:-1 by red 407:3:-1 at gen1048 Univ0 prob=0.502
+​ 811I x:ageGp:fam 371:3:-1 by yellow 933:7:-1 at gen1048 Univ0 prob=0.788
+​ 813I x:ageGp:fam 557:4:-1 by blue 504:3:-1 at gen1049 Univ0 prob=0.834
+​ Vax prevented 940 ageGp7 by 901 gen1049
+​ 815I x:ageGp:fam 237:2:-1 by red 92:1:-1 at gen1050 Univ0 prob=0.662
+​ Vax prevented 998 ageGp9 by 92 gen1050
+​ 815I x:ageGp:fam 382:3:-1 by blue 108:1:-1 at gen1050 Univ0 prob=0.150
+​ Vax prevented 940 ageGp7 by 901 gen1050
+​ 816I x:ageGp:fam 31:0:-1 by red 631:4:-1 at gen1051 Univ0 prob=0.792
+​ Vax prevented 998 ageGp9 by 92 gen1053
+​ Vax prevented 998 ageGp9 by 92 gen1054
+​ Vax prevented 960 ageGp8 by 875 gen1054
+​ 819I x:ageGp:fam 448:3:-1 by blue 271:2:-1 at gen1055 Univ0 prob=0.655
+​ 819I x:ageGp:fam 824:6:-1 by blue 271:2:-1 at gen1055 Univ0 prob=0.737
+​ 819I x:ageGp:fam 412:3:-1 by blue 464:3:-1 at gen1055 Univ0 prob=0.547
+​ 819I x:ageGp:fam 865:6:-1 by red 631:4:-1 at gen1055 Univ0 prob=0.868
+​ Vax prevented 960 ageGp8 by 381 gen1056
+​ 823I x:ageGp:fam 383:3:-1 by red 884:6:-1 at gen1057 Univ0 prob=0.819
+​ 823I x:ageGp:fam 311:2:-1 by blue 601:4:-1 at gen1058 Univ0 prob=0.322
+​ 825I x:ageGp:fam 279:2:-1 by red 569:4:-1 at gen1060 Univ0 prob=0.762
+​ Vax prevented 953 ageGp8 by 985 gen1060
+​ 825I x:ageGp:fam 50:1:-1 by blue 359:3:-1 at gen1061 Univ0 prob=0.314
+​ Vax prevented 924 ageGp7 by 110 gen1061
+​ 825I x:ageGp:fam 916:7:-1 by red 113:1:-1 at gen1061 Univ0 prob=0.962
+​ Vax prevented 953 ageGp8 by 985 gen1061
+​ 826I x:ageGp:fam 891:6:-1 by red 258:2:-1 at gen1062 Univ0 prob=0.512
+​ 826I x:ageGp:fam 724:5:-1 by blue 359:3:-1 at gen1062 Univ0 prob=0.468
+​ Vax prevented 953 ageGp8 by 985 gen1062
+​ 828I x:ageGp:fam 45:1:-1 by blue 21:0:-1 at gen1063 Univ0 prob=0.108
+​ Vax prevented 953 ageGp8 by 985 gen1063
+​ Vax prevented 979 ageGp8 by 884 gen1064
+​ Vax prevented 979 ageGp8 by 884 gen1065
+​ 831I x:ageGp:fam 695:5:-1 by blue 359:3:-1 at gen1067 Univ0 prob=0.909
+​ Vax prevented 974 ageGp8 by 181 gen1069
+​ 832I x:ageGp:fam 195:2:-1 by blue 254:2:-1 at gen1069 Univ0 prob=0.977
+​ 832I x:ageGp:fam 375:3:-1 by red 125:1:-1 at gen1070 Univ0 prob=0.332
+​ 834I x:ageGp:fam 892:6:-1 by red 173:2:-1 at gen1074 Univ0 prob=0.707
+​ 834I x:ageGp:fam 380:3:-1 by blue 119:1:-1 at gen1075 Univ0 prob=0.019
+​ 834I x:ageGp:fam 313:2:-1 by red 183:2:-1 at gen1075 Univ0 prob=0.663
+​ 835I x:ageGp:fam 197:2:-1 by red 888:6:-1 at gen1076 Univ0 prob=0.251
+​ Vax prevented 960 ageGp8 by 337 gen1076
+​ Vax prevented 960 ageGp8 by 337 gen1077
+​ 837I x:ageGp:fam 540:3:-1 by blue 626:4:-1 at gen1077 Univ0 prob=0.239
+​ Vax prevented 933 ageGp7 by 258 gen1079
+​ Vax prevented 947 ageGp7 by 59 gen1082
+​ 839I x:ageGp:fam 452:3:-1 by blue 82:1:-1 at gen1084 Univ0 prob=0.061
+​ Vax prevented 995 ageGp9 by 82 gen1085
+​ Vax prevented 943 ageGp7 by 9 gen1087
+​ Vax prevented 988 ageGp9 by 254 gen1088
+​ Vax prevented 990 ageGp9 by 9 gen1090
+​ 840I x:ageGp:fam 328:2:-1 by blue 626:4:-1 at gen1090 Univ0 prob=0.681
+​ Vax prevented 977 ageGp8 by 594 gen1091
+​ Vax prevented 933 ageGp7 by 258 gen1092
+​ Vax prevented 917 ageGp7 by 187 gen1093
+​ 841I x:ageGp:fam 607:4:-1 by red 347:2:-1 at gen1093 Univ0 prob=0.533
+​ Vax prevented 977 ageGp8 by 594 gen1093
+​ 841I x:ageGp:fam 89:1:-1 by blue 439:3:-1 at gen1094 Univ0 prob=0.162
+​ Vax prevented 979 ageGp8 by 507 gen1094
+​ Vax prevented 960 ageGp8 by 377 gen1095
+​ 842I x:ageGp:fam 979:8:-1 by red 507:3:-1 at gen1095 Univ0 prob=0.964
+​ Vax prevented 979 ageGp8 by 507 gen1096
+​ Vax prevented 998 ageGp9 by 9 gen1097
+​ Vax prevented 917 ageGp7 by 187 gen1097
+​ Vax prevented 916 ageGp7 by 260 gen1097
+​ 844I x:ageGp:fam 3:0:-1 by blue 304:2:-1 at gen1098 Univ0 prob=0.500
+​ 844I x:ageGp:fam 153:2:-1 by blue 489:3:-1 at gen1098 Univ0 prob=0.254
+​ Vax prevented 917 ageGp7 by 959 gen1098
+​ 844I x:ageGp:fam 263:2:-1 by blue 82:1:-1 at gen1099 Univ0 prob=0.465
+​ Vax prevented 995 ageGp9 by 171 gen1099
+​ 844I x:ageGp:fam 266:2:-1 by blue 489:3:-1 at gen1099 Univ0 prob=0.868
+​ 848I x:ageGp:fam 519:3:-1 by blue 254:2:-1 at gen1102 Univ0 prob=0.844
+​ 848I x:ageGp:fam 686:4:-1 by blue 254:2:-1 at gen1103 Univ0 prob=0.445
+​ 849I x:ageGp:fam 215:2:-1 by red 652:4:-1 at gen1104 Univ0 prob=0.899
+​ 849I x:ageGp:fam 616:4:-1 by red 888:6:-1 at gen1104 Univ0 prob=0.741
+​ Vax prevented 933 ageGp7 by 601 gen1106
+​ Vax prevented 998 ageGp9 by 700 gen1107
+​ Vax prevented 975 ageGp8 by 726 gen1107
+​ 852I x:ageGp:fam 158:2:-1 by red 359:3:-1 at gen1108 Univ0 prob=0.799
+​ Vax prevented 933 ageGp7 by 601 gen1108
+​ 853I x:ageGp:fam 103:1:-1 by blue 424:3:-1 at gen1110 Univ0 prob=0.237
+​ Vax prevented 979 ageGp8 by 270 gen1110
+​ Vax prevented 979 ageGp8 by 270 gen1111
+​ Vax prevented 975 ageGp8 by 21 gen1115
+​ 854I x:ageGp:fam 397:3:-1 by blue 424:3:-1 at gen1115 Univ0 prob=0.644
+​ 855I x:ageGp:fam 395:3:-1 by red 872:6:-1 at gen1117 Univ0 prob=0.917
+​ Vax prevented 977 ageGp8 by 45 gen1118
+​ Vax prevented 979 ageGp8 by 462 gen1122
+​ Vax prevented 961 ageGp8 by 371 gen1123
+​ Vax prevented 975 ageGp8 by 783 gen1123
+​ Vax prevented 924 ageGp7 by 729 gen1126
+​ Vax prevented 904 ageGp7 by 424 gen1127
+​ 856I x:ageGp:fam 43:1:-1 by blue 380:3:-1 at gen1128 Univ0 prob=0.346
+​ Vax prevented 961 ageGp8 by 371 gen1129
+​ Vax prevented 960 ageGp8 by 464 gen1129
+​ Vax prevented 977 ageGp8 by 557 gen1129
+​ Vax prevented 951 ageGp8 by 536 gen1130
+​ Vax prevented 975 ageGp8 by 726 gen1131
+​ Vax prevented 979 ageGp8 by 246 gen1133
+​ Vax prevented 998 ageGp9 by 424 gen1133
+​ Vax prevented 998 ageGp9 by 424 gen1134
+​ Vax prevented 975 ageGp8 by 783 gen1136
+​ Vax prevented 995 ageGp9 by 383 gen1137
+​ Vax prevented 979 ageGp8 by 246 gen1138
+​ Vax prevented 992 ageGp9 by 359 gen1138
+​ Vax prevented 979 ageGp8 by 246 gen1139
+​ 857I x:ageGp:fam 880:6:-1 by red 776:5:-1 at gen1139 Univ0 prob=0.387
+​ 857I x:ageGp:fam 272:2:-1 by red 119:1:-1 at gen1140 Univ0 prob=0.273
+​ Vax prevented 979 ageGp8 by 246 gen1140
+​ Vax prevented 960 ageGp8 by 464 gen1140
+​ Vax prevented 998 ageGp9 by 0 gen1141
+​ Vax prevented 998 ageGp9 by 0 gen1142
+​ Vax prevented 998 ageGp9 by 0 gen1143
+​ Vax prevented 977 ageGp8 by 45 gen1143
+​ Vax prevented 998 ageGp9 by 424 gen1143
+​ Vax prevented 951 ageGp8 by 489 gen1143
+​ 859I x:ageGp:fam 360:3:-1 by blue 195:2:-1 at gen1144 Univ0 prob=0.369
+​ 860I x:ageGp:fam 267:2:-1 by blue 195:2:-1 at gen1147 Univ0 prob=0.368
+​ Vax prevented 929 ageGp7 by 836 gen1147
+​ Vax prevented 998 ageGp9 by 424 gen1152
+​ Vax prevented 951 ageGp8 by 489 gen1153
+​ 861I x:ageGp:fam 283:2:-1 by blue 50:1:-1 at gen1154 Univ0 prob=0.809
+​ 862I x:ageGp:fam 219:2:-1 by red 221:2:-1 at gen1156 Univ0 prob=0.615
+​ Vax prevented 977 ageGp8 by 304 gen1157
+​ Vax prevented 998 ageGp9 by 424 gen1163
+​ 863I x:ageGp:fam 352:2:-1 by blue 425:3:-1 at gen1164 Univ0 prob=0.367
+​ Vax prevented 998 ageGp9 by 424 gen1164
+​ Vax prevented 990 ageGp9 by 380 gen1167
+​ Vax prevented 998 ageGp9 by 424 gen1167
+​ 864I x:ageGp:fam 423:3:-1 by blue 425:3:-1 at gen1168 Univ0 prob=0.064
+​ 865I x:ageGp:fam 595:4:-1 by red 489:3:-1 at gen1170 Univ0 prob=0.788
+​ Vax prevented 995 ageGp9 by 626 gen1170
+​ Vax prevented 933 ageGp7 by 3 gen1171
+​ Vax prevented 904 ageGp7 by 424 gen1171
+​ 866I x:ageGp:fam 247:2:-1 by red 119:1:-1 at gen1172 Univ0 prob=0.748
+​ Vax prevented 929 ageGp7 by 311 gen1172
+​ Vax prevented 933 ageGp7 by 3 gen1173
+​ Vax prevented 904 ageGp7 by 424 gen1173
+​ 866I x:ageGp:fam 577:4:-1 by blue 519:3:-1 at gen1173 Univ0 prob=0.843
+​ Vax prevented 951 ageGp8 by 266 gen1175
+​ 868I x:ageGp:fam 47:1:-1 by blue 686:4:-1 at gen1177 Univ0 prob=0.296
+​ Vax prevented 951 ageGp8 by 266 gen1177
+​ 868I x:ageGp:fam 990:9:-1 by blue 380:3:-1 at gen1177 Univ0 prob=0.952
+​ Vax prevented 988 ageGp9 by 616 gen1180
+​ 870I x:ageGp:fam 751:5:-1 by blue 686:4:-1 at gen1181 Univ0 prob=0.880
+​ Vax prevented 979 ageGp8 by 377 gen1183
+​ Vax prevented 975 ageGp8 by 891 gen1185
+​ Vax prevented 977 ageGp8 by 304 gen1187
+​ 871I x:ageGp:fam 584:4:-1 by red 161:2:-1 at gen1188 Univ0 prob=0.805
+​ Vax prevented 977 ageGp8 by 304 gen1188
+​ Vax prevented 951 ageGp8 by 452 gen1189
+​ Vax prevented 977 ageGp8 by 891 gen1189
+​ Vax prevented 988 ageGp9 by 616 gen1192
+​ 872I x:ageGp:fam 422:3:-1 by red 425:3:-1 at gen1193 Univ0 prob=0.542
+​ Vax prevented 988 ageGp9 by 616 gen1193
+​ Vax prevented 988 ageGp9 by 616 gen1195
+​ Vax prevented 929 ageGp7 by 690 gen1195
+​ Vax prevented 904 ageGp7 by 221 gen1196
+​ 873I x:ageGp:fam 628:4:-1 by red 45:1:-1 at gen1200 Univ0 prob=0.588
+​ Vax prevented 990 ageGp9 by 103 gen1201
+​ Vax prevented 904 ageGp7 by 221 gen1201
+​ Vax prevented 975 ageGp8 by 304 gen1204
+​ Vax prevented 904 ageGp7 by 397 gen1205
+​ Vax prevented 990 ageGp9 by 219 gen1210
+​ Vax prevented 977 ageGp8 by 339 gen1210
+​ Vax prevented 990 ageGp9 by 219 gen1211
+​ Vax prevented 990 ageGp9 by 380 gen1211
+​ 874I x:ageGp:fam 852:6:-1 by blue 397:3:-1 at gen1211 Univ0 prob=0.607
+​ 874I x:ageGp:fam 914:7:-1 by blue 880:6:-1 at gen1212 Univ0 prob=0.975
+​ Vax prevented 904 ageGp7 by 397 gen1216
+​ Vax prevented 904 ageGp7 by 397 gen1220
+​ Vax prevented 961 ageGp8 by 227 gen1221
+​ Vax prevented 961 ageGp8 by 227 gen1222
+​ Vax prevented 929 ageGp7 by 783 gen1226
+​ 876I x:ageGp:fam 159:2:-1 by red 221:2:-1 at gen1227 Univ0 prob=0.191
+​ 877I x:ageGp:fam 743:5:-1 by blue 352:2:-1 at gen1230 Univ0 prob=0.284
+​ 878I x:ageGp:fam 212:2:-1 by red 328:2:-1 at gen1232 Univ0 prob=0.755
+​ 878I x:ageGp:fam 46:1:-1 by blue 751:5:-1 at gen1233 Univ0 prob=0.869
+​ 880I x:ageGp:fam 333:2:-1 by blue 47:1:-1 at gen1239 Univ0 prob=0.096
+​ 880I x:ageGp:fam 511:3:-1 by red 380:3:-1 at gen1239 Univ0 prob=0.454
+​ Vax prevented 904 ageGp7 by 397 gen1240
+​ Vax prevented 954 ageGp8 by 751 gen1240
+​ Vax prevented 930 ageGp7 by 397 gen1244
+​ Vax prevented 979 ageGp8 by 266 gen1248
+​ 882I x:ageGp:fam 746:5:-1 by blue 272:2:-1 at gen1249 Univ0 prob=0.708
+​ 882I x:ageGp:fam 522:3:-1 by blue 247:2:-1 at gen1250 Univ0 prob=0.860
+​ 882I x:ageGp:fam 343:2:-1 by blue 628:4:-1 at gen1250 Univ0 prob=0.058
+​ Vax prevented 988 ageGp9 by 595 gen1250
+​ 885I x:ageGp:fam 57:1:-1 by blue 47:1:-1 at gen1252 Univ0 prob=0.637
+​ 886I x:ageGp:fam 224:2:-1 by blue 247:2:-1 at gen1254 Univ0 prob=0.279
+​ 886I x:ageGp:fam 619:4:-1 by blue 247:2:-1 at gen1254 Univ0 prob=0.487
+​ Vax prevented 930 ageGp7 by 397 gen1255
+​ 888I x:ageGp:fam 208:2:-1 by blue 751:5:-1 at gen1256 Univ0 prob=0.984
+​ Vax prevented 930 ageGp7 by 397 gen1257
+​ 889I x:ageGp:fam 319:2:-1 by blue 272:2:-1 at gen1258 Univ0 prob=0.917
+​ Vax prevented 930 ageGp7 by 397 gen1258
+​ Vax prevented 992 ageGp9 by 979 gen1259
+​ 890I x:ageGp:fam 642:4:-1 by red 328:2:-1 at gen1261 Univ0 prob=0.283
+​ Vax prevented 930 ageGp7 by 397 gen1262
+​ Vax prevented 992 ageGp9 by 979 gen1263
+​ 891I x:ageGp:fam 213:2:-1 by blue 247:2:-1 at gen1264 Univ0 prob=0.064
+​ 891I x:ageGp:fam 860:6:-1 by blue 751:5:-1 at gen1264 Univ0 prob=0.979
+​ Vax prevented 965 ageGp8 by 852 gen1268
+​ Vax prevented 983 ageGp9 by 352 gen1272
+​ Vax prevented 951 ageGp8 by 266 gen1273
+​ 893I x:ageGp:fam 546:4:-1 by blue 422:3:-1 at gen1273 Univ0 prob=0.756
+​ 894I x:ageGp:fam 674:4:-1 by blue 159:2:-1 at gen1276 Univ0 prob=0.080
+​ 894I x:ageGp:fam 531:3:-1 by blue 247:2:-1 at gen1276 Univ0 prob=0.109
+​ Vax prevented 930 ageGp7 by 914 gen1276
+​ 896I x:ageGp:fam 244:2:-1 by red 272:2:-1 at gen1280 Univ0 prob=0.054
+​ Vax prevented 988 ageGp9 by 595 gen1280
+​ 896I x:ageGp:fam 379:3:-1 by red 43:1:-1 at gen1281 Univ0 prob=0.220
+​ Vax prevented 988 ageGp9 by 584 gen1281
+​ Vax prevented 930 ageGp7 by 914 gen1284
+​ 898I x:ageGp:fam 898:6:-1 by red 283:2:-1 at gen1285 Univ0 prob=0.622
+​ 899I x:ageGp:fam 332:2:-1 by blue 751:5:-1 at gen1288 Univ0 prob=0.011
+​ 899I x:ageGp:fam 779:5:-1 by blue 751:5:-1 at gen1288 Univ0 prob=0.039
+​ Vax prevented 964 ageGp8 by 397 gen1290
+​ 901I x:ageGp:fam 495:3:-1 by blue 751:5:-1 at gen1290 Univ0 prob=0.497
+​ Vax prevented 964 ageGp8 by 103 gen1291
+​ Vax prevented 973 ageGp8 by 751 gen1292
+​ 902I x:ageGp:fam 842:6:-1 by red 352:2:-1 at gen1293 Univ0 prob=0.716
+​ 903I x:ageGp:fam 600:4:-1 by red 47:1:-1 at gen1295 Univ0 prob=0.375
+​ 903I x:ageGp:fam 95:1:-1 by red 880:6:-1 at gen1296 Univ0 prob=0.397
+​ 903I x:ageGp:fam 445:3:-1 by red 272:2:-1 at gen1296 Univ0 prob=0.834
+​ 904I x:ageGp:fam 170:2:-1 by red 43:1:-1 at gen1297 Univ0 prob=0.347
+​ 907I x:ageGp:fam 201:2:-1 by yellow 57:1:-1 at gen1302 Univ0 prob=0.726
+​ 908I x:ageGp:fam 556:4:-1 by red 352:2:-1 at gen1304 Univ0 prob=0.258
+​ 908I x:ageGp:fam 877:6:-1 by blue 522:3:-1 at gen1304 Univ0 prob=0.768
+​ 910I x:ageGp:fam 217:2:-1 by yellow 319:2:-1 at gen1307 Univ0 prob=0.372
+AgeVaxH35.js:2167 Vax prevented 954 ageGp8 by 46 gen1310
+AgeVaxH35.js:2305 911I x:ageGp:fam 301:2:-1 by red 47:1:-1 at gen1311 Univ0 prob=0.761
+AgeVaxH35.js:2305 912I x:ageGp:fam 117:1:-1 by red 751:5:-1 at gen1316 Univ0 prob=0.080
+AgeVaxH35.js:2305 912I x:ageGp:fam 543:4:-1 by red 219:2:-1 at gen1316 Univ0 prob=0.792
+AgeVaxH35.js:2305 912I x:ageGp:fam 87:1:-1 by blue 746:5:-1 at gen1317 Univ0 prob=0.067
+AgeVaxH35.js:2305 914I x:ageGp:fam 757:5:-1 by red 47:1:-1 at gen1318 Univ0 prob=0.336
+AgeVaxH35.js:2305 916I x:ageGp:fam 40:1:-1 by blue 914:7:-1 at gen1320 Univ0 prob=0.510
+AgeVaxH35.js:2167 Vax prevented 964 ageGp8 by 914 gen1320
+AgeVaxH35.js:2167 Vax prevented 954 ageGp8 by 333 gen1323
+AgeVaxH35.js:2305 917I x:ageGp:fam 988:9:-1 by red 423:3:-1 at gen1324 Univ0 prob=0.969
+AgeVaxH35.js:2305 917I x:ageGp:fam 728:5:-1 by red 247:2:-1 at gen1325 Univ0 prob=0.373
+AgeVaxH35.js:2167 Vax prevented 954 ageGp8 by 333 gen1325
+AgeVaxH35.js:2167 Vax prevented 988 ageGp9 by 595 gen1325
+AgeVaxH35.js:2167 Vax prevented 964 ageGp8 by 914 gen1325
+AgeVaxH35.js:2305 918I x:ageGp:fam 378:3:-1 by blue 57:1:-1 at gen1326 Univ0 prob=0.965
+AgeVaxH35.js:2305 918I x:ageGp:fam 624:4:-1 by blue 224:2:-1 at gen1326 Univ0 prob=0.975
+AgeVaxH35.js:2167 Vax prevented 954 ageGp8 by 333 gen1326
+AgeVaxH35.js:2167 Vax prevented 988 ageGp9 by 595 gen1326
+AgeVaxH35.js:2167 Vax prevented 904 ageGp7 by 522 gen1327
+AgeVaxH35.js:2305 921I x:ageGp:fam 71:1:-1 by blue 619:4:-1 at gen1328 Univ0 prob=0.394
+AgeVaxH35.js:2167 Vax prevented 954 ageGp8 by 642 gen1330
+AgeVaxH35.js:2167 Vax prevented 945 ageGp7 by 746 gen1331
+AgeVaxH35.js:2305 922I x:ageGp:fam 707:5:-1 by blue 511:3:-1 at gen1332 Univ0 prob=0.096
+AgeVaxH35.js:2167 Vax prevented 945 ageGp7 by 746 gen1332
+AgeVaxH35.js:2305 923I x:ageGp:fam 615:4:-1 by blue 208:2:-1 at gen1334 Univ0 prob=0.957
+AgeVaxH35.js:2305 923I x:ageGp:fam 255:2:-1 by blue 642:4:-1 at gen1334 Univ0 prob=0.350
+AgeVaxH35.js:2193 No transmit 914 ageGp7 on 964 ageGp8 gen1334
+AgeVaxH35.js:2167 Vax prevented 983 ageGp9 by 57 gen1337
+AgeVaxH35.js:2167 Vax prevented 945 ageGp7 by 746 gen1337
+AgeVaxH35.js:2167 Vax prevented 945 ageGp7 by 746 gen1338
+AgeVaxH35.js:2305 925I x:ageGp:fam 202:2:-1 by blue 860:6:-1 at gen1341 Univ0 prob=0.547
+AgeVaxH35.js:2193 No transmit 914 ageGp7 on 964 ageGp8 gen1341
+AgeVaxH35.js:2167 Vax prevented 964 ageGp8 by 914 gen1342
+AgeVaxH35.js:2305 926I x:ageGp:fam 945:7:-1 by blue 57:1:-1 at gen1344 Univ0 prob=0.982
+AgeVaxH35.js:2305 926I x:ageGp:fam 295:2:-1 by blue 208:2:-1 at gen1345 Univ0 prob=0.686
+AgeVaxH35.js:2305 928I x:ageGp:fam 298:2:-1 by blue 642:4:-1 at gen1348 Univ0 prob=0.588
+AgeVaxH35.js:2167 Vax prevented 988 ageGp9 by 595 gen1350
+AgeVaxH35.js:2167 Vax prevented 945 ageGp7 by 57 gen1351
+AgeVaxH35.js:2305 929I x:ageGp:fam 567:4:-1 by blue 208:2:-1 at gen1351 Univ0 prob=0.739
+AgeVaxH35.js:2167 Vax prevented 945 ageGp7 by 379 gen1353
+AgeVaxH35.js:2167 Vax prevented 904 ageGp7 by 247 gen1354
+AgeVaxH35.js:2305 930I x:ageGp:fam 846:6:-1 by blue 213:2:-1 at gen1361 Univ0 prob=0.447
+AgeVaxH35.js:2305 931I x:ageGp:fam 309:2:-1 by blue 217:2:-1 at gen1364 Univ0 prob=0.435
+AgeVaxH35.js:2167 Vax prevented 945 ageGp7 by 332 gen1364
+AgeVaxH35.js:2167 Vax prevented 973 ageGp8 by 495 gen1364
+AgeVaxH35.js:2305 932I x:ageGp:fam 325:2:-1 by blue 556:4:-1 at gen1366 Univ0 prob=0.607
+AgeVaxH35.js:2305 932I x:ageGp:fam 182:2:-1 by blue 495:3:-1 at gen1367 Univ0 prob=0.825
+AgeVaxH35.js:2167 Vax prevented 954 ageGp8 by 46 gen1368
+AgeVaxH35.js:2167 Vax prevented 942 ageGp7 by 898 gen1368
+AgeVaxH35.js:2167 Vax prevented 942 ageGp7 by 898 gen1369
+AgeVaxH35.js:2167 Vax prevented 945 ageGp7 by 746 gen1370
+AgeVaxH35.js:2167 Vax prevented 954 ageGp8 by 333 gen1371
+AgeVaxH35.js:2167 Vax prevented 954 ageGp8 by 333 gen1372
+AgeVaxH35.js:2167 Vax prevented 945 ageGp7 by 87 gen1373
+AgeVaxH35.js:2167 Vax prevented 954 ageGp8 by 333 gen1373
+AgeVaxH35.js:2167 Vax prevented 983 ageGp9 by 877 gen1377
+AgeVaxH35.js:2305 934I x:ageGp:fam 33:0:-1 by blue 95:1:-1 at gen1381 Univ0 prob=0.024
+AgeVaxH35.js:2167 Vax prevented 942 ageGp7 by 642 gen1383
+AgeVaxH35.js:2167 Vax prevented 942 ageGp7 by 642 gen1384
+AgeVaxH35.js:2305 935I x:ageGp:fam 350:2:-1 by red 46:1:-1 at gen1386 Univ0 prob=0.276
+AgeVaxH35.js:2167 Vax prevented 942 ageGp7 by 642 gen1386
+AgeVaxH35.js:2167 Vax prevented 942 ageGp7 by 898 gen1387
+AgeVaxH35.js:2167 Vax prevented 942 ageGp7 by 642 gen1388
+AgeVaxH35.js:2167 Vax prevented 973 ageGp8 by 779 gen1388
+AgeVaxH35.js:2167 Vax prevented 945 ageGp7 by 159 gen1389
+AgeVaxH35.js:2167 Vax prevented 942 ageGp7 by 642 gen1389
+AgeVaxH35.js:2167 Vax prevented 945 ageGp7 by 159 gen1391
+AgeVaxH35.js:2167 Vax prevented 945 ageGp7 by 87 gen1393
+AgeVaxH35.js:2167 Vax prevented 942 ageGp7 by 531 gen1394
+AgeVaxH35.js:2305 936I x:ageGp:fam 596:4:-1 by red 914:7:-1 at gen1394 Univ0 prob=0.455
+AgeVaxH35.js:2167 Vax prevented 945 ageGp7 by 159 gen1395
+AgeVaxH35.js:2167 Vax prevented 914 ageGp7 by 543 gen1395
+AgeVaxH35.js:2167 Vax prevented 945 ageGp7 by 87 gen1396
+AgeVaxH35.js:2167 Vax prevented 942 ageGp7 by 642 gen1398
+AgeVaxH35.js:2305 937I x:ageGp:fam 471:3:-1 by blue 170:2:-1 at gen1401 Univ0 prob=0.464
+AgeVaxH35.js:2167 Vax prevented 914 ageGp7 by 543 gen1403
+AgeVaxH35.js:2167 Vax prevented 942 ageGp7 by 642 gen1403
+AgeVaxH35.js:2167 Vax prevented 914 ageGp7 by 543 gen1404
+AgeVaxH35.js:2167 Vax prevented 973 ageGp8 by 624 gen1406
+AgeVaxH35.js:2167 Vax prevented 945 ageGp7 by 87 gen1407
+AgeVaxH35.js:2305 938I x:ageGp:fam 139:2:-1 by blue 757:5:-1 at gen1407 Univ0 prob=0.159
+AgeVaxH35.js:2167 Vax prevented 945 ageGp7 by 87 gen1408
+AgeVaxH35.js:2167 Vax prevented 954 ageGp8 by 255 gen1408
+AgeVaxH35.js:2167 Vax prevented 973 ageGp8 by 495 gen1409
+AgeVaxH35.js:2167 Vax prevented 973 ageGp8 by 624 gen1409
+AgeVaxH35.js:2167 Vax prevented 971 ageGp8 by 378 gen1412
+AgeVaxH35.js:2305 939I x:ageGp:fam 99:1:-1 by blue 707:5:-1 at gen1415 Univ0 prob=0.553
+AgeVaxH35.js:2167 Vax prevented 971 ageGp8 by 378 gen1415
+AgeVaxH35.js:2167 Vax prevented 942 ageGp7 by 642 gen1423
+AgeVaxH35.js:2167 Vax prevented 983 ageGp9 by 877 gen1424
+AgeVaxH35.js:2167 Vax prevented 996 ageGp9 by 57 gen1428
+AgeVaxH35.js:2167 Vax prevented 996 ageGp9 by 309 gen1438
+AgeVaxH35.js:2167 Vax prevented 996 ageGp9 by 182 gen1448
+AgeVaxH35.js:2167 Vax prevented 971 ageGp8 by 600 gen1448
+AgeVaxH35.js:2167 Vax prevented 945 ageGp7 by 615 gen1448
+AgeVaxH35.js:2167 Vax prevented 945 ageGp7 by 244 gen1449
+AgeVaxH35.js:2167 Vax prevented 996 ageGp9 by 182 gen1452
+AgeVaxH35.js:2167 Vax prevented 930 ageGp7 by 842 gen1455
+AgeVaxH35.js:2305 940I x:ageGp:fam 669:4:-1 by blue 33:0:-1 at gen1456 Univ0 prob=0.459
+AgeVaxH35.js:2167 Vax prevented 996 ageGp9 by 182 gen1458
+AgeVaxH35.js:2167 Vax prevented 996 ageGp9 by 182 gen1459
+AgeVaxH35.js:2167 Vax prevented 954 ageGp8 by 117 gen1473
+AgeVaxH35.js:2167 Vax prevented 965 ageGp8 by 543 gen1477
+AgeVaxH35.js:2167 Vax prevented 983 ageGp9 by 40 gen1483
+AgeVaxH35.js:2167 Vax prevented 983 ageGp9 by 40 gen1484
+AgeVaxH35.js:2167 Vax prevented 954 ageGp8 by 71 gen1488
+AgeVaxH35.js:2167 Vax prevented 942 ageGp7 by 846 gen1491
+AgeVaxH35.js:2305 941I x:ageGp:fam 942:7:-1 by red 846:6:-1 at gen1492 Univ0 prob=0.960
+AgeVaxH35.js:2305 942I x:ageGp:fam 229:2:-1 by red 728:5:-1 at gen1503 Univ0 prob=0.086
+AgeVaxH35.js:2167 Vax prevented 996 ageGp9 by 325 gen1529
+AgeVaxH35.js:2167 Vax prevented 973 ageGp8 by 182 gen1535
+AgeVaxH35.js:2167 Vax prevented 917 ageGp7 by 596 gen1550
+AgeVaxH35.js:2167 Vax prevented 904 ageGp7 by 99 gen1584
+AgeVaxH35.js:2167 Vax prevented 973 ageGp8 by 229 gen1612
+AgeVaxH35.js:2167 Vax prevented 973 ageGp8 by 229 gen1635

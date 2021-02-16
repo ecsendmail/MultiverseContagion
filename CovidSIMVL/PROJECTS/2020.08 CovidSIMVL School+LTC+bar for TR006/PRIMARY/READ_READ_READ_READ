@@ -1,0 +1,4 @@
+NOTE:
+No .html file here - use most current version of CovidSIMVL
+
+The older straight .html not separated into index.html and xxxx.js used specific age but the .csv file here has been converted to use age-gp in keeping with data requirements in other projects, so the original .html found in SUPPORTING folder will not work with the files here....

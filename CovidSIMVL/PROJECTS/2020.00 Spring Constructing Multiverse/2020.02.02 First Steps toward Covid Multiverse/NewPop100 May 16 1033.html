@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <style>
+    th,  td {
+      border: 1px solid black;
+      padding: 3px;
+      text-align: center;
+  }
+    th {
+        cursor: pointer;
+    }
+
+#RaceTab {
+    display: none;
+}
+
+  </style>
+</head>
+
+<body>
+  <p>CovidSim Stochastic Agent Based Model April 2020 @EC_GO - PUBLIC DOMAIN as per GNU GPL LICENSING</p>
+
+  <div class="topnav">
+    <table ID="myTab">
+      <tr>
+        <th onclick="loadPop()">Population RESET</th>
+        <th onclick="loadBlues()" bgcolor=LightBlue>Add Blues</th>
+        <th id ="popClick" onclick="showPop()" bgcolor=lightgreen>Click Me</th>
+        <th>Greens</th>
+        <th>Yellows</th>
+        <th>Blues</th>
+        <th>Reds</th>
+        <th onclick="showDist()">TRAVEL</th>
+        <th onclick="showIncD()">Incubation days</th>
+        <th onclick="showInfD()" bgcolor=LightBlue>Infectious Days</th>
+        <th onclick="showInfM()" bgcolor=LightBlue>Infection Mode</th>
+        <th onclick="showInfR()" bgcolor=LightBlue>InfGrowth Rate</th>
+        <th onclick="showCliD()">RED days</th>
+        <th onclick="showPradius()">Hazard Radius</th>
+        <th id=popClick onclick="showAnimate()">Animation</th>
+        <th onclick="endChart()">Show Chart</th>
+        <th id="ageSel" onclick="selAgeRisk()" bgcolor=red style="cursor:pointer">Age Group Risk</th>
+      </tr>
+      <tr>
+        <td id="dPopn"></td>
+        <td id="dCont"></td>
+        <td id="dGen">0</td>
+        <td id="grCt">1</td>
+        <td id="yeCt">0</td>
+        <td id="blCt">0</td>
+        <td id="reCt">0</td>
+        <td id="dDist">7</td>
+        <td id="dIncD">2</td>
+        <td id="dInfD">5</td>
+        <td id="dInfM">3</td>
+        <td id="dInfR">1.1</td>
+        <td id="dCliD">1</td>
+        <td id="dPrad">20</td>
+        <td id="dAnim">5</td>
+        <td></td>
+        <td onclick="selRaceRisk()" bgcolor=red style="cursor:pointer">Race Based Risk</td>
+      </tr>
+    </table>
+
+
+
+  <canvas id="UnivCanvas" width="2000" height="1000"
+          style="border:1px solid #d3d3d3;">
+  </canvas>
+
+<script>
+
+// **************************** CREATE UNIVERSES **********************************************
+//
+// ********* Each UNIVERSE has two parts - one is the part that the Multiverse manages ********
+// ********* and the other is LOCAL to a Universe *********************************************
+//**********         even though we work it all in one machine, it is still better to *********
+// *********         represent them separately so if we ever used multi-machines **************
+// *********
+// ********* The Multiverse Controller "MVC" sees all universes, all persons, all tickets
+// ********* has knowledge of the composition of each {U} and Covid counts and histories
+// *********
+// ********* The Local Universes {U} has to know the position of each and the movement of each
+// ********  person as they touch or not and their changing Covid status
+// ********  otherwise they can get information about {P} through the MVC database
+//
+
+// ********                         this section is for MVC operations                ********
+//
+// *******************************************************************************************
+alert("test");
+
+var i,j,k;
+
+function ConstructMVC() {
+  this.UCt;                       // count of Universes
+  this.U = [];                    // the Universe Data seen by MVC
+  this.Uname;
+  this.PCt;                       // count of population
+  this.P = [];                    // the population seen by MVC
+  this.T = [];                    // the TICKETS by hour of action
+  this.clockDay;                  // the Master Clock Day
+  this.clockHour;                 // the Master Clock clock hour
+}
+
+// *********************************************************************************
+function CreateUniverse() {
+  this.Uid;
+  this.name;
+  this.population;
+  this.Residents
+  this.Attacheds;
+  this.Transients;
+  this.UmingleRate;
+  this.canvas;
+  this.inBox;
+  this.outBox;
+  this.day;
+  this.hour;
+  this.person = [];                   // can we get away with using same variable name?
+}
+
+
+// **************************** CREATE ITINERARY PROTOTYPES ********************************************
+
+function CreateTicket() {
+  this.pID;
+  this.S = [];
+}
+
+function CreateStop() {
+  this.Uhere;
+  this.ETA;
+  this.Udest;
+  this.ETD;
+  this.R;          // RESIDENT, ATTACHED, TRANSIENT
+  this.M;          // deegree of mingling 0 to 10 - loner to pollster
+}
+
+
+
+
+// *************************** CREATE PERSON PROTOTYPES *************************************************
+
+function CreatePerson() {
+  this.pID;                   // issued in multiverse - most of this data generated in MULTIVERSE
+  this.pLocalNo;             // issued on arrival at a univerise
+  this.risks = [];            // risks eg age, co-morbid, race,
+  this.state;                 // uninfected; incubating; infectious; disagnosed; inert
+
+  this.incStart;              // date of infection and transition to incubating
+  this.incDays;
+  this.incMax;
+  this.infectStart;           // date of transition to infectious
+  this.infectDays;
+  this.infectMax;
+  this.infectMode;
+  this.infectRate;
+  this.diagStart;             // date of transition from asymtpomatic to diagnosed
+  this.diagDays;
+  this.diagMax;
+  this.inertStart;            // date of transition to INERT
+  this.inertDays;             // days since becoming inert
+
+  this.local;                 // strictly local information
+  this.ticketCt;
+  this.stops = [];
+}
+
+function CreateLocalInfo() {
+  this.pID;
+  this.pSeqNo;
+  this.role;
+  this.ETA;
+  this.ETD;
+  this.radius;
+  this.pX;
+  this.pY;
+  this.OldX;
+  this.OldY;
+  this.newX;
+  this.newY;
+  this.delX;
+  this.delY;
+  this.ddx;
+  this.ddy;
+}
+
+var u;
+var U = [];
+
+const LTC = 2;
+const HOME = 1;
+
+
+var MV = new ConstructMVC();
+MV.UCt = 9;
+MV.PCt = 100;
+
+var MU;
+
+for (i=0; i<MV.UCt; i++) {
+  MV.U[i] = new CreateUniverse();
+  MV.U[i].Uid = i;
+};
+
+for (i=0; i<MV.PCt; i++){
+  MV.P[i] = new CreatePerson();
+  MV.P[i].pID = i;                      // unique identifier
+  MV.P[i].state = "G";
+  MV.T[i] = new CreateTicket();        // G=goodtogo; Y=Yow-stung; B=Buggy; R=red-handed O=Out
+  MV.T[i].pID = i;
+}
+
+// ******************************************************************************************************
+//
+//                              CREATE SCHEDULE AND TICKET POINTERS TO PERSONS BY HOUR
+//
+// ******************************************************************************************************
+//
+
+function CreateSchedule(){
+  this.U = [];
+}
+
+function CreateET(){
+	this.arrive = [];
+	this.leave = [];
+}
+
+var H = [];
+
+for (i=0; i<24; i++){
+  H[i] = new CreateSchedule();        // we use 0600 to 2200 only FOR NOW
+  for (j=0; j<MV.UCt; j++) {
+		H[i].U[j] = new CreateET();
+	}
+}
+
+function issueStop(ind,sno,Uthis,Unext,hrA,hrD,thisR,thisM){
+  if (MV.T[ind].S[sno] === undefined) {
+    MV.T[ind].S[sno] = new CreateStop();
+  }
+	MV.T[ind].S[sno].Uhere = Uthis;
+	MV.T[ind].S[sno].ETA = hrA;
+	MV.T[ind].S[sno].Udest = Unext;
+	MV.T[ind].S[sno].ETD = hrD;
+	MV.T[ind].S[sno].R = thisR;
+	MV.T[ind].S[sno].M = thisM;
+
+	H[hrA].U[Uthis].arrive.push(ind);
+	H[hrD].U[Uthis].leave.push(ind);
+}
+
+// ********************** 50 Resident ONLY deaprt = 9999 ****************************
+//
+//                        this would be rare - LTC, army barracks, prisons, ships ***
+//                        30 one-way tickets into LTC - for now; they can go out later
+//
+
+var stopno = 0;
+
+for (i=0; i<50; i++){                     //day-time activity
+	stopno = 0;
+	issueStop(i,stopno,LTC,LTC,6,22,"R",3);
+
+	stopno = 1;
+	issueStop(i,stopno,LTC,LTC,22,6,"R",1);
+  }
+Ptally = 50;
+
+// ***********************************************************************************
+//
+//                Now we have 30 staff who have role = "attached"
+//                They are not transients but come to be staff so stay longer
+//
+
+
+for (i=0; i<30; i++){
+
+	stopno = 0;
+	issueStop(Ptally+i,stopno,LTC,HOME,6,17,"A",7);
+
+	stopno = 1;
+	issueStop(Ptally+i,stopno,HOME,HOME,17,22,"R",3);
+
+	stopno = 2;
+	issueStop(Ptally+i,stopno,HOME,HOME,22,6,"R",1);
+}
+
+Ptally = 80;
+
+// *************************************************************************************
+//
+//              Now we have 10 Home (U2) residents who stay and work
+//              Gardeners, day care, plumbers, housekeepers etc
+//              But they are not "ATTACHeD" but RESIDENT in the U=2
+//
+for (i=0; i<10; i++){
+
+	stopno = 0;
+	issueStop(Ptally+i,stopno,HOME,HOME,6,17,"R",6);
+
+ 	stopno = 1;
+	issueStop(Ptally+i,stopno,HOME,HOME,17,22,"R",3);
+
+	stopno=3;
+	issueStop(Ptally+i,stopno,HOME,HOME,22,6,"R",3);
+}
+
+// *************************************************************************************
+//
+//                  these Residents from U=2 have the tasks of shopping,
+//                  recreation in gyms, coffee shops, visiting....here we only
+//                  have them visit LTC for 2hrs in pairs, separated by an hour
+//
+
+Ptally = 90;
+
+var baseT = 6;
+var deltaT = 2;
+var arrive, depart;
+
+for (i=0; i<5; i++){
+  for (j=0;j<2; j++){
+
+	stopno = 0;
+	arrive = baseT;
+	depart = arrive + (i+1)*deltaT;
+	issueStop(Ptally+2*i+j,stopno,HOME,LTC,arrive,depart,"R",3);
+
+	stopno = 1;
+	arrive = depart;
+	depart = arrive + deltaT;
+	issueStop(Ptally+2*i+j,stopno,LTC,HOME,arrive,depart,"T",4);
+
+
+	stopno = 2;
+	arrive = depart;
+	depart = 22;
+	issueStop(Ptally+2*i+j,stopno,HOME,HOME,arrive,depart,"R",3);
+
+
+    stopno = 3;
+	arrive = depart;
+	depart = 6;
+	issueStop(Ptally+2*i+j,stopno,HOME,HOME,arrive,depart,"R",3);
+  }
+}
+
+
+// **************************** let's try creating a person ********************
+var p
+var P = [];                          // unique persons in the Multiverse
+  for (p=0; p<10; p++){
+    P[p] = new CreatePerson;         // multiverse will create age-gp
+    P[p].pID = p;
+    P[p].state = "green";
+  }
+
+
+P[0].local = new CreateLocalInfo();
+P[0].local.role = "ATTACHED";
+
+P[1].local = new CreateLocalInfo();
+P[1].local.role = "RESIDENT";
+
+
+P[0].trip = new CreateTicket();
+P[0].trip.pID = P[0].pID;
+
+// **************************************** test area
+
+
+// **************************** start at 0600 end at 2200 ********************
+
+const HRperDAY = 16;
+const HRBASE = 6;
+
+var dayCount;
+var dayTrial = 2;
+var iDay;
+var iHour;
+var hour;
+var SCid;
+
+hour = (0+HRBASE)%HRBASE;
+
+
+
+//for (iDay=0; iDay<dayTrial; iDay++){
+  for (iHour=6; iHour<23; iHour++){
+	  for (u=0;u<MV.UCt;u++) {
+      if (H[iHour].U[u].arrive === undefined || H[iHour].U[u].depart === undefined ) { i=i }
+      else {
+	       alert("At T="+iHour+" U="+u+" Arrivals "+H[iHour].U[u].arrive);
+         alert("At T="+iHour+" U="+u+" Arrivals "+H[iHour].U[u].depart);
+      }
+	  }
+  }
+
+</script>
+</body>
+</html>

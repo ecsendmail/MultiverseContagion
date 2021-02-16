@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<canvas id="myCanvas" width="200" height="100"
+style="border:1px solid #d3d3d3;">
+Your browser does not support the canvas element.
+</canvas>
+
+<script>
+function drawc(x){
+var canvas = document.getElementById("myCanvas");
+var ctx = canvas.getContext("2d");
+ctx.beginPath();
+ctx.fillStyle = "red";
+ctx.arc(x,40,40,0,2*Math.PI);
+ctx.stroke();
+}
+
+drawc(90);
+</script>
+
+</body>
+</html>

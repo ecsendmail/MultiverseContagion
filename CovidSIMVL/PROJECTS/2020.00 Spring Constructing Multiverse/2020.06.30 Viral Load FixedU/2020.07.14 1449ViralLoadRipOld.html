@@ -1,0 +1,1352 @@
+<!DOCTYPE html>
+<html>
+<style>
+  th,  td {
+    border: 1px solid red;
+    padding: 3px;
+    text-align: center;
+}
+  th {
+      cursor: pointer;
+  }
+
+#myTab {
+    display: block;
+  }
+
+#AgeTab {
+    display: none;
+  }
+
+#RaceTab {
+    display: none;
+  }
+
+#chartContainer6 {
+  border: 1px solid pink;
+  position: static;
+  left: 2px;
+  top:200px;
+}
+
+#csvGet {
+  position: absolute;
+  display:none;
+  left:30px;
+  top:240px;
+  z-index:+4;
+}
+
+#csvButton {
+  position: absolute;
+  display:none;
+  left:95px;
+  top:51px;
+  z-index: +4;
+}
+
+</style>
+<p>CovidSim Stochastic Cellular Automata April 2020 @EC_GO - PUBLIC DOMAIN as per GNU GPL LICENSING</p>
+<body>
+
+  <div id="csvGet">
+      <form class="form-horizontal well">
+        <fieldset>
+            <label for="csvFileInput"> <strong>Mounir Messelmeni 2012<br><br>CSV File:</strong>
+            </label>
+            <input type="file" id="csvFileInput" onchange="handleFiles(this.files)"
+            accept=".csv">
+        </fieldset>
+      </form>
+  </div>
+
+
+  <button onclick="startIt()" type="button" style="cursor:pointer">AUTO trials</button>
+  <button id="csvButton" onclick="startCSV()" type="button" style="cursor:pointer">CSV file</button>
+  <div class="topnav">
+    <table ID="myTab">
+      <tr>
+        <th onclick="loadPop()">Population RESET</th>
+        <th id ="popShow" onclick="showPop()" bgcolor=lightgreen>Click Me</th>
+        <th>Greens</th>
+        <th>Yellows</th>
+        <th>Blues</th>
+        <th>Reds</th>
+        <th>Orange</th>
+        <th onclick="showDist()">Mingle</th>
+        <th onclick="showIncD()">Incubation</th>
+        <th onclick="showInfD()" bgcolor=LightBlue>Infectious</th>
+        <th onclick="showPradius()">Hazard Radius</th>
+        <th id="popClick" onclick="repeat()">TRIALS</th>
+        <th onclick="endChart()">Show Chart</th>
+      </tr>
+      <tr>
+        <td id="dPopn"></td>
+        <td id="dGen">0</td>
+        <td id="grCt">0</td>
+        <td id="yeCt">0</td>
+        <td id="blCt">0</td>
+        <td id="reCt">0</td>
+        <td id="orCt">0</td>
+        <td id="dDist">7</td>
+        <td id="dIncD">2</td>
+        <td id="dInfD">5</td>
+        <td id="dPrad">12</td>
+        <td id="dAnim">10</td>
+        <td></td>
+      </tr>
+    </table>
+ 
+  </div>
+
+  <div id="chartContainer6" style="height: 150px; width: 400px; display: block">abcde</div>
+  <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
+  <canvas id="myCanvas" width="800" height="700"
+          style="border:1px solid #d3d3d3;">
+  </canvas>
+
+
+<script>
+
+
+var trials = document.getElementById("dAnim").innerHTML;
+var R0cyc = [1,2,3,4,5,7,9,11,15,18,20,25,30,35,40];
+var startup = true;
+
+var TrialGreen;
+var TrialSize;
+var TrialTravel;
+var TrialIncubate;
+var TrialInfecD;
+var TrialClinDays;
+var TrialRadius;
+
+function startIt(){
+    if (startup){
+        alert("AUTOMATE TRIALS: set population and #Blues");
+        startup = false;
+        return;
+    }
+    let initialPop = U.Population - U.newBlue;
+    console.log("\nCovidSimABM Trials = "+trials+" Population: "+U.Population+" Blues: "+U.newBlue);
+    console.log("Parameters: Travel="+U.minglx+" Incubate="+U.avgIncDays+" InfectD="+U.avgInfDays+
+      " RedDays="+U.avgClinDays+" HazardR="+U.radius);
+
+    TrialGreen = U.greenCt;
+    TrialSize = U.radius;
+    TrialTravel = U.minglx;
+    TrialIncubate = U.avgIncDays;
+    TrialInfecD = U.avgInfDays;
+    TrialClinDays = U.avgClinDays;
+    TrialRadius = U.radius;
+
+    for (var Rk=0; Rk<trials; Rk++){
+        console.log("");
+        console.log("\nTrial "+Rk+" Infectious="+U.newBlue+" Cycles=40");
+        console.log("Parameters: Travel="+U.minglx+" Incubate="+U.avgIncDays+" InfectD="+U.avgInfDays+
+          " RedDays="+U.avgClinDays+" HazardR="+U.radius);
+
+    //  first we re-initialize population and BLUES using
+    //  initialPop stored at beginning and newBlue
+
+
+        let R0len = R0cyc.length;
+        let lastEl = R0cyc[R0len-1];
+        R0ct = 1;
+
+        while (R0ct < lastEl+1){
+            showPop();
+            R0ct++;
+            for (let j=0;j<R0len;j++){
+                if (R0cyc[j] == U.gen){
+                    processR0();
+                }
+                if (R0cyc[j]<U.gen) continue;
+                if (R0cyc[j]>U.gen) break;
+            }
+        }
+        if (Rk==trials-1) continue;
+        U.Population = initialPop;
+        initR0();
+    }
+    startup = true;
+}
+
+function initR0(){
+  finishLoad();           //load also loads blues
+  execAddBlues(U.newBlue);
+
+  U.greenCt = TrialGreen;
+  U.radius = TrialSize;
+  U.minglx = TrialTravel;
+  U.avgIncDays = TrialIncubate;
+  U.avgInfDays = TrialInfecD;
+  U.avgClinDays = TrialClinDays;
+  U.radius = TrialRadius;
+}
+
+
+
+function processR0(){
+    calcR0();
+    console.log("Cycle ="+U.gen+" G:"+U.greenCt+" Y:"+U.yellowCt+" B:"+U.blueCt+
+      " R:"+U.redCt+" O:"+U.orangeCt);
+    console.log("R0="+R0+" beta="+beta.toFixed(2)+" tau="+tau.toFixed(2));
+}
+
+var beta = 0;
+var tau = 0;
+var gamma = 0;
+var R0 = 0;
+
+function calcR0(){
+  beta = 0;
+  tau = 0;
+  gamma = 0;
+
+  let i=0;
+  let Coll = 0;
+  let Conv = 0;
+  let blueDays = 0;
+  let effectiveP = 0;
+  let infectives = 0;
+  for (i=0; i<U.Population; i++){
+    if (P[i].bConvHx>0) {
+        Conv = Conv + P[i].bConvHx;             // effective contacts
+        blueDays = blueDays + P[i].infectMax;
+        effectiveP++;
+    }
+    if (P[i].state=="blue" || P[i].state=="red"|| P[i].state=="orange"){
+        infectives++;
+    }
+  }
+  if (effectiveP>0){
+        gamma = Conv/(infectives*U.gen);          // rate of conversions per infective
+        beta = gamma * 1;
+        let avgBlueDays = blueDays/effectiveP;    // average duration for blues
+        tau = avgBlueDays + U.avgClinDays;
+        R0 = (beta * tau).toFixed(2);
+  }
+}
+
+
+function endChart(){
+    var endRedData1 = new Array(U.gen);
+    let  sum = 0;
+    U.logRed[0] = 0;
+
+    for (i=0; i<U.gen; i++){
+      sum = U.logRed[i]+U.logOrange[i];
+      endRedData1[i] = {y: sum, label: i};
+    }
+
+  var chart1 = new CanvasJS.Chart("chartContainer1", {
+      	theme: "light2", // "light1", "light2", "dark1", "dark2"
+      	title:{
+      		text: "TOTAL Cases to Date"
+  	},
+  	axisY: {
+  		title: "Number of Clinical or Positive"
+  	},
+    width:500,
+  	data: [{
+  		type: "column",
+  		showInLegend: true,
+  		legendMarkerColor: "grey",
+  		legendText: "Days since beginning",
+  		dataPoints: endRedData1
+  	}]
+  });
+  chart1.render();
+
+// chart 2 **********************************************
+  var del1, del2;
+  var endRedDelta2 = new Array(U.gen);
+  U.logRed[0] = 0;
+  endRedDelta2[0] = {y:0, label:0};
+
+  for (i=1; i<U.gen; i++){
+    del1 = U.logRed[i]+U.logOrange[i];
+    del2 = U.logRed[i-1]+U.logOrange[i-1];
+    del1 = del1-del2;
+    endRedDelta2[i] = {y: del1, label: i};
+  }
+
+  var chart2 = new CanvasJS.Chart("chartContainer2", {
+    animationEnabled: true,
+    theme: "light2", // "light1", "light2", "dark1", "dark2"
+    title:{
+      text: "Daily NEW Cases"
+    },
+    axisY: {
+      title: "Number of Clinical or Positive"
+    },
+    width:500,
+    data: [{
+      type: "column",
+      showInLegend: true,
+      legendMarkerColor: "grey",
+      legendText: "Days since beginning",
+      dataPoints: endRedDelta2
+  }]
+  });
+  chart2.render();
+
+
+// CHART3 **********************************************************
+
+    var endVelocity = new Array(U.gen);
+    var endV, vNum, vDenom;
+
+    endVelocity[0] = {y: 0, label: 0};
+    for (i=1; i<U.gen; i++){
+        vNum = endRedDelta2[i].y;
+        vDenom = endRedData1[i-1].y;
+        if (vDenom!=0){
+          endV = parseFloat((vNum/vDenom)*100);
+        }
+          else {
+            endV = 0
+          };
+        endVelocity[i] = {y: endV, label: i};
+    }
+
+    var chart3 = new CanvasJS.Chart("chartContainer3", {
+    animationEnabled: true,
+    zoomEnabled: true,
+    theme: "light2", // "light1", "light2", "dark1", "dark2"
+    title:{
+      text: "Percent Increase over Previous TOTAL"
+    },
+    axisY: {
+      title: "Percent Increase"
+    },
+    width:500,
+    data: [{
+      type: "line",
+      showInLegend: true,
+      legendMarkerColor: "grey",
+      legendText: "Days since beginning",
+      dataPoints: endVelocity
+    }]
+    });
+  chart3.render();
+
+
+// *********************************************************************************
+// CHART 4 - GREEN YELLOE BLUE RED over time
+
+      var endGreen4 = new Array(U.gen);
+      var endYellow4 = new Array(U.gen);
+      var endBlue4 = new Array(U.gen);
+      var endRed4 = new Array(U.gen);
+      var endOrange4 = new Array(U.gen);
+
+      for (i=0;i<U.gen; i++){
+        endGreen4[i] = {y:U.logGreen[i], label:i};
+        endYellow4[i] = {y:U.logYellow[i], label:i};
+        endBlue4[i] = {y:U.logBlue[i], label:i};
+        endRed4[i] = {y:U.logRed[i], label:i};
+        endOrange4[i] = {y:U.logOrange[i], label:i}
+      }
+
+    var chart4 = new CanvasJS.Chart("chartContainer4", {
+      //  theme: "light1",
+        colorSet: "Overview GYBRO",
+        title:{
+          text: "Progress of Transitions"
+        },
+          data: [
+        {
+          type: "stackedColumn",
+          dataPoints: endGreen4
+        },  {
+          type: "stackedColumn",
+          dataPoints: endYellow4
+        },  {
+          type: "stackedColumn",
+          dataPoints: endBlue4
+        },  {
+          type: "stackedColumn",
+          dataPoints: endRed4
+        }, {
+        type: "stackedColumn",
+        dataPoints: endOrange4
+        }]
+    });
+  chart4.render();
+}
+
+
+
+// **************************************************************************************
+// START OF PROGRAM
+
+var ageFlag = false;
+var raceFlag = false;
+
+var xSIZE = 800;
+var ySIZE = 700;
+var tRAVEL = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,3,3,3,3,3,4,4,4,4,5,5,5,6,6,7,8,12,20,30,40,50];
+var direction = [-1,0,1];
+var rand, randint;
+
+
+// for Fixed U which opertes in days, the following are viral loads starting from 1, to peak VL
+// as 10 on days as indexes of the array -peak at 4d to 6 days
+// NOTE that infectiousness is at VL 3.6 and above, so by postInfDay 13 no longer infective
+
+var tViral = [1,1.97,3.87,7.61,10,10,8.74,6.67,5.83,5.09,4.45,3.89,3.40,2.98,2.60];
+
+// temporal transmission Model from t=0 of infection
+
+var VLlower = 3.6;
+var VLincD = 2.9;
+var VLpeak0 = 4.5;
+var VLpeakLv = 10;
+var VLonsetT = 5.2;
+var VLpeakFnd = 6.2;
+var VLinfEnd = 13.2;
+var VLprePeakRate = 1.07;     // every 0.1 days
+var VLpostPeak = 0.875;
+
+// ***********************************************************************************
+
+var contagion = true;
+
+// ************************************************************************************
+
+
+var U;                   // local Universes
+var P = [];                   // all people in the system
+
+
+function CreateUniverse() {
+      this.uID;
+      this.name;          // universe name
+      this.Population;    // universe current population
+      this.gen;
+      this.Resident;    // these population numbers will change every hour perhaps
+      this.Attached;
+      this.Transient;
+      this.minglX;
+      this.greenCt;       // these counts reflect the status of this universe at this time
+      this.yellowCt;
+      this.newBlue;
+      this.blueCt;
+      this.redCt;
+      this.orangeCt;
+      this.canvas;
+      this.person = [];
+
+      this.tIncubate;
+      this.qInfective;
+      this.tPeakVL;
+      this.qPeakVL;
+      this.tInfecteEnd;
+      this.tOnset;
+      this.tInert;
+
+      this.avgIncDays;
+      this.avgInfDays;
+      this.avgClinDays;
+      this.radius;
+      this.logDay = [];
+      this.logGreen = [];
+      this.logYellow = [];
+      this.logBlue = [];
+      this.logRed = [];
+      this.logOrange = [];
+      this.endGreen = [];
+      this.endYellow = [];
+      this.endBlue = [];
+      this.endRed = [];
+      this.endOrange = [];
+      this.endRedDelta = [];                // we need this to point to the persons there - just pIDs
+      this.endVelocity = [];
+      this.bHx = [];
+      this.bConvHx = [];
+}
+
+function initUniv(U){
+      U.uID = 0;
+      U.name = "Single";
+      U.Population = 20;
+      U.gen = 0;
+      U.Resident = 0;
+      U.Attached = 0;
+      U.Transient = 0;
+      U.minglx = 2;
+      U.greenCt = 20;
+      U.yellowCt = 0;
+      U.newBlue = 0;
+      U.blueCt = U.newBlue;
+      U.redCt = 0;
+      U.orangeCt = 0;
+      U.canvas = "";
+      U.person = [];
+      U.tIncubate = 3;
+      U.qInfective = 3.6;
+      U.tPeakVL = 5;
+      U.qPeakVL = 10;
+      U.tInfectEnd = 13;
+      U.tOnset = 5;
+      U.tInert = 13;
+      U.radius = 12;
+};
+
+
+(function() {
+    U = new CreateUniverse();
+    initUniv(U);
+})();
+
+
+function CreatePerson() {       // the persistent info for a person
+    this.pID;                   // issued in multiverse - most of this data generated in MULTIVERSE
+    this.state;                 // uninfected; incubating; infectious; disagnosed; inert
+    this.clr;
+    this.ageGp;
+
+    this.role;
+    this.susc;                  // 1 or entered via csv - will use its cube root
+    this.ViralLoad;             // starts out at zero unless csv assigns
+    this.gen;                   // gen since beginning of computer run
+    this.tPostInf;              // tracks time since infection
+
+    this.tIncubate;             // stochastic in region of 3 days
+    this.qInfective;            // stochastic in region of 3.6Ct
+    this.tPeakVL;               // stochastic in region of 4 days
+    this.qPeakVL;               // stochastic in region of 10Ct
+    this.tOnset;                // stochastic symptom onset region of 5 days
+    this.tInert;                // stochastic in region of 13d days
+
+    this.baseSize;              // base size given compounded-risk
+    this.currSize;              // current size with growth and contacts
+    this.minglx;                // mingle factor related to role
+    this.X;
+    this.Y;
+    this.oldX;
+    this.oldY;
+    this.newX;
+    this.newY;
+    this.delX;
+    this.delY;
+    this.ddx;
+    this.ddy;
+    this.bHx = [];
+    this.bConvHx = [];
+}
+
+function newPersons(){
+  for (i=0; i<U.Population; i++){
+      P[i] = new CreatePerson;
+      initPerson(P[i],i);
+  }
+}
+
+function initPerson(P,i){
+    P.pID = i;
+    P.state = "green";
+    P.clr = "green";
+    P.ageGp = -1;
+    P.susc = 1;
+    P.ViralLoad = 0;
+    P.gen = 0;              //gen counts days model has run
+    P.tPostInf = 0;         //post-infection days
+
+    P.tIncubate = stochast(VLincD,0.1);
+    P.qInfective = stochast(VLlower,0.1);
+    P.tPeakVL = stochast(VLpeak0,0.1);
+    P.qPeakVL = stochast(VLpeakLv,0.1);
+    P.tOnset = stochast(VLonsetT,0.1);
+    P.tInert = stochast(VLinfEnd,0.1);
+
+    P.role = "R";
+    P.baseSize = U.radius;
+    P.currSize = P.baseSize;
+    P.minglx = 3;
+    P.X = 0;
+    P.Y = 0;
+    P.oldX = P.X;
+    P.oldY = P.Y;
+    P.newX = 0;
+    P.newY = 0;
+    P.delX = 0;
+    P.delY = 0;
+    P.ddx = 0;
+    P.ddy = 0;
+    P.bHx = [];
+    P.bConvHx = [];
+}
+
+function stochast(b,factor){
+    let pb = (Math.random()*factor)*b;
+    if (Math.random()*2 > 1) pb = -pb;
+    return (b*(1-factor) + pb)
+}
+
+var drawMSEC = 1000;
+var drawCycle = 400;
+var FPS = 30;
+var aniGoal = 5;          //count of click cycles
+var myClick;
+
+var canvas = document.getElementById("myCanvas");
+var ctx = canvas.getContext("2d");
+ctx.fillStyle = "black";
+ctx.fillRect(0,0,canvas.width, canvas.height);
+ctx.globalCompositeOperation = "source-atop";
+
+
+// *********************************************************************************
+// THESE ARE INITIALIZATION AND UTILITY ROUTINES
+
+
+window.onload = function(){
+      CanvasJS.addColorSet("Overview GYBRO",
+         [
+         "#008000",
+         "#FFD700",
+         "#1E90FF",
+         "#FF0000",
+         "#FF8C00",
+        ]);
+}
+
+var startme = true;
+(function startUp(){
+  if (startme){
+    alert("START: input population and blues");
+    }
+    startme=false;
+})();
+
+  function loadPop(){
+      var txt = prompt("Enter population - initial set to 100 \nBeware the canvas size is only 1200x800",U.Population);
+      U.Population = parseInt(txt);
+      document.getElementById("dPopn").innerHTML = U.Population;
+      finishLoad();
+  }
+
+  function finishLoad(){
+      ageFlag = false;
+      raceFlag = false;
+      resetArrays();
+      setCountsToZero();
+      allocate();             // position the agents and their fiedls
+      showSettings();
+      drawAgents(0);
+      document.getElementById("csvButton").style.display="block";
+  }
+
+  function resetArrays(){
+      P = [];
+      newPersons();
+  }
+
+  function allocate(){
+      if (U.Population > 10000) U.Population = 10000;
+      for (let ct=0;ct<U.Population;ct++){
+        P[ct].X = Math.random()*(xSIZE*0.9)+(xSIZE*0.1);
+        P[ct].Y = Math.random()*(ySIZE*0.9)+(ySIZE*0.1);
+        P[ct].oldX = P[ct].X;
+        P[ct].oldY = P[ct].Y;
+      }
+  }
+
+function loadBlues(){
+  var pBlue = prompt("Enter number of PERSONs to ADD as transmitters (BLUE):", U.newBlue);
+  U.newBlue = parseInt(pBlue);
+  document.getElementById("dCont").innerHTML = U.newBlue;
+  execAddBlues(U.newBlue);
+}
+
+function execAddBlues(){
+  addBlues(U.newBlue);
+  showSettings();
+  setCountsToZero();
+  clearCanvas();
+  drawAgents(0);
+}
+
+function addBlues(cut){
+  var n, k;
+
+  for (k=0;k<cut;k++){
+    U.blueCt++;
+    n = U.Population;
+    P[n] = new CreatePerson();
+    initPerson(P[n],n);
+    if (ageFlag) {
+      pAges[ageCount][4].num++;
+      pAges[ageCount][4].blu++;
+    }
+    P[n].clr = "blue";
+    P[n].state = "blue";
+    P[n].infectDays = parseInt(Math.floor(Math.random()*U.avgInfDays/5*4+U.avgInfDays/5));
+    P[n].infectMax = (Math.random()*U.avgInfDays/5*2)+U.avgInfDays/5*3;
+    squeeze(n);       //squeese in a blue
+    P[n].oldX = P[n].X;
+    P[n].oldY = P[n].Y;
+    U.Population++;
+  }
+}
+
+function loadChart6(){
+      chart6.options.data[0].dataPoints = [];
+      chart6.options.data[0].dataPoints = endGreen6;
+      chart6.options.data[1].dataPoints = [];
+      chart6.options.data[1].dataPoints = endYellow6;
+      chart6.options.data[2].dataPoints = [];
+      chart6.options.data[2].dataPoints = endBlue6;;
+      chart6.options.data[3].dataPoints = [];
+      chart6.options.data[3].dataPoints = endRed6;
+      chart6.options.data[4].dataPoints = [];
+      chart6.options.data[4].dataPoints = endOrange6;
+}
+
+
+
+  function showSettings(){
+      document.getElementById("dPopn").innerHTML = U.Population;
+      document.getElementById("dGen").innerHTML = U.gen;
+      document.getElementById("grCt").innerHTML = U.greenCt;
+      document.getElementById("yeCt").innerHTML = U.yellowCt;
+      document.getElementById("blCt").innerHTML = U.blueCt;
+      document.getElementById("reCt").innerHTML = U.redCt;
+      document.getElementById("orCt").innerHTML = U.orangeCt;
+      document.getElementById("dDist").innerHTML = U.minglx;
+      document.getElementById("dPrad").innerHTML = U.radius;
+      document.getElementById("ageSel").style.backgroundColor = "red";
+  }
+
+  function setCountsToZero(){
+      U.gen=0;
+      U.greenCt = U.Population - U.newBlue;
+      U.yellowCt = 0;
+      U.blueCt = U.newBlue;
+      U.redCt = 0;
+      U.orangeCt = 0;
+      U.bHx = 0;              //this accumulates over all P
+      U.bConvHx = 0;
+
+      for (i=0; i<U.Population+1; i++){
+          U.logDay[i] = 0;
+          U.logGreen[i] = 0;
+          U.logYellow[i] = 0;
+          U.logBlue[i] = 0;
+          U.logRed[i] = 0;
+          U.logOrange[i] = 0;
+      }
+
+      if (ageFlag) initAgeTally();
+}
+
+function drawAgents(bClr){
+  var i,j,k;
+  clearCanvas();
+  for (k=0; k<U.Population; k++){
+    let Q = P[k];
+    drawc(Q.X,Q.Y,Q.baseSize,"black");
+    if (bClr!=0){
+      drawc(Q.X,Q.Y,Q.currSize,"MidnightBlue")
+    } else {
+      drawc(Q.X,Q.Y,Q.currSize,Q.clr)
+    }
+  }
+}
+
+
+function finddelXY(i){
+    let Q = P[i];
+    let xyFactor = 2*Q.currSize*Q.minglx;
+
+    Q.delX = tRAVEL[Math.floor(Math.random()*34)]*xyFactor;
+    Q.delY = tRAVEL[Math.floor(Math.random()*34)]*xyFactor;
+    Q.delX = Q.delX * direction[Math.floor(Math.random()*3)];
+    Q.delY = Q.delY * direction[Math.floor(Math.random()*3)];
+}
+
+function drawc(x,y,rad,color){
+  ctx.beginPath();
+  ctx.arc(x,y,rad,0,2*Math.PI);
+  ctx.fillStyle = color;
+  ctx.fill();
+  ctx.stroke();
+  ctx.strokeStyle = "black";
+}
+
+
+function clearCanvas(){
+  ctx.fillStyle = "black";
+  ctx.fillRect(0,0,canvas.width, canvas.height);
+}
+
+
+
+function drawPop(){
+    for (i=0; i<U.Population; i++){
+      let Q = P[i];
+      drawc(Q.oldX,Q.oldY,Q.currSize,"black");
+      if(Q.ddx<0){
+        // are we at destination or beyond it
+        if (Q.oldX == Q.X || Q.oldX < Q.X){
+          Q.ddx = 0
+        }
+      } else {
+        if (Q.oldX == Q.X || Q.oldX > Q.X){
+          Q.ddx = 0
+        }
+      };
+      Q.oldX = Q.oldX + Q.ddx;
+      if(Q.ddy<0){
+        if (Q.oldY == Q.Y || Q.oldY < Q.Y){
+          Q.ddy = 0
+        }
+      } else {
+        if (Q.oldY == Q.Y || Q.oldY > Q.Y){
+          Q.ddy = 0
+        }
+      };
+      Q.oldY = Q.oldY + Q.ddy;
+      drawc(Q.oldX,Q.oldY,Q.currSize,Q.clr);
+      }
+}
+
+// **********************************************************************************
+// THIS IS WHERE THINGS START BY DEFINING A POPULATION -
+// BEWARE - THE DEFAULT MIGHT BE USED, SO THIS MAY NOT BE CALLED FOR STARTING Simulation
+
+
+
+function shuffle(){
+  var i,j,k,m,n;
+  m = U.Population+2;
+  for (j=0;j<3;j++){        //do this three times
+    for (i=0;i<U.Population;i++){
+      k = parseInt(1+Math.round(Math.random()*(U.Population)));
+      P[m] = P[i];
+      P[i] = P[k];
+      P[k] = P[m];
+    }
+  }
+}
+
+
+
+function squeeze(n){
+  P[n].X = parseInt(Math.floor(Math.random()*xSIZE/4*3));
+  P[n].Y = parseInt(Math.floor(Math.random()*ySIZE/8*7));
+}
+
+
+
+
+// ****************************************************************************************
+//
+// THIS FUNCTION IS THE HEART OF THE SIMULATION - EACH CLICK IS A NEW PERIOD EG DAY
+
+function showPop(){
+    growVL();
+    clearCanvas();
+    goPop();    //takes a step and moves the entities
+    tabulate();
+    U.gen++;
+
+    document.getElementById("dGen").innerHTML = U.gen;
+    document.getElementById("grCt").innerHTML = U.greenCt;
+    document.getElementById("yeCt").innerHTML = U.yellowCt;
+    document.getElementById("blCt").innerHTML = U.blueCt;
+    document.getElementById("reCt").innerHTML = U.redCt;
+    document.getElementById("orCt").innerHTML = U.orangeCt;
+}
+
+function growVL(){
+      let i=0;
+      for (i=0;i<U.Population;i++){
+          let Q = P[i];
+          if (Q.ViralLoad==0) continue;
+          if (Q.tPostInf < Q.tPeakVL){
+              Q.ViralLoad = Q.ViralLoad*Math.pow(VLprePeakRate,10)
+          } else {
+              Q.ViralLoad = Q.ViralLoad*Math.pow(VLpostPeak,10);
+          }
+          let postDays = Math.floor(Q.tPostInf);
+          let tableVL = tViral[postDays];
+          Q.ViralLoad = Math.max(Q.ViralLoad, tableVL);
+          Q.ViralLoad = stochast(Q.ViralLoad,0.2);
+          Q.tPostInf++;
+          reState(i);
+      }
+      reSizeAll();
+}
+
+function reSizeAll(){
+    let i;
+    for (i=0; i<U.Population; i++){
+        let Q = P[i];
+        if (Q.ViralLoad == 0) continue;
+            let tempSize = Q.baseSize * Math.cbrt(Q.ViralLoad);
+            Q.currSize = stochast(tempSize,0.2);
+    }
+}
+
+// ****************************************************************************************
+// THIS IS WHERE WE INITIATE THE MOVEMENTS
+//
+function goPop(){
+  var i;
+  proposeMove();                      //checks transitions
+  drawAgents(0);
+  // drawThem();                      // this produces animation
+  changeState();
+  drawAgents(0);
+}
+
+function tabulate(){
+  if (!startup) return;
+      U.logDay[U.gen] = U.gen;
+      U.logGreen[U.gen] = U.greenCt;
+      U.logYellow[U.gen] = U.yellowCt;
+      U.logBlue[U.gen] = U.blueCt;
+      U.logRed[U.gen] = U.redCt;
+      U.logOrange[U.gen] = U.orangeCt;
+
+      upDateGraph6();
+}
+
+var realTimer;
+var chart6;
+var endGreen6 = [];
+var endYellow6 = [];
+var endBlue6 = [];
+var endRed6 = [];
+var endOrange6 = [];
+
+function createChart6(){
+  CanvasJS.addColorSet("Overview GYBRO",
+     [
+     "#008000",
+     "#FFD700",
+     "#1E90FF",
+     "#FF0000",
+     "#FF8C00",
+    ]);
+
+    chart6 = new CanvasJS.Chart("chartContainer6",{
+    colorSet: "Overview GYBRO",
+    title:{
+      text: "Progress of Epidemic"
+    },
+    axisY: {
+      title: "Total Susceptibles and Cases"
+    },
+    data: [{
+    type: "line",
+    markerType: "none",
+    dataPoints: endGreen6
+
+  },  {
+    type: "line",
+    markerType: "none",
+    dataPoints: endYellow6
+  },  {
+    type: "line",
+    markerType: "none",
+    dataPoints: endBlue6
+  },  {
+    type: "line",
+    markerType:"none",
+    dataPoints: endRed6
+  },  {
+    type: "line",
+    markerType: "none",
+    dataPoints: endOrange6
+    }
+    ]
+  }
+);
+}
+
+(function() {createChart6();
+             resetArrays()})();
+
+function upDateGraph6(){
+  endGreen6.push({y:U.logGreen[U.gen], x:U.gen});
+  endYellow6.push({y:U.logYellow[U.gen],x:U.gen});
+  endBlue6.push({y:U.logBlue[U.gen],x:U.gen});
+  endRed6.push({y:U.logRed[U.gen],x:U.gen});
+  endOrange6.push({y:U.logOrange[U.gen],x:U.gen});
+  loadChart6();
+  chart6.render();
+}
+
+  function proposeMove(){
+      var i;
+      for (i=0; i<U.Population; i++){
+        let Q = P[i];
+
+        finddelXY(i);
+        Q.oldX = Q.X;
+        Q.oldY = Q.Y;
+        //CHECK BOUNDARIES
+        checkBounds(i);
+        calcDeltas(i);
+        Q.X = Q.newX;
+        Q.Y = Q.newY;
+        }
+  }
+
+function checkBounds(i){
+  let Q = P[i];
+  while (Q.X + Q.delX > xSIZE || Q.X + Q.delX<0){
+    Q.delX = -Q.delX*0.5;
+  };
+  while (Q.Y + Q.delY > ySIZE || Q.Y + Q.delY <0){
+    Q.delY = -Q.delY*0.5;
+  }
+
+  Q.newX = Q.X + Q.delX;
+  Q.newY = Q.Y + Q.delY;
+
+}
+
+function calcDeltas(i){           //for animation
+  let Q = P[i];
+  P[i].ddx = Math.floor(parseInt(Q.delX/drawCycle));
+  if (Q.ddx == 0) {
+    if (Q.delX<0){
+      Q.ddx = -1
+    }
+    else {
+      Q.ddx = 1;
+    }
+  }
+  Q.ddy = Math.floor(parseInt(Q.delY/drawCycle));
+  if (Q.ddy == 0) {
+    if (Q.delY<0){
+      Q.ddy = -1}
+    else {
+      Q.ddy = 1;
+    }
+  }
+}
+
+// ***********************************************************************************
+// THIS IS WHERE WE CONSIDER EACH ENTITY AND WHAT HAPPENS TO ITS STATUS THIS CYCLE
+//
+function changeState(){
+    if (contagion) {
+      for (i=0;i<U.Population-1;i++){
+          P[i].clr = P[i].state;
+          testOverlap(P,i);
+	  }
+	}
+ }
+// tricky to get unique pairs from Population
+
+var raDist;
+var raMax;
+ function testOverlap(P,i){
+   let touchFlag = false;
+   let j=0;
+   for (j=i+1; j<U.Population; j++){
+     if (i != j){
+       let Q = P[i];
+       xDelta = (Q.X-P[j].X)**2;
+       yDelta = (Q.Y-P[j].Y)**2;
+       yLength = Math.sqrt(xDelta+yDelta);
+
+       raMax = Q.currSize+P[j].currSize
+       if (yLength > raMax){
+         touchFlag = false;
+       } else {
+         touchFlag = true;
+       }
+       if (touchFlag) VLtransfer(i,j);
+     }
+   }
+ }
+
+// focus on i's viral load - whether it will increase
+// but not infective till 2.9d and viral load > 3.6
+
+ function VLtransfer(i,j){
+     let iVL = P[i].ViralLoad;
+     let jVL = P[j].ViralLoad;
+     if (iVL==0 && jVL==0) return;
+	 
+	 // if viral load below threshold or still in incubation period do not infect 
+	 if ((Math.max(iVL,jVL)< VLlower) || (Math.max(P[i].tPostInf,P[j].tPostInf)<VLincD)) return;
+	 
+	 
+     let Vgrad = Math.abs((jVL-iVL)/(Math.max(jVL,iVL)));
+     let diff = raMax - yLength;
+     let Vdist = (diff/(raMax+yLength))**2;
+     let Vbig = iVL;
+     if (iVL<jVL) {Vbig = jVL};
+     let VTrans = Vbig*Vdist*Vgrad;
+     if (Vbig == iVL) {
+        P[j].ViralLoad = Math.max(jVL + VTrans, 1);   //forcing infection VL to 1
+     } else {
+       P[i].ViralLoad = Math.max(iVL + VTrans,1);
+     }
+ }
+
+
+
+var greenPt, otherPt;
+
+
+
+function showIncD(){
+  var incTxt = prompt("Enter number of days of incubation - for YELLOWs", U.avgIncDays);
+  var incDays = parseFloat(incTxt);
+  document.getElementById("dIncD").innerHTML = incDays;
+  U.avgIncDays = incDays;
+}
+
+
+function showInfD(){
+  var infTxt = prompt("Enter number of days of transmission - for BLUEs", U.avgInfDays);
+  var infDays = parseFloat(infTxt);
+  document.getElementById("dInfD").innerHTML = infDays;
+  U.avgInfDays = infDays;
+}
+
+
+function showCliD(){
+  var cliTxt = prompt("Detection is either becoming symptomatic or testing POSITIVE \nEnter # days of tranmission after clinical positive - for REDs", U.avgClinDays);
+  var cliDays = parseFloat(cliTxt);
+  document.getElementById("dCliD").innerHTML = cliDays;
+  U.avgClinDays = cliDays;
+}
+
+function showPradius(){
+  var i;
+  var praTxt = prompt("Enter radius of personal safety \nThe smaller the extent of isolation", U.radius);
+  var pRadi = parseFloat(praTxt);
+  document.getElementById("dPrad").innerHTML = pRadi;
+  let radRatio = pRadi/U.radius;
+  U.radius = pRadi;
+
+  for (i=0; i<U.Population; i++){
+    if (P[i].state=="orange"){
+      P[i].currSize=3;
+    } else {
+    P[i].baseSize = P[i].baseSize * radRatio;
+    P[i].currSize = P[i].currSize * radRatio;     //the new size plus a bit
+    }
+  }
+  drawAgents(0);
+}
+
+
+
+
+
+
+
+
+
+
+//*********** THE ANIMATION ROUTINES HERE  ******************************
+
+function drawThem(){
+
+  var i;
+  for (i=1;i<drawCycle;i++){
+      setTimeout(drawPop,drawMSEC/FPS);
+  }
+    drawAgents(0);
+}
+
+
+
+// $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+//                        read csv files
+// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+//handleFiles("data.csv");
+var lines = [];
+var csvFlag = true;
+
+function startCSV(){
+    if (csvFlag) {
+        document.getElementById("csvButton").innerHTML = "CANCEL CSV";
+        csvFlag = false;
+        document.getElementById("csvGet").style.display = "block";
+    } else {
+        csvFlag = true;
+        document.getElementById("csvButton").innerHTML = "CSV file";
+        document.getElementById("csvGet").style.display = "none";
+        document.getElementById("csvButton").style.display = "none";
+    }
+}
+
+
+function handleFiles(files) {
+	// Check for the various File API support.
+	if (window.FileReader) {
+		// FileReader are supported.
+		getAsText(files[0]);
+	} else {
+		alert('FileReader are not supported in this browser.');
+	}
+}
+
+function getAsText(fileToRead) {
+	var reader = new FileReader();
+	// Handle errors load
+	reader.onload = loadHandler;
+	reader.onerror = errorHandler;
+	// Read file into memory as UTF-8
+	reader.readAsText(fileToRead);
+}
+
+function loadHandler(event) {
+	var csv = event.target.result;
+	processData(csv);
+}
+
+function processData(csv) {
+    var allTextLines = csv.split(/\r\n|\n/);
+    while (allTextLines.length) {
+        lines.push(allTextLines.shift().split(','));
+    }
+	processLines();
+//	drawOutput(lines);
+}
+
+function errorHandler(evt) {
+    	if(evt.target.error.name == "NotReadableError") {
+    		alert("Cannot read file !");
+      }
+}
+
+// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+//
+function processLines(){
+    let i,j;
+    if (lines[0][0] == "pID") lines.shift();
+    var lineNo = lines.length;
+    for (i=0;i<lineNo;i++){
+      if (!parseL(lines[i])) break;
+    }
+    drawAgents(0);
+    document.getElementById("csvGet").style.display="none";
+    document.getElementById("csvButton").style.display="none";
+}
+
+function parseL(lineStr){
+      let lineS = lineStr;
+      if (lineS == "" || lineS===undefined) return false;
+      let ID = eval(lineS[0]);
+
+      if (P[ID].pID === undefined || P[ID].pID=="null") return false;
+
+      P[ID].ageGp = eval(lineS[1]);     // age group
+      P[ID].susc = eval(lineS[2]);      // combined risk
+      resizeRisk(ID);
+
+      if (eval(lineS[3])===undefined || eval(lineS[3])=="") {}
+          else P[ID].ViralLoad = eval(lineS[3]);
+      if (eval(lineS[4])===undefined || eval(lineS[4])=="") {}
+          else P[ID].tPostInf = eval(lineS[4]);
+
+      // resizeVL(ID);     //we grow VL for one cycle, so resize after growth
+      reState(ID);         //changes state and color by post-inf days
+
+      if (lineS[5]===undefined || lineS[5]=="") {}
+         else P[ID].role = lineS[5];
+      if (eval(lineS[6])===undefined || eval(lineS[6])=="") {}
+         else P[ID].minglx = eval(lineS[6]);
+      return true;
+
+  /*
+  transfer.pID = ID;
+  transfer.stopno = eval(lineS[1]);
+  transfer.ETA = eval(lineS[2]);
+  transfer.AU = eval(lineS[3]);
+  transfer.ETD = eval(lineS[4]);
+  transfer.TU = eval(lineS[5]);
+  transfer.role = lineS[6];
+  transfer.Mx = eval(lineS[7]);
+  if  (lineS[8] == "" || lineS[8]===undefined){
+    return true;
+  } else {
+    P[ID].age = eval(lineS[8]);
+    return true;
+  }
+  */
+}
+
+function resizeRisk(ID){
+  let Q = P[ID];
+  Q.baseSize = Q.baseSize * Math.cbrt(Q.susc);
+  Q.currSize = Q.baseSize;
+}
+
+// must test to see if these are transitions
+function reState(ID){
+    let Q = P[ID];
+    if (Q.tPostInf>0){
+        if (Q.tPostInf<Q.tIncubate){
+            if (Q.state=="green") {
+                U.yellowCt++;
+                U.greenCt--;
+            }
+			Q.state = "yellow";
+			Q.clr = "yellow";
+		return
+        }
+        if (Q.tPostInf<Q.tOnset){
+            if (Q.state=="yellow") {
+                U.yellowCt--;
+                U.blueCt++;
+            }
+			if (Q.state=="green"){
+				U.greenCt--;
+				U.blueCt++
+			}
+			Q.state =  "blue";
+            Q.clr = "blue";
+            return
+        }
+        if (Q.tPostInf<Q.tInert){
+            if (Q.state=="blue") {
+                U.blueCt--;
+                U.redCt++;
+            }
+			Q.state = "red";
+			Q.clr = "red";
+            return
+        }
+        if (Q.state=="red"){
+              U.redCt--;
+              U.orangeCt++;
+        }
+		Q.state = "orange";
+		Q.clr = "orange";
+        return;
+    }
+}
+
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+</script>
+
+</head>
+<body>
+<div id="chartContainer1" style="height: 370px; width: 45%; display: inline-block;"></div>
+<div id="chartContainer2" style="height: 370px; width: 45%%;display: inline-block;"></div><br>
+<div id="chartContainer3" style="height: 370px; width: 45%; display: inline-block;"></div>
+<div id="chartContainer4" style="height: 370px; width: 45%%; display: inline-block;"></div><br>
+<div id="chartContainer5" style="height: 370px; width: 45%%; display: inline-block;"></div>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
+</body>
+</html>

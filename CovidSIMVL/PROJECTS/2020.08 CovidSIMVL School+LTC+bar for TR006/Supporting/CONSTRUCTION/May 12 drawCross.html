@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+</style>
+
+<body>
+
+<!--
+   <canvas id="myCanvas" width="2000" height="1000"
+           style="border:1px solid #d3d3d3; left=50; top=50">
+    </canvas>
+-->
+
+
+    <div id="fields">
+        <canvas id="canp1" style="position:absolute; border: 1px solid blue"></canvas>
+    </div>
+
+</head>
+<script>
+
+
+
+// *********************************** CREATE CANVASES FOR EACH PANE *******************************
+
+function drawc(x,y,rad,color,ctx){
+  ctx.beginPath();
+  ctx.arc(x,y,rad,0,2*Math.PI);
+  ctx.fillStyle = color;
+  ctx.fill();
+  ctx.stroke();
+  ctx.strokeStyle = "black";
+}
+
+function drawCross(x,y,width,height,clr,ctx){
+  ctx.beginPath();
+  ctx.moveTo(x,y);
+  ctx.fillStyle = clr;
+
+  ctx.fillRect(x,y,width,height);
+  ctx.fillRect((x+width/2-height/2),(y+height/2-width/2),height,width);
+}
+
+
+
+//ctx1.fillStyle = "MidnightBlue";
+//ctx1.fillRect(0,0,canp1.width, canp1.height);
+//drawc(10,10,8,"green",ctx1);
+/*
+
+function CreateCanvases() {
+  this.cid;
+  this.width;
+  this.height;
+  this.style.top;
+  this.style.left;
+  this.ctx;
+}
+
+var cn = [];
+var offX = 75;
+var offY = 100;
+var pHz = "300"+"px";
+var pVt = (200).toString()+"px";
+
+var c = document.getElementById("fields").children;
+for (i=0; i< c.length; i++){
+  var x = 0;
+  var y = 0;
+  cn[i] = document.getElementById(c[i].id);
+  cn[i].cid = c[i].id;
+  cn[i].width = 300;
+  cn[i].height = 250;
+  cn[i].style.top = ((x%3)*300+offX).toString()+"px";
+  cn[i].style.left = ((y%3)*300+offY).toString()+"px";
+  x++;
+  y++;
+  cn[i].ctx = cn[i].getContext("2d");
+}
+
+alert("c.length= "+c.length);
+alert("cn[8].left= "+cn[8].style.left);
+alert("cn[2].style.left = "+cn[2].style.top);
+alert("cn[4].cid = "+cn[4].cid);
+*/
+
+var canp1 = document.getElementById("canp1");
+  canp1.width = 600;
+  canp1.height = 600;
+  canp1.style.top = "75px";
+  canp1.style.left = "100px";
+
+var ctx1 = canp1.getContext("2d");
+
+
+ctx1.fillStyle = "MidnightBlue";
+ctx1.fillRect(0,0,canp1.width, canp1.height);
+drawc(10,10,8,"green",ctx1);
+
+drawCross(40,40,30,6,"red",ctx1);
+
+function CreateDroplet() {
+  this.Temp;
+  this.x;
+  this.y;
+  this.density;
+  this.netTemp;
+  this.netDirection;
+}
+
+var drop = [];
+
+var ocean = 10000;      // start with 50x200
+
+// we will check the 4 neighbours for temperature
+// we will check up and down for density differences as well
+// we will have a 5% variance in the x and y directions at each move
+// this will be stochastic random from 0 to 5....
+
+//we need to find a nice way to color code the variations in temperature
+// we may have to show the microscopic view of the 4C boundary layer
+
+//we  may eventually want a movie captured through animating the frames
+
+/*
+function CreateDensityTable(){
+  this.temp;
+  this.density;
+}
+
+var rho = [];
+
+rho[1].temp = 19;
+rho[1].density = 0.9984082;
+
+rho[2].temp = 18;
+rho[2].density = 0.0085986;
+
+rho[3].temp = 17;
+rho[3].density = 0.998779;
+
+rho[4].temp = 16;
+rho[4].density = 0.998946;
+
+rho[5].temp = 15;
+rho[5].density = 0.9991026;
+
+rho[6].temp = 14;
+rho[6].density = 0.9992474;
+
+rho[7].temp = 13;
+rho[7].density = 0.9993801;
+
+rho[8].temp = 12;
+rho[8].density = 0.9995004;
+
+rho[9].temp = 11;
+rho[9].density = 0.9996018;
+
+rho[10].temp = 10;
+rho[10].density = 0.9997026;
+
+rho[11].temp = 9;
+rho[11].density = 0.9997838;
+
+rho[12].temp = 8;
+rho[12].density = 0.9998512;
+
+rho[13].temp = 7;
+rho[13].density = 0.9999045;
+
+rho[14].temp = 6.5;
+rho[14].density = 0.99992571;
+
+rho[15].temp = 6.25;
+rho[15].density = 0.999934924;
+
+rho[16].temp = 6;
+rho[16].density = 0.9999432;
+
+rho[17].temp = 5.75;
+rho[17].density = 0.999950522;
+
+rho[18].temp = 5.5;
+rho[18].density = 0.999956899;
+
+rho[19].temp = 5.25;
+rho[19].density = 0.999962326;
+
+rho[20].temp = 5;
+rho[20].density = 0.9999668;
+
+rho[21].temp = 4.9;
+rho[21].density = 0.999968323;
+
+rho[22].temp = 4.8;
+rho[22].density = 0.999969692;
+
+rho[23].temp = 4.7;
+rho[23].density = 0.999970906;
+
+rho[24].temp = 4.6;
+rho[24].density = 0.999971963;
+
+rho[25].temp = 4.5;
+rho[25].density = 0.999972864;
+
+rho[26].temp = 4.4;
+rho[26].density = 0.999973608;
+
+rho[27].temp = 4.3;
+rho[27].density = 0.999974194;
+
+rho[28].temp = 4.2;
+rho[28].density = 0.999974622;
+
+rho[29].temp = 4.1;
+rho[29].density = 0.99997489;
+
+rho[30].temp = 4.05;
+rho[30].density = 0.999974965;
+
+rho[31].temp = 4.04;
+rho[31].density = 0.999974975;
+
+rho[32].temp = 4.03;
+rho[32].density = 0.999974984;
+
+rho[33].temp = 4.02;
+rho[33].density = 0.99997499;
+
+rho[34].temp = 4.01;
+rho[34].density = 0.999974996;
+
+rho[35].temp = 4.005;
+rho[35].density = 0.99997499;
+
+rho[36].temp = 4.004;
+rho[36].density = 0.999974998;
+
+rho[37].temp = 4.003;
+rho[37].density = 0.999974999;
+
+rho[38].temp = 4.002;
+rho[38].density = 0.999974999;
+
+rho[39].temp = 4.0;
+rho[39].density = 0.999975;
+
+rho[40].temp = 3.999;
+rho[40].density = 0.999975;
+
+rho[41].temp = 3.9;
+rho[41].density = 0.999974947;
+
+rho[42].temp = 3.8;
+rho[42].density = 0.999974734;
+
+rho[43].temp = 3.7;
+rho[43].density = 0.99997436;
+
+rho[44].temp = 3.6;
+rho[44].density = 0.999973825;
+
+rho[45].temp = 3.5;
+rho[45].density = 0.999973128;
+
+rho[46].temp = 3.4;
+rho[46].density = 0.999972269;
+
+rho[47].temp = 3.3;
+rho[47].density = 0.999971247;
+
+rho[48].temp = 3.2;
+rho[48].density = 0.999970062;
+
+rho[49].temp = 3.1;
+rho[49].density = 0.999968713;
+
+rho[50].temp = 3.0;
+rho[50].density = 0.9999672;
+
+rho[51].temp = 2.75;
+rho[51].density = 0.999962697;
+
+rho[52].temp = 2.5;
+rho[52].density = 0.999957152;
+
+rho[53].temp = 2.25;
+rho[53].density = 0.999950556;
+
+rho[54].temp = 2;
+rho[54].density = 0.9999429;
+
+rho[55].temp = 1.75;
+rho[55].density =0.999934165;
+
+rho[56].temp = 1.5;
+rho[56].density = 0.999924359;
+
+rho[57].temp = 1.25;
+rho[57].density = 0.999913473;
+
+rho[58].temp = 1;
+rho[58].density = 0.9999015;
+
+rho[59].temp = 0.75;
+rho[59].density = 0.99988845;
+
+rho[60].temp = 0.5;
+rho[60].density = 0.999874277;
+
+rho[61].temp = 0.25;
+rho[61].density = 0.999858964;
+
+rho[62].temp = 0.1;
+rho[62].density = 0.999849224;
+
+rho[63].temp = 0.05;
+rho[63].density = 0.999845885;
+
+rho[64].temp = 0.025;
+rho[64].density = 0.99984267;
+
+rho[65].temp = 0.001;
+rho[65].density = 0.99842568;
+
+rho[66].temp = 0;
+rho[66].density = 0.9998425;
+
+
+
+
+
+
+
+// ************************************ CREATE CANVAS PANES *******************************************
+
+
+
+
+
+function selPane1() {
+  alert("Pane 1");
+  document.getElementById("pane1").innerHTML = "Hello World";
+}
+
+
+
+
+
+// ***************************************************** NAMES OF UNIVERSES **************************
+
+
+
+// ************************************* CREATE MATRIX FOR MUTIVERSE ************************
+
+function SetUpUniverse(){
+  this.name;
+}
+function CreateMatrixRow() {
+  this.name;
+  this.row = [];
+  this.probability = [];
+}
+
+var UN = [];
+
+for (i=1; i<10; i++){
+  UN[i] = new SetUpUniverse();
+  UN[i].name = defN[i];
+}
+
+
+
+
+
+
+
+
+
+
+// *************************************** DISPLAY MATRIX AND PROBABILITY DIStrIButioNS ******************
+
+
+
+// *************************************  UNIVERSAL STUDIO FOR BALLVERSE***********************************
+
+function CreateUniverse() {
+  this.name;
+  this.num;
+  this.balls = [];
+  this.bs;
+  this.nballs;
+  this.strResult;                             // can we get away with using same variable name?
+}
+
+var U = [];
+
+for (u=1;u<10;u++){
+  U[u] = new CreateUniverse;
+  U[u].num = i;
+}
+
+
+
+
+// ***************************************************** BALLS DEMO' *************************************
+function CreateBalls() {
+  this.bx = 0;
+  this.by = 0;
+  this.xv = 0;
+  this.yv = 0;
+  this.bColor = "";
+}
+
+// ************************** Each universe has a set of nBalls
+
+
+const FPS = 30;
+var speed = 3000;
+
+for (u=1; u<10; u++){
+
+  U[u].nballs = parseInt(Math.floor(Math.random()*30+5));
+  U[u].bs = parseInt(Math.floor(Math.random()*10+4));
+  initBalls(u);
+}
+
+
+
+var intID = setInterval(update,speed/FPS);
+
+function update(){
+  for (u=1;u<10;u++){
+     callBalls(u);
+  }
+}
+
+function initBalls(u){
+  var i;
+  for (i=1; i<U[u].nballs+1; i++){
+      U[u].balls[i] = new CreateBalls;
+      U[u].balls[i].bx = parseInt(winP[u].canp.width /2 + i);
+      U[u].balls[i].by = parseInt(winP[u].canp.height /2 + i);
+      U[u].balls[i].bColor = 0x00000F + i*0xFFf;
+
+    //  random ball starting speed (between 100 and 200)
+      U[u].balls[i].xv = parseInt(Math.floor(Math.random() * 76 + 25) / FPS);
+      U[u].balls[i].yv = parseInt(Math.floor(Math.random() * 76 + 25) / FPS);
+
+    //  random ball dIRECTION
+    if (Math.floor(Math.random() * 2) == 0){
+      U[u].balls[i].xv = -U[u].balls[i].xv;
+    }
+    if (Math.floor(Math.random() * 2) == 0){
+      U[u].balls[i].yv = -U[u].balls[i].yv;
+    }
+  }
+}
+
+
+function callBalls(u) {
+  var i;
+  extinguish(u);
+
+  for (i=1; i<U[u].nballs+1; i++){
+       U[u].balls[i].bx = U[u].balls[i].bx + U[u].balls[i].xv;
+       U[u].balls[i].by = U[u].balls[i].by + U[u].balls[i].yv;
+
+       // bounce the ball off each wall
+       if ((U[u].balls[i].bx - U[u].bs/2) <0 && U[u].balls[i].xv<0){
+         U[u].balls[i].xv = -U[u].balls[i].xv;
+       }
+
+       if ((U[u].balls[i].bx + U[u].bs/2) > winP[u].canp.width && U[u].balls[i].xv>0){
+         U[u].balls[i].xv = -U[u].balls[i].xv;
+       }
+       if ((U[u].balls[i].by - U[u].bs/2) <0 && U[u].balls[i].yv<0){
+         U[u].balls[i].yv = -U[u].balls[i].yv;
+       }
+       if ((U[u].balls[i].by + U[u].bs/2) > winP[u].canp.height && U[u].balls[i].yv>0){
+         U[u].balls[i].yv = -U[u].balls[i].yv;
+       }
+
+       U[u].strResult = "#"+((U[u].balls[i].bColor).toString(16));
+       U[u].balls[i].bColor = U[u].balls[i].bColor + i*0x00FFF0;
+       if (U[u].balls[i].bColor > 0xFFF000){
+         U[u].balls[i].bColor = 0x00000F + i*0x000F1f;
+       }
+//       assert(u,i);
+      winP[u].ctx.fillStyle = U[u].strResult;
+      if (u%2 == 0){
+          drawc(U[u].balls[i].bx - U[u].bs/2, U[u].balls[i].by - U[u].bs/2, U[u].bs, U[u].strResult, winP[u].ctx);}
+      else {
+        winP[u].ctx.fillRect(U[u].balls[i].bx - U[u].bs/2, U[u].balls[i].by - U[u].bs/2, U[u].bs, U[u].bs);
+      }
+  }
+}
+
+
+function extinguish(u){
+  winP[u].ctx.fillStyle = "black";
+  winP[u].ctx.fillRect(0,0, winP[u].canp.width, winP[u].canp.height);
+}
+
+function MVmatrix(){
+  speed = prompt("enter a speed between 1 and 500000");
+  clearInterval(intID);
+  intID = setInterval(update, speed/FPS);
+}
+/*
+function assert(u,i){
+    winP[u].ctx.fillStyle = U[u].balls[i].strResult;
+    alert(U[u].balls[i].strResult);
+    alert("x,y="+U[u].balls[i].bx - U[u].bs/2);
+    winP[u].ctx.fillRect(U[u].balls[i].bx - U[u].bs/2, U[u].balls[i].by - U[u].bs/2, U[u].bs, U[u].bs);
+
+}
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+
+
+</body>
+</html>

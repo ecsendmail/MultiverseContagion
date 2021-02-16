@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+<style>
+  th,  td {
+    border: 1px solid black;
+    padding: 3px;
+    text-align: center;
+}
+  th {
+      cursor: pointer;
+  }
+  </style>
+  <p>CovidSim Stochastic Cellular Automata April 2020 @EC_GO - PUBLIC DOMAIN as per GNU GPL LICENSING</p>
+
+  <body>
+  <canvas id="gameCanvas" width="800" height="600"></canvas>
+  <button onclick="startIt()" type="button" style="cursor:pointer">start</button>
+   <button onclick="moveIt()" type="button" style="cursor:pointer">move</button>
+  <script>
+
+    const FPS = 30;
+    var canWidth = 800;
+    var canHeight = 600;
+    var bs = 12;    //ball size
+    var bx = [];      //presumably ball center
+    var by = [];
+    var xv = [];    //velocity in x and y directions
+    var yv = [];
+    var bColor = [];
+
+    var canvas, ctx;
+
+    // load canvas
+    canvas = document.getElementById("gameCanvas");
+    ctx = canvas.getContext("2d");
+    ctx.fillStyle = "black";
+    ctx.fillRect(0,0,canvas.width, canvas.height);
+    ctx.globalCompositeOperation = "source-over";
+
+    // set up interval (game loop)
+  //  setInterval(update,500/FPS);     //update every 1/30th sec
+
+    var travel = [1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,3,3,3,3,3,3,4,4,4,4,4,5,5,5,5,5,5,6,6,6,6,6,10,10,10,30,30,40,50];
+	var dIRECTION = [-1,0,1];
+    var rand, randint;
+
+  function Epicenter(){
+    this.X;
+    this.Y;
+    this.perim;
+  }
+
+  var epic1 = new Epicenter;
+    epic1.X = canWidth/4;
+    epic1.Y = canHeight/4;
+    epic1.perim = 30;
+  var epic2 = new Epicenter;
+    epic2.X = canWidth/4;
+    epic2.Y = canHeight/4*3;
+    epic2.perim = 30;
+  var epic3 = new Epicenter;
+    epic3.X = canWidth/4*3;
+    epic3.Y = canHeight/4;
+    epic3.perim =30;
+  var epic4 = new Epicenter;;
+    epic4.X = canWidth/4*3;
+    epic4.Y = canHeight/4*3;
+    epic4.perim = 30;
+  var epic5 = new Epicenter;
+    epic5.X = canWidth/2;
+    epic5.Y = canHeight/2;
+    epic5.perim = 30;
+
+
+function drawC(x,y,rad,color){
+	  ctx.beginPath();
+	  ctx.arc(x,y,rad,0,2*Math.PI);
+	  ctx.fillStyle = color;
+	  ctx.fill();
+	  ctx.stroke();
+	  ctx.strokeStyle = "black";
+}
+
+function drawCross(x,y,width,height,clr){
+  ctx.beginPath();
+  ctx.moveTo(x,y);
+  ctx.fillStyle = clr;
+
+  ctx.fillRect(x,y,width,height);
+  ctx.fillRect((x+width/2-height/2),(y+height/2-width/2),height,width);
+}
+
+function drawRect(x,y,width,height,clr){
+	ctx.beginPath();
+	ctx.moveTo(x,y);
+	ctx.fillStyle = clr;
+	ctx.fillRect(x,y,width,height);
+}
+drawCross(epic1.X, epic1.Y, 20,2,"red");
+drawCross(epic2.X, epic2.Y, 20,2,"red");
+drawCross(epic3.X, epic3.Y, 20,2,"red");
+drawCross(epic4.X, epic4.Y, 20,2,"red");
+drawCross(epic5.X, epic5.Y, 20,2,"red");
+
+
+
+function injectXY(P){
+  P.X= Math.floor(Math.random()*canWidth);
+  P.Y = Math.floor(Math.random()*canHeight);;
+}
+
+/*
+function placeInitial(){
+    for (i=0;i<20;i++){
+      for (j=0; j<3; j++){
+        switch (j) {
+          case 0:
+            injectXY();
+            drawC(newX, newY, 5, "red");
+            break;
+          case 1:
+            injectXY();
+            drawCross(newX, newY, 15, 3, "blue");
+            break;
+          case 2:
+            injectXY();
+            drawRect(newX,newY, 5,5,"yellow");
+          }
+      }
+    }
+}
+*/
+var delX, delY;
+function proposeMove(P){
+    rand = Math.floor(Math.random()*43);
+    delX = travel[rand]*P.size;
+    rand = Math.floor(Math.random()*43);
+    delY = travel[rand]*P.size;
+
+    if (Math.floor(Math.random() * 2) == 0){
+      delX = -delX;
+    }
+    if (Math.floor(Math.random() * 2) == 0){
+      delY = -delY;
+    }
+    P.newX = P.X + delX;
+    P.newY = P.Y + delY;
+
+    if (P.newX - P.size/2 <0 && delX<0){
+      delX = -delX;
+    }
+    if (P.newX + P.size/2 > canWidth && delX>0){
+      delX = -delX;
+    }
+    if (P.newY - P.size/2 <0 && delY<0){
+      delY = -delY;
+    }
+    if (P.newY + P.size/2 > canHeight && delY>0){
+      delY = -delY;
+    }
+
+    P.newX = P.X + delX;
+    P.newY = P.Y + delY;
+}
+
+function nearestEpicenter(x,y){
+  var dist1, dist2, dist3, dist4, win1, win2, winner1, winner2;
+  dist1 = Math.floor((x-epic1.X)**2 + (y-epic1.Y)**2);
+  dist2 = Math.floor((x-epic2.X)**2 + (y-epic2.Y)**2);
+  dist3 = Math.floor((x-epic3.X)**2 + (y-epic3.Y)**2);
+  dist4 = Math.floor((x-epic4.X)**2 + (y-epic4.Y)**2);
+  dist5 = Math.floor((x-epic5.X)**2 + (y-epic5.Y)**2);
+
+
+  if (dist2 > dist1) {
+    win1 = dist1;
+    winner1 = epic1;
+  } else {
+    win1 = dist2;
+    winner1 = epic2;
+  }
+
+  if (dist4 > dist3){
+    win2 = dist3;
+    winner2 = epic3;
+  } else {
+    win2 = dist4;
+    winner2 = epic4;
+  }
+
+  if (win2 > win1){
+    if (win1>dist5){
+      return(epic5)
+    } else return(winner1)
+  } else {
+    if (win2>dist5){
+      return(epic5)
+    } else return(winner2);
+  }
+}
+
+function adjMinglx(P,epic){
+  var delX, delY;
+  delX = Math.floor((P.newX - epic.X)/P.minglx);
+  delY = Math.floor((P.newY - epic.Y)/P.minglx);
+  P.newX = P.newX - delX;
+  P.newY = P.newY - delY;
+
+  if (P.newX >= epic.X && P.newX < (epic.X + epic.perim)){
+    P.newX = epic.X + epic.perim;
+  }
+  if (P.newX <= epic.X && P.newX > (epic.X - epic.perim)){
+    P.newX = epic.X - epic.perim;
+  }
+
+  if (P.newY >= epic.Y && P.newY < (epic.Y + epic.perim)){
+    P.newY = epic.Y + epic.perim;
+  }
+  if (P.newY <= epic.Y && P.newY > (epic.Y - epic.perim)){
+    P.newY = epic.Y - epic.perim;
+  }
+
+  P.newX = P.newX + Math.floor(Math.random()*5);      // avoid strict duplicate positions
+  P.newY = P.newY + Math.floor(Math.random()*5);
+}
+
+
+function ConstructPeople(){
+  this.X;
+  this.Y;
+  this.minglx;
+  this.newX;
+  this.newY;
+  this.shape;
+  this.size;
+  this.clr;
+}
+
+var P = [];
+
+for (i=0; i<10; i++){
+  P[i] = new ConstructPeople;
+  injectXY(P[i]);
+  P[i].clr = "yellow";
+  P[i].shape = "ball";
+  P[i].size = 6;
+  P[i].minglx = 2;
+  drawC(P[i].X,P[i].Y,P[i].size,P[i].clr);
+}
+
+function avoidOverlap(){
+  var i,j;
+  for (i=0;i<10;i++){
+    for (j=0;j<10;j++){
+      if (Math.abs(P[i].newX - P[j].newX) < 5 && i != j){
+        if (P[i].newX >= P[j].newX) {
+          P[j].newX = P[j].newX + 5
+        } else {
+          P[i].newX = P[i].newX + 5;
+        }
+      };
+      if (Math.abs(P[i].newY - P[j].newY) < 5 && i != j){
+        if (P[i].newY >= P[j].newY) {
+          P[j].newY = P[j].newY + 5
+        } else {
+          P[i].newY = P[i].newY + 5;
+        }
+      };
+    }
+  }
+}
+
+
+var i = -1;
+var epic;
+
+function startIt (){
+  var i;
+  for (i=0;i<10;i++){
+    drawC(P[i].X,P[i].Y,P[i].size,"green");
+    proposeMove(P[i]);
+    epic = nearestEpicenter(P[i].newX,P[i].newY);
+    drawCross(epic.X,epic.Y,20,2,"green");
+
+    adjMinglx(P[i],epic);
+    avoidOverlap();
+
+    drawC(P[i].newX,P[i].newY,P[i].size,"yellow");
+    drawC(P[i].X,P[i].Y,P[i].size,"black");
+    P[i].X = P[i].newX;
+    P[i].Y = P[i].newY;
+    drawCross(epic.X,epic.Y,20,2,"red");
+    drawC(P[i].newX,P[i].newY,P[i].size,"yellow");
+    moveIt();
+  }
+}
+
+function moveIt(){
+  var i;
+  for (i=0;i<10;i++){
+        drawC(P[i].X,P[i].Y,P[i].size,"yellow");
+  }
+}
+  </script>
+  </body>
+
+  </html>

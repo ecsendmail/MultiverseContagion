@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Bouncing Ball</title>
+  <style></style>
+</head>
+
+<body>
+  <button onclick="press()">press</button>
+  <canvas id="gameCanvas" width="800" height="600"></canvas>
+  <script>
+    // declare variables
+    const FPS = 30;
+    var bs = 12;    //ball size
+    var bx = [];      //presumably ball center
+    var by = [];
+    var xv = [];    //velocity in x and y directions
+    var yv = [];
+    var bColor = [];
+
+    var canvas, ctx;
+    var nBalls = 300;
+    var timer;
+
+    // load canvas
+    canvas = document.getElementById("gameCanvas");
+    ctx = canvas.getContext("2d");
+    ctx.fillStyle = "black";
+    ctx.fillRect(0,0, canvas.width, canvas.height);
+
+
+    function newNode(){
+        this.x;
+        this.y;
+        this.dx;
+        this.dy;
+        this.xi;
+        this.yi;
+        this.n;
+        this.p = [];
+    }
+
+    var nodeA = new newNode();
+    var nodeB = new newNode();
+    var nodeC = new newNode();
+    var nodeD = new newNode();
+
+
+    nodeA.x = 300;
+    nodeA.y = 300;
+    nodeA.n = 3;
+
+    nodeB.x = 100;
+    nodeB.y = 100;
+    nodeB.n = 5;
+
+    nodeC.x = 400;
+    nodeC.y = 400;
+    nodeD.x = 200;
+    nodeD.y = 200;
+
+    calcPos(nodeA,nodeB);
+    calcPos(nodeC,nodeD);
+    animate1();
+
+//    animate2();
+
+var flag = true;
+
+function press(){
+   if (flag){
+      calcPos(nodeA,nodeB);
+//        animate1();
+        animate2();
+//      timer=setInterval(update,500/FPS);
+      flag = false;
+   } else {
+      clearInterval(timer);
+      flag = true;
+
+   }
+}
+
+
+
+
+  function calcPos(M,N){
+      let tangent;
+      tangent = Math.abs((N.y-M.y)/(N.x-M.x));
+      M.dx = (N.x-M.x)/100;
+      M.dy = M.dx*tangent;
+      M.xi = M.x;
+      M.yi = M.y;
+
+      N.dx = (M.x-N.x)/100;
+      N.dy = N.dx*tangent;
+      N.xi = N.x;
+      N.yi = N.y;
+    }
+
+
+
+  function animate1(){
+
+      let start = Date.now(); // remember start time
+      nodeA.xi = nodeA.x; nodeA.yi = nodeA.y;
+      let timerx = setInterval(function() {
+        // how much time passed from the start?
+        let timePassed = Date.now() - start;
+
+        if (timePassed >= 1000) {
+          clearInterval(timerx); // finish the animation after 2 seconds
+          return;
+        }
+
+        // draw the animation at the moment timePassed
+        update1();
+
+      }, 20)
+  }
+
+  function animate2(){
+        alert("Animat2");
+      nodeA.xi = nodeA.x; nodeA.yi = nodeA.y;
+      let start = Date.now(); // remember start time
+
+      let timer = setInterval(function() {
+        // how much time passed from the start?
+        let timePassed = Date.now() - start;
+
+        if (timePassed >= 2000) {
+          clearInterval(timer); // finish the animation after 2 seconds
+          return;
+        }
+
+        // draw the animation at the moment timePassed
+        update2();
+
+      }, 20)
+  }
+
+  // as timePassed goes from 0 to 2000
+  // left gets values from 0px to 400px
+  function draw(timePassed) {
+    train.style.left = timePassed / 5 + 'px';
+  }
+    // update function
+    function update1(){
+      ctx.fillStyle = "black";
+      ctx.fillRect(0,0, canvas.width, canvas.height);
+
+
+        nodeA.xi = nodeA.xi + nodeA.dx;
+        nodeA.yi = nodeA.yi + nodeA.dy;
+
+        nodeB.xi = nodeB.xi + nodeB.dx
+        nodeB.yi = nodeB.yi + nodeB.dy;
+
+        // draw background and ball
+        drawLine(nodeA.x,nodeA.y,nodeB.x,nodeB.y,"blue");
+        drawC(nodeA.xi,nodeA.yi,5,"red");
+        drawC(nodeB.xi,nodeB.yi,10,"green");
+
+
+        if (nodeB.xi > 300) clearInterval(timer);
+        if (nodeA.xi < 100) clearInterval(timer);
+    };
+
+    function update2(){
+      ctx.fillStyle = "black";
+      ctx.fillRect(0,0, canvas.width, canvas.height);
+
+
+        nodeC.xi = nodeC.xi + nodeC.dx;
+        nodeC.yi = nodeC.yi + nodeC.dy;
+
+        nodeD.xi = nodeD.xi + nodeD.dx
+        nodeD.yi = nodeD.yi + nodeD.dy;
+
+        // draw background and ball
+        drawLine(nodeC.x,nodeC.y,nodeD.x,nodeD.y,"white");
+        drawC(nodeC.xi,nodeC.yi,5,"red");
+        drawC(nodeD.xi,nodeD.yi,10,"green");
+
+
+        if (nodeD.xi > 300) clearInterval(timer);
+        if (nodeC.xi < 100) clearInterval(timer);
+    };
+
+
+
+    function drawC(x,y,rad,color){
+        ctx.beginPath();
+        ctx.arc(x,y,rad,0,2*Math.PI);
+        ctx.fillStyle = color;
+        ctx.fill();
+        ctx.stroke();
+        ctx.strokeStyle = "black";
+    }
+
+    function drawCross(x,y,width,height,clr){
+        ctx.beginPath();
+        ctx.moveTo(x,y);
+        ctx.fillStyle = clr;
+        ctx.fillRect(x,y,width,height);
+        ctx.fillRect(Math.round(x+width/2-height/2),Math.round(y+height/2-width/2),height,width);
+    }
+
+    function drawRect(x,y,width,height,clr){
+        ctx.beginPath();
+        ctx.moveTo(x,y);
+        ctx.fillStyle = clr;
+        ctx.fillRect(x,y,width,height);
+    }
+
+    function drawLine(x1,y1,x2,y2,clr){
+        ctx.beginPath();
+        ctx.moveTo(x1,y1);
+        ctx.lineTo(x2,y2);
+        ctx.strokeStyle = clr;
+        ctx.stroke();
+    }
+    </script>
+  </body>
+</html>

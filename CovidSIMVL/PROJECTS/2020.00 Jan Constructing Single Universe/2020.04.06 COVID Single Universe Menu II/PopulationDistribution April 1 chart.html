@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html>
+<style>
+  th,  td {
+    border: 1px solid red;
+    padding: 3px;
+    text-align: center;
+}
+  th {
+      cursor: pointer;
+  }
+</style>
+<h4> <span style="color: red;">START BY CLICKING ON TOP ROW</span>  ..........   Greens=innocents  -  Yellows=incubating  -  Blues=transmitting  -  Reds=clinical infectious 1 day  -  Orange - inert</h4>
+<body>
+
+
+  <div class="topnav">
+    <table>
+      <tr>
+        <th onclick="loadPop()">Population</th>
+        <th onclick="loadBlues()" bgcolor=LightBlue>#Blues Max10</th>
+        <th onclick="showPop()" bgcolor=lightgreen>Click Me</th>
+        <th>Greens</th>
+        <th>Yellows</th>
+        <th>Blues</th>
+        <th>Reds</th>
+        <th onclick="showDist()">TRAVEL</th>
+        <th onclick="showVect()">Vectors</th>
+        <th onclick="showIncD()">Incubation days</th>
+        <th onclick="showInfD()" bgcolor=LightBlue>Infectious Days</th>
+        <th onclick="showInfM()" bgcolor=LightBlue>Infection Mode</th>
+        <th onclick="showInfR()" bgcolor=LightBlue>InfGrowth Rate</th>
+        <th onclick="showCliD()">RED days</th>
+        <th onclick="showPradius()">Hazard Radius</th>
+        <th></th>
+        <th onclick="endChart()">Show Chart</th>
+
+      </tr>
+      <tr>
+        <td id="dPopn">1600</td>
+        <td id="dCont">7</td>
+        <td id="dGen">0</td>
+        <td id="grCt">1</td>
+        <td id="yeCt">0</td>
+        <td id="blCt">0</td>
+        <td id="reCt">0</td>
+        <td id="dDist">7</td>
+        <td id="dVect">N</td>
+        <td id="dIncD">2</td>
+        <td id="dInfD">5</td>
+        <td id="dInfM">3</td>
+        <td id="dInfR">1.1</td>
+        <td id="dCliD">1</td>
+        <td id="dPrad">20</td>
+        <td></td>
+        <td></td>
+
+      </tr>
+    </table>
+
+  </form>
+
+
+  <canvas id="myCanvas" width="2000" height="1000"
+          style="border:1px solid #d3d3d3;">
+  </canvas>
+
+<script>
+
+
+function endChart(){
+    var endRedData = new Array(gen-1);
+    endRedData[0] = {y:0, label:0};
+
+    for (i=0; i<gen; i++){
+      endRedData[i] = {y: logRed[i], label: i};
+    }
+
+  var chart1 = new CanvasJS.Chart("chartContainer1", {
+  	animationEnabled: true,
+  	theme: "light2", // "light1", "light2", "dark1", "dark2"
+  	title:{
+  		text: "Total Cases to Date"
+  	},
+  	axisY: {
+  		title: "Number of Clinical or Positive"
+  	},
+    width:500,
+  	data: [{
+  		type: "column",
+  		showInLegend: true,
+  		legendMarkerColor: "grey",
+  		legendText: "Days since beginning",
+  		dataPoints: endRedData
+  	}]
+  });
+  chart1.render();
+
+  //
+
+  var endRedDelta = new Array(gen-2);
+  endRedDelta[0] = {y:0, label:0};
+
+  for (i=0; i<gen-1; i++){
+    endRedDelta[i] = {y: (logRed[i+1]-logRed[i]), label: i};
+  }
+
+var chart2 = new CanvasJS.Chart("chartContainer2", {
+  animationEnabled: true,
+  theme: "light2", // "light1", "light2", "dark1", "dark2"
+  title:{
+    text: "Daily NEW Cases"
+  },
+  axisY: {
+    title: "Number of Clinical or Positive"
+  },
+  width:500,
+  data: [{
+    type: "column",
+    showInLegend: true,
+    legendMarkerColor: "grey",
+    legendText: "Days since beginning",
+    dataPoints: endRedDelta
+  }]
+});
+chart2.render();
+
+var endVelocity = new Array(gen-2);
+var endV;
+endVelocity[0] = {y:0, label:0};
+
+for (i=1; i<gen-1; i++){
+  endV = parseFloat((endRedDelta[i+1]/endRedData[i])*100);
+  endVelocity[i] = {y: endV, label: i};
+}
+
+var chart3 = new CanvasJS.Chart("chartContainer3", {
+  animationEnabled: true,
+  theme: "light2", // "light1", "light2", "dark1", "dark2"
+  title:{
+    text: "Day over day Rates of Increases"
+  },
+  axisY: {
+    title: "% Increase of New Cases / Total"
+  },
+  width:500,
+  data: [{
+    type: "line",
+    showInLegend: true,
+    legendMarkerColor: "grey",
+    legendText: "Days since beginning",
+    dataPoints: endRedDelta
+  }]
+});
+chart3.render();
+
+}
+
+
+
+
+var xSIZE = 1400;
+var ySIZE = 800;
+var tRAVEL = [1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,3,3,3,3,3,3,4,4,4,4,4,5,5,5,5,5,5,6,6,6,6,6,10,10,10,30,30,50];
+var dIRECTION = [-1,0,1];
+var rand, randint;
+var newX, ndwY, delX, delY;
+var contagion = true;
+
+var greenCt, yellowCt, blueCt, redCt, orangeCt;
+
+var logDay = [];
+var logGreen = [];
+var logYellow = [];
+var logBlue = [];
+var logRed = []; logRed[0] = 0;
+var logOrange = [];
+var logPop = [];
+var logTravel = [];
+var logIncubate = [];
+var logInfectD = [];
+var logInfectM = [];
+var logInfGrow = [];
+var logRedD = [];
+var logPsize = [];
+
+
+var pERSON = [];
+var pBASE = [];
+var pParms = [];
+var pOldSz = [];
+
+var pX = [];
+var pY = [];
+var pSize = [];       //radius = initial size; changes with infectivity & susceptibility
+
+var pColor = [];      //green = susc; yellow=incub; blue=transmitter; red=cliniical; purple=recovered
+var pStatus = [];     //same as color but color may be used for vector display
+var pfInfectMode = [];    // 0 = constant; 1=increase with days by 25%; 2=superspreader at 5x radius
+var pfInfectRate = [];
+var pIncDay = [];     //number of incubation days
+var pTransCount = [];   //days of transmit count
+var pTransMax = [];     //no. of transmitting days
+var pClinCount = [];    //count of clinical days
+var pfSusc = [];      //starts at 1
+
+
+var Population = 1600;
+var radius = 20;
+
+var avgSus = 1;
+var avgIncDays = 2;
+var avgInfDays = 5;
+var infectMode = 3;
+var avgInfRate = 1.1;   //this is a compunding rate
+var avgClinDays = 1;
+
+// populate
+
+var canvas = document.getElementById("myCanvas");
+var ctx = canvas.getContext("2d");
+
+
+
+var pNum = 7;
+var posn;
+var pRow, pCol, pMaxRadius;
+var pShape, pSep;
+
+calcRowCol();
+loadBlues();
+
+function loadPop(){
+  var txt = prompt("Enter population - initial set to 100 \nBeware the canvas size is only 1200x800",100);
+  Population = parseInt(txt);
+  document.getElementById("dPopn").innerHTML = Population;
+  //alert("persons "+Population);
+  calcRowCol();
+};
+
+function calcRowCol(){
+  pRow = parseInt(Math.sqrt(Population));
+  //alert("pRow "+pRow);
+
+  //assume minimum radius of 3 with separation of 6 - one more than diameter
+  //each entity needs 6 (diam) + 3 + 3 = 12
+  //if floor (900/12 > pRow) we can fit into a square
+  //otherwise if (1200/12 > pRow) we can't fit them at all
+  //max is (1200/12) in rows and (900/12 in columns
+  //and we have to start at (3,3) for first entity
+  //so max rectangle is 100 x 70 = 7,000 entities
+  //max square array is 70x70 = 4900 ENTITIES
+
+  //so if pNUm is less than 4900 we can create square
+  //otherwise we have to create a rectangle
+
+  //to optimize H & L such that H and L are close we fit <thead>
+  //rows first - ie 70 rows then use as many columns as needed, which is
+  //(pNum/70) columns
+
+  //if the square array is nxn, then the space needed is 1200/(n+1)
+  //which is 2 diameters, so the radius is 300/(n+1)
+
+  pShape = "RECT";
+  if (Population > 7000){
+    Population = 7000;        //that's the maximum
+  } else {
+    if (Population < 4900){
+      //alert("It is square");
+      pCol = pRow;
+      pShape = "SQ";
+    }
+  }
+  if (pShape=="RECT"){
+    //alert("RECTANGLE");
+    pRow = 70;
+    pCol = parseInt(Population/pRow);
+    //alert("pCol "+pCol);
+  }
+
+  pSep = parseInt(ySIZE/pRow);
+  //alert("pSep "+pSep);
+  pMaxRadius = parseInt(pSep/4);
+  //alert("pMaxRadius "+pMaxRadius);
+  if (pMaxRadius < radius){
+      radius = pMaxRadius;
+      document.getElementById("dPrad").innerHTML = radius;
+  };
+  pMaxRadius = parseInt(xSIZE/pRow);      //separation between columns
+  if (pMaxRadius < radius) {
+    radius = pMaxRadius;
+  };
+  //alert("radius "+radius);
+  pInit(pRow,pCol,pSep);
+}
+
+function pInit(pRow,pCol,pSep){
+  var i;
+  clearCanvas();
+  gen=0;
+  greenCt = Population;
+  yellowCt = 0;
+  blueCt = 0;
+  redCt = 0;
+  orangeCt = 0;
+  document.getElementById("dGen").innerHTML = gen;
+  document.getElementById("grCt").innerHTML = greenCt;
+  document.getElementById("yeCt").innerHTML = yellowCt;
+  document.getElementById("blCt").innerHTML = blueCt;
+  document.getElementById("reCt").innerHTML = redCt;
+
+  for (y=1; y<(pRow+1); y++){
+    for (x=1; x<(pCol+1); x++){
+      i = ((y-1)*pCol) + x;
+      pERSON[i] = i;
+      pX[i] = x*pSep;
+      pY[i] = y*pSep;
+
+      //alert("i="+i+" X="+pX[i]+" Y="+pY[i]);
+
+      pParms[1] = pX[i];
+      pParms[2] = pY[i];
+      pBASE[i] = pParms;
+
+      pOldSz[i] = radius;
+      pColor[i] = "gray";
+
+      // SUSCEPTIBILITY DISTRIBUTION GOES HERE
+
+      pfSusc[i] = 1;
+
+      //
+      pSize[i] = radius * pfSusc[i];
+      pfInfectMode[i] = 0;
+      pStatus[i] = "green";
+    }
+  }
+  // draw population initial
+  for (i=1; i<Population+1; i++){
+    drawc(pX[i],pY[i],pSize[i],pColor[i]);
+  }
+
+  document.getElementById("grCt").innerHTML = greenCt;
+  document.getElementById("yeCt").innerHTML = yellowCt;
+  document.getElementById("blCt").innerHTML = blueCt;
+}
+
+function loadBlues(){
+  var pBlue = prompt("Enter number of PERSONs to seed as transmitters (BLUE):", 7);
+  pNum = parseInt(pBlue);
+  document.getElementById("dCont").innerHTML = pNum;
+
+  calcRowCol();
+
+  for (i=1;i<pNum+1;i++){
+    posn = Math.random();
+    j = parseInt(posn*Population);
+    if (pColor[j]=="blue") {
+      pNum = pNum+1;
+    }
+    pColor[j] = "blue";
+    pTransMax[j] = avgInfDays;
+    pTransCount[j] = 1;
+    pStatus[j] = "blue";
+    pfInfectMode[j] = infectMode;
+    pfInfectRate[j] = avgInfRate;
+    blueCt++;
+    greenCt--;
+  }
+  for (i=1; i<Population+1; i++){
+    drawc(pX[i],pY[i],pSize[i],pColor[i]);
+  }
+}
+
+
+function finddelXY(i){
+  rand = (Math.random());
+  rand = rand*34;
+  randint = Math.floor(rand);
+  delX = pSize[i] + fDist*tRAVEL[randint];
+
+  rand = (Math.random());
+  rand = rand*34;
+  randint = Math.floor(rand);
+  delY = pSize[i] + fDist*tRAVEL[randint];
+
+  rand = (Math.random());
+
+  randint = rand*3;
+
+  randint = Math.floor(randint);
+
+  if (dIRECTION[randint]==-1){
+      delX = -delX;
+    } else {
+      if (dIRECTION[randint]==0){
+        delX=0;
+      }
+    }
+  rand = (Math.random());
+  randint = rand*3;
+  randint = Math.floor(randint);
+
+  if (dIRECTION[randint]==-1){
+      delY = -delY;
+    } else {
+        if (dIRECTION[randint]==0){
+            delY=0;
+        }
+    };
+}
+
+function drawc(x,y,rad,color){
+  ctx.beginPath();
+  ctx.arc(x,y,rad,0,2*Math.PI);
+  ctx.fillStyle = color;
+  ctx.fill();
+  ctx.stroke();
+  ctx.strokeStyle = "white";
+}
+
+function drawVectors(){
+  if ((Math.abs(newX-pX[i])==0) && (Math.abs(newY-pY[i])==0)){
+    pColor[i] = "white";
+  };
+
+  if (Math.abs(newX-pX[i])>20){
+    pColor[i] = "red";
+    };
+  if (Math.abs(newY-pY[i])>20){
+      pColor[i] = "red";
+    };
+
+  if (Math.abs(newX-pX[i])>30){
+      pColor[i] = "blue";
+    };
+  if (Math.abs(newY-pY[i])>30){
+      pColor[i] = "blue";
+  };
+
+  if (Math.abs(newX-pX[i])>50){
+    pColor[i] = "yellow";
+  };
+  if (Math.abs(newY-pY[i])>50){
+    pColor[i] = "yellow";
+  };
+  pColor[36] = "orange";
+  pColor[46] = "black";
+  pColor[65] = "orange";
+
+  ctx.moveTo(pX[i],pY[i]);
+  ctx.lineTo(newX, newY);
+  ctx.lineWidth = 2;
+  ctx.strokeStyle = 'blue';
+  ctx.stroke();
+}
+
+function checkBounds(){
+  if (newX > xSIZE){
+      newX = 2*xSIZE - newX;
+  };
+  if (newX < 0){
+      newX = -newX;
+  }
+  if (newY > ySIZE){
+      newY = 2*ySIZE - newY;
+  };
+  if (newY < 0){
+      newY = -newY;
+  };
+}
+
+
+//population move
+function popUpdate(){
+var i;
+for (i=1; i<Population+1; i++){
+
+  finddelXY(i);
+
+  newX = pX[i] + delX;
+  newY = pY[i] + delY;
+
+  //CHECK BOUNDARIES
+
+  checkBounds();
+
+  if (dVect) {
+      drawVectors();
+  }
+
+  pColor[i] = "green";
+
+  pX[i] = newX;
+  pY[i] = newY;
+  if (dVect==false){
+    pColor[i] = "green";
+  }
+
+  if (contagion) {
+    pColor[i] = pStatus[i];
+    //start of cycle - now turn all yellows to blue
+    testYellow(i);
+    //start of cycle - and turn all blues to red
+    testBlue(i);
+    //start of cycle - turn Reds to purple out of circulation
+    testRed(i);
+    //now test for collisions and infections
+    collision(i);
+  }
+ }
+}
+
+function testYellow(i){
+  if (pStatus[i]!="yellow"){
+    return;
+  };
+    //alert("Test Yellow "+pIncDay[i]);
+    pIncDay[i]--;    //time to turn BLUE
+    if (pIncDay[i]==0){
+      pStatus[i]="blue";
+      pColor[i] = "blue";
+      //pSize[i]=pOldSz[i];           //restore to original size
+      blueCt++;
+      yellowCt--;
+      pTransMax[i] = avgInfDays;    //assume this will always be 1 or more
+      pTransCount[i] = 0;           //will transmit today
+      // code follows for infectivity - change pSize
+
+      pfInfectMode[i] = infectMode;
+
+      //NOW CALCULATE ACTUAL INFECTION RATE (size)
+      //alert("pInfect"+pInfectMode[i]);
+      if (pfInfectMode[i] == 0){    //constant present size
+        pfInfectRate[i] = 0;
+        return;
+      };
+      if (pfInfectMode[i] == 1){    //doubles over duration of BLUE
+          pfInfectRate[i] = parseFloat(1/pTransMax[i]);   //will be adding delta
+          //alert("1+"+pfInfectRate[i]);
+          return;
+      }
+      if (pfInfectMode[i] == 2){    //triples over duration of BLUE
+          pfInfectRate[i] = parseFloat(2*(1/pTransMax[i]));  //delta is 2X
+          //alert("2+"+pfInfectRate[i]);
+          return;
+      }
+      if (pfInfectMode[i] == 3){     //compound increase by X% daily
+          pfInfectRate[i] = avgInfRate;
+          //alert("3+"+pInfectRate[i]);
+          return;
+      }
+    }
+}
+
+function reSizeBlue(i){
+  if (pTransCount[i]==pTransMax[i]){       //last day - don not grow
+    return;
+  }
+  //alert("TestBlue "+pfInfectMode[i]+);
+
+  if (pfInfectMode[i] == 0){    //constant present size do nothing
+    return;
+  };
+  if ((pfInfectMode[i] == 1)||(pfInfectMode[i]==2)){       //doubles over duration of BLUE
+      //alert("mode 1 and 2 "+ pfInfectRate[i]);
+      pSize[i] = pSize[i] + (pTransCount[i]*pfInfectRate[i]);    //will be adding delta
+      //alert("new size "+pSize[i]);
+      return;
+  }
+  if (pfInfectMode[i] == 3){     //compound increase by X% daily
+      pSize[i] = pSize[i]*+pfInfectRate[i];
+//      alert(pSize[i]);
+      return;
+  }
+
+}
+
+function testBlue(i){
+  if (pStatus[i]=="blue"){
+    reSizeBlue(i);
+    pTransCount[i]++;
+    //alert("BlueDays="+pTransCount[i]+","+pTransMax[i]);
+    if (pTransCount[i] > pTransMax[i]){
+      //now we turn the blue to red
+      pStatus[i] = "red";
+      pColor[i] = "red";
+      redCt++;
+      blueCt--;
+      pClinCount[i] = 0;
+      pTransCount[i] = 0;     //reset blue
+      pTransMax[i] = 0;
+      //code for size of red follows
+      //pSize[i] = radius;
+   }
+  }
+}
+
+function testRed(i){
+  if (pStatus[i]=="red"){
+    pClinCount[i]++;
+    if (pClinCount[i] > avgClinDays){
+      pClinCount[i] = 0;
+      pStatus[i] = "orange";
+      pColor[i] = "orange";
+      orangeCt++;
+      pSize[i] = 6;
+    }
+  }
+}
+
+var iXmin, iXmax, iYmin, iYmax, jXmin, jXmax, jYmin, jYmax;
+var interBool = false;
+var raDist;
+
+function collision(i){
+  var j;
+  for (j=1; j<Population+1; j++){
+    if (i != j){
+      xDelta = (pX[i]-pX[j])**2;
+      yDelta = (pY[i]-pY[j])**2;
+      yLength = Math.sqrt(xDelta+yDelta);
+      raDist = parseInt(yLength);
+      if (raDist > (pSize[i]+pSize[j])){
+        interBool = false;
+      } else {
+        interBool = true;
+      }
+      if (interBool) pChange(i,j);
+    }
+  }
+}
+
+var greenPt, otherPt;
+
+function pChange(i,j){
+  if (pStatus[i] == pStatus[j]){
+    return;
+  } else {
+    if ((pStatus[i]=="green")||(pStatus[j]=="green")){
+      modify(i,j);
+    }
+  }
+}
+
+function modify(i,j){
+//    alert("in modify");
+    if (pStatus[i]=="green") {
+      greenPt=i;
+      otherPt=j;
+    } else {
+      if (pStatus[j]=="green"){
+        greenPt=j;
+        otherPt=i;
+      };
+    }
+    if ((pStatus[otherPt]!="blue")&&(pStatus[otherPt]!="red")) {
+      return;
+    }
+
+    pStatus[greenPt] = "yellow";
+    pColor[greenPt] = "yellow";
+    yellowCt++;
+    greenCt--;
+    pIncDay[greenPt] = avgIncDays;
+  }
+
+function clearCanvas(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.beginPath();
+  ctx.stroke();
+}
+
+function goPop(){
+  var i;
+  clearCanvas();
+  popUpdate();
+  for (i=1; i<Population+1; i++){
+    drawc(pX[i],pY[i],pSize[i],pColor[i]);
+  }
+}
+
+var gen;
+gen = 0;
+
+function showPop(){
+
+    goPop();
+    gen++;
+    tabulate();
+    document.getElementById("dGen").innerHTML = gen;
+    document.getElementById("grCt").innerHTML = greenCt;
+    document.getElementById("yeCt").innerHTML = yellowCt;
+    document.getElementById("blCt").innerHTML = blueCt;
+    document.getElementById("reCt").innerHTML = redCt;
+
+}
+
+function tabulate(){
+  logDay[gen] = gen;
+  logGreen[gen] = greenCt;
+  logYellow[gen] = yellowCt;
+  logBlue[gen] = blueCt;
+  logRed[gen] = redCt;
+  logOrange[gen] = orangeCt;
+  logPop[gen] = Population;
+  logTravel[gen] = fDist;
+  logIncubate[gen] = avgIncDays;
+  logInfectD[gen] = avgInfDays;
+  logInfectM[gen] = infectMode;
+  logInfGrow[gen] = avgInfRate;
+  logRedD[gen] = avgClinDays;
+  logPsize[gen] = radius;
+}
+
+function displayPop(){
+  goPop();
+  gen++;
+  document.getElementById("dGen").innerHTML = gen;
+  document.getElementById("grCt").innerHTML = greenCt;
+  document.getElementById("yeCt").innerHTML = yellowCt;
+  document.getElementById("blCt").innerHTML = blueCt;
+  document.getElementById("reCt").innerHTML = redCt;
+}
+
+dVect = false;
+function showVect(){
+  var vecTt = prompt("W-G-R-B-Y for distances + line vectors: Y or N", "Y");
+  if (vecTxt == "Y"){
+      dVect = true;
+  } else {
+    dVect = false;
+    vecTxt = "N";
+  }
+  document.getElementById("dVect").innerHTML = vecTxt;
+}
+
+var fDist = 7.0;
+function showDist(){
+    var txt;
+    var distTxt = prompt("Enter tRAVEL distance factor:", "1");
+    if (distTxt == null || distTxt == "") {
+      txt = "-0";
+    } else {
+      txt = distTxt;
+    }
+    document.getElementById("dDist").innerHTML = txt;
+    fDist = parseFloat(txt);
+    goPop();
+  }
+
+
+function showIncD(){
+  var incTxt = prompt("Enter number of days of incubation - for YELLOWs", 7);
+  var incDays = parseInt(incTxt);
+  document.getElementById("dIncD").innerHTML = incDays;
+  avgIncDays = incDays;
+}
+
+
+function showInfD(){
+  var infTxt = prompt("Enter number of days of transmission - for BLUEs", 14);
+  var infDays = parseInt(infTxt);
+  document.getElementById("dInfD").innerHTML = infDays;
+  avgInfDays = infDays;
+}
+
+function showInfM(){
+  var infTxt = prompt("Mode of Transmission \n  0 = Constant \n  1 = 2x in infectious period \n  2 = 3x in period \n  3 = compound rate", 14);
+  var infMode = parseInt(infTxt);
+  if ((infMode>3)||(infMode<1)){
+    infMode=0;
+  }
+  document.getElementById("dInfM").innerHTML = infMode;
+  infectMode = infMode;
+  //alert("infMode "+infMode);
+  if (infMode!=3){
+    document.getElementById("dInfR").innerHTML = "";
+    if (infMode==1){
+        avgInfRate = parseFloat(1/avgInfDays);
+        //alert("mode1 "+avgInfRate);
+        return;
+      };
+    if (infMode==2){
+        avgInfRate = parseFloat(2/avgInfDays);
+        //alert("mode2 "+avgInfRate);
+        return;
+      };
+    if (infMode==0){return};
+    }
+    showInfR();
+}
+
+
+function showInfR(){
+  var infTxt = prompt("Enter multiplier per day growth rate - for BLUEs \n     Example 1.2 is 20% day over day growth", 14);
+  var infRate = parseFloat(infTxt);
+  document.getElementById("dInfR").innerHTML = infRate;
+  avgInfRate = infRate;
+}
+
+
+
+function showCliD(){
+  var cliTxt = prompt("Detection is either becoming symptomatic or testing POSITIVE \nEnter # days of tranmission after clinical positive - for REDs", 1);
+  var cliDays = parseInt(cliTxt);
+  document.getElementById("dCliD").innerHTML = cliDays;
+  avgClinDays = cliDays;
+}
+
+function showPradius(){
+  var praTxt = prompt("Enter radius of personal safety \nThe smaller the extent of isolation", 20);
+  var pRadi = parseInt(praTxt);
+  document.getElementById("dPrad").innerHTML = pRadi;
+  radius = pRadi;
+  //alert(radius);
+
+  for (i=1; i<Population+1; i++){
+    if (pSize[i] == pOldSz[i]){
+        pSize[i] = radius;    }
+      else {
+        pRatio = parseFloat(radius/pOldSz[i]);
+        pSize[i]=parseFloat(pSize[i]*pRatio);
+      }
+  }
+}
+
+</script>
+
+</head>
+<body>
+<div id="chartContainer1" style="height: 370px; width: 33%; float:left;"></div>
+<div id="chartContainer2" style="height: 370px; width: 33%; float:left;"></div>
+<div id="chartContainer3" style="height: 370px; width: 33%;"></div>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
+
+</body>
+</html>

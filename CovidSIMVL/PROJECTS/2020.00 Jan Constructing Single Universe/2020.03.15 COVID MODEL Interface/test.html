@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<style>
+  th,  td {
+    border: 1px solid red;
+    padding: 3px;
+    text-align: center;
+}
+  th {
+      cursor: pointer;
+  }
+</style>
+<body>
+
+<h1>Show a Push Button</h1>
+
+<p>The button below activates a JavaScript when it is clicked.</p>
+<form>
+  <input type="button" value="Click me" onclick="msg()">
+</form>
+
+<div class="topnav">
+  <table>
+    <tr>
+      <th onclick="msg()"> Click Me</th>
+      <th>f(distance)</th>
+    </tr>
+    <tr>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+  </table>
+
+</div>
+
+<script>
+function msg() {
+  alert("Hello world!");
+}
+</script>
+
+</body>
+</html>

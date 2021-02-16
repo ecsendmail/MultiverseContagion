@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Bouncing Ball</title>
+  <style></style>
+</head>
+
+<body>
+  <button onclick="press()">press</button>
+  <canvas id="gameCanvas" width="800" height="600"></canvas>
+  <script>
+    // declare variables
+    const FPS = 30;
+    var bs = 12;    //ball size
+    var bx = [];      //presumably ball center
+    var by = [];
+    var xv = [];    //velocity in x and y directions
+    var yv = [];
+    var bColor = [];
+
+    var canvas, ctx;
+    var nBalls = 300;
+    var timer;
+
+    // load canvas
+    canvas = document.getElementById("gameCanvas");
+    ctx = canvas.getContext("2d");
+    ctx.fillStyle = "black";
+    ctx.fillRect(0,0, canvas.width, canvas.height);
+
+    alert("Hello");
+
+    calcPos(300,300,100,100);
+
+var flag = true;
+
+function press(){
+   if (flag){
+      timer=setInterval(update,500/FPS);
+      flag = false;
+   } else {
+      clearInterval(timer);
+   }
+}
+
+    var delx, dely;
+    var xpos;
+    var ypos;
+    var xpos2;
+    var ypos2;
+    var delx2;
+    var dely2;
+
+
+  function calcPos(x1,y1,x2,y2){
+      let tangent;
+      tangent = Math.abs()(y2-y1)/(x2-x1));
+      delx = (x2-x1)/100;
+      dely = delx*tangent;
+      delx2 = (x1-x2)/100;
+      dely2 = delx2*tangent;
+      xpos2 = x2;
+      ypos2 = y2;
+      xpos = x1;
+      ypos = y1;
+      alert("delx,delx2= "+delx+","+delx2);
+    }
+
+    // set up interval (game loop)
+    //setInterval(update,500/FPS);     //update every 1/30th sec
+
+    // ball starting position
+    /*for (i=0; i<nBalls; i++){
+      bx[i] = canvas.width /2 + i;
+      by[i] = canvas.height /2 + i;
+      bColor[i] = 0x00000F + i*0xFFf;
+
+    //  random ball starting speed (between 100 and 200)
+      xv[i] = parseInt(Math.floor(Math.random() * 76 + 25) / FPS);
+      yv[i] = parseInt(Math.floor(Math.random() * 76 + 25) / FPS);
+
+    //  random ball dIRECTION
+    if (Math.floor(Math.random() * 2) == 0){
+      xv[i] = -xv[i];
+    }
+    if (Math.floor(Math.random() * 2) == 0){
+      yv[i] = -yv[i];
+    }
+  }
+  */
+
+    // update function
+    function update(){
+        // move the Ball
+      var i;
+      var halfStr, strResult;
+      var preFix = "#";
+
+      ctx.fillStyle = "black";
+      ctx.fillRect(0,0, canvas.width, canvas.height);
+
+
+        xpos = xpos + delx;
+        ypos = ypos + dely;
+
+        xpos2 = xpos2 + delx2
+        ypos2 = ypos2 + dely2;
+
+
+
+
+        // draw background and ball
+        drawLine(300,300,100,100,"white");
+        drawC(xpos,ypos,15,"red");
+        drawC(xpos2,ypos2,15,"green");
+        alert("xpos, xpos2 = "+xpos+","+xpos2);
+        )
+        if (xpos2 > 300) clearInterval(timer);
+        if (xpos < 100) clearInterval(timer);
+    };
+
+
+
+
+
+    function drawC(x,y,rad,color){
+        ctx.beginPath();
+        ctx.arc(x,y,rad,0,2*Math.PI);
+        ctx.fillStyle = color;
+        ctx.fill();
+        ctx.stroke();
+        ctx.strokeStyle = "black";
+    }
+
+    function drawCross(x,y,width,height,clr){
+        ctx.beginPath();
+        ctx.moveTo(x,y);
+        ctx.fillStyle = clr;
+        ctx.fillRect(x,y,width,height);
+        ctx.fillRect(Math.round(x+width/2-height/2),Math.round(y+height/2-width/2),height,width);
+    }
+
+    function drawRect(x,y,width,height,clr){
+        ctx.beginPath();
+        ctx.moveTo(x,y);
+        ctx.fillStyle = clr;
+        ctx.fillRect(x,y,width,height);
+    }
+
+    function drawLine(x1,y1,x2,y2,clr){
+        ctx.beginPath();
+        ctx.moveTo(x1,y1);
+        ctx.lineTo(x2,y2);
+        ctx.strokeStyle = clr;
+        ctx.stroke();
+    }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>My Stacked Bar Chart</title>
+</head>
+<body>
+
+<!-- <canvas id="chart"></canvas> -->
+<canvas id="MyChart" width="400" height="200"></canvas>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.min.js"></script>
+
+
+<script>
+
+var xlab = [];
+xlab = [1,2,3,4,5,6,7,8,9]
+var data2 = [20, 21, 22, 23, 24, 25, 26]
+
+var ctx = document.getElementById('MyChart');
+var myChart = new Chart(ctx, {
+//new Chart(document.getElementById("MyChart"), {
+    type: 'bar',
+    data: {
+      labels: xlab,
+      datasets: [{
+          label: "Income - Base",
+          type: "bar",
+		  backgroundColor: "#eece01",
+		  data: [30, 31, 32, 33, 34, 35, 36],
+        }, {
+          label: "Income - Sensitivity",
+          type: "bar",
+		  backgroundColor: "#f8981f",
+		  data: data2,
+        }, {
+          label: "Tax - Base",
+          type: "bar",
+          backgroundColor: "#87d84d",
+          data:  [15, 16, -17, -18, -19, -20, -21],
+        }, {
+          label: "Tax - Sensitivity",
+          type: "bar",
+          backgroundColor: "#00b300",
+          backgroundColorHover: "#3e95cd",
+          data: [10, 11, -12, -13, -14, -15, -16]
+        }
+      ]
+    },
+		options: {
+			scales: {
+				xAxes: [{
+				    //stacked: true,
+					stacked: true,
+					ticks: {
+						beginAtZero:true,
+						maxRotation: 0,
+						minRotation: 0
+					}
+				}],
+				yAxes: [{
+				    stacked: true,
+				}]
+			},
+		}
+});
+
+/*
+  // Chart code will go here.
+  var ctx = document.getElementById('chart');
+  var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['Risk Level'],
+        datasets: [
+          {
+            label: 'Low',
+            data: [67.8,22.2],
+            backgroundColor: '#D6E9C6', // green
+          },
+          {
+            label: 'Moderate',
+            data: [20.7,11.3],
+            backgroundColor: '#FAEBCC', // yellow
+          },
+          {
+            label: 'High',
+            data: [11.4,15.5],
+            backgroundColor: '#EBCCD1', // red
+          }
+        ]
+      },
+    options: {
+      scales: {
+        xAxes: [{ stacked: true }],
+        yAxes: [{ stacked: true }]
+      }
+    }
+  });
+*/
+</script>
+
+</body>
+</html>

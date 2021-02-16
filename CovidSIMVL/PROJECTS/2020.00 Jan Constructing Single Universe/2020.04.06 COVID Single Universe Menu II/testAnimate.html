@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Bouncing Ball</title>
+  <style></style>
+</head>
+
+<body>
+  <canvas id="gameCanvas" width="400" height="300"></canvas>
+  <script>
+    // declare variables
+    const FPS = 30;
+    var bs = 30;    //ball size
+    var bx,by;      //presumably ball center
+    var xv, yv;     //velocity in x and y directions
+    var bx2,by2;      //presumably ball center
+    var xv2, yv2;     //velocity in x and y directions
+    var canvas, ctx;
+
+    // load canvas
+    canvas = document.getElementById("gameCanvas");
+    ctx = canvas.getContext("2d");
+
+    // set up interval (game loop)
+    setInterval(update,100/FPS);     //update every 1/30th sec
+
+    // ball starting position
+    bx = canvas.width /2;
+    by = canvas.height /2;
+
+    bx2 = canvas.width /3;
+    by2 = canvas.height /3;
+
+    //  random ball starting speed (between 100 and 200)
+    xv = parseInt(Math.floor(Math.random() * 76 + 25) / FPS);
+    yv = parseInt(Math.floor(Math.random() * 76 + 25) / FPS);
+
+    xv2 = parseInt(Math.floor(Math.random() * 76 + 25) / FPS);
+    yv2 = parseInt(Math.floor(Math.random() * 76 + 25) / FPS);
+
+
+    //  random ball dIRECTION
+    if (Math.floor(Math.random() * 2) == 0){
+      xv = -xv;
+    }
+    if (Math.floor(Math.random() * 2) == 0){
+      yv = -yv;
+    }
+    if (Math.floor(Math.random() * 2) == 0){
+      xv2 = -xv2;
+    }
+    if (Math.floor(Math.random() * 2) == 0){
+      yv2 = -yv2;
+    }
+
+
+    // update function
+    function update(){
+        // move the Ball
+        bx = bx + xv;
+        by = by + yv;
+        bx2 = bx2 + xv2;
+        by2 = by2 + yv2;
+
+        // bounce the ball off each wall
+        if (bx - bs/2 <0 && xv<0){
+          xv = -xv;
+        }
+        if (bx + bs/2 > canvas.width && xv>0){
+          xv = -xv;
+        }
+        if (by - bs/2 <0 && yv<0){
+          yv = -yv;
+        }
+        if (by + bs/2 > canvas.height && yv>0){
+          yv = -yv;
+        }
+//
+        if (bx2 - bs/2 <0 && xv2<0){
+          xv2 = -xv2;
+        }
+        if (bx2 + bs/2 > canvas.width && xv2>0){
+          xv2 = -xv2;
+        }
+        if (by2 - bs/2 <0 && yv2<0){
+          yv2 = -yv2;
+        }
+        if (by2 + bs/2 > canvas.height && yv2>0){
+          yv2 = -yv2;
+        }
+
+        // draw background and ball
+        ctx.fillStyle = "black";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "red";
+        ctx.fillRect(bx- bs/2, by - bs/2, bs, bs);
+        ctx.fillStyle = "green";
+        ctx.fillRect(bx2- bs/2, by2 - bs/2, bs, bs);
+    };
+
+    </script>
+  </body>
+</html>

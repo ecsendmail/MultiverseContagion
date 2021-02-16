@@ -1,0 +1,1982 @@
+chart7<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+  *{
+    box-sizing: border-box;
+  }
+
+
+#pane1 {
+  left:100px;
+  top: 25px;
+  padding: 5px;
+  border-width:1px;
+  cursor:pointer;
+  height:300px;
+  width:300px;
+  position: absolute;
+}
+
+#pane2 {
+  left:400px;
+  top: 25px;
+  padding: 5px;
+  border-width:1px;
+  cursor:pointer;
+  height:300px;
+  width:300px;
+  position: absolute;
+}
+
+#pane3 {
+  left:700px;
+  top: 25px;
+  padding: 5px;
+  border-width:1px;
+  cursor:pointer;
+  height:300px;
+  width:300px;
+  position: absolute;
+}
+
+#pane4 {
+  left:100px;
+  top: 325px;
+  padding: 5px;
+  border-width:1px;
+  cursor:pointer;
+  height:300px;
+  width:300px;
+  position: absolute;
+}
+
+#pane5 {
+  left:400px;
+  top: 325px;
+  padding: 5px;
+  border-width:1px;
+  cursor:pointer;
+  height:300px;
+  width:300px;
+  position: absolute;
+}
+
+#pane6 {
+  left:700px;
+  top: 325px;
+  padding: 5px;
+  border-width:1px;
+  cursor:pointer;
+  height:300px;
+  width:300px;
+  position: absolute;
+}
+
+#pane7 {
+  left:100px;
+  top: 625px;
+  padding: 5px;
+  border-width:1px;
+  cursor:pointer;
+  height:300px;
+  width:300px;
+  position: absolute;
+}
+
+#pane8 {
+  left:400px;
+  top: 625px;
+  padding: 5px;
+  border-width:1px;
+  cursor:pointer;
+  height:300px;
+  width:300px;
+  position: absolute;
+}
+
+#pane9 {
+  left:700px;
+  top: 625px;
+  padding: 5px;
+  border-width:1px;
+  cursor:pointer;
+  height:300px;
+  width:300px;
+  position: absolute;
+}
+
+
+
+#windowpane {
+  display: block;
+}
+
+
+#controls {
+  display: block;
+  left:8px;
+  top:3px;
+  position: absolute;
+}
+
+#MV-menu {
+  top: 25px;
+  left: 1050px;
+  position: absolute;
+  display: block;
+}
+
+#MVmatrix {
+  top: 150px;
+  left:1050px;
+  position: absolute;
+  display: block;
+}
+
+
+
+
+/* *********************************************************************************************
+  $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+                        THIS PART DEALS WITH INDIVIDUAL UNIVERSES IN THE LARGE
+
+  **********************************************************************************************
+*/
+
+th,  td {
+  border: 1px solid red;
+  padding: 3px;
+  text-align: center;
+}
+th {
+    cursor: pointer;
+}
+td {
+  height:
+}
+
+#myTab {
+  display: none;
+  position: static;
+  width: 1600px;
+}
+
+#AgeTab {
+  display: none;
+}
+
+#RaceTab {
+  display: none;
+}
+
+#chartContainer6 {
+    border: 1px solid pink;
+    position: static;
+    left: 2px;
+    top:200px;
+    display: none;
+}
+
+#myCanvas {
+  display: none;
+}
+
+
+</style>
+
+<!-- *******************************************************************************************
+     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+                   NOW WE START THE CSS SECTION AND IT RELATES FIRST TO MULTIVERSE
+
+     &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+-->
+
+<body>
+
+<div id="windowpane">
+    <div id="pane1"  onclick=selPane1() style="background-color:MidnightBlue; border-color:red; border-style:solid;">Pane1 is here</div>
+    <div id="pane2"  onclick=selPane2() style="background-color:MidnightBlue; border-color:red; border-style:solid;">Pane2</div>
+    <div id="pane3"  onclick=selPane3() style="background-color:MidnightBlue; border-color:red; border-style:solid;">Pane3</div>
+    <div id="pane4"  onclick=selPane4() style="background-color:MidnightBlue; border-color:red; border-style:solid;">Pane4</div>
+    <div id="pane5"  onclick=selPane5() style="background-color:MidnightBlue; border-color:red; border-style:solid;">Pane5</div>
+    <div id=pane6  onclick=selPane6() style="background-color:MidnightBlue; border-color:red; border-style:solid;">Pane6</div>
+    <div id=pane7  onclick=selPane7() style="background-color:MidnightBlue; border-color:red; border-style:solid;">Pane7</div>
+    <div id=pane8  onclick=selPane8() style="background-color:MidnightBlue; border-color:red; border-style:solid;">Pane8</div>
+    <div id=pane9  onclick=selPane9() style="background-color:MidnightBlue; border-color:red; border-style:solid;">Pane9</div>
+</div>
+
+
+
+    <div id="fields">
+        <canvas id="canp1" style="position:absolute; border: 1px solid blue"></canvas>
+        <canvas id="canp2" style="position:absolute; border: 1px solid blue"></canvas>
+        <canvas id="canp3" style="position:absolute; border: 1px solid blue"></canvas>
+        <canvas id="canp4" style="position:absolute; border: 1px solid blue"></canvas>
+        <canvas id="canp5" style="position:absolute; border: 1px solid blue"></canvas>
+        <canvas id="canp6" style="position:absolute; border: 1px solid blue"></canvas>
+        <canvas id="canp7" style="position:absolute; border: 1px solid blue"></canvas>
+        <canvas id="canp8" style="position:absolute; border: 1px solid blue"></canvas>
+        <canvas id="canp9" style="position:absolute; border: 1px solid blue"></canvas>
+    </div>
+
+    <div>
+        <table ID="MV-menu">
+          <tr>
+            <th onclick="loadMVnames()">NAMES</th>
+            <th onclick="MVmatrix()">matrix</th>
+            <th id = "rBlue" onclick="rBlues()">make some Blue</th>
+          </tr>
+          <tr>
+            <td id="MV-name">universe 1</td>
+            <td>trafficking</td>
+            <td id="rBlueNum">visit the stars</td>
+          </tr>
+        </table>
+    </div>
+
+    <div>
+      <table id="MVmatrix">
+      <tr>
+        <th> UNIVERSES AS SPACES </th>
+      </tr>
+        <tr> <td id="row1" onclick="mxRow1()" style="cursor:pointer">row1</td> </tr>
+        <tr> <td id=row2 onclick="mxRow2()" style="cursor:pointer">row2</td> </tr>
+        <tr> <td id=row3 onclick="mxRow3()" style="cursor:pointer">row3</td> </tr>
+        <tr> <td id=row4 onclick="mxRow4()" onmousemove="mouseMove4()" style="cursor:pointer">row4</td></tr>
+        <tr> <td id=row5 onclick="mxRow5()" style="cursor:pointer">row5</td> </tr>
+        <tr> <td id=row6 onclick="mxRow6()" style="cursor:pointer">row6</td> </tr>
+        <tr> <td id=row7 onclick="mxRow7()" style="cursor:pointer">row7</td> </tr>
+        <tr> <td id=row8 onclick="mxRow8()" style="cursor:pointer">row8</td> </tr>
+        <tr> <td id=row9 onclick="mxRow9()" style="cursor:pointer">row9</td> </tr>
+      <tr>
+      </table>
+    </div>
+
+    <div id="controls">
+      <button onclick="hideMV()" type="button" style="cursor:pointer">MV toggle</button>
+      <button onclick="startClock()" type="button" style="cursor:pointer">start</button>
+      <button id="popClick" onclick="nextHour()" type="button" style="cursor:pointer">Hour++</button>
+      <button id="showBut" onclick="showU()" type="button" style="cursor:pointer">Show U</button>
+      <button onclick="aniMate()" type="button" style="cursor:pointer">30 cycles</button>
+      <button onclick="startIt()" type="button" style="cursor:pointer">single</button>
+    </div>
+
+
+
+
+<!--   ***************************************************************************
+       $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+       &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+          FROM THIS PART ON, IT'S ALL ABOUT INDIVIDUAL UNIVERSES
+                   THE STUFF ABOVE IS ABOUT THE MULTIVERSE
+
+-->
+
+<div class="topnav">
+  <table ID="myTab">
+    <tr>
+      <th onclick="loadPop()">Population RESET</th>
+      <th onclick="rBlues()" bgcolor=LightBlue>Add Blues</th>
+      <th id ="popClick" onclick="showPop()" bgcolor=lightgreen>Click Me</th>
+      <th>Greens</th>
+      <th>Yellows</th>
+      <th>Blues</th>
+      <th>Reds</th>
+      <th onclick="showDist()">TRAVEL</th>
+      <th onclick="showIncD()">Incubation days</th>
+      <th onclick="showInfD()" bgcolor=LightBlue>Infectious Days</th>
+      <th onclick="showInfM()" bgcolor=LightBlue>Infection Mode</th>
+      <th onclick="showInfR()" bgcolor=LightBlue>InfGrowth Rate</th>
+      <th onclick="showCliD()">RED days</th>
+      <th onclick="showPradius()">Hazard Radius</th>
+      <th id=popClick onclick="showAnimate()">Animation</th>
+      <th onclick="endChart()">Show Chart</th>
+      <th id="ageSel" onclick="selAgeRisk()" bgcolor=red style="cursor:pointer">Age Group Risk</th>
+    </tr>
+    <tr>
+      <td id="dPopn"></td>
+      <td id="dCont"></td>
+      <td id="dGen">0</td>
+      <td id="grCt">1</td>
+      <td id="yeCt">0</td>
+      <td id="blCt">0</td>
+      <td id="reCt">0</td>
+      <td id="dDist">7</td>
+      <td id="dIncD">2</td>
+      <td id="dInfD">5</td>
+      <td id="dInfM">3</td>
+      <td id="dInfR">1.1</td>
+      <td id="dCliD">1</td>
+      <td id="dPrad">20</td>
+      <td id="dAnim">5</td>
+      <td></td>
+      <td onclick="selRaceRisk()" bgcolor=red style="cursor:pointer">Race Based Risk</td>
+    </tr>
+  </table>
+</div>
+
+    <div id="chartContainer6" style="height: 150px; width: 300px; display: block;"></div>
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
+
+
+    <canvas id="myCanvas" width="1200" height="600"
+            style="border:1px solid #d3d3d3;">
+    </canvas>
+
+
+<!-- &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+     *********************************************************************************************
+                        THESE COME FROM TIMERS MODULE
+     ---------------------------------------------------------------------------------------------
+     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+-->
+
+<canvas id="gameCanvas" width="800" height="600"></canvas>
+
+
+<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+-->
+
+
+</head>
+<script>
+
+var fullCt =  0;
+var MODE = "local";                   // or "MV" - master controller of behavior
+
+
+// *********************************** CREATE CANVASES FOR EACH PANE *******************************
+
+function drawc(x,y,rad,color,ctx){
+  ctx.beginPath();
+  ctx.arc(x,y,rad,0,2*Math.PI);
+  ctx.fillStyle = color;
+  ctx.fill();
+  ctx.stroke();
+  ctx.strokeStyle = "black";
+}
+
+
+
+function CreateCanvases() {
+  this.cid;
+  this.width;
+  this.height;
+  this.style.top;
+  this.style.left;
+  this.ctx;
+}
+
+var cn = [];
+var offX = 75;
+var offY = 100;
+var pHz = "300"+"px";
+var pVt = (200).toString()+"px";
+
+var c = document.getElementById("fields").children;
+for (i=0; i< c.length; i++){
+  var x = 0;
+  var y = 0;
+  cn[i] = document.getElementById(c[i].id);
+  cn[i].cid = c[i].id;
+  cn[i].width = 300;
+  cn[i].height = 250;
+  cn[i].style.top = ((x%3)*300+offX).toString()+"px";
+  cn[i].style.left = ((y%3)*300+offY).toString()+"px";
+  x++;
+  y++;
+  cn[i].ctx = cn[i].getContext("2d");
+}
+
+
+
+
+var canp1 = document.getElementById("canp1");
+canp1.width = 300;
+canp1.height = 250;
+canp1.style.top = "75px";
+canp1.style.left = "100px";
+
+var ctx1 = canp1.getContext("2d");
+
+
+ctx1.fillStyle = "MidnightBlue";
+ctx1.fillRect(0,0,canp1.width, canp1.height);
+drawc(10,10,8,"green",ctx1);
+
+canp1.addEventListener("mousemove", mouseMove1, false);
+canp1.addEventListener("mouseout", mouseOut1, false);
+canp1.addEventListener("click", mouseClick1, false);
+
+
+
+
+// ********************************************************
+
+var canp2 = document.getElementById("canp2");
+canp2.width = 300;
+canp2.height = 250;
+canp2.style.top = "75px";
+canp2.style.left = "400px";
+
+var ctx2 = canp2.getContext("2d");
+
+
+ctx2.fillStyle = "MidnightBlue";
+ctx2.fillRect(0,0,canp2.width, canp2.height);
+drawc(10,10,8,"green",ctx2);
+
+canp2.addEventListener("mousemove", mouseMove2, false);
+canp2.addEventListener("mouseout", mouseOut2, false);
+canp2.addEventListener("click", mouseClick2, false);
+
+// *********************************************************************
+
+var canp3 = document.getElementById("canp3");
+canp3.width = 300;
+canp3.height = 250;
+canp3.style.top = "75px";
+canp3.style.left = "700px";
+
+var ctx3 = canp3.getContext("2d");
+
+
+ctx3.fillStyle = "MidnightBlue";
+ctx3.fillRect(0,0,canp3.width, canp3.height);
+drawc(10,10,8,"green",ctx3);
+
+canp3.addEventListener("mousemove", mouseMove3, false);
+canp3.addEventListener("mouseout", mouseOut3, false);
+canp3.addEventListener("click", mouseClick3, false);
+
+// ********************************************************
+
+var canp4 = document.getElementById("canp4");
+canp4.width = 300;
+canp4.height = 250;
+canp4.style.top = "375px";
+canp4.style.left = "100px";
+
+var ctx4 = canp4.getContext("2d");
+
+
+ctx4.fillStyle = "MidnightBlue";
+ctx4.fillRect(0,0,canp4.width, canp4.height);
+drawc(10,10,8,"green",ctx4);
+
+canp4.addEventListener("mousemove", mouseMove4, false);
+canp4.addEventListener("mouseout", mouseOut4, false);
+canp4.addEventListener("click", mouseClick4, false);
+
+// ********************************************************
+
+var canp5 = document.getElementById("canp5");
+canp5.width = 300;
+canp5.height = 250;
+canp5.style.top = "374px";
+canp5.style.left = "400px";
+
+var ctx5 = canp5.getContext("2d");
+
+
+ctx5.fillStyle = "MidnightBlue";
+ctx5.fillRect(0,0,canp5.width, canp5.height);
+drawc(10,10,8,"green",ctx5);
+
+canp5.addEventListener("mousemove", mouseMove5, false);
+canp5.addEventListener("mouseout", mouseOut5, false);
+canp5.addEventListener("click", mouseClick5, false);
+
+// ********************************************************
+
+var canp6 = document.getElementById("canp6");
+canp6.width = 300;
+canp6.height = 250;
+canp6.style.top = "375px";
+canp6.style.left = "700px";
+
+var ctx6 = canp6.getContext("2d");
+
+
+ctx6.fillStyle = "MidnightBlue";
+ctx6.fillRect(0,0,canp6.width, canp6.height);
+drawc(10,10,8,"green",ctx6);
+
+canp6.addEventListener("mousemove", mouseMove6, false);
+canp6.addEventListener("mouseout", mouseOut6, false);
+canp6.addEventListener("click", mouseClick6, false);
+
+// ********************************************************
+
+var canp7 = document.getElementById("canp7");
+canp7.width = 300;
+canp7.height = 250;
+canp7.style.top = "675px";
+canp7.style.left = "100px";
+
+var ctx7 = canp7.getContext("2d");
+
+
+ctx7.fillStyle = "MidnightBlue";
+ctx7.fillRect(0,0,canp7.width, canp7.height);
+drawc(10,10,8,"green",ctx7);
+
+canp7.addEventListener("mousemove", mouseMove7, false);
+canp7.addEventListener("mouseout", mouseOut7, false);
+canp7.addEventListener("click", mouseClick7, false);
+
+// ********************************************************
+
+var canp8 = document.getElementById("canp8");
+canp8.width = 300;
+canp8.height = 250;
+canp8.style.top = "675px";
+canp8.style.left = "400px";
+
+var ctx8 = canp8.getContext("2d");
+
+
+ctx8.fillStyle = "MidnightBlue";
+ctx8.fillRect(0,0,canp8.width, canp8.height);
+drawc(10,10,8,"green",ctx8);
+
+canp8.addEventListener("mousemove", mouseMove8, false);
+canp8.addEventListener("mouseout", mouseOut8, false);
+canp8.addEventListener("click", mouseClick8, false);
+
+// ********************************************************
+
+var canp9 = document.getElementById("canp9");
+canp9.width = 300;
+canp9.height = 250;
+canp9.style.top = "675px";
+canp9.style.left = "700px";
+
+var ctx9 = canp9.getContext("2d");
+
+
+ctx9.fillStyle = "MidnightBlue";
+ctx9.fillRect(0,0,canp9.width, canp9.height);
+drawc(10,10,8,"green",ctx9);
+
+canp9.addEventListener("mousemove", mouseMove9, false);
+canp9.addEventListener("mouseout", mouseOut9, false);
+canp9.addEventListener("click", mouseClick9, false);
+
+
+
+
+
+
+// ***************************************************************************
+
+function mouseMove1(){
+  document.getElementById("canp1").style.border = "thick solid yellow";
+}
+function mouseOut1 () {
+  document.getElementById("canp1").style.border = "thin  solid blue";
+}
+function mouseClick1 () {
+//
+}
+
+// ******************************************** mouse 2 ********************
+
+function mouseMove2(){
+  document.getElementById("canp2").style.border = "thick solid yellow";
+}
+function mouseOut2 () {
+  document.getElementById("canp2").style.border = "thin  solid blue";
+}
+
+var vid2;
+function mouseClick2 () {
+  vid2 = document.getElementById("myVideo2");
+  vid2.loop = true;
+  vid2.play();
+}
+function playVid2() {
+  vid2 = document.getElementById("myVideo2");
+  vid2.play();
+}
+function pauseVid2() {
+  vid2.pause();
+}
+
+function mouseMove3(){
+  document.getElementById("canp3").style.border = "thick solid yellow";
+}
+function mouseOut3 () {
+  document.getElementById("canp3").style.border = "thin  solid blue";
+}
+function mouseClick3 () {
+//
+}
+
+function mouseMove4(){
+  document.getElementById("canp4").style.border = "thick solid yellow";
+}
+function mouseOut4 () {
+  document.getElementById("canp4").style.border = "thin  solid blue";
+}
+
+var vid4;
+function mouseClick4 () {
+  vid4 = document.getElementById("myVideo4");
+  vid4.loop = true;
+  vid4.play();
+}
+
+function playVid4() {
+  vid4 = document.getElementById("myVideo4");
+  vid4.play();
+}
+function pauseVid4() {
+  vid4.pause();
+}
+
+function mouseMove5(){
+  document.getElementById("canp5").style.border = "thick solid yellow";
+}
+function mouseOut5 () {
+  document.getElementById("canp5").style.border = "thin  solid blue";
+}
+function mouseClick5 () {
+//
+}
+
+function mouseMove6(){
+  document.getElementById("canp6").style.border = "thick solid yellow";
+}
+function mouseOut6 () {
+  document.getElementById("canp6").style.border = "thin  solid blue";
+}
+function mouseClick6 () {
+//
+}
+
+function mouseMove7(){
+  document.getElementById("canp7").style.border = "thick solid yellow";
+}
+function mouseOut7 () {
+  document.getElementById("canp7").style.border = "thin  solid blue";
+}
+function mouseClick7 () {
+//
+}
+
+function mouseMove8(){
+  document.getElementById("canp8").style.border = "thick solid yellow";
+}
+function mouseOut8 () {
+  document.getElementById("canp8").style.border = "thin  solid blue";
+}
+function mouseClick8 () {
+//
+}
+
+function mouseMove9(){
+  document.getElementById("canp9").style.border = "thick solid yellow";
+}
+function mouseOut9 () {
+  document.getElementById("canp9").style.border = "thin  solid blue";
+}
+function mouseClick9 () {
+//
+}
+
+
+// ************************************ CREATE CANVAS PANES *******************************************
+
+var winP = [];
+
+function CreateWinP() {
+  this.ctx;
+  this.canp;
+}
+
+for (i=1;i<10;i++){
+  winP[i] = new CreateWinP;
+}
+
+winP[1].ctx = ctx1;
+winP[1].canp = canp1;
+winP[2].ctx = ctx2;
+winP[2].canp = canp2;
+winP[3].ctx = ctx3;
+winP[3].canp = canp3;
+winP[4].ctx = ctx4;
+winP[4].canp = canp4;
+winP[5].ctx = ctx5;
+winP[5].canp = canp5;
+winP[6].ctx = ctx6;
+winP[6].canp = canp6;
+winP[7].ctx = ctx7;
+winP[7].canp = canp7;
+winP[8].ctx = ctx8;
+winP[8].canp = canp8;
+winP[9].ctx = ctx9;
+winP[9].canp = canp9;
+
+// *************************** the following are mouse click functions but of course can be called elsewhere *****
+
+function selPane1() {
+  alert("Pane 1");
+  document.getElementById("pane1").innerHTML = "Hello World";
+}
+
+function selPane2() {
+  alert("Pane 2");
+  alert("making them all disappear except canvas");
+  document.getElementById("windowpane").style.display = "none";
+  document.getElementById("fields").style.display = "none";
+
+}
+
+function selPane3() {
+  alert("Pane 3");
+}
+
+function selPane4() {
+  alert("Pane 4");
+  document.getElementById("pane4").innerHTML = "Hello World 4";
+}
+
+function selPane5() {
+  alert("Pane 5");
+}
+
+function selPane6() {
+  alert("Pane 6");
+    document.getElementById("pane6").innerHTML = U[6].name;
+//    document.getElementById("pane6").style.border = "thick solid yellow";
+    document.getElementById("canp6").style.border = "thick solid yellow";
+
+}
+
+function selPane7() {
+  alert("Pane 7");
+    document.getElementById("pane7").innerHTML = "Hello World 7";
+}
+
+function selPane8() {
+  alert("Pane 8");
+    document.getElementById("pane8").innerHTML = "Hello World 8";
+}
+
+function selPane9() {
+  alert("Pane ");
+    document.getElementById("pane9").innerHTML = U[9].name;
+}
+
+
+
+
+
+// ***************************************************** NAMES OF UNIVERSES **************************
+
+var defN = [];
+  defN[1] = "1 MAINLY Transients";
+  defN[2] = "2 MAINLY BASE";
+  defN[3] = "3 Mixed BASE + Transients";
+  defN[4] = "4 repeats";
+  defN[5] = "5 repeats";
+  defN[6] = "6 B+T repeats";
+  defN[7] = "7 ....";
+  defN[8] = "8 each has diff risk profiles";
+  defN[9] = "9 each has HI and LO minglers";
+
+function loadMVnames(){
+  var text = prompt("Enter names of the Universes as a list separated by commas. No quotes necessary.");
+  parseMVnames(text);
+}
+
+function parseMVnames(x){
+  var i,y,z;
+  if (x == "" || x == null) return;
+  for (i=1;i<10;i++){
+    UN[i].name = "--";      //clear the decks
+  }
+  for (i=1; i<10; i++){
+    y = x.indexOf(",",0);
+    if (y== -1) break;
+    UN[i].name = (x.substring(0,y));
+    x = x.substring(y+1);
+  }
+  UN[i].name = x.substring(0);
+  showMVname();
+}
+
+function showMVname() {
+  document.getElementById("pane1").innerHTML = UN[1].name.fontcolor("white");
+  document.getElementById("pane2").innerHTML = UN[2].name.fontcolor("white");
+  document.getElementById("pane3").innerHTML = UN[3].name.fontcolor("white");
+  document.getElementById("pane4").innerHTML = UN[4].name.fontcolor("white");
+  document.getElementById("pane5").innerHTML = UN[5].name.fontcolor("white");
+  document.getElementById("pane6").innerHTML = UN[6].name.fontcolor("white");
+  document.getElementById("pane7").innerHTML = UN[7].name.fontcolor("white");
+  document.getElementById("pane8").innerHTML = UN[8].name.fontcolor("white");
+  document.getElementById("pane9").innerHTML = UN[9].name.fontcolor("white");
+}
+
+function rBlues(){
+  var ranB, id, univ;
+  var txt = prompt("Enter number of random conversion to Infected State");
+  document.getElementById("rBlueNum").innerHTML = txt;
+  if (txt == ""|| txt == undefined) return;
+  ranB = parseInt(txt);
+  for (i=0;i<ranB;i++){
+    id = Math.floor(Math.random()*M.PCt);
+    if (P[id].u != -1){
+        univ = P[id].u;
+        U[univ].blueCt++;
+        U[univ].greenCt--;
+    }
+    P[id].state = "blue";
+    P[id].clr = "blue";
+    P[id].infectStart = cD;
+    P[id].size = P[id].size;        // may change for BLUEs later
+    //drawU(U[univ],univ);
+  }
+}
+
+
+// ************************************* CREATE MATRIX FOR MUTIVERSE ************************
+
+function SetUpUniverse(){
+  this.name;
+}
+function CreateMatrixRow() {
+  this.name;
+  this.row = [];
+  this.probability = [];
+}
+
+var UN = [];
+
+for (i=1; i<10; i++){
+  UN[i] = new SetUpUniverse();
+  UN[i].name = defN[i];
+}
+
+var Mx = [];
+
+for (i=1; i<10; i++) {
+  Mx[i] = new CreateMatrixRow;
+  Mx[i].name = UN[i].name;        // probably not needed
+}
+
+document.getElementById("row1").innerHTML = UN[1].name;
+document.getElementById("row2").innerHTML = UN[2].name;
+document.getElementById("row3").innerHTML = UN[3].name;
+document.getElementById("row4").innerHTML = UN[4].name;
+document.getElementById("row5").innerHTML = UN[5].name;
+document.getElementById("row6").innerHTML = UN[6].name;
+document.getElementById("row7").innerHTML = UN[7].name;
+document.getElementById("row8").innerHTML = UN[8].name;
+document.getElementById("row9").innerHTML = UN[9].name;
+
+showMVname();
+
+
+
+// *************************************** DISPLAY MATRIX AND PROBABILITY DIStrIButioNS ******************
+
+
+
+var MVtoggle = false;
+function hideMV(){
+  if (MVtoggle){
+    showMV();
+    MVtoggle = false;
+  } else {
+    MVtoggle = true;
+    document.getElementById("myTab").style.display = "block";
+    document.getElementById("chartContainer6").style.display = "block";
+    document.getElementById("myCanvas").style.display = "none";
+    document.getElementById("gameCanvas").style.display = "block";
+    document.getElementById("windowpane").style.display = "none";
+    document.getElementById("fields").style.display = "none";
+    document.getElementById("MVmatrix").style.display = "none";
+    document.getElementById("MV-menu").style.display = "none";
+
+  }
+}
+
+function showMV(){
+  document.getElementById("myTab").style.display = "none";
+  document.getElementById("chartContainer6").style.display = "none";
+  document.getElementById("myCanvas").style.display = "none";
+  document.getElementById("gameCanvas").style.display = "none";
+  document.getElementById("windowpane").style.display = "block";
+  document.getElementById("fields").style.display = "block";
+  document.getElementById("MVmatrix").style.display = "block";
+  document.getElementById("MV-menu").style.display = "block";
+
+}
+
+
+/* &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+                  THESE ARE THE TIMERS AND OBJECTS UNIVERSE
+
+   $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+*/
+
+var M = new ConstructMVC;
+var U = [];                   // local Universes
+var P = [];                   // all people in the system
+var T = [];                   // one ticket per person - 24hr or 1 week?
+var H = [];                   // timer-based schedule of events - arr depart
+
+
+var cD = 0;       // not sure if we will use as globals
+var cH = 5;       // initialization of 5AM
+var cP = 0;
+var cT = 0;
+var cS = 0;         // current stop
+var pID = 0;
+
+var vU = 0;   // visible U
+var wU = 0;   // working U
+
+
+const LTC = 1;
+const HOME = 0;
+
+M.UCt = 2;
+M.PCt = 100;
+
+M.GreenCt = M.PCt;      // these are totalled from U's
+M.YellowCt = 0;
+M.BlueCt = 0;
+M.RedCt = 0;
+M.OrangeCt = 0;
+M.clockDay = 0;
+M.clockHr = 5;
+
+function ConstructMVC() {
+      this.UCt;                       // count of Universes
+      this.PCt;
+      this.GreenCt;                   // these are totals of all universes at this time
+      this.YellowCt;
+      this.BlueCt;
+      this.RedCt;
+      this.OrangeCt;                  // total count of population
+      this.clockDay;                  // the Master Clock Day
+      this.clockHr;                 // the Master Clock clock hour
+}
+
+// ************************  this describes a local universe *********************************************************
+
+
+
+function CreateUniverse() {
+      this.uID;
+      this.name;          // universe name
+      this.population;    // universe current population
+      this.Resident      // these population numbers will change every hour perhaps
+      this.Attached;
+      this.Transient;
+      this.minglX;
+      this.greenCt;       // these counts reflect the status of this universe at this time
+      this.yellowCt;
+      this.blueCt;
+      this.redCt;
+      this.orangeCt;
+      this.canvas;
+      this.inBox;
+      this.outBox;
+      this.day;
+      this.hour;
+      this.person = [];                   // we need this to point to the persons there - just pIDs
+}
+
+
+
+var i,j,k;
+
+for (i=0; i<M.UCt; i++) {
+  U[i] = new CreateUniverse();
+  initUniv(U[i],i);
+}
+
+function initUniv(U,i){
+      U.uID = i;
+      U.name = "U"+i;
+      U.population = 0;
+      U.Resident = 0;
+      U.Attached = 0;
+      U.Transient = 0;
+      U.minglx = 0;
+      U.greenCt = 0;
+      U.yellowCt = 0;
+      U.blueCt = 0;
+      U.redCt = 0;
+      U.orangeCt = 0;
+      U.canvas = "";
+      U.inBox = [];
+      U.outBox = [];
+      U.day = 0;
+      U.hour = 0;
+      U.person = [];
+};
+
+
+
+
+
+// *************************** CREATE PERSON PROTOTYPES *************************************************
+//
+//
+var metState = "green";       // uninfected
+var metIncStart = 0;
+var metIncDays = 0;
+var metIncMax = 2;
+var metInfectSt = 0;
+var metInfectDays = 0;
+var metInfectMax = 4;
+var metInfectMode = 0;
+var metInfectRate = 0.2;
+var metDiagStart = 0;
+var metDiagDays = 0;
+var metDiagMax = 1;
+var metInertStart = 0;
+var metInertDays = 0;
+
+
+function CreatePerson() {       // the persistent info for a person
+    this.pID;                   // issued in multiverse - most of this data generated in MULTIVERSE
+    this.state;                 // uninfected; incubating; infectious; disagnosed; inert
+    this.clr;
+    this.incStart;              // date of infection and transition to incubating
+    this.incDays;
+    this.incMax;
+    this.infectStart;           // date of transition to infectious
+    this.infectDays;
+    this.infectMax;
+    this.infectMode;
+    this.infectRate;
+    this.diagStart;             // date of transition from asymtpomatic to diagnosed
+    this.diagDays;
+    this.diagMax;
+    this.inertStart;            // date of transition to INERT
+    this.inertDays;             // days since becoming inert
+
+/* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+                                LOCAL PERSON DATA STARTS here
+
+   $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+*/
+
+    this.hour;                  // strictly local information
+    this.day;
+//    this.stopCt;            // these in Ticket already?
+//    this.stop = [];
+    this.u;
+    this.pSeqNo;
+    this.role;
+    this.ETA;
+    this.ETD;
+    this.size;
+    this.minglx;
+    this.X;
+    this.Y;
+    this.OldX;
+    this.OldY;
+    this.newX;
+    this.newY;
+    this.delX;
+    this.delY;
+    this.ddx;
+    this.ddy;
+}
+
+
+for (i=0; i<M.PCt; i++){
+    P[i] = new CreatePerson;
+    initPerson(P[i],i);
+}
+
+function initPerson(P,i){
+
+    P.pID = i;
+    P.state = metState;
+    P.clr = "green";
+    P.susceptIndex;
+    P.viralLoad;
+    P.incStart = metIncStart;
+    P.incDays = metIncDays;
+    P.incMax = metIncMax;
+    P.infectStart = metInfectSt;
+    P.infectDays = metInfectDays;
+    P.infectMax = metInfectMax;
+    P.infectMode = metInfectMode;
+    P.infectRate = metInfectRate;
+    P.diagStart  = metDiagStart;
+    P.diagDays = metDiagDays;
+    P.diagMax = metDiagMax;
+    P.inertStart = metInertStart;
+    P.inertDays = metInertDays;
+
+    P.day = 0;
+    P.hour = 0;
+    P.stopCt = 0;
+    P.stop = [];
+    P.u = -1;
+    P.pSeqNo = -1;
+    P.role = "R";
+    P.ETA = 0;
+    P.ETD = 0;
+    P.size = 6;
+    P.minglx = 2;
+    P.X = 0;
+    P.Y = 0;
+    P.old = 0;
+    P.old = 0;
+    P.newX = 0;
+    P.newY = 0;
+    P.delX = 0;
+    P.delY = 0;
+    P.ddx = 0;
+    P.ddy = 0;
+}
+
+
+// %%%%%%%%%%%%%%%%%%%%%%%%% NOW SET UP ALL THE LOCAL INFO BEFORE SPECIALIZING $$$$$$$$$$$$$$$$$$$$$$
+//
+
+
+
+for (i=0; i<M.PCt; i++){
+    T[i] = new CreateTicket();
+    T[i].pID = i;
+    T[i].S = [];
+}
+
+
+// ******************************************************************************************************
+//
+//                              CREATE SCHEDULE AND TICKET POINTERS TO PERSONS BY HOUR
+//
+// ******************************************************************************************************
+//
+
+
+var H = [];
+
+for (i=0; i<24; i++){
+H[i] = [];        // we use 0600 to 2200 only FOR NOW
+}
+
+
+function CreateTicket() {
+  this.pID;
+  this.S = [];
+}
+
+function CreateStop() {
+  this.uHere;
+  this.ETA;
+  this.uDest;
+  this.ETD;
+  this.R;          // RESIDENT, ATTACHED, TRANSIENT
+  this.M;          // deegree of mingling 0 to 10 - loner to pollster
+}
+
+function issueStop(id,sno,uThis,uNext,hrA,hrD,thisR,thisM){
+    if (T[id].S[sno] === undefined) {
+      T[id].S[sno] = new CreateStop();
+    }
+    T[id].S[sno].uHere = uThis;
+    T[id].S[sno].ETA = hrA;
+    T[id].S[sno].uDest = uNext;
+    T[id].S[sno].ETD = hrD;
+    T[id].S[sno].R = thisR;
+    T[id].S[sno].M = thisM;
+
+    H[hrA].push({u:uThis,cID:id,cS:sno,cDir:"A"});
+    if (T[id].S[sno].ETD == -1) return;                // change role or minglex
+    H[hrD].push({u:uThis,cID:id,cS:sno,cDir:"D"});
+}
+
+// ********************** 50 Resident ONLY deaprt = 9999 ****************************
+//
+//                        this would be rare - LTC, army barracks, prisons, ships ***
+//                        30 one-way tickets into LTC - for now; they can go out later
+//
+
+var stopno = 0;
+
+for (i=0; i<50; i++){                     //day-time activity
+    stopno = 0;
+    issueStop(i,stopno,LTC,LTC,6,-1,"R",2);
+
+    stopno = 1;
+    issueStop(i,stopno,LTC,LTC,22,-1,"R",0);
+    }
+Ptally = 50;
+
+// ***********************************************************************************
+//
+//                Now we have 30 staff who have role = "attached"
+//                They are not transients but come to be staff so stay longer
+//
+
+
+for (i=0; i<30; i++){
+
+    stopno = 0;
+    issueStop(Ptally+i,stopno,HOME,LTC,0,6,"R",0);
+
+    stopno = 1;
+    issueStop(Ptally+i,stopno,LTC,HOME,6,17,"A",6);
+
+    stopno = 2;
+    issueStop(Ptally+i,stopno,HOME,HOME,17,-1,"R",3);
+
+    stopno = 3;
+    issueStop(Ptally+i,stopno,HOME,HOME,22,-1,"R",1);
+}
+
+Ptally = 80;
+
+// *************************************************************************************
+//
+//              Now we have 10 Home (U2) residents who stay and work
+//              Gardeners, day care, plumbers, housekeepers etc
+//              But they are not "ATTACHeD" but RESIDENT in the U=2
+//
+for (i=0; i<10; i++){
+    stopno = 0;
+    issueStop(Ptally+i,stopno,HOME,HOME,6,-1,"R",6);
+
+    stopno = 1;
+    issueStop(Ptally+i,stopno,HOME,HOME,17,-1,"R",3);
+
+    stopno=3;
+    issueStop(Ptally+i,stopno,HOME,HOME,22,-1,"R",3);
+}
+
+// *************************************************************************************
+//
+//                  these Residents from U=2 have the tasks of shopping,
+//                  recreation in gyms, coffee shops, visiting....here we only
+//                  have them visit LTC for 2hrs in pairs, separated by an hour
+//
+
+Ptally = 90;
+
+var baseT = 6;
+var deltaT = 2;
+var arrive, depart;
+
+for (i=0; i<5; i++){
+    for (j=0;j<2; j++){
+
+        stopno = 0;
+        arrive = baseT;
+        depart = arrive + (i+1)*deltaT;
+        issueStop(Ptally+2*i+j,stopno,HOME,LTC,arrive,depart,"R",3);
+
+        stopno = 1;
+        arrive = depart;
+        depart = arrive + deltaT;
+        issueStop(Ptally+2*i+j,stopno,LTC,HOME,arrive,depart,"T",4);
+
+        stopno = 2;
+        arrive = depart;
+        depart = 22;
+        issueStop(Ptally+2*i+j,stopno,HOME,HOME,arrive,-1,"R",3);
+
+        stopno = 3;
+        arrive = depart;
+        depart = 6;
+        issueStop(Ptally+2*i+j,stopno,HOME,HOME,arrive,-1,"R",3);
+    }
+}
+
+
+
+// **************************** start at 0600 end at 2200 *************************************
+
+
+
+hideMV();
+
+const FPS = 30;
+const MOTION = 9000;
+
+var canWidth = 800;
+var canHeight = 600;
+var bs = 12;    //ball size
+var bx = [];      //presumably ball center
+var by = [];
+var xv = [];    //velocity in x and y directions
+var yv = [];
+var bColor = [];
+
+var canvas, ctx;
+
+// load canvas
+canvas = document.getElementById("gameCanvas");
+ctx = canvas.getContext("2d");
+ctx.fillStyle = "black";
+ctx.fillRect(0,0,canvas.width, canvas.height);
+ctx.globalCompositeOperation = "source-over";
+
+// set up interval (game loop)
+//  setInterval(update,500/FPS);     //update every 1/30th sec
+
+var travel = [1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,3,3,3,3,3,3,4,4,4,4,4,5,5,5,5,5,5,6,6,6,6,7,8,9,10,30,40,50];
+var dIRECTION = [-1,0,1];
+var rand, randint;
+
+
+
+function Epicenter(){
+    this.X;
+    this.Y;
+    this.perim;
+}
+
+var epic1 = new Epicenter;
+  epic1.X = canWidth/4;
+  epic1.Y = canHeight/4;
+  epic1.perim = 30;
+var epic2 = new Epicenter;
+  epic2.X = canWidth/4;
+  epic2.Y = canHeight/4*3;
+  epic2.perim = 30;
+var epic3 = new Epicenter;
+  epic3.X = canWidth/4*3;
+  epic3.Y = canHeight/4;
+  epic3.perim =30;
+var epic4 = new Epicenter;;
+  epic4.X = canWidth/4*3;
+  epic4.Y = canHeight/4*3;
+  epic4.perim = 30;
+var epic5 = new Epicenter;
+  epic5.X = canWidth/2;
+  epic5.Y = canHeight/2;
+  epic5.perim = 30;
+
+function canvTxt(x,y,day,hr,u){
+  ctx.font = "30px Arial";
+  ctx.fillStyle = "white";
+  ctx.fillText("Day"+day+"   HR:"+hr+"  U"+u,x,y);
+}
+
+function drawC(x,y,rad,color){
+    ctx.beginPath();
+    ctx.arc(x,y,rad,0,2*Math.PI);
+    ctx.fillStyle = color;
+    ctx.fill();
+    ctx.stroke();
+    ctx.strokeStyle = "black";
+}
+
+function drawCross(x,y,width,height,clr){
+    ctx.beginPath();
+    ctx.moveTo(x,y);
+    ctx.fillStyle = clr;
+    ctx.fillRect(x,y,width,height);
+    ctx.fillRect(Math.round(x+width/2-height/2),Math.round(y+height/2-width/2),height,width);
+}
+
+function drawRect(x,y,width,height,clr){
+    ctx.beginPath();
+    ctx.moveTo(x,y);
+    ctx.fillStyle = clr;
+    ctx.fillRect(x,y,width,height);
+}
+
+function drawEpi(){
+    drawCross(epic1.X, epic1.Y, 5,1,"pink");
+    drawCross(epic2.X, epic2.Y, 5,1,"pink");
+    drawCross(epic3.X, epic3.Y, 5,1,"pink");
+    drawCross(epic4.X, epic4.Y, 5,1,"pink");
+    drawCross(epic5.X, epic5.Y, 5,1,"pink");
+    canvTxt(15,30,cD,cH,vU);
+}
+
+
+// this needs to be expanded to include the universe as a parameter
+// the seqno and counts for the universe needs to be there
+
+
+function injectXY(G,g,stop){
+    var present;
+
+//  update Person - Universe - Multiverse
+//  BUT IF THE PERSON IS ALREADY THERE WE DO NOT ADD, SO WE HAVE TO
+//  TEST LOCAL POPULATION AGAINST THE PERSON P
+
+    G.day = cD;
+    G.hour = cH;
+    G.role = T[g].S[stop].R;
+    G.ETA = T[g].S[stop].ETA;
+    G.ETD = T[g].S[stop].ETD;
+    G.minglx = T[g].S[stop].M;
+    G.u = wU;
+    G.size = sizeP(P,g);
+    U[wU].day = cD;
+    U[wU].hour = cH;
+
+    present = U[wU].person.includes(g);
+    if (present) return;
+
+    G.pSeqNo++;
+    G.X= Math.floor(Math.random()*canWidth);
+    G.Y = Math.floor(Math.random()*canHeight);
+    G.newX = G.X;
+    G.newY = G.Y;
+
+    U[wU].population++;
+    switch (G.role){
+      case "R":
+          U[wU].Resident++;
+          break;
+      case "A":
+          U[wU].Attached++;
+          break;
+      case "T":
+          U[wU].Transient++;
+          break;
+    }
+    switch (G.state){
+      case "green":
+          U[wU].greenCt++;
+          break;
+      case "yellow":
+          U[wU].yellowCt++;
+          break;
+      case "blue":
+          U[wU].blueCt++;
+          break;
+      case "red":
+          U[wU].redCt++;
+          break;
+      case "orange":
+          U[wU].orangeCt++;
+          break;
+    }
+
+    U[wU].person.push(g);
+//+    drawU(U[wU],wU);
+    if (wU == vU) drawAgent(G.X,G.Y,g,"white");
+}
+
+function sizeP(G,g){
+  return(G.size);
+}
+
+function drawAgent(x,y,g,clrFlag){
+
+    fullCt++;
+    var clr, size;
+    size  = P[g].size;
+//    canvTxt(15,30,cD,cH,vU);
+    if (clrFlag == -1){
+      clr = P[g].state;
+    } else clr = clrFlag;
+    switch (P[g].role){
+      case "R":
+        drawC(x,y,size,clr);
+        break;
+      case "A":
+        drawCross(x,y,2*size,size/2,clr);
+        break;
+      case "T":
+        drawRect(x,y,1.5*size,1.5*size,clr);
+    }
+}
+
+function drawU(Q,q){
+    var i,j,k, l;
+    drawRect(0,0,canWidth,canHeight,"black");
+    canvTxt(15,30,cD,cH,q);
+    k = Q.person.slice(0);
+    l = k.length;
+    for (i=0;i<l;i++){
+        j = k.pop();
+        drawAgent(P[j].X,P[j].Y,j,-1);
+    }
+}
+
+var delX, delY;
+function proposeMove(G,g){
+    rand = Math.floor(Math.random()*43);
+    G.delX = travel[rand]*G.size/2;
+    rand = Math.floor(Math.random()*43);
+    G.delY = travel[rand]*G.size/2;
+
+    if (G.state == "blue") {
+      G.delX = G.delX * G.minglx;
+      G.delY = G.delY * G.minglx;
+    }
+
+    if (Math.floor(Math.random() * 2) == 0){
+      G.delX = -G.delX;
+    }
+    if (Math.floor(Math.random() * 2) == 0){
+      G.delY = -G.delY;
+    }
+    G.newX = G.X + G.delX;
+    G.newY = G.Y + G.delY;
+
+    testWall(G,g);
+}
+
+
+function testWall(G,g){
+    if (G.newX - G.size/2 <0 && G.delX<0){
+      G.delX = -G.delX;
+    }
+    if (G.newX + G.size/2 > canWidth && G.delX>0){
+      G.delX = -G.delX;
+    }
+    if (G.newY - G.size/2 <0 && G.delY<0){
+      G.delY = -G.delY;
+    }
+    if (G.newY + G.size/2 > canHeight && G.delY>0){
+      G.delY = -G.delY;
+    }
+
+    G.newX = G.X + G.delX;
+    G.newY = G.Y + G.delY;
+}
+
+function nearestEpicenter(x,y){
+    var dist1, dist2, dist3, dist4, win1, win2, winner1, winner2;
+    dist1 = Math.floor((x-epic1.X)**2 + (y-epic1.Y)**2);
+    dist2 = Math.floor((x-epic2.X)**2 + (y-epic2.Y)**2);
+    dist3 = Math.floor((x-epic3.X)**2 + (y-epic3.Y)**2);
+    dist4 = Math.floor((x-epic4.X)**2 + (y-epic4.Y)**2);
+    dist5 = Math.floor((x-epic5.X)**2 + (y-epic5.Y)**2);
+
+
+    if (dist2 > dist1) {
+      win1 = dist1;
+      winner1 = epic1;
+    } else {
+      win1 = dist2;
+      winner1 = epic2;
+    }
+
+    if (dist4 > dist3){
+      win2 = dist3;
+      winner2 = epic3;
+    } else {
+      win2 = dist4;
+      winner2 = epic4;
+    }
+
+    if (win2 > win1){
+      if (win1>dist5){
+        return(epic5)
+      } else return(winner1)
+    } else {
+      if (win2>dist5){
+        return(epic5)
+      } else return(winner2);
+    }
+}
+
+function adjMinglx(G,g,epic){
+    var delX, delY;
+    G.delX = Math.abs(Math.floor((G.newX - epic.X)/G.minglx));
+    G.delY = Math.abs(Math.floor((G.newY - epic.Y)/G.minglx));
+
+/*
+if (P[indx].state == "blue"){
+  if (delX <100) G.delX = -G.delX;
+  if (delY <100) G.delY = -G.delY;
+}
+*/
+
+
+if (G.newX > epic.X){
+  G.newX = Math.max((epic.X+epic.perim),G.newX-G.delX)
+} else {
+  G.newX = Math.min((epic.X-epic.perim),G.newX+G.delX);
+}
+if (G.newY > epic.Y){
+  G.newY = Math.max((epic.Y+epic.perim),G.newY-G.delY)
+} else {
+  G.newY = Math.min((epic.Y-epic.perim),G.newY+G.delY);
+}
+
+G.newX = G.newX + Math.floor(Math.random()*5);      // avoid strict duplicate positions
+G.newY = G.newY + Math.floor(Math.random()*5);
+}
+
+/*
+for (i=0;i<20;i++){
+  injectXY(P[i],i);
+}
+*/
+
+
+function findOverlap(G,g,Q,q){
+  var i,j;
+  var elect, univ;
+  var k;
+  var len;
+
+  k = Q.person;
+  len = k.length;
+
+  for (i=0;i<len;i++){
+      if (g==k[i] && i==len) break;
+      if (g==k[i]) continue;
+      j = overlapTest(g,k[i]);
+      if (j == -1) continue;
+      elect = testPairing(g,k[i]);
+      if (elect == -1) continue;
+
+      univ = P[elect].u;
+      U[univ].yellowCt++;
+      U[univ].greenCt--;
+
+      P[elect].state = "yellow";
+      P[elect].incStart = cD;
+      P[elect].incDays = 0;
+      P[elect].clr = "yellow";
+      if (univ==vU) drawAgent(P[elect].newX,P[elect].newY,j,-1);
+      if (univ==vU) showUstat(U[univ],univ);
+}
+
+function overlapTest(pID,rID){
+  var inter1, inter2, inter3, inter4;
+      inter1 = Math.pow((P[pID].X-P[rID].newX),2);
+      inter2 = Math.pow((P[pID].Y-P[rID].newY),2);
+      inter3 = inter1 + inter2;
+      inter4 = Math.sqrt(inter3);
+      if (inter4 < (P[pID].size+P[rID].size)) {
+            return i
+      } else { return -1 };
+}
+
+function testPairing(pID,rID){
+  var indxS, popnS;
+  var clrFlag;
+
+      indxS = P[pID].state;
+      popnS = P[rID].state;
+      clrFlag = false;
+
+      if ((indxS == "green") &&
+          (popnS == "blue" || popnS == "red")) {
+          clrFlag = true
+      } else {
+        if ((popnS == "green") &&
+            (indxS == "blue" || indxS == "red")) {
+            clrFlag = true;
+        }
+      }
+      if (!clrFlag) {return -1};
+      if (indxS == "green") {
+          return pID;
+      } else return rID;
+}
+
+}
+
+
+var epic;
+
+
+function startIt(){
+    var i,j,k,n,len;
+    var Q;
+
+    cycleCount++;
+        // vU is the visible local U
+    document.getElementById("dPopn").innerHTML = cycleCount;
+    if (cycleCount >= cycleMax){
+      clearInterval(movieTimer);
+      return;
+    }
+    if (wU==vU) drawRect(0,0,canWidth,canHeight,"black");
+    if (wU==vU) drawEpi();
+    Q = U[wU];
+    k = Q.person;
+    len = k.length;
+    for (i=0;i<len;i++){
+        j = k[i];
+        proposeMove(P[j],j);
+        epic = nearestEpicenter(P[j].newX,P[j].newY);
+
+        adjMinglx(P[j],epic);
+        findOverlap(P[j],j,U[wU],wU);
+
+        if (wU==vU) drawAgent(P[j].X,P[j].Y,j,"black");
+        P[j].X = P[j].newX;
+        P[j].Y = P[j].newY;
+        if (wU==vU) drawAgent(P[j].newX,P[j].newY,j,-1);
+//+        drawU(U[vU],vU);
+    }
+    clearInterval(movieTimer);
+    anFlag = true;
+}
+
+
+function clickButton(){
+      aniCt++;
+      document.querySelector("#popClick").click();
+      mouseFlag = true;
+      clickButton;
+}
+
+
+
+
+function aniMate(){
+  var ct, Uct;
+  cycleCount = 0;
+  if (anFlag){
+        movieTimer = setInterval(startIt,MOTION/FPS);         // 30 cycles in an hour
+//        startIt();
+        anFlag = false;
+      }
+}
+
+
+// ****************************   *********************
+var anFlag = true;
+var animClk;
+var cycleCount = 0;
+var nU = 0;
+
+var iCycle;
+var cycleMax = 6;
+var arrFlag = false;
+var depFlag = false;
+
+
+cD = 0;
+cH = 0;
+chkMaxTime = 24;
+drawEpi();
+
+var conductorTimer;
+var movieTimer;
+var cycleTimer;
+
+
+function startClock(){
+  M.clockHr = cH;
+  vU = 0;
+  wU = 0;
+  conductorTimer = setInterval(conductor, 20);
+}
+
+function advanceTime(){
+    if (cH == chkMaxTime){
+        alert("End of Day - go home, no more coding!");
+        M.clockDay++;
+        M.clockHr = 0;
+//        tranState();        // change state yellow -> blue etc here
+    } else {
+        M.clockHr++;
+        M.clockDay++;         // JUST TO TEST TRANSITIONS
+    }
+    cS = 0;
+    cD = M.clockDay;
+    cH = M.clockHr;
+    drawRect(0,0,canWidth,canHeight,"black");
+    canvTxt(15,30,cD,cH,vU);
+}
+
+function conductor(){
+    var slot, action;
+
+    if (H[cH] === undefined || H[cH] == ""){
+      advanceTime();
+      return;
+    }
+    arrLength = H[cH].length;
+    if (cS == arrLength){         // end of stops
+        finishHour();
+    } else {
+        wU = H[cH][cS].u;
+        if (cS<arrLength){
+            wU = H[cH][cS].u;
+            slot = H[cH][cS].cS;          // the person's slot number
+            action = H[cH][cS].cDir;      // the direction
+            pID = H[cH][cS].cID;          // the person
+
+            if (action == "A") injectXY(P[pID],pID,slot);
+            if (action == "D") expel(P[pID],pID, slot);
+        }    cS++;
+    }
+}
+
+function expel(G,g,slot){
+  var Q, len;
+  Q = U[wU];
+  if (T[g].S[slot].ETD != -1){
+    Q.population--;
+    len = Q.person.length;
+    var thisP = Q.person.indexOf(pID);
+    var A = Q.person.slice(0,thisP);
+    var B = Q.person.slice(thisP+1,len);
+    Q.person = A.concat(B);
+
+    switch (G.state){
+      case "green":
+          Q.greenCt--;
+          break;
+      case "yellow":
+          Q.yellowCt--;
+          break;
+      case "blue":
+          Q.blueCt--;
+          break;
+      case "red":
+          Q.redCt--;
+          break;
+      case "orange":
+          Q.orangeCt--;
+          break;
+    }
+  }
+}
+
+
+function finishHour(){
+    clearInterval(conductorTimer);
+    anFlag=true;
+    aniMate(U[wU]);
+
+    tranState();              // *** TEMPORARY FOR TESTING
+    if (wU==vU) drawU(U[vU],vU);
+}
+
+function nextHour(){
+//+  drawU(U[vU],vU);
+  clearInterval(movieTimer);
+  clearInterval(conductorTimer);
+  anFlag = true;
+  aniMate(U[vU]);
+  tranState();
+  advanceTime();
+                 // of course this is for all U's
+  conductorTimer = setInterval(conductor,2);
+}
+
+function tranState(){
+  var i,j, G, Q;
+  for (i=0;i<M.PCt;i++){
+    if (P[i].u == -1) continue;      // not yet placed into U
+    G = P[i];         // P[i] is the data array for the person
+    Q = U[G.u];       // Q is now the data array for P's Universe
+    switch(G.state) {
+      case  "yellow":
+          G.incDays++;
+          if (G.incDays >= G.incMax){
+              G.incDays = 0;
+              G.state = "blue";
+              G.infectStart = cD;
+              G.infectDays = 0;
+              G.infectMode = 0;
+              G.infectRate = 1.0;
+              Q.yellowCt--;
+              Q.blueCt++;
+          }
+          break;
+      case "blue":
+          G.infectDays++;
+          if (G.infectDays >= G.infectMax){
+              G.infectDays = 0;
+              G.state = "red";
+              G.diagStart = cD;
+              G.diagDays = 0;
+              Q.blueCt--;
+              Q.redCt++;
+          }
+            break;
+      case "red":
+          G.diagDays++;
+          if (G.diagDays >= G.diagMax){
+              G.diagDays = 0;
+              G.inertStart = cD;
+              G.inertDays = 0;
+              G.state = "orange";
+              Q.redCt--;
+              Q.orangeCt++;
+          }
+          break;
+      case "orange":
+          G.inertDays++;
+          break;
+
+    }
+  }
+//  showU();
+  sumUcount();
+}
+
+function showUstat(Q,q){
+  if (MODE == "local" && q==vU){
+    document.getElementById("grCt").innerHTML = Q.greenCt;
+    document.getElementById("yeCt").innerHTML = Q.yellowCt;
+    document.getElementById("blCt").innerHTML = Q.blueCt;
+    document.getElementById("reCt").innerHTML = Q.redCt;
+    document.getElementById("dDist").innerHTML = Q.orangeCt;
+  }
+}
+
+function sumUcount(){
+  var i,j,Q;
+  for (i=0; i<M.UCt;i++){
+    Q = U[i];
+    M.GreenCt =+ Q.greenCt;
+    M.YellowCt =+ Q.yellowCt;
+    M.BlueCt =+ Q.blueCt;
+    M.RedCt == Q.redCt;
+    M.OrangeCt = Q.orangeCt;
+  }
+}
+
+var lastU = -1;
+var hU = 0;
+
+function showU(){
+  var mu = vU;
+      mu = (mU+1)%M.UCt;
+      vU = mu;
+      wU = mU;
+      drawU(U[vU],vU);
+      showUstat(U[vU],vU);
+}
+
+
+function goOneHour(){
+var i;
+setID = setInterval(startIt,3600/FPS)
+
+for (i=0;i<30;i++){
+      startIt();
+}
+
+
+}
+
+
+
+</script>
+
+</body>
+</html>

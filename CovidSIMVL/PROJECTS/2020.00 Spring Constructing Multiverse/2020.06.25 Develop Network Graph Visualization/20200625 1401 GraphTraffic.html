@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Bouncing Ball</title>
+  <style></style>
+</head>
+
+<body>
+  <button onclick="press()">press</button>
+  <canvas id="gameCanvas" width="800" height="600"></canvas>
+  <script>
+    // declare variables
+    const FPS = 30;
+    var bs = 12;    //ball size
+    var bx = [];      //presumably ball center
+    var by = [];
+    var xv = [];    //velocity in x and y directions
+    var yv = [];
+    var bColor = [];
+
+    var canvas, ctx;
+    var nBalls = 300;
+    var timer;
+
+
+    // load canvas
+    canvas = document.getElementById("gameCanvas");
+    ctx = canvas.getContext("2d");
+    ctx.fillStyle = "black";
+    ctx.fillRect(0,0, canvas.width, canvas.height);
+
+
+
+  function newNode(){
+        this.x;
+        this.y;
+        this.dx;
+        this.dy;
+        this.xi;
+        this.yi;
+        this.n;
+        this.p = [];
+    }
+
+
+    var nodeA = new newNode();
+    var nodeB = new newNode();
+
+
+    nodeA.x = 300;
+    nodeA.y = 300;
+    nodeA.n = 3;
+
+    nodeB.x = 100;
+    nodeB.y = 100;
+    nodeB.n = 5;
+
+
+  calcPos(nodeA,nodeB);
+
+
+function calcPos(A,B){
+    let tangent;
+
+    tangent = Math.abs((B.y-A.y)/(B.x-A.x));
+    A.dx = (B.x-A.x)/100;
+    A.dy = A.dx*tangent;
+    A.xi = A.x;
+    A.yi = A.y;
+
+    B.dx = (A.x-B.x)/100;
+    B.dy = B.dx*tangent;
+    B.xi = B.x;
+    B.yi = B.y;
+  }
+
+
+var flag = true;
+function press(){
+   if (flag){
+      calcPos(nodeA,nodeB);
+      timer=setInterval(update,500/FPS);
+      flag = false;
+   } else {
+      clearInterval(timer);
+      flag = true;
+
+   }
+}
+
+
+
+
+
+var A = [];
+A[0] = nodeA;
+A[1] = nodeA;
+A[2] = nodeA;
+A[3] = nodeA;
+
+function update(){
+  let i;
+  ctx.fillStyle = "black";
+  ctx.fillRect(0,0, canvas.width, canvas.height);
+
+
+
+
+  for (i=0; i<4; i++){
+    A[i].xi = A[i].xi + A[i].dx;
+    A[i].yi = A[i].yi + A[i].dy;
+    drawC(A[i].xi,A[i].yi,15,"red");
+    drawLine(300,300,100,100,"white");
+    if A[i].xi < 100) clearInterval(timer);
+  }
+/*
+        nodeB.xi = nodeB.xi + nodeB.dx
+        nodeB.yi = nodeB.yi + nodeB.dy;
+        drawC(nodeB.xi,nodeB.yi,15,"green");
+
+
+      if (nodeB.xi > 300) clearInterval(timerx);
+      if (nodeA.xi < 100) clearInterval(timerx);
+*/
+};
+
+
+
+
+
+    function drawC(x,y,rad,color){
+        ctx.beginPath();
+        ctx.arc(x,y,rad,0,2*Math.PI);
+        ctx.fillStyle = color;
+        ctx.fill();
+        ctx.stroke();
+        ctx.strokeStyle = "black";
+    }
+
+    function drawCross(x,y,width,height,clr){
+        ctx.beginPath();
+        ctx.moveTo(x,y);
+        ctx.fillStyle = clr;
+        ctx.fillRect(x,y,width,height);
+        ctx.fillRect(Math.round(x+width/2-height/2),Math.round(y+height/2-width/2),height,width);
+    }
+
+    function drawRect(x,y,width,height,clr){
+        ctx.beginPath();
+        ctx.moveTo(x,y);
+        ctx.fillStyle = clr;
+        ctx.fillRect(x,y,width,height);
+    }
+
+    function drawLine(x1,y1,x2,y2,clr){
+        ctx.beginPath();
+        ctx.moveTo(x1,y1);
+        ctx.lineTo(x2,y2);
+        ctx.strokeStyle = clr;
+        ctx.stroke();
+    }
+    </script>
+  </body>
+</html>

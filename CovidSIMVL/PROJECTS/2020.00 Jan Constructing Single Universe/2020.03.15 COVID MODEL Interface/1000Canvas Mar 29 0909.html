@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+<style>
+  th,  td {
+    border: 1px solid red;
+    padding: 3px;
+    text-align: center;
+}
+  th {
+      cursor: pointer;
+  }
+</style>
+
+<body>
+  <div class="topnav">
+    <table>
+      <tr>
+        <th onclick="showPop()"> Click Me</th>
+        <th onclick="showDist()">f(distance)</th>
+        <th onclick="showVect()">Vectors</th>
+      </tr>
+      <tr>
+        <td id="dGen">0</td>
+        <td id="dDist">1</td>
+        <td id="dVect">N</td>
+      </tr>
+    </table>
+
+  </form>
+
+
+  <canvas id="myCanvas" width="2000" height="1000"
+          style="border:1px solid #d3d3d3;">
+  </canvas>
+
+
+
+
+
+<script>
+var XSIZE = 1000;
+var YSIZE = 800;
+var TRAVEL = [1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,3,3,3,3,3,3,4,4,4,4,4,5,5,5,5,5,5,6,6,6,6,6,10,10,10,30,30,50];
+var DIRECTION = [-1,0,1];
+var rand, randint;
+var newX, ndwY, delX, delY;
+var Population = 100;
+
+
+var PERSON = [];
+var pX = [];
+var pY = [];
+
+var pOldX = [];
+var pOldY = [];
+var ddx = [];
+var ddy = [];
+
+var pSize = [];
+var pDays = [];
+var pColor = [];
+
+var nPerson = 10;
+var radius = 10;
+var xSep = XSIZE/nPerson;
+var ySep = YSIZE/nPerson;
+
+var drawMSEC = 2000;
+var drawCycle = 400;
+
+
+// populate
+var pTH;
+
+var canvas = document.getElementById("myCanvas");
+var ctx = canvas.getContext("2d");
+
+
+var k;
+for (y=1; y<11; y++){
+  for (x=1; x<11; x++){
+    k = (y-1)*nPerson+x;
+    PERSON[k] = pTH;
+    pX[k] = x*xSep;
+    pY[k] = y*ySep;
+    pColor[k] = "green";
+    pOldX[k] = pX[k];
+    pOldY[k] = pY[k];
+  }
+}
+
+function finddelXY(){
+  rand = (Math.random());
+  rand = rand*34;
+  randint = Math.floor(rand);
+  delX = radius + fDist*TRAVEL[randint];
+
+  rand = (Math.random());
+  rand = rand*34;
+  randint = Math.floor(rand);
+  delY = radius + fDist*TRAVEL[randint];
+
+  rand = (Math.random());
+
+  randint = rand*3;
+
+  randint = Math.floor(randint);
+
+  if (DIRECTION[randint]==-1){
+      delX = -delX;
+    } else {
+      if (DIRECTION[randint]==0){
+        delX=0;
+      }
+    }
+  rand = (Math.random());
+  randint = rand*3;
+//  alert(rand);
+  randint = Math.floor(randint);
+//  alert(randint);
+//  alert(DIRECTION[randint]);
+  if (DIRECTION[randint]==-1){
+      delY = -delY;
+    } else {
+        if (DIRECTION[randint]==0){
+            delY=0;
+        }
+    };
+}
+
+// draw population
+
+
+drawThem();
+
+alert("today");
+
+//population move
+function popUpdate(){
+for (i=1; i<101; i++){
+  finddelXY();
+
+  newX = pX[i] + delX;
+  newY = pY[i] + delY;
+
+  if (newX > XSIZE){
+      newX = 2*XSIZE - newX;
+  };
+  if (newX < 0){
+      newX = -newX;
+  }
+
+  if (newY > YSIZE){
+      newY = 2*YSIZE - newY;
+  };
+  if (newY < 0){
+      newY = -newY;
+  };
+
+  if (dVect) {
+
+    pColor[i] = "green";
+
+    if ((Math.abs(newX-pX[i])==0) && (Math.abs(newY-pY[i])==0)){
+      pColor[i] = "white";
+    };
+
+    if (Math.abs(newX-pX[i])>20){
+      pColor[i] = "red";
+      };
+    if (Math.abs(newY-pY[i])>20){
+        pColor[i] = "red";
+      };
+
+    if (Math.abs(newX-pX[i])>30){
+        pColor[i] = "blue";
+      };
+    if (Math.abs(newY-pY[i])>30){
+        pColor[i] = "blue";
+    };
+
+    if (Math.abs(newX-pX[i])>50){
+      pColor[i] = "yellow";
+    };
+    if (Math.abs(newY-pY[i])>50){
+      pColor[i] = "yellow";
+    };
+    pColor[36] = "orange";
+    pColor[46] = "black";
+    pColor[65] = "orange";
+
+    ctx.moveTo(pX[i],pY[i]);
+    ctx.lineTo(newX, newY);
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = 'blue';
+    ctx.stroke();
+}
+  pX[i] = newX;
+  pY[i] = newY;
+  if (dVect==false){
+    pColor[i] = "green";
+  }
+
+
+}
+}
+alert("next day");
+function testIntersect(){
+  for (i=1;i<101;i++){
+  }
+}
+
+function goPop(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.beginPath();
+  ctx.stroke();
+
+  popUpdate();
+  testIntersect();
+  for (i=1;i<2;i++){
+    setTimer(drawThem,drawMSEC/FPS);     //update every 1/30th sec
+  }
+}
+
+function drawThem(){
+
+  for (i=1; i<Population+1; i++){
+    ddx[i] = parseInt(Math.floor(Math.abs(OldX[i]-pX[i])/drawCycle));
+    if (ddx[i]==0){ddx[i] = 1};
+    ddy = parseInt(Math.floor(Math.abs(OldY[i]-pY[i])/drawCycle));
+    if (ddy[i[]]==0){ddy[i] = 1};
+    if (OldX[i] == pX[i] || OldX[i]>pX[i]){
+      ddx[i] = 0};
+    if (OldY[i] == pY[i] || OldY[i] > OldY[i]){
+      ddy[i] = 0;
+    }ddx[i];
+  }
+    // set pdelX, pdelY
+    OldX[i] = OldX[i] +  ddx[i];
+    OldY[i] = OldY[i] + ddy[i];
+    drawc(oldX[i]oldY[i],radius,pColor[i]);
+  }
+}
+
+function drawc(x,y,rad,color){
+  ctx.beginPath();
+  ctx.arc(x,y,rad,0,2*Math.PI);
+  ctx.fillStyle = color;
+  ctx.fill();
+  ctx.stroke();
+}
+
+
+dVect = false;
+function showVect(){
+  var vecTxt = prompt("W-G-R-B-Y for distances + line vectors: Y or N", "Y");
+  if (vecTxt == "Y"){
+      dVect = true;
+  } else {
+    dVect = false;
+    vecTxt = "N";
+  }
+  document.getElementById("dVect").innerHTML = vecTxt;
+}
+
+var fDist = 1.0;
+function showDist(){
+    var txt;
+    var distTxt = prompt("Enter travel distance factor:", "1");
+    if (distTxt == null || distTxt == "") {
+      txt = "-0";
+    } else {
+      txt = distTxt;
+    }
+    document.getElementById("dDist").innerHTML = txt;
+    fDist = parseFloat(txt);
+    goPop();
+  }
+
+var gen;
+gen = 0;
+
+function showPop(){
+    gen = gen + 1;
+    goPop();
+    document.getElementById("dGen").innerHTML = gen;
+}
+
+
+</script>
+
+</body>
+</html>

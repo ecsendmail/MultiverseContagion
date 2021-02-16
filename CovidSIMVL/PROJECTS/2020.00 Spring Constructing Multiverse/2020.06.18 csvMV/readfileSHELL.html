@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>CSS Website Layout</title>
+<meta charset="utf-8">
+
+<style>
+</style> </head>
+
+<body>
+<div>Nothing to do</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<script>
+
+function myLoad() {
+  iLoad("data.csv");
+  alert(loadresult);
+//  var k= JSON.parse(loadresult);
+//  COLLECTION = k.x;
+}
+
+
+
+function iLoad(xFile){
+  function readFile(file)
+  {
+      var rFile = new XMLHttpRequest();
+      rFile.open("GET", file, false);
+      rFile.onreadystatechange = function ()
+      {
+          if(rFile.readyState === 4)
+          {
+              if(rFile.status === 200 || rFile.status == 0)
+              {
+                  var result = rFile.responseText;
+                  loadresult = result;
+
+              }
+          }
+      }
+      rFile.send(null);
+  }
+readFile(xFile);
+}
+(function() {myLoad()})();
+
+</script>
+</body>
+</html>

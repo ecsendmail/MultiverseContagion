@@ -1,0 +1,25 @@
+Dec 16, 2020 12:42am
+
+to Elina, Ken, Ashlin, Diane
+
+Hi:
+
+So I had a quick look at the question, and it is not totally straight forward. It depends on the underlying nature of the epidemic, which as you know is accidental, variable, and depends on factors like density of people gathering over significant periods, with or without social distancing, or mitigations.
+
+In one set of trials, I used an initial 100 persons with mingle Factors of 1.0 and HzR of 100. They were all infected by Day 34 with an R0 of 2.52.
+
+Using the same parameters, I reduced the population, but the underlying mobility was such that transmissions kept happening, until at population of 12, with these parameters, in 6 runs there were a total of 11 transmissions, or an average of 2 transmissions per new infected person entering the cluster of 100, of which 88 were resistant.
+
+At population 10 (90% vaccination), there is still an occasional transmission.
+
+The next set of trials were 100 persons with mF of 0.7, same Hazard Radius. The initial noVax trial produced 98 infections in 56 days, with a smaller R0 of 2.00.
+
+With this set of parameters, at population of 30 (70% vaccination) in 5 runs we got 2 transmissions, for an average of 0.4 transmissions per new infected person coming into the community of 100, with 70% vaccinated.
+
+So this tends to support what we intuitively know....that if the population is totally carefree and invites contagion and spread, vaccination has to be higher to get what is effectively herd immunity - the movement of potential transmitters is small enough relative to the density of susceptibles that they do not meet except with very small probability.
+
+If you want to set the threshold higher so that there are transmissions but no sustainable growth, and also set an absolute %, you can go lower in % of population vaccinated.
+
+I hope this is consistent with your thinking on herd immunity. We can do more detailed studies in CovidSIMVL, but the application to the accidental real world is difficult, not because the model is inadequate, but because the world is unknowable at the level of detail that the model offers.
+
+Ernie

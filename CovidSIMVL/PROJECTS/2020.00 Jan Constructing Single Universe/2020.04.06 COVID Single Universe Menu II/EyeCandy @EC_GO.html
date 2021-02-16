@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Bouncing Ball</title>
+  <style></style>
+</head>
+
+<body>
+  <canvas id="gameCanvas" width="800" height="600"></canvas>
+  <script>
+    // declare variables
+    const FPS = 30;
+    var bs = 12;    //ball size
+    var bx = [];      //presumably ball center
+    var by = [];
+    var xv = [];    //velocity in x and y directions
+    var yv = [];
+    var bColor = [];
+
+    var canvas, ctx;
+    var nBalls = 300;
+
+    // load canvas
+    canvas = document.getElementById("gameCanvas");
+    ctx = canvas.getContext("2d");
+
+    // set up interval (game loop)
+    setInterval(update,50/FPS);     //update every 1/30th sec
+
+    // ball starting position
+    for (i=0; i<nBalls; i++){
+      bx[i] = canvas.width /2 + i;
+      by[i] = canvas.height /2 + i;
+      bColor[i] = 0x00000F + i*0xFFf;
+
+    //  random ball starting speed (between 100 and 200)
+      xv[i] = parseInt(Math.floor(Math.random() * 76 + 25) / FPS);
+      yv[i] = parseInt(Math.floor(Math.random() * 50 + 25) / FPS);
+
+    //  random ball dIRECTION
+    if (Math.floor(Math.random() * 2) == 0){
+      xv[i] = -xv[i];
+    }
+    if (Math.floor(Math.random() * 2) == 0){
+      yv[i] = -yv[i];
+    }
+  }
+
+
+    // update function
+    function update(){
+        // move the Ball
+      var i;
+      var halfStr, strResult;
+      var preFix = "#";
+
+      ctx.fillStyle = "black";
+      ctx.fillRect(0,0, canvas.width, canvas.height);
+
+      for (i=0; i<nBalls; i++){
+        bx[i] = bx[i] + Math.random()*xv[i];
+        by[i] = by[i] + Math.random()*yv[i];
+
+        // bounce the ball off each wall
+        if (bx[i] - bs/2 <0 && xv[i]<0){
+          xv[i] = -xv[i];
+        }
+        if (bx[i] + bs/2 > canvas.width && xv[i]>0){
+          xv[i] = -xv[i];
+        }
+        if (by[i] - bs/2 <0 && yv[i]<0){
+          yv[i] = -yv[i];
+        }
+        if (by[i] + bs/2 > canvas.height && yv[i]>0){
+          yv[i] = -yv[i];
+        }
+
+
+
+        // draw background and ball
+
+
+        halfStr = bColor[i].toString(16);
+        strResult = preFix.concat(halfStr);
+        bColor[i] = bColor[i] + i*0x00FFF0;
+        if (bColor[i] > 0xFFF000){
+          bColor[i] = 0x00000F + i*0x000F1f;
+        }
+        //alert(strResult);
+
+        ctx.fillStyle = strResult;
+        ctx.fillRect(bx[i]- bs/2, by[i] - bs/2, bs, bs);
+      };
+    }
+    </script>
+  </body>
+</html>

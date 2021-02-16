@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<style>
+  th,  td {
+    border: 1px solid black;
+    padding: 3px;
+    text-align: center;
+}
+  th {
+      cursor: pointer;
+  }
+  </style>
+  <p>CovidSim Stochastic Cellular Automata April 2020 @EC_GO - PUBLIC DOMAIN as per GNU GPL LICENSING</p>
+  <body>
+
+    <div class="topnav">
+      <table ID="myTab">
+        <tr>
+          <th bgcolor=Green style="color:white"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+          <th bgcolor=Yellow> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+          <th bgcolor=Blue style="color:white"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+          <th bgcolor=Red style="color:white"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp </th>
+          <th bgcolor=Orange> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+          <th bgcolor=Beige>Resident</th>
+          <th bgcolor=Beige>Attached</th>
+          <th bgcolor=Beige>Visitor</th>
+          <th bgcolor=black> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+          <th onclick="showIncD()" bgcolor=lightGray>Incubation</th>
+          <th onclick="showInfD()" bgcolor=LightGray>Asympt Inf</th>
+          <th onclick="showCliD()" bgcolor=lightGray>Sick or Dx</th>
+          <th onclick="showCycle()" bgcolor=lightGray>&nbsp Cycles &nbsp</th>
+          <th onclick="showPradius()" bgcolor=lightGray>PP Radius</th>
+          <th id="ageSel" onclick="selAgeRisk()" bgcolor=red style="cursor:pointer">Age Risk</th>
+        </tr>
+        <tr>
+          <td id="grCt">1</td>
+          <td id="yeCt">0</td>
+          <td id="blCt">0</td>
+          <td id="reCt">0</td>
+          <td id="orCt">0</td>
+          <td id="resCt">0</td>
+          <td id="attCt">0</td>
+          <td id="visCt">0</td>
+          <td bgcolor=black style="color:white">Status</td>
+          <td id="dIncD">2</td>
+          <td id="dInfD">5</td>
+          <td id="dCliD">1</td>
+          <td id="dCycl">1</td>
+          <td id="dPrad">20</td>
+          <td onclick="selRaceRisk()" bgcolor=red style="cursor:pointer">Other Risk</td>
+        </tr>
+        <tr>
+          <td id=GArr>0</td>
+          <td id=YArr>0</td>
+          <td id=BArr>0</td>
+          <td id=RArr>0</td>
+          <td id=OArr>0</td>
+          <td id=ResArr>0</td>
+          <td id=AttArr>0</td>
+          <td id=VisArr>0</td>
+          <td bgcolor=black style="color:white">Arrive</td>
+        </tr>
+        <td id=GDep>0</td>
+        <td id=YDep>0</td>
+        <td id=BDep>0</td>
+        <td id=RDep>0</td>
+        <td id=ODep>0</td>
+        <td id=ResDep>0</td>
+        <td id=AttDep>0</td>
+        <td id=VisDep>0</td>
+        <td bgcolor=black style="color:white">Depart</td>
+      </tr>
+
+      </table>
+    </div>
+
+
+    <div>
+      <table>
+      <col>
+      <colgroup span="2"></colgroup>
+      <colgroup span="2"></colgroup>
+      <tr>
+
+        <th colspan="2" scope="colgroup">Mars</th>
+        <th colspan="2" scope="colgroup">Venus</th>
+        <th rowspan = "2">Jupiter></th>
+        <th>Neptune</th>
+        <th>Uranus</th>
+
+      </tr>
+      <tr>
+        <th scope="col">Produced</th>
+        <th scope="col">Sold</th>
+        <th scope="col">Produced</th>
+        <th scope="col">Sold</th>
+        <td>100</td>
+        <td>300</td>
+      </tr>
+      <tr>
+        <td>50,000</td>
+        <td>30,000</td>
+        <td>100,000</td>
+        <td>80,000</td>
+        <th scope="row">Teddy Bears</th>
+      </tr>
+      <tr>
+        <td>10,000</td>
+        <td>5,000</td>
+        <td>12,000</td>
+        <td>9,000</td>
+        <th scope="row">Board Games</th>
+      </tr>
+    </table>
+    </div>
+  <script>
+
+
+
+
+  </script>
+  </body>
+
+  </html>

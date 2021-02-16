@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+  *{
+    box-sizing: border-box;
+  }
+
+
+
+/* Create three equal columns that floats next to each other */
+
+
+
+
+
+#pane1 {
+  left:100px;
+  top: 50px;
+  border-width:1px;
+  cursor:pointer;
+  height:300px;
+  width:300px;
+  position: absolute;
+}
+
+#pane2 {
+  left:400px;
+  top: 50px;
+
+  padding: 10px;
+  border-width:1px;
+  cursor:pointer;
+  height:300px;
+  width:300px;
+  position: absolute;
+}
+#pane3 {
+  left:700px;
+  top: 50px;
+
+  padding: 10px;
+  border-width:1px;
+  cursor:pointer;
+  height:300px;
+  width:300px;
+  position: absolute;
+}
+#pane4 {
+  left:100px;
+  top: 350px;
+
+  padding: 10px;
+  border-width:1px;
+  cursor:pointer;
+  height:300px;
+  width:300px;
+  position: absolute;
+}
+#pane5 {
+  left:400px;
+  top: 350px;
+
+  padding: 10px;
+  border-width:1px;
+  cursor:pointer;
+  height:300px;
+  width:300px;
+  position: absolute;
+}
+#pane6 {
+  left:700px;
+  top: 350px;
+
+  padding: 10px;
+  border-width:1px;
+  cursor:pointer;
+  height:300px;
+  width:300px;
+  position: absolute;
+}
+#pane7 {
+  left:100px;
+  top: 650px;
+
+  padding: 10px;
+  border-width:1px;
+  cursor:pointer;
+  height:300px;
+  width:300px;
+  position: absolute;
+}
+#pane8 {
+  left:400px;
+  top: 650px;
+  padding: 10px;
+  border-width:1px;
+  cursor:pointer;
+  height:300px;
+  width:300px;
+  position: absolute;
+}
+#pane9 {
+  left:700px;
+  top: 650px;
+
+
+  border-width:1px;
+  cursor:pointer;
+  height:300px;
+  width:300px;
+  position: absolute;
+}
+
+.container {
+  position: absolute;
+  background: #0FF;
+}
+
+
+
+}
+
+#windowpane {
+  display: block;
+}
+
+</style>
+
+<body>
+
+<div id=windowpane>
+    <div id="pane1"  onclick=selPane1() style="background-color:#aaa; border-color:red; border-style:solid;">Pane1</div>
+    <div id="pane2"  onclick=selPane2() style="background-color:#aaa; border-color:red; border-style:solid;">Pane2</div>
+    <div id="pane3"  onclick=selPane3() style="background-color:#aaa; border-color:red; border-style:solid;">Pane3</div>
+    <div id="pane4"  onclick=selPane4() style="background-color:#aaa; border-color:red; border-style:solid;">Pane4</div>
+    <div id="pane5"  onclick=selPane5() style="background-color:#aaa; border-color:red; border-style:solid;">Pane5</div>
+    <div id=pane6  onclick=selPane6() style="background-color:#aaa; border-color:red; border-style:solid;">Pane6</div>
+    <div id=pane7  onclick=selPane7() style="background-color:#aaa; border-color:red; border-style:solid;">Pane7</div>
+    <div id=pane8  onclick=selPane8() style="background-color:#aaa; border-color:red; border-style:solid;">Pane8</div>
+    <div id=pane9  onclick=selPane9() style="background-color:#aaa; border-color:red; border-style:solid;">Pane9</div>
+</div>
+
+<!--
+   <canvas id="myCanvas" width="2000" height="1000"
+           style="border:1px solid #d3d3d3; left=50; top=50">
+    </canvas>
+-->
+
+
+    <div class = "containter">
+        <canvas id="canp1" style="position:absolute; border: 1px solid red"></canvas>
+        <canvas id="canp2" style="position:absolute; border: 1px solid red"></canvas>
+        <canvas id="canp3" style="position:absolute; border: 1px solid red"></canvas>
+        <canvas id="canp4" style="position:absolute; border: 1px solid red"></canvas>
+        <canvas id="canp5" style="position:absolute; border: 1px solid red"></canvas>
+        <canvas id="canp6" style="position:absolute; border: 1px solid red"></canvas>
+        <canvas id="canp7" style="position:absolute; border: 1px solid red"></canvas>
+        <canvas id="canp8" style="position:absolute; border: 1px solid red"></canvas>
+        <canvas id="canp9" style="position:absolute; border: 1px solid red"></canvas>
+    </div>
+
+
+</head>
+<script>
+
+
+  var canp1 = document.getElementById("canp1");
+  canp1.width = 300;
+  canp1.height = 250;
+  canp1.style.top = "100px";
+  canp1.style.left = "100px";
+
+  var ctx1 = canp1.getContext("2d");
+
+
+  ctx1.fillStyle = "lightgrey";
+  ctx1.fillRect(0,0,canp1.width, canp1.height);
+  drawc(10,10,8,"green",ctx1);
+
+// ********************************************************
+
+  var canp2 = document.getElementById("canp2");
+  canp2.width = 300;
+  canp2.height = 250;
+  canp2.style.top = "100px";
+  canp2.style.left = "400px";
+
+  var ctx2 = canp2.getContext("2d");
+
+
+  ctx2.fillStyle = "lightgrey";
+  ctx2.fillRect(0,0,canp2.width, canp2.height);
+  drawc(10,10,8,"green",ctx2);
+
+// *********************************************************************
+
+  var canp3 = document.getElementById("canp3");
+  canp3.width = 300;
+  canp3.height = 250;
+  canp3.style.top = "100px";
+  canp3.style.left = "700px";
+
+  var ctx3 = canp3.getContext("2d");
+
+
+  ctx3.fillStyle = "lightgrey";
+  ctx3.fillRect(0,0,canp3.width, canp3.height);
+  drawc(10,10,8,"green",ctx3);
+
+  // ********************************************************
+
+  var canp4 = document.getElementById("canp4");
+  canp4.width = 300;
+  canp4.height = 250;
+  canp4.style.top = "400px";
+  canp4.style.left = "100px";
+
+  var ctx1 = canp4.getContext("2d");
+
+
+  ctx1.fillStyle = "lightgrey";
+  ctx1.fillRect(0,0,canp4.width, canp4.height);
+  drawc(10,10,8,"green",ctx1);
+
+  // ********************************************************
+
+  var canp5 = document.getElementById("canp5");
+  canp5.width = 300;
+  canp5.height = 250;
+  canp5.style.top = "400px";
+  canp5.style.left = "400px";
+
+  var ctx5 = canp5.getContext("2d");
+
+
+  ctx5.fillStyle = "lightgrey";
+  ctx5.fillRect(0,0,canp5.width, canp5.height);
+  drawc(10,10,8,"green",ctx5);
+
+  // ********************************************************
+
+  var canp6 = document.getElementById("canp6");
+  canp6.width = 300;
+  canp6.height = 250;
+  canp6.style.top = "400px";
+  canp6.style.left = "700px";
+
+  var ctx6 = canp6.getContext("2d");
+
+
+  ctx6.fillStyle = "lightgrey";
+  ctx6.fillRect(0,0,canp6.width, canp6.height);
+  drawc(10,10,8,"green",ctx6);
+
+  // ********************************************************
+
+  var canp7 = document.getElementById("canp7");
+  canp7.width = 300;
+  canp7.height = 250;
+  canp7.style.top = "700px";
+  canp7.style.left = "100px";
+
+  var ctx7 = canp7.getContext("2d");
+
+
+  ctx7.fillStyle = "lightgrey";
+  ctx7.fillRect(0,0,canp7.width, canp7.height);
+  drawc(10,10,8,"green",ctx7);
+
+  // ********************************************************
+
+  var canp8 = document.getElementById("canp8");
+  canp8.width = 300;
+  canp8.height = 250;
+  canp8.style.top = "700px";
+  canp8.style.left = "400px";
+
+  var ctx8 = canp8.getContext("2d");
+
+
+  ctx8.fillStyle = "lightgrey";
+  ctx8.fillRect(0,0,canp8.width, canp8.height);
+  drawc(10,10,8,"green",ctx8);
+
+  // ********************************************************
+
+  var canp9 = document.getElementById("canp9");
+  canp9.width = 300;
+  canp9.height = 250;
+  canp9.style.top = "700px";
+  canp9.style.left = "700px";
+
+  var ctx9 = canp9.getContext("2d");
+
+
+  ctx9.fillStyle = "lightgrey";
+  ctx9.fillRect(0,0,canp9.width, canp9.height);
+  drawc(10,10,8,"green",ctx9);
+
+  // ********************************************************
+
+
+  function drawc(x,y,rad,color,ctx){
+    ctx.beginPath();
+    ctx.arc(x,y,rad,0,2*Math.PI);
+    ctx.fillStyle = color;
+    ctx.fill();
+    ctx.stroke();
+    ctx.strokeStyle = "black";
+  }
+//alert("created canvas");
+
+
+/*
+function CreatePane() {
+  this.style.top;
+  this.style.left;
+  this.height;
+  this.width;
+  this.x;
+  this.y;
+}
+
+var pane = [];
+pane[1] = new CreatePane;
+pane[2] = new CreatePane;
+
+pane[1] = document.getElementById("canp1");
+pane[2] = document.getElementById("canp2");
+
+pane[1].width=300;
+pane[1].height=250;
+pane[1].style.top="100px";
+pane[1].style.left = 100;
+pane[1].x = 0;
+pane[1].y = 0;
+
+*/
+
+//  var theCanvas = document.getElementById("myCanvas");
+//  var ctx = theCanvas.getContext("2d");
+//  ctx.fillRect(0,0,canvas.width, canvas.height);
+
+
+
+
+
+
+/*
+var offX, offY;
+offX = 100;
+offY = 100;
+
+var i,j;
+for (i=0; i<3; i++){
+  for (j=0; j<3; j++) {
+      pane[i+(j*3)] = new CreatePane;
+      pane[i+(j*3)].height = parseInt(200);
+      pane[i+(j*3)].width = parseInt(300);
+      pane[i+(j*3)].x = parseInt(i*parseInt(300)+offX);
+      pane[i+(j*3)].y = parseInt(j*parseInt(300)+offY);
+  }
+}
+
+alert(pane[0].x+","+pane[0].y);
+alert(pane[4].x+","+pane[4].y);
+alert(pane[8].x+","+pane[8].y);
+*/
+
+
+
+
+function selPane1() {
+  alert("Pane 1");
+  document.getElementById("pane1").innerHTML = "Hello World";
+}
+
+function selPane2() {
+  alert("Pane 2");
+  alert("making them all disappear except canvas");
+  document.getElementById("windowpane").style.display = "none";
+
+}
+
+function selPane3() {
+  alert("Pane 3");
+}
+
+function selPane4() {
+  alert("Pane 4");
+  document.getElementById("pane4").innerHTML = "Hello World 4";
+}
+
+function selPane5() {
+  alert("Pane 5");
+}
+
+function selPane6() {
+  alert("Pane 6");
+    document.getElementById("pane6").innerHTML = "Hello World 6";
+}
+
+function selPane7() {
+  alert("Pane 7");
+    document.getElementById("pane7").innerHTML = "Hello World 7";
+}
+
+function selPane8() {
+  alert("Pane 8");
+    document.getElementById("pane8").innerHTML = "Hello World 8";
+}
+
+function selPane9() {
+  alert("Pane ");
+    document.getElementById("pane9").innerHTML = "Hello World 9";
+}
+
+
+
+
+/*
+var theCanvas = document.getElementById("myCanvas");
+var ctx = theCanvas.getContext("2d");
+
+//ctx.fillRect(0,0,canvas.width, canvas.height);
+ctx.globalCompositeOperation = "source-over";
+
+var offX, offY;
+offX = 140;
+offY = 140;
+
+function CreatePane() {
+  this.height;
+  this.width;
+  this.x;
+  this.y;
+}
+
+var pane = [];
+
+function CreatePane() {
+  this.height;
+  this.width;
+  this.x;
+  this.y;
+}
+
+ctx.strokeStyle = "white";
+ctx.fillStyle = "red";
+ctx.font = "20px Georgia";
+ctx.lineWidth = 4;
+var i,j;
+for (i=0; i<3; i++){
+  for (j=0; j<3; j++) {
+      pane[i+(j*3)] = new CreatePane;
+      pane[i+(j*3)].height = parseInt(300);
+      pane[i+(j*3)].width = parseInt(300);
+      pane[i+(j*3)].x = parseInt(i*parseInt(300)+offX);
+      pane[i+(j*3)].y = parseInt(j*parseInt(300)+offY);
+  }
+}
+
+
+//draw them
+
+for (i=0;i<9; i++){
+  ctx.fillRect(pane[i].x, pane[i].y, pane[i].height, pane[i].width);
+  ctx.strokeRect(pane[i].x, pane[i].y, pane[i].height, pane[i].width);
+}
+
+var mouseX, mouseY;
+theCanvas.addEventListener("mousemove", onmousemove, false);
+theCanvas.addEventListener("click", onMouseClick, false);
+*/
+/*
+function onmousemove(e){
+  var i,j, here;
+
+  mouseX = parseInt(e.clientX - theCanvas.offsetLeft);
+  mouseY = parseInt(e.clientY - theCanvas.offsetTop);
+  ctx.fillStyle = "red";
+  ctx.fillRect(pane[0].x, pane[0].y, pane[0].height, pane[0].width);
+  ctx.strokeRect(pane[0].x, pane[0].y, pane[0].height, pane[0].width);
+  ctx.fillStyle = "white";
+  ctx.fillText(mouseX-offX, offX+40,offY+40);
+  ctx.fillText(mouseY-offY, offX+80,offY+40);
+
+  for (i=0; i<3; i++){
+      if (mouseX < parseInt(pane[i].x+pane[i].width)){
+        break;
+      }
+  }
+  for (j=0; j<3; j++){
+    if (mouseY < parseInt(pane[j].y+pane[j].height))
+    {
+      break;
+    }
+  }
+  alert("i,j="+i+","+j);
+  here = i+j*3;
+  alert("here = "+here);
+
+
+
+  ctx.fillStyle = "white";
+  ctx.fillText(here, pane[here].x+pane[here].width/2, pane[here].y+pane[here].height/2);
+//  ctx.fillStyle = "red";
+//  ctx.fillRect(pane[here].x, pane[here].y, pane[here].height, pane[here].width);
+///  ctx.strokeRect(pane[here].x, pane[here].y, pane[here].height, pane[here].width);
+
+
+
+}
+
+
+function onMouseClick() {
+  alert("mouse clicked");
+}
+
+
+*/
+
+
+/*
+ctx.strokeStyle = "white";
+ctx.fillStyle = "red";
+ctx.lineWidth = 1;
+ctx.fillRect(300,300,300,300);
+ctx.strokeRect(300,300,300,300);
+
+ctx.fillStyle = "blue";
+ctx.fillRect(0,300,300,300);
+ctx.strokeRect(0,300,300,300);
+
+ctx.fillStyle = "grey";
+ctx.fillRect(300,0,300,300);
+ctx.strokeRect(300,0,300,300);
+
+
+ctx.fillStyle = "black";
+ctx.fillRect(0,0,300,300);
+ctx.strokeRect(0,0,300,300);
+
+
+pane[0] = new CreatePane;
+  pane[0].x = 300;
+  pane[0].y = 300;
+  alert(pane[0].x);
+  alert(pane[0].x + 5);
+
+
+
+
+
+
+function Person(first, last, age, eyecolor) {
+  this.firstName = first;
+  this.lastName = last;
+  this.age = age;
+  this.tur = [];
+
+}
+
+function Turing(){
+  this.start;
+  this.blues;
+  this.travel;
+  this.incubate;
+  this.infect;
+  this.mode;
+  this.factor;
+  this.hazard;
+}
+
+*/
+
+</script>
+
+
+
+</body>
+</html>

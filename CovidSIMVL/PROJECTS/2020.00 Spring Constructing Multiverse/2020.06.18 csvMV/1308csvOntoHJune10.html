@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+</head>
+<style>
+</style>
+<p>CovidSim Stochastic Cellular Automata April 2020 @EC_GO - PUBLIC DOMAIN as per GNU GPL LICENSING</p>
+<body>
+  <div>
+    <form class="form-horizontal well">
+      <fieldset>
+          <label for="csvFileInput"> <strong>CSV File:</strong>
+          </label>
+          <input type="file" id="csvFileInput" onchange="handleFiles(this.files)"
+          accept=".csv">
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</body>
+
+
+
+<script>
+
+  var M = new ConstructMVC;
+  var U = [];                   // local Universes
+  var P = [];                   // all people in the system
+  var T = [];                   // one ticket per person - 24hr or 1 week?
+  var D = [];
+  var H = [];                   // timer-based schedule of events - arr depart
+
+
+  var cD = 0;       // not sure if we will use as globals
+  var cH = 5;       // initialization of 5AM
+  var cP = 0;
+  var cT = 0;       // for combined time DD*100+HR
+  var cS = 0;         // current stop
+  var pID = 0;
+
+  var vU = 0;   // visible U
+  var wU = 0;   // working U
+
+  var gen = 0;
+
+  const LTC = 1;
+  const HOME = 0;
+
+  function ConstructMVC() {
+        this.UCt;                       // count of Universes
+        this.PCt;
+        this.GreenCt;                   // these are totals of all universes at this time
+        this.YellowCt;
+        this.BlueCt;
+        this.RedCt;
+        this.OrangeCt;                  // total count of population
+        this.clockDay;                  // the Master Clock Day
+        this.clockHr;                 // the Master Clock clock hour
+  }
+
+  function CreateUniverse() {
+        this.uID;
+        this.name;          // universe name
+        this.population;    // universe current population
+        this.Resident      // these population numbers will change every hour perhaps
+        this.Attached;
+        this.Transient;
+        this.minglX;
+        this.greenCt;       // these counts reflect the status of this universe at this time
+        this.yellowCt;
+        this.blueCt;
+        this.redCt;
+        this.orangeCt;
+        this.canvas;
+        this.inBox;
+        this.outBox;
+        this.day;
+        this.hour;
+        this.person = [];
+        this.logGreen = [];
+        this.logYellow = [];
+        this.logBlue = [];
+        this.logRed = [];
+        this.logOrange = [];
+        this.endGreen = [];
+        this.endYellow = [];
+        this.endBlue = [];
+        this.endRed = [];
+        this.endOrange = [];
+        this.endRedDelta = [];                // we need this to point to the persons there - just pIDs
+  }
+
+  function initUniv(U,i){
+        U.uID = i;
+        U.name = "U"+i;
+        U.population = 0;
+        U.Resident = 0;
+        U.Attached = 0;
+        U.Transient = 0;
+        U.minglx = 0;
+        U.greenCt = 0;
+        U.yellowCt = 0;
+        U.blueCt = 0;
+        U.redCt = 0;
+        U.orangeCt = 0;
+        U.canvas = "";
+        U.inBox = [];
+        U.outBox = [];
+        U.day = 0;
+        U.hour = 0;
+        U.person = [];
+  };
+
+  (function() {
+    let i;
+    for (i=0; i<9; i++) {
+      U[i] = new CreateUniverse();
+      initUniv(U[i],i);
+    }
+  })();
+
+  M.UCt = 2;
+  M.PCt = 100;
+
+  M.GreenCt = M.PCt;      // these are totalled from U's
+  M.YellowCt = 0;
+  M.BlueCt = 0;
+  M.RedCt = 0;
+  M.OrangeCt = 0;
+  M.clockDay = 0;
+  M.clockHr = 5;
+
+/// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+function CreateTicket() {
+  this.pID;
+  this.S = [];
+}
+
+
+(function() {
+  let i;
+  for (i=0; i<M.PCt; i++){
+    T[i] = new CreateTicket();
+    T[i].pID = i;
+    T[i].S = [];
+  }
+})();
+
+/*
+var H = [];
+
+for (i=0; i<24; i++){
+  H[i] = [];        // we use 0600 to 2200 only FOR NOW
+}
+*/
+
+
+function CreateStop() {
+  this.uHere;
+  this.ETA;
+  this.uDest;
+  this.ETD;
+  this.R;          // RESIDENT, ATTACHED, TRANSIENT
+  this.M;          // deegree of mingling 0 to 10 - loner to pollster
+}
+
+function CreateTransfer(){
+  this.pID;
+  this.stopno;
+  this.ETA;
+  this.AU;
+  this.ETD;
+  this.TU;
+  this.role;
+  this.Mx;
+}
+
+var transfer = new CreateTransfer();
+
+function CreateD(){
+  this.DD;
+  this.H = [];
+}
+
+function CreateH(){
+  this.HH;
+  this.U;
+  this.cID;
+  this.cS;
+  this.cDir;
+}
+
+
+function parseL(lineStr){
+  let lineS = lineStr;
+  if (lineS == "") return false;
+  transfer.pID = lineS[0];
+  transfer.stopno = lineS[1];
+  transfer.ETA = lineS[2];
+  transfer.AU = lineS[3];
+  transfer.ETD = lineS[4];
+  transfer.TU = lineS[5];
+  transfer.role = lineS[6];
+  transfer.Mx = lineS[7];
+  return true;
+}
+
+function setupTicket(){
+      let tr = transfer;
+      let Tx;
+
+      Tx = new CreateStop;
+      if (tr.pID == pID) Tx.pID = pID;   //pID is globaal
+      if (tr.pID == "") {
+      	      Tx.pID = pID
+      } else {
+              Tx.pID = tr.pID;
+              pID = tr.pID;                  // break - new playVid2
+      }
+      Tx.uHere = tr.AU;
+      Tx.ETA = tr.ETA;
+      if (Tx.ETA == 6) alert ("numeric works");
+      Tx.uDest = tr.TU;
+      if (tr.AU == tr.TU) {
+        Tx.ETD = -1
+      } else {
+        Tx.ETD = tr.ETD;
+      }
+      Tx.R = tr.role;
+      Tx.M = tr.Mx;
+      T[pID].S[tr.stopno] = Tx;
+
+      let t,d,h;
+      t = Tx.ETA;
+      d = Math.floor(t/100);
+      h = t%100;
+      if (D[d]===undefined || D[d]==null){
+          D[d] = new CreateD();
+      }
+      D[d].DD = d;
+      if (D[d].H[h]===undefined || D[d].H[h]==null){
+        D[d].H[h] = new CreateH();
+      }
+      D[d].H[h].HH = h;
+      D[d].H[h].U = tr.AU;
+      D[d].H[h].cDire = "A";
+      D[d].H[h].cS = tr.stopno;
+      D[d].H[h].cID = pID;
+
+      if (tr.AU == tr.TU) return;
+      t = Tx.ETD;
+      d = Math.floor(t/100);
+      h = t%100;
+      if (D[d]===undefined || D[d]==null){
+          D[d] = new CreateD();
+      }
+      D[d].DD = d;
+      if (D[d].H[h]===undefined || D[d].H[h]==null){
+        D[d].H[h] = new CreateH();
+      }
+      D[d].H[h].HH = h;
+      D[d].H[h].U = tr.AU;
+      D[d].H[h].cDir = "D";
+      D[d].H[h].cS = tr.stopno;
+      D[d].H[h].cID = pID;
+
+}
+
+function processLines(){
+    let i,j;
+    if (lines[0][0] == "pID") lines.shift();
+    var lineNo = lines.length;
+    for (i=0;i<lineNo;i++){
+      if (parseL(lines[i]))
+          setupTicket();
+    }
+}
+
+/*
+function issueStop(id,sno,uThis,uNext,hrA,hrD,thisR,thisM){
+    if (T[id].S[sno] === undefined) {
+      T[id].S[sno] = new CreateStop();
+    }
+    T[id].S[sno].uHere = uThis;
+    T[id].S[sno].ETA = hrA;
+    T[id].S[sno].uDest = uNext;
+    T[id].S[sno].ETD = hrD;
+    T[id].S[sno].R = thisR;
+    T[id].S[sno].M = thisM;
+
+    H[hrA].push({u:uThis,cID:id,cS:sno,cDir:"A"});
+    if (T[id].S[sno].ETD == -1) return;                // change role or minglex
+    H[hrD].push({u:uThis,cID:id,cS:sno,cDir:"D"});
+}
+*/
+/*
+// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+var stopno = 0;
+
+for (i=0; i<50; i++){                     //day-time activity
+    stopno = 0;
+    issueStop(i,stopno,LTC,LTC,6,-1,"R",2);
+
+    stopno = 1;
+    issueStop(i,stopno,LTC,LTC,22,-1,"R",0);
+    }
+
+Ptally = 50;
+
+// ***********************************************************************************
+//
+//                Now we have 30 staff who have role = "attached"
+//                They are not transients but come to be staff so stay longer
+//
+
+
+for (i=0; i<30; i++){
+
+    stopno = 0;
+    issueStop(Ptally+i,stopno,HOME,LTC,0,6,"R",0);
+
+    stopno = 1;
+    issueStop(Ptally+i,stopno,LTC,HOME,6,17,"A",6);
+
+    stopno = 2;
+    issueStop(Ptally+i,stopno,HOME,HOME,17,-1,"R",3);
+
+    stopno = 3;
+    issueStop(Ptally+i,stopno,HOME,HOME,22,-1,"R",1);
+}
+
+Ptally = 80;
+
+// *************************************************************************************
+//
+//              Now we have 10 Home (U2) residents who stay and work
+//              Gardeners, day care, plumbers, housekeepers etc
+//              But they are not "ATTACHeD" but RESIDENT in the U=2
+//
+for (i=0; i<10; i++){
+    stopno = 0;
+    issueStop(Ptally+i,stopno,HOME,HOME,6,-1,"R",6);
+
+    stopno = 1;
+    issueStop(Ptally+i,stopno,HOME,HOME,17,-1,"R",3);
+
+    stopno=3;
+    issueStop(Ptally+i,stopno,HOME,HOME,22,-1,"R",3);
+}
+
+// *************************************************************************************
+//
+//                  these Residents from U=2 have the tasks of shopping,
+//                  recreation in gyms, coffee shops, visiting....here we only
+//                  have them visit LTC for 2hrs in pairs, separated by an hour
+//
+
+Ptally = 90;
+
+var baseT = 6;
+var deltaT = 2;
+var arrive, depart;
+
+for (i=0; i<5; i++){
+    for (j=0;j<2; j++){
+
+        stopno = 0;
+        arrive = baseT;
+        depart = arrive + (i+1)*deltaT;
+        issueStop(Ptally+2*i+j,stopno,HOME,LTC,arrive,depart,"R",3);
+
+        stopno = 1;
+        arrive = depart;
+        depart = arrive + deltaT;
+        issueStop(Ptally+2*i+j,stopno,LTC,HOME,arrive,depart,"T",4);
+
+        stopno = 2;
+        arrive = depart;
+        depart = 22;
+        issueStop(Ptally+2*i+j,stopno,HOME,HOME,arrive,-1,"R",3);
+
+        stopno = 3;
+        arrive = depart;
+        depart = 6;
+        issueStop(Ptally+2*i+j,stopno,HOME,HOME,arrive,-1,"R",3);
+    }
+}
+
+// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+*/
+//handleFiles("data.csv");
+var lines = [];
+
+function handleFiles(files) {
+	// Check for the various File API support.
+	if (window.FileReader) {
+		// FileReader are supported.
+		getAsText(files[0]);
+	} else {
+		alert('FileReader are not supported in this browser.');
+	}
+}
+function getAsText(fileToRead) {
+	var reader = new FileReader();
+	// Handle errors load
+	reader.onload = loadHandler;
+	reader.onerror = errorHandler;
+	// Read file into memory as UTF-8
+	reader.readAsText(fileToRead);
+}
+function loadHandler(event) {
+	var csv = event.target.result;
+	processData(csv);
+}
+
+function processData(csv) {
+    var allTextLines = csv.split(/\r\n|\n/);
+    while (allTextLines.length) {
+        lines.push(allTextLines.shift().split(','));
+    }
+	processLines();
+	alert(lines[0]);
+	alert(lines[1]);
+	alert(lines[2]);
+//	drawOutput(lines);
+}
+
+function errorHandler(evt) {
+	if(evt.target.error.name == "NotReadableError") {
+		alert("Canno't read file !");
+}
+
+}
+</script>
+</body>
+
+</html>

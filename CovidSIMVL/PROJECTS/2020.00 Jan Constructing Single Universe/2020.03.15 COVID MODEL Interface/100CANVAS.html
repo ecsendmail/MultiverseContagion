@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<canvas id="myCanvas" width="2000" height="2000"
+style="border:1px solid #d3d3d3;">
+Your browser does not support the canvas element.
+</canvas>
+
+<script>
+var XSIZE = 1000;
+var YSIZE = 1000;
+var TRAVEL = [1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,3,3,3,3,3,3,3,4,4,4,4,4,4,5,5,5,5,5,6,6,6,6,10,10,30,50];
+var DIRECTION = [0,1];
+var rand, randint;
+
+
+var PERSON = [];
+var pX = [];
+var pY = [];
+var pSize = [];
+var pDays = [];
+var pColor = [];
+
+var nPerson = 10;
+var radius = 5;
+var xSep = XSIZE/nPerson;
+var ySep = YSIZE/nPerson;
+
+
+// populate
+var pTH;
+
+
+
+
+for (y=1; y<11; y++){
+  for (x=1; x<11; x++){
+    pTH = (y-1)*nPerson+x;
+    PERSON[pTH] = pTH;
+    pX[pTH] = x*xSep;
+    pY[pTH] = y*ySep;
+    pColor[pTH] = "green";
+
+//    alert(pTH + "," + pX[pTH] +"," + pY[pTH]);
+
+  }
+}
+
+function finddelXY(){
+  rand = (Math.random());
+  rand = rand*34;
+  randint = Math.floor(rand);
+  delX = 2*radius*TRAVEL[randint];
+
+  rand = (Math.random());
+  rand = rand*34;
+  randint = Math.floor(rand);
+  delY = 2*radius*TRAVEL[randint];
+
+  rand = (Math.random());
+  rand = rand*2;
+  randint = Math.floor(rand);
+  if (DIRECTION[randint]=0){
+      delX = -delx;
+    };
+  rand = (Math.random());
+  rand = rand*2;
+  alert(rand);
+  randint = Math.floor(rand);
+  alert(randint);
+  alert(DIRECTION[randint]);
+  if (DIRECTION[randint]==0){
+      delY = -delY;
+    };
+
+//  alert(delX);
+  alert(delY);
+}
+
+function drawc(x,y,rad,color){
+  var canvas = document.getElementById("myCanvas");
+  var ctx = canvas.getContext("2d");
+  ctx.beginPath();
+
+  ctx.arc(x,y,rad,0,2*Math.PI);
+  ctx.fillStyle = color;
+  ctx.fill();
+  ctx.stroke();
+}
+
+// draw population
+
+for (i=1; i<101; i++){
+  drawc(pX[i],pY[i],radius,pColor[i]);
+}
+
+for (i=1; i<10; i++) {
+  finddelXY();
+}
+
+</script>
+
+</body>
+</html>

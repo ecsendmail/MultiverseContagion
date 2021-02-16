@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+<style>
+  th,  td {
+    border: 1px solid red;
+    padding: 3px;
+    text-align: center;
+}
+  th {
+      cursor: pointer;
+  }
+
+#myTab {
+  display: block;
+}
+
+#AgeTab {
+  display: none;
+}
+
+#RaceTab {
+  display: none;
+}
+
+</style>
+</head>
+
+
+<body>
+  <div class="topnav">
+    <table id="myTab">
+      <tr>
+        <th onclick="loadPop()">Population RESET</th>
+        <th onclick="loadBlues()" bgcolor=LightBlue>Add Blues</th>
+        <th id ="popClick" onclick="showPop()" bgcolor=lightgreen>Click Me</th>
+        <th>Greens</th>
+        <th>Yellows</th>
+        <th>Blues</th>
+        <th>Reds</th>
+        <th onclick="showDist()">TRAVEL</th>
+        <th onclick="showIncD()">Incubation days</th>
+        <th onclick="showInfD()" bgcolor=LightBlue>Infectious Days</th>
+        <th onclick="showInfM()" bgcolor=LightBlue>Infection Mode</th>
+        <th onclick="showInfR()" bgcolor=LightBlue>InfGrowth Rate</th>
+        <th onclick="showCliD()">RED days</th>
+        <th onclick="showPradius()">Hazard Radius</th>
+        <th id="popClick" onclick="showAnimate()">Animation</th>
+        <th onclick="endChart()">Show Chart</th>
+        <th onclick="selAgeRisk()" bgcolor=DarkSeaGreen style="cursor:pointer">Age Group Risk</th>
+      </tr>
+      <tr>
+        <td id="dPopn"></td>
+        <td id="dCont"></td>
+        <td id="dGen">0</td>
+        <td id="grCt">1</td>
+        <td id="yeCt">0</td>
+        <td id="blCt">0</td>
+        <td id="reCt">0</td>
+        <td id="dDist">7</td>
+        <td id="dIncD">2</td>
+        <td id="dInfD">5</td>
+        <td id="dInfM">3</td>
+        <td id="dInfR">1.1</td>
+        <td id="dCliD">1</td>
+        <td id="dPrad">20</td>
+        <td id="dAnim">5</td>
+        <td></td>
+        <td onclick="selRaceRisk()" bgcolor=DarkSeaGreen style="cursor:pointer">Race Based Risk</td>
+      </tr>
+    </table>
+    <table id="AgeTab">
+      <tr>
+        <th onclick="ageGroup()" style="cursor:pointer">AGE GROUP</th>
+        <th onclick="agePop()" style="cursor:pointer">% Population</th>
+        <th onclick="ageCase()" style="cursor:pointer">% Cases</th>
+        <th onclick="ageRisk()" style="cursor:pointer">Model Risk</th>
+        <th onclick="selModelMenu()" bgcolor=DarkSeaGreen >RETURN</th>
+      </tr>
+
+      <tr>
+        <td id="aG0">0 to 9</td>
+        <td id="ap0" ></td>
+        <td id="aC0" ></td>
+        <td id="aR0" ></td>
+      </tr>
+      <tr>
+        <td id="aG1" >10 to 19</td>
+        <td id="ap1" </td>
+        <td id="aC1" ></td>
+        <td id="aR1" ></td>
+      </tr>
+      <tr>
+        <td id="aG2" >20 to 29</td>
+        <td id="ap2" </td>
+        <td id="aC2" ></td>
+        <td id="aR2" ></td>
+      </tr>
+      <tr>
+        <td id="aG3" >32 to 39</td>
+        <td id="ap3" </td>
+        <td id="aC3" ></td>
+        <td id="aR3" ></td>
+      </tr>
+      <tr>
+        <td id="aG4">40 to 49</td>
+        <td id="ap4" </td>
+        <td id="aC4" ></td>
+        <td id="aR4" ></td>
+      </tr>
+      <tr>
+        <td id="aG5">50 to 59</td>
+        <td id="ap5" </td>
+        <td id="aC5" ></td>
+        <td id="aR5" ></td>
+      </tr>
+      <tr>
+        <td id="aG6">65 to 69</td>
+        <td id="ap6" </td>
+        <td id="aC6" ></td>
+        <td id="aR6" ></td>
+      </tr>
+      <tr>
+        <td id="aG7">70 to 79</td>
+        <td id="ap7" </td>
+        <td id="aC7" ></td>
+        <td id="aR7" ></td>
+      </tr>
+      <tr>
+        <td id="aG8">87 to 89</td>
+        <td id="ap8" </td>
+        <td id="aC8" ></td>
+        <td id="aR8" ></td>
+      </tr>
+      <tr>
+        <td id="aG9">90+</td>
+        <td id="ap9" </td>
+        <td id="aC9" ></td>
+        <td id="aR9" ></td>
+      </tr>
+
+    </table>
+    <table id="RaceTab">
+      <tr>
+        <th onclick="raceName()" style="cursor:pointer">RACE or Ethnicity</th>
+        <th onclick="racePop()" style="cursor:pointer">% of Popn</th>
+        <th onclick="raceCase()" style="cursor:pointer">% of Cases</th>
+        <th onclick="raceRisk()" style="cursor:pointer">Model Risk</th>
+        <th onclick="retModelMenu()" bgcolor=DarkSeaGreen >RETURN</th>
+      </tr>
+
+      <tr>
+        <td id="rN0"></td>
+        <td id="rP0"></td>
+        <td id="rC0"></td>
+        <td id="rR0"></td>
+      </tr>
+      <tr>
+        <td id="rN1"></td>
+        <td id="rP1"></td>
+        <td id="rC1"></td>
+        <td id="rR1"></td>
+      </tr>
+      <tr>
+        <td id="rN2"></td>
+        <td id="rP2"></td>
+        <td id="rC2"></td>
+        <td id="rR2"></td>
+      </tr>
+      <tr>
+        <td id="rN3"></td>
+        <td id="rP3"></td>
+        <td id="rC3"></td>
+        <td id="rR3"></td>
+      </tr>
+      <tr>
+        <td id="rN4"></td>
+        <td id="rP4"></td>
+        <td id="rC4"></td>
+        <td id="rR4"></td>
+      </tr>
+      <tr>
+        <td id="rN5"></td>
+        <td id="rP5"></td>
+        <td id="rC5"></td>
+        <td id="rR5"></td>
+      </tr>
+      <tr>
+        <td id="rN6"></td>
+        <td id="rP6"></td>
+        <td id="rC6"></td>
+        <td id="rR6"></td>
+      </tr>
+      <tr>
+        <td id="rN7"></td>
+        <td id="rP7"></td>
+        <td id="rC7"></td>
+        <td id="rR7"></td>
+      </tr>
+      <tr>
+        <td id="rN8"></td>
+        <td id="rP8"></td>
+        <td id="rC8"></td>
+        <td id="rR8"></td>
+      </tr>
+
+    </table>
+  </div>
+
+<script>
+
+alert("what comes next");
+
+// These are defaults in case you are lazy and don't want to enter a new Model
+// The population %s are for BC
+// The case %s are averaged from Spain and Italy (see wiki)
+// Instead of entering a model by hand, best to save the list in a word <fieldset>
+// then paste the appropriate list of values to set up the Model
+
+
+
+var pAges = [];
+pAges[0] = ["0 to 9",9.25,0.55,0];
+pAges[1] = ["10 to 19",10.29,0.65,0];
+pAges[2] = ["20 to 29",13.62,5.20,0];
+pAges[3] = ["30 to 39",14.15,8.95,0];
+pAges[4] = ["40 to 49",12.75,14.30,0];
+pAges[5] = ["50 to 59",14.27,19.5,0];
+pAges[6] = ["60 to 69",13.00,15.95,0];
+pAges[7] = ["70 to 79",8.15,15.5,0];
+pAges[8] = ["80 to 89",3.60,14.25,0];
+pAges[9] = ["90+",0.92,5.05,0];
+
+
+
+var pRace = [];                 //0=name; 1=pop%; 2=case%; 3=risk
+pRace[0] = ["---",0,0,0];
+pRace[1] = ["---",0,0,0];
+pRace[2] = ["---",0,0,0];
+pRace[3] = ["---",0,0,0];
+pRace[4] = ["---",0,0,0];
+pRace[5] = ["---",0,0,0];
+pRace[6] = ["---",0,0,0];
+pRace[7] = ["---",0,0,0];
+pRace[8] = ["---",0,0,0];
+
+
+function selAgeRisk(){
+  document.getElementById("myTab").style.display="none";
+  document.getElementById("AgeTab").style.display="block";
+  calcARisk();
+  showAgeGp();
+}
+
+function selRaceRisk(){
+  document.getElementById("myTab").style.display="none";
+  document.getElementById("RaceTab").style.display="block";
+  showRNames();
+}
+
+function selModelMenu(){
+  document.getElementById("AgeTab").style.display="none";
+  document.getElementById("myTab").style.display="block";
+}
+
+function retModelMenu(){
+  document.getElementById("RaceTab").style.display="none";
+  document.getElementById("myTab").style.display="block";
+}
+
+
+function ageGroup(){
+  var x,y,z;
+  var i;
+  var ageStr = prompt("Enter ALL the age-group ranges (like '0-9') separated by ','");
+  x = ageStr;
+  for (i=0; i<13; i++){
+    y = x.indexOf(",",0);
+    if (y== -1) break;
+    pAges[i][1] = parseInt(x.substring(0,y));
+    x = x.substring(y+1);
+  }
+  pAges[i][1] = x.substring(0);
+  showAgeN();
+}
+
+function agePop(){
+  var x,y,z;
+  var i;
+  var ageStr = prompt("Enter ALL the age-group population demographics % separated by ','");
+  x = ageStr;
+  for (i=0; i<13; i++){
+    y = x.indexOf(",",0);
+    if (y== -1) break;
+    pAges[i][1] = parseInt(x.substring(0,y));
+    x = x.substring(y+1);
+  }
+  pAges[i][1] = x.substring(0);
+  showAgeP();
+}
+
+function ageCase(){
+  var x,y,z;
+  var i;
+  var ageStr = prompt("Enter all REFERENCE Covid CASE % by age-group, separated by ','");
+  x = ageStr;
+  for (i=0; i<13; i++){
+    y = x.indexOf(",",0);
+    if (y== -1) break;
+    pAges[i][2] = parseInt(x.substring(0,y));
+    x = x.substring(y+1);
+  }
+  pAges[i][2] = x.substring(0);
+  showAgeC();
+  calcARisk();
+}
+
+function ageRisk(){
+  var x,y,z;
+  var i;
+  var ageStr = prompt("Calculate the model risk for each age group");
+/*
+  x = ageStr;
+  alert(x);
+  if (x!=-1 || !x){
+      for (i=0; i<13; i++){
+        y = x.indexOf(",",0);
+        if (y== -1) break;
+        pAges[i][3] = parseInt(x.substring(0,y));
+        x = x.substring(y+1);
+      };
+      pAges[i][3] = x.substring(0);
+  }
+  */
+  calcARisk();
+}
+
+function calcARisk(){
+  var i,j,k,r;
+  // we use the square root of the ratio between case% and age% (Relative Risk)
+  // because the susceptibility we model as the area of the circle
+  // describing the person, so the factor to apply is the square
+  // root of the raw Relative Risk
+
+  for (i=0; i<10;i++){
+    j = pAges[i][2];      //case %
+    k = pAges[i][1];      //popn %
+    r = Math.sqrt(j/k).toFixed(2);
+    pAges[i][3] = r;
+  }
+  showAgeR();
+}
+
+function showAgeN(){
+  document.getElementById("aG0").innerHTML = pAges[0][0];
+  document.getElementById("aG1").innerHTML = pAges[1][0];
+  document.getElementById("aG2").innerHTML = pAges[2][0];
+  document.getElementById("aG3").innerHTML = pAges[3][0];
+  document.getElementById("aG4").innerHTML = pAges[4][0];
+  document.getElementById("aG5").innerHTML = pAges[5][0];
+  document.getElementById("aG6").innerHTML = pAges[6][0];
+  document.getElementById("aG7").innerHTML = pAges[7][0];
+  document.getElementById("aG8").innerHTML = pAges[8][0];
+  document.getElementById("aG9").innerHTML = pAges[9][0];
+}
+
+function showAgeP(){
+  document.getElementById("ap0").innerHTML = pAges[0][1];
+  document.getElementById("ap1").innerHTML = pAges[1][1];
+  document.getElementById("ap2").innerHTML = pAges[2][1];
+  document.getElementById("ap3").innerHTML = pAges[3][1];
+  document.getElementById("ap4").innerHTML = pAges[4][1];
+  document.getElementById("ap5").innerHTML = pAges[5][1];
+  document.getElementById("ap6").innerHTML = pAges[6][1];
+  document.getElementById("ap7").innerHTML = pAges[7][1];
+  document.getElementById("ap8").innerHTML = pAges[8][1];
+  document.getElementById("ap9").innerHTML = pAges[9][1];
+}
+
+function showAgeC(){
+  document.getElementById("aC0").innerHTML = pAges[0][2];
+  document.getElementById("aC1").innerHTML = pAges[3][2];
+  document.getElementById("aC2").innerHTML = pAges[2][2];
+  document.getElementById("aC3").innerHTML = pAges[3][2];
+  document.getElementById("aC4").innerHTML = pAges[4][2];
+  document.getElementById("aC5").innerHTML = pAges[5][2];
+  document.getElementById("aC6").innerHTML = pAges[6][2];
+  document.getElementById("aC7").innerHTML = pAges[7][2];
+  document.getElementById("aC8").innerHTML = pAges[8][2];
+  document.getElementById("aC9").innerHTML = pAges[9][2];
+}
+
+function showAgeR(){
+  document.getElementById("aR0").innerHTML = pAges[0][3];
+  document.getElementById("aR1").innerHTML = pAges[1][3];
+  document.getElementById("aR2").innerHTML = pAges[2][3];
+  document.getElementById("aR3").innerHTML = pAges[3][3];
+  document.getElementById("aR4").innerHTML = pAges[4][3];
+  document.getElementById("aR5").innerHTML = pAges[5][3];
+  document.getElementById("aR6").innerHTML = pAges[6][3];
+  document.getElementById("aR7").innerHTML = pAges[7][3];
+  document.getElementById("aR8").innerHTML = pAges[8][3];
+  document.getElementById("aR9").innerHTML = pAges[9][3];
+}
+
+function showAgeGp(){
+  showAgeN();
+  showAgeP();
+  showAgeC();
+  showAgeR();
+}
+
+function raceName(){
+  var x,y,z;
+  var i;
+  var raceStr = prompt("Enter ALL the RACE or ETHNICITY names in a list, separated by commas");
+
+  x = raceStr;
+  alert(x);
+  for (i=0; i<13; i++){
+    y = x.indexOf(",",0);
+    if (y== -1) break;
+    pRace[i][0] = x.substring(0,y);
+    x = x.substring(y+1);
+  }
+  pRace[i][0] = x.substring(0);
+  showRNames();
+}
+
+function racePop(){
+  var x,y,z;
+  var i;
+  var ageStr = prompt("Enter ALL the RACE or ETHNIC group population % separated by ','");
+  x = ageStr;
+  alert(x);
+  for (i=0; i<13; i++){
+    y = x.indexOf(",",0);
+    if (y== -1) break;
+    pRace[i][1] = parseInt(x.substring(0,y));
+    x = x.substring(y+1);
+  }
+  pRace[i][1] = x.substring(0);
+  showRPop();
+}
+
+
+function raceCase(){
+  var x,y,z;
+  var i;
+  var ageStr = prompt("Enter all REFERENCE Covid CASE % by RACE or ETHNIC group, separated by ','");
+  x = ageStr;
+  alert(x);
+  for (i=0; i<13; i++){
+    y = x.indexOf(",",0);
+    if (y== -1) break;
+    pRace[i][2] = parseInt(x.substring(0,y));
+    x = x.substring(y+1);
+  }
+  pRace[i][2] = x.substring(0);
+  showRCase();
+  calcRace();
+  showRaceGp();
+}
+
+function raceRisk(){
+  var x,y,z;
+  var i;
+  var raceStr = prompt("Calculate the model risk for each RACE or ETHNIC group","");
+/*
+  x = ageStr;
+  alert(x);
+  if (x!=-1 || !x){
+      for (i=0; i<13; i++){
+        y = x.indexOf(",",0);
+        if (y== -1) break;
+        pAges[i][3] = parseInt(x.substring(0,y));
+        x = x.substring(y+1);
+      };
+      pAges[i][3] = x.substring(0);
+  }
+  */
+  calcRace();
+  showRaceGp();
+}
+
+function calcRace(){
+  var i,j,k,r;
+  // we use the square root of the ratio between case% and age% (Relative Risk)
+  // because the susceptibility we model as the area of the circle
+  // describing the person, so the factor to apply is the square
+  // root of the raw Relative Risk
+
+  for (i=0; i<9;i++){
+    j = pRace[i][2];      //case %
+    k = pRace[i][1];      //popn %
+    r = (j/k).toFixed(2);
+    pRace[i][3] = r;
+  }
+}
+
+
+function showRaceGp(){
+  showRNames();
+  showRPop();
+  showRCase();
+  document.getElementById("rR0").innerHTML = pRace[0][3];
+  document.getElementById("rR1").innerHTML = pRace[1][3];
+  document.getElementById("rR2").innerHTML = pRace[2][3];
+  document.getElementById("rR3").innerHTML = pRace[3][3];
+  document.getElementById("rR4").innerHTML = pRace[4][3];
+  document.getElementById("rR5").innerHTML = pRace[5][3];
+  document.getElementById("rR6").innerHTML = pRace[6][3];
+  document.getElementById("rR7").innerHTML = pRace[7][3];
+  document.getElementById("rR8").innerHTML = pRace[8][3];
+}
+
+function showRNames(){
+
+    document.getElementById("rN0").innerHTML = pRace[0][0];
+    document.getElementById("rN1").innerHTML = pRace[1][0];
+    document.getElementById("rN2").innerHTML = pRace[2][0];
+    document.getElementById("rN3").innerHTML = pRace[3][0];
+    document.getElementById("rN4").innerHTML = pRace[4][0];
+    document.getElementById("rN5").innerHTML = pRace[5][0];
+    document.getElementById("rN6").innerHTML = pRace[6][0];
+    document.getElementById("rN7").innerHTML = pRace[7][0];
+    document.getElementById("rN8").innerHTML = pRace[8][0];
+}
+
+function showRPop(){
+    document.getElementById("rP0").innerHTML = pRace[0][1];
+    document.getElementById("rP1").innerHTML = pRace[1][1];
+    document.getElementById("rP2").innerHTML = pRace[2][1];
+    document.getElementById("rP3").innerHTML = pRace[3][1];
+    document.getElementById("rP4").innerHTML = pRace[4][1];
+    document.getElementById("rP5").innerHTML = pRace[5][1];
+    document.getElementById("rP6").innerHTML = pRace[6][1];
+    document.getElementById("rP7").innerHTML = pRace[7][1];
+    document.getElementById("rP8").innerHTML = pRace[8][1];
+}
+
+function showRCase(){
+    document.getElementById("rC0").innerHTML = pRace[0][2];
+    document.getElementById("rC1").innerHTML = pRace[1][2];
+    document.getElementById("rC2").innerHTML = pRace[2][2];
+    document.getElementById("rC3").innerHTML = pRace[3][2];
+    document.getElementById("rC4").innerHTML = pRace[4][2];
+    document.getElementById("rC5").innerHTML = pRace[5][2];
+    document.getElementById("rC6").innerHTML = pRace[6][2];
+    document.getElementById("rC7").innerHTML = pRace[7][2];
+    document.getElementById("rC8").innerHTML = pRace[8][2];
+}
+
+
+</script>
+
+
+
+</body>
+</html>

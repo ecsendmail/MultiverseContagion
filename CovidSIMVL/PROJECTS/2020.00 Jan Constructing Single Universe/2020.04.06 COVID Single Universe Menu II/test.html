@@ -1,0 +1,70 @@
+<html>
+<head>
+<script>
+window.onload = function () {
+var bdata = 69999;
+var gen = 8;
+genCt = new Array(2);
+genLb = new Array(2);
+genCt[0] = 9999;
+genLb[0] = "China";
+genCt[1] = 266455;
+genLb[1] = "Saudi";
+dataPoint = new Array(2);
+
+		for (i=0;i<2;i++){
+			dataPoint[i] = {y: genCt[i], label: genLb[i]}
+		}
+		alert(dataPoint[0].y);
+		alert(dataPoint[1].label);
+
+var chart1 = new CanvasJS.Chart("chartContainer1", {
+	animationEnabled: true,
+	theme: "light2", // "light1", "light2", "dark1", "dark2"
+	title:{
+		text: "Top Oil Reserves"
+	},
+	axisY: {
+		title: "Reserves(MMbbl)"
+	},
+	width: 640,
+	data: [{
+		type: "column",
+		showInLegend: true,
+		legendMarkerColor: "grey",
+		legendText: "MMbbl = one million barrels",
+    dataPoints: dataPoint
+	}]
+});
+chart1.render();
+
+var chart2 = new CanvasJS.Chart("chartContainer2", {
+	animationEnabled: true,
+	theme: "heavy2", // "light1", "light2", "dark1", "dark2"
+	title:{
+		text: "NEW Reserves"
+	},
+	axisY: {
+		title: "Reserves(MMbbl)"
+	},
+	width: 640,
+	data: [{
+		type: "column",
+		showInLegend: true,
+		legendMarkerColor: "grey",
+		legendText: "MMbbl = one million barrels",
+    dataPoints: dataPoint
+	}]
+});
+chart2.render();
+
+
+}
+</script>
+</head>
+<body>
+<div id="chartContainer1" style="height: 370px; width: 50%; float:left;"></div>
+<div id="chartContainer2" style="height: 370px; width: 50%;"></div>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+</body>
+</html>

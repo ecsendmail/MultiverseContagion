@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Bouncing Ball</title>
+  <style>
+
+
+  </style>
+</head>
+
+<body>
+
+
+<button onclick="press()">press</button>
+<canvas id="gameCanvas" width="800" height="700"></canvas>
+
+
+
+
+
+<script>
+
+
+    // declare variables
+    const FPS = 30;
+    var canvas, ctx;
+
+    // load canvas
+    canvas = document.getElementById("gameCanvas");
+    ctx = canvas.getContext("2d");
+    ctx.fillStyle = "black";
+    ctx.fillRect(0,0, canvas.width, canvas.height);
+
+    function CreateNode(){
+      this.x;
+      this.y;
+      this.to = [];
+      this.fr = [];
+    }
+
+    function CreateEdge(){
+      this.u;
+      this.clr;
+      this.dx;
+      this.dy;
+      this.xi;
+      this.yi;
+    }
+
+    var N = [];
+    for (let nct=0; nct<9;nct++){
+      N[nct] = new CreateNode();
+    };
+
+
+
+    N[0].to[0] = new CreateEdge();
+    let m = N[0].to[0];
+    m.u = 5;
+    m.clr = "green";
+
+    N[0].to[1] = new CreateEdge();
+    m = N[0].to[1];
+    m.u = 5;
+    m.clr = "green";
+
+    m = N[0].to[2] = new CreateEdge();
+    m = N[0].to[2];
+    m.u = 5;
+    m.clr = "blue";
+
+    N[0].to[3] = new CreateEdge();
+    m = N[0].to[3]
+    m.u = 7;
+    m.clr = "red";
+
+    N[0].to[4] = new CreateEdge();
+    m = N[0].to[4];
+    m.u = 7;
+    m.clr = "red";
+
+    drawArena();
+    alert(N[0].to[0].u+","+N[0].to[1].clr);    // works
+
+    function focusN(nodei){
+      var toEdges = N[nodei].to;
+        if (N[nodei].to == "" || N[nodei].to === undefined) return;
+        for (let j=0; j<toEdges.length;j++){
+            calcE(nodei,toEdges[j]);      // fr u to edge
+        }
+    }
+
+
+    function calcE(fru,toe){
+      let tangent;
+      let frx, fry;
+      let tou = toe.u;
+
+      frx = N[fru].x;
+      fry = N[fru].y;
+      tox = N[tou].x;
+      toy = N[tou].y;
+
+      tangent = Math.abs((toy-fry)/(tox-frx));
+      toe.dx = (tox-frx)/100;
+      toe.dy = toe.dx*tangent;
+      toe.xi = frx;
+      toe.yi = fry;
+    }
+
+
+
+
+//    drawArena();
+//    connect(0,5);
+//    focusN(0);
+
+    var flag = true;
+    function press(){
+       if (flag){
+          focusN(0);
+          animate();
+
+          flag = false;
+       } else {
+    //    clearInterval(timerx);
+          flag = true;
+          clearInterval(timerA);
+
+       }
+    }
+
+    var start;
+    var timerA;
+    let newx = [];
+    let newy = [];
+
+    function animate(){
+      var switchCt = 0;
+      start = Date.now();
+      newx[0] = N[0].to[0].xi;
+      newy[0] = N[0].to[0].yi;
+      timerA = setInterval(function() {
+
+        update();
+        let timePassed = Date.now() - start;
+        if (timePassed >= 9000) {
+          clearInterval(timerA); // finish the animation after 2 seconds
+          return;
+        }
+      }, 30);
+    }
+
+    function update(){
+      let A = N[0];                      //the TO collection
+      let ect = (A.to).length;           //length of TO array
+      ctx.fillStyle = "black";
+      ctx.fillRect(0,0, canvas.width, canvas.height);
+      drawArena();
+
+
+           let dest = A.to[0].u;
+           let tox = N[dest].x;
+           let toy = N[dest].y;
+           drawLine(A.x,A.y,tox,toy,"midnightblue");
+
+           newx[0] = newx[0] + A.to[0].dx;
+           newy[0] = newy[0] + A.to[0].dy;
+           drawC(newx[0],newy[0],5,A.to[0].clr);
+      }
+
+//      drawC(newx[1],newy[1],5,A.to[1].clr);
+
+
+/*
+var node = [];
+let ic;
+
+for (ic=0;ic<4;ic++){
+    node[ic] = new newNode();
+}
+
+
+    node[0].x = 300;
+    node[0].y = 300;
+    node[0].n = 3;
+
+    node[1].x = 100;
+    node[1].y = 100;
+    node[1].n = 5;
+
+    node[2].x = 300;
+    node[2].y = 300;
+
+    node[3].x = 100;
+    node[3].y = 100;
+
+
+
+var flag = true;
+
+function press(){
+   if (flag){
+      calcPos(node[0],node[1]);
+      calcPos(node[2],node[3]);
+      animate();
+
+      flag = false;
+   } else {
+//    clearInterval(timerx);
+      flag = true;
+
+   }
+}
+
+  function calcPos(M,N){
+      let tangent;
+      tangent = Math.abs((N.y-M.y)/(N.x-M.x));
+      M.dx = (N.x-M.x)/100;
+      M.dy = M.dx*tangent;
+      M.xi = M.x;
+      M.yi = M.y;
+
+      N.dx = (M.x-N.x)/100;
+      N.dy = N.dx*tangent;
+      N.xi = N.x;
+      N.yi = N.y;
+    }
+
+  var start;
+  var timer;
+  function animate(){
+      start = Date.now(); // remember start time
+      node[0].xi = node[0].x;
+      node[0].yi = node[0].y;
+      node[1].xi = node[1].x;
+      node[1].yi = node[1].y;
+      node[2].xi = node[2].x;
+      node[2].yi = node[2].y;
+      node[3].xi = node[3].x;
+      node[3].yi = node[3].y;
+
+
+      timer = setInterval(function() {
+//        update1();
+        update();
+        let timePassed = Date.now() - start;
+
+        if (timePassed >= 4500) {
+          clearInterval(timer); // finish the animation after 2 seconds
+          return;
+        }
+
+        // draw the animation at the moment timePassed
+
+
+      }, 20)
+  }
+
+
+
+
+function update(){
+      ctx.fillStyle = "black";
+      ctx.fillRect(0,0, canvas.width, canvas.height);
+
+      let j,k;
+      for (j=0;j<2;j++){
+        node[j].xi = node[j].xi + node[j].dx;
+        node[j].yi = node[j].yi + node[j].dy;
+        ;
+      }
+
+        // draw background and ball
+        drawLine(node[0].x,node[0].y,node[1].x,node[1].y,"blue");
+        drawC(node[0].xi,node[0].yi,5,"red");
+        drawC(node[1].xi,node[1].yi,5,"green");
+
+        let timePassed = Date.now() - start;
+
+        if (timePassed >= 90) {
+          for (k=2;k<4;k++){
+            node[k].xi = node[k].xi + node[k].dx;
+            node[k].yi = node[k].yi + node[k].dy;
+          }
+
+//          drawLine(node[2].x,node[2].y,node[3].x,node[3].y,"white");
+          drawC(node[2].xi,node[2].yi,5,"orange");
+          drawC(node[3].xi,node[3].yi,5,"yellow");
+
+          for (j=0;j<2;j++){
+            if (node[j].xi > 400 || node[j].xi<100) clearInterval(timer);
+          }
+        }
+
+
+
+    };
+
+*/
+    function drawArena(){
+      N[0].x = 200; N[0].y = 60;
+      N[1].x = 410; N[1].y = 20;
+      N[2].x = 620; N[2].y = 100;
+      N[3].x = 710; N[3].y = 270;
+      N[4].x = 660; N[4].y = 470;
+      N[5].x = 450; N[5].y = 580;
+      N[6].x = 220; N[6].y = 550;
+      N[7].x = 80; N[7].y = 390;
+      N[8].x = 70; N[8].y = 200;
+      for (let i=0; i<9; i++){
+        drawC(N[i].x,N[i].y,15,"midnightblue");
+      }
+
+    }
+
+    function connect(fru,tou){
+      let x1,x2,y1,y2;
+      x1 = N[fru].x;
+      y1 = N[fru].y;
+      x2 = N[tou].x;
+      y2 = N[tou].y;
+      drawLine(x1,y1,x2,y2,"midnightblue");
+    }
+
+
+
+    function drawC(x,y,rad,color){
+        ctx.beginPath();
+        ctx.arc(x,y,rad,0,2*Math.PI);
+        ctx.fillStyle = color;
+        ctx.fill();
+        ctx.stroke();
+        ctx.strokeStyle = "black";
+    }
+
+    function drawCross(x,y,width,height,clr){
+        ctx.beginPath();
+        ctx.moveTo(x,y);
+        ctx.fillStyle = clr;
+        ctx.fillRect(x,y,width,height);
+        ctx.fillRect(Math.round(x+width/2-height/2),Math.round(y+height/2-width/2),height,width);
+    }
+
+    function drawRect(x,y,width,height,clr){
+        ctx.beginPath();
+        ctx.moveTo(x,y);
+        ctx.fillStyle = clr;
+        ctx.fillRect(x,y,width,height);
+    }
+
+    function drawLine(x1,y1,x2,y2,clr){
+        ctx.beginPath();
+        ctx.moveTo(x1,y1);
+        ctx.lineTo(x2,y2);
+        ctx.strokeStyle = clr;
+        ctx.stroke();
+    }
+    </script>
+  </body>
+</html>

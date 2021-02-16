@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+<style>
+  th,  td {
+    border: 1px solid red;
+    padding: 3px;
+    text-align: center;
+}
+  th {
+      cursor: pointer;
+  }
+
+#myTab {
+  display: block;
+}
+
+#AgeTab {
+  display: none;
+}
+
+#RaceTab {
+  display: none;
+}
+
+</style>
+</head>
+<body>
+<script>
+
+function Person(first, last, age, eyecolor) {
+  this.firstName = first;
+  this.lastName = last;
+  this.age = age;
+  this.tur = [];
+
+
+}
+
+function Turing(){
+  this.start;
+  this.blues;
+  this.travel;
+  this.incubate;
+  this.infect;
+  this.mode;
+  this.factor;
+  this.hazard;
+}
+
+var pop = [];
+
+pop[1] = new Person ("John", "Doe", 40, "green");
+pop[2] = new Person("Laura", "Smith", 22, "blue");
+pop[3] = new Person("Emily", "Jones", 18, "red");
+pop[4] = new Person;
+pop[5] = new Person;
+
+pop[5].tur[1] = new Turing();
+pop[5].tur[1].start = 5;
+pop[5].tur[1].blues = 3;
+pop[5].tur[1].travel = 1;
+pop[5].tur[1].hazard = 5;
+
+
+
+
+
+pop[1].firstName = "Larry";
+
+pop[2].firstName = "Ron";
+
+
+
+var xStr = "START=5;BLUES=3;TRAVEL=5;INCUBATE=3;INFECT=4;MODE=3;FACTOR=0.7;HAZARD=10;"
+
+
+function parseXstr(xStr){
+  var i,x,y,z;
+  if (xStr == "" || xStr == null) return;
+
+  for (i=0; i<13; i++){
+    y = xStr.indexOf(";",0);
+    if (y== -1) break;
+    x = xStr.substring(0,y);
+    z = x.indexOf("=",0);
+    alert(x.substr(0,z));
+    switch(x.substr(0,z)) {
+      case "START":
+        alert(x.substring(z+1))
+//        U[ui].tur[ui].start = x.substring(z+1);
+        break;
+      case "BLUES":
+        alert(x.substring(z+1))
+//        U[ui].tur[ui].start = x.substring(z+1);        // code block
+        break;
+      default:
+        // code block
+    }
+    xStr = xStr.substring(y+1);
+  }
+}
+
+parseXstr(xStr);
+
+</script>
+
+
+
+</body>
+</html>
