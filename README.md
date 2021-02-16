@@ -50,4 +50,4 @@ sudo ./setup.sh
 
 Rscript run.R
 
-<img src="./CovidSIMVL/Simulation Engines/PRIMARY CovidSIMVL/counts.png" width="360">
+<img src="./CovidSIMVL/Simulation Engines/PRIMARY CovidSIMVL/counts.png">
