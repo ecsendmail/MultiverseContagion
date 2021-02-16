@@ -49,3 +49,5 @@ sudo ./setup.sh
 2 run:
 
 Rscript run.R
+
+<img src="./CovidSIMVL/Simulation Engines/PRIMARY CovidSIMVL/counts.png" width="360">
