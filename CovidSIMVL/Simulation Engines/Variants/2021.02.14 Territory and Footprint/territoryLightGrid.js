@@ -1,7 +1,7 @@
 // ****************************************************************************
 // check if DOM (document object model) exists ********************************
 // ****************************************************************************
-console.log("CovidSIMVL 2021.02.20 version = SingleU graph to line; Comp; States output per gen");
+
 var use_html = true
 try {
     document // does DOM exist?
@@ -52,7 +52,7 @@ function processData(csv) {
 
 function errorHandler(evt) {
     if (evt.target.error.name == "NotReadableError") {
-        alert("Cannot read file !");
+        alert("Canno't read file !");
     }
 }
 
@@ -622,7 +622,6 @@ try {
     // ************************************* CREATE MATRIX FOR MUTIVERSE ************************
 
 
-
     if (use_html) {
         document.getElementById("row1").innerHTML = UN[0];
         document.getElementById("row2").innerHTML = UN[1];
@@ -749,7 +748,6 @@ try {
     var T = []; // one ticket per person - 24hr or 1 week?
     var D = [];
     var H = []; // timer-based schedule of events - arr depart
-    var AG = []; // age groups
 
     var toTime = 0;
     var toDD = 0;
@@ -774,57 +772,20 @@ try {
     // as 10 on days as indexes of the array -peak at 4d to 6 days
     // NOTE that infectiousness is at VL 3.6 and above, so by postInfDay 13 no longer infective
 
-    var tViral = [0,1,2.20,10,10,10,10,8,7,5.5,4,3,2,1,1,1,1,1,0.7,0.5,0.1,0.01];
+    var tViral = [0, 1, 1.97, 3.87, 7.61, 10, 10, 8.74, 6.67, 5.83, 5.09, 4.45, 3.89, 3.40, 2.98, 2.60, 2.21, 1.86, 1.54, 1.32, 1, 1];
 
     // temporal transmission Model from t=0 of infection
 
-    var VLlower = 2.0;        // viral load at day 2.2
-    var VLincD = 2.2;         // day 2.2 infectious begins - yellow -> blue
-    var VLpeak0 = 3.2;        // day 3.2 VL peak 10 - from 2 days before symptom onset
-    var VLpeakVL = 10;        // VL peak load from day 4.2 to day 7.2 (one before, two after)
-    var VLonsetT = 5.2;       // onset symptoms
-    var VLpeakFnd = 6.2;      // peak VL to one day after onset
-    var VLinfEnd = 13.2;      // infectiousness ends 13.2 day after infection
+    var VLlower = 3.6;
+    var VLincD = 2.9;
+    var VLpeak0 = 4.5;
+    var VLpeakVL = 10;
+    var VLonsetT = 5.2;
+    var VLpeakFnd = 6.2;
+    var VLinfEnd = 13.2;
     var VLprePeakRate = 1.069; // every 0.1 days
     var VLpostPeak = 0.865;
     var VLradius = 5;
-
-
-    function CreateAgeGP() {
-      this.AGname;
-      this.total;
-      this.vax;
-      this.vaxGen;
-      this.infected;
-    }
-
-    function initAG(AG,agp){
-      AG.total = 0;
-      AG.vax = 0;
-      AG.vaxGen = 0;
-      AG.infected = 0;
-      switch(agp){
-        case 0: AG.AGname = "<10";
-             break;
-        case 1: AG.AGname = "10-19";
-             break;
-        case 2: AG.AGname = "20-29";
-             break;
-        case 3: AG.AGname = "30-39";
-             break;
-        case 4: AG.AGname = "40-49";
-             break;
-        case 5: AG.AGname = "50-59";
-             break;
-        case 6: AG.AGname = "60-69";
-             break;
-        case 7: AG.AGname = "70-79";
-             break;
-        case 8: AG.AGname = "80-99";
-             break;
-        case 9: AG.AGname = "90++";
-      }
-    }
 
     function ConstructMVC() {
         this.UCt; // count of Universes
@@ -868,11 +829,6 @@ try {
 
 
     M.UCt = 9;
-    console.log(Date());
-  	console.log("CovidSIMVL Feb 2021 supports CaseInfDays + HzR + mingleFactor/Univ + popnAges + Multiverse + RiskFactor");
-    console.log("CovidSIMVL Vax by VisibleU any day for n% remaining susceptibe; Mode1 and Mode2 two jabs");
-    console.log("Mode 1 >13 and <36 is 75%");
-    console.log("Mode 2 >28 is 95%; >13 and <29 is 75%");
     if (use_html) {
         M.PCt = prompt("Enter the global population size");
     } else {
@@ -957,10 +913,6 @@ try {
         this.endCases = [];
         this.endRedDelta = []; // we need this to point to the persons there - just pIDs
         this.endVelocity = [];
-
-        this.vaxMode = 0;
-        this.vaxGroup = 0;
-        this.vaxAgeGp = -1;
     }
 
     function initUniv(U, i) {
@@ -1004,25 +956,14 @@ try {
         U.endCases = [];
         U.endRedDelta = []; // we need to point to the persons there - just pIDs
         U.endVelocity = [];
-
-        U.vaxMode = 0;
-        U.vaxGroup = 0;       // % of population
-        U.vaxAgeGp = -1;      // for now, work on latest change, and use console.log to track them
-
     };
 
-var oneTime = 0;
     (function() {
-        let i,j;
-        oneTime = 0;
+        let i;
         for (i = 0; i < M.UCt; i++) {
             U[i] = new CreateUniverse();
             initUniv(U[i], i);
         }
-       for (j=0;j<10;j++){
-           AG[j] = new CreateAgeGP();
-           initAG(AG[j],j);
-       }
     })();
 
     function CreateType() {
@@ -1055,7 +996,6 @@ var oneTime = 0;
         this.ageGp;
         this.role;
         this.suscIndx;
-        this.prevVL;
         this.ViralLoad;
 		    this.famKey;
         this.convT;
@@ -1083,10 +1023,6 @@ var oneTime = 0;
         this.delY;
         this.ddx;
         this.ddy;
-
-        this.vaxD = 0;       // becomes 75% effective in 14 days lasts 28 + 14 days then zero
-        this.vaxType = 0;    // 1 - follows schedule above;  2 - at 28d becomes 95%
-
 
         /* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -1120,11 +1056,9 @@ var oneTime = 0;
         P.pID = i;
         P.state = "green";
         P.clr = "green";
-        P.age = -1;
-        P.ageGp = 0;
+        P.ageGp = -1;
         P.role = "R";
         P.suscIndx = 1;
-        P.prevVL = 0;
         P.ViralLoad = 0;
 		    P.famKey = -1;
         P.gen = 0;
@@ -1160,23 +1094,15 @@ var oneTime = 0;
         P.touchCt = 0;
         P.susCt = 0;
         P.failedCt = 0;
-
-        P.vaxD = 0;       // becomes 75% effective in 14 days lasts 28 + 14 days then zero
-        P.vaxType = 0;    // 1 - follows schedule above;  2 - at 28d becomes 95%
-
-        // vax effect happens when VLtransfer() is determined, and if susceptible and VL=0
-        // apply Math.random() > 0.75 to effect the change....ie do the transfer and change state
-        // obviously, if not green and zero then does not apply
     }
+
 
     // %%%%%%%%%%%%%%%%%%%%%%%%% NOW SET UP ALL THE LOCAL INFO BEFORE SPECIALIZING $$$$$$$$$$$$$$$$$$$$$$
     //
 
     function stochast(b, factor) {
-        if (b==0) {b=0.0001};
         let pb = (Math.random() * factor) * b;
-        if (Math.random() * 2 > 1) {pb = -pb};
-//        return(b+pb);
+        if (Math.random() * 2 > 1) pb = -pb;
         return (b * (1 - factor) + pb)
     }
 
@@ -1252,20 +1178,16 @@ var oneTime = 0;
         transfer.TU = eval(lineS[5]);
         transfer.role = lineS[6];
         transfer.Mx = eval(lineS[7]);
-        let trAgeGp = lineS[8];
-		    trAgeGp = Math.round(trAgeGp);
-    		let trFam = lineS[9];
-    		if (ID==pID && ID !=0) {return true}    // first one is 0
-    		else {
-//    			if (lineS[8]=="" || lineS[8] === undefined) {return true };
-          P[ID].ageGp = trAgeGp;
-          AG[trAgeGp].total++;
-    			P[ID].famKey = -1;
-    			if (trFam!="" && trFam!==undefined) {P[ID].famKey=trFam};
-    		};
-        return true;
+		let trAge = eval(lineS[8]);
+		let trFam = lineS[9];
+		if (ID==pID) {return true}
+		else {
+			P[ID].age = -1;
+			if (trAge!="" && trAge!==undefined){P[ID].age=trAge};
+			P[ID].famKey = -1;
+			if (trFam!="" && trFam!==undefined) {P[ID].famKey=trFam};
+		}; return true;
     }
-
 
     function setupTicket() {
         let tr = transfer;
@@ -1409,18 +1331,15 @@ var oneTime = 0;
         }
         if (postInfect > 0) {
             if (postInfect < G.tIncubate) {
-                if (G.ViralLoad > 0)
-                  {newState(ID, "yellow")};
+                newState(ID, "yellow");
                 return
             }
             if (postInfect < G.tOnset) {
-                if (G.ViralLoad > G.qInfective)
-                  {newState(ID, "blue")};
+                newState(ID, "blue");
                 return
             }
             if (postInfect < G.tInert) {
-                if (G.ViralLoad > G.qInfective)
-                  {newState(ID, "red")};
+                newState(ID, "red");
                 return
             }
             newState(ID, "orange");
@@ -1555,16 +1474,115 @@ var oneTime = 0;
         ctx.font = "30px Arial";
         ctx.fillStyle = "white";
         ctx.fillText("Day" + day + "   HR:" + hr + "  U" + u, x, y);
-        ctx.fillText("gen "+gen,15,60);
+    }
+   var ri, rj;
+    var arena = [];
+    for (ri=0;ri<800;ri++){
+      arena[ri] = [];
+    }
+
+    var arenaCt, arenaPerCent;
+
+
+    for (ri=0;ri<800;ri++){
+        for (rj=0; rj<600; rj++){
+          arena[ri][rj] = 0;
+        }
     }
 
     function drawC(x, y, rad, color) {
         ctx.beginPath();
+
+        let clr;
+        switch (color){
+          case "yellow":
+            clr = "#FFFF0044";
+            break;
+          case "blue":
+            clr = "#0000FF88";
+            break;
+          case "red":
+            clr = "#FF000088";
+            break;
+          case "orange":
+            clr = "#FFA50044";
+            break;
+          default:
+            clr = "#FFFFFF44"
+        }
+
         ctx.arc(x, y, rad, 0, 2 * Math.PI);
-        ctx.fillStyle = color;
+        ctx.fillStyle = clr;
         ctx.fill();
-        ctx.strokeStyle = "black";
+
+        let xw, yw, rwd, rht;
+        let xb, yb;
+
+        xw = Math.round(x-rad);
+        yw = Math.round(y-rad);
+        rwd = Math.round(2*rad);
+        rht = Math.round(2*rad);
+
+        if (xw<0){xw=0};
+        if (x+rad>799){
+          rwd = Math.round(rad + 799 - x);
+        }
+        if (yw<0){yw=0};
+        if (y+rad>599){
+          rht = Math.round(rad + 599 - y);
+        }
+
+
+        xb = xw + rwd;    // x,y of right bottom of rectangle
+        yb = yw + rht;
+
+        ctx.beginPath();
+        ctx.strokeStyle = "#0000FFAA";
+        ctx.lineWidth = 1;
+        ctx.rect(xw, yw, rwd, rht);
         ctx.stroke();
+
+//        ctx.stroke();
+//        ctx.strokeStyle = "black";
+
+//  DRAW GRID
+
+        var i;
+        for (i=1;i<16;i++){
+            ctx.beginPath();
+            ctx.moveTo(i*50,0);
+            ctx.lineTo(i*50,600);
+            ctx.lineWidth = 0.01;
+            ctx.strokeStyle = "#FFFFFF44";
+            ctx.stroke();
+        }
+
+        var j=1;
+        for (j=1;j<12;j++){
+           ctx.beginPath();
+            ctx.moveTo(0,j*50);
+            ctx.lineTo(800,j*50);
+           ctx.lineWidth = 0.01;
+            ctx.strokeStyle = "#FFFFFF44";
+            ctx.stroke();
+       }
+        // compute arena pixels and sectors
+
+        for (i=xw;i<xb;i++){
+          for (j=yw;j<yb;j++){
+            arena[i][j] = arena[i][j]+1;
+          }
+        }
+
+        arenaCt = 0;
+        for (i=0; i<800; i++){
+          for (j=0;j<600;j++){
+            if (arena[i][j]>0) {arenaCt++}
+          }
+        }
+        arenaPerCent = arenaCt/480000 * 100;
+        console.log("gen "+gen+"arena% "+arenaPerCent);
+
 
     }
 
@@ -1597,7 +1615,8 @@ var oneTime = 0;
         fullCt++;
         let clr, size;
         size = P[g].currSize;
-        //    canvTxt(15,30,cD,cH,vU);
+        drawRect(0, 0, 270, 40, "black");
+        canvTxt(15,30,cD,cH,vU);
         if (clrFlag == -1) {
             clr = P[g].state;
         } else {
@@ -1620,21 +1639,16 @@ var oneTime = 0;
     function drawU() {
         let i, j, k, l;
         if (use_html) {
-            drawRect(0, 0, canWidth, canHeight, "black");
-            drawRect(0, 0, 270, 80, "#00000044");
+//            drawRect(0, 0, canWidth, canHeight, "black");
             canvTxt(15, 30, cD, cH, vU);
-
-           ctx.beginPath();
-           ctx.font = "30px Arial";
-           ctx.fillStyle = "white";
-           ctx.fillText("gen "+gen,15,60);
         }
-        k = U[vU].person.slice(0);
-        l = k.length;
-        for (i = 0; i < l; i++) {
-            j = k.pop();
-            drawAgent(P[j].X, P[j].Y, j, -1);
-        }
+//        k = U[vU].person.slice(0);
+//        l = k.length;
+//        for (i = 0; i < l; i++) {
+//            j = k.pop();
+//            console.log("from drawU()");
+//            drawAgent(P[j].X, P[j].Y, j, -1);
+//        }
     }
 
 
@@ -1645,62 +1659,56 @@ var oneTime = 0;
     //
     // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-    var metInfectMax;
-    var metDiagMax;
-
     function showIncD() {
-        let incTxt = prompt("Current incubation days as shown below. Enter new value if desired, otherwise cancel", VLincD);
-        let incDays = eval(incTxt);
+        let incTxt = prompt("Current incubation days as shown below. Enter new value if desired, otherwise cancel", metIncMax);
+        let incDays = parseInt(incTxt);
         document.getElementById("dIncD").innerHTML = incDays;
-        if (incDays === null || incDays == "" || incDays == VLincD) return;
-        VLincD = incDays;
-        M.tIncubate = VLincD;
+        if (incDays === null || incDays == "" || incDays == metIncMax) return;
+        metIncMax = incDays;
         let pCt = 0;
         for (pCt = 0; pCt < M.PCt; pCt++) {
-            P[pCt].tIncubate = stochast(VLincD, 0.05);
+            P[pCt].incMax = metIncMax;
         }
     }
 
     function showInfD() {
-        let infTxt = prompt("Current asymptomatic transmission days shown below. To change, enter new value else cancel", VLonsetT);
-        let infDays = eval(infTxt);
+        let infTxt = prompt("Current asymptomatic transmission days shown below. To change, enter new value else cancel", metInfectMax);
+        let infDays = parseInt(infTxt);
         document.getElementById("dInfD").innerHTML = infDays;
-        if (infDays === null || infDays == "" || infDays == VLonsetT) return;
-        VLonsetT = infDays;
+        if (infDays === null || infDays == "" || infDays == metInfectMax) return;
+        metInfectMax = infDays;
         let pCt = 0;
         for (pCt = 0; pCt < M.PCt; pCt++) {
-            P[pCt].tOnset = stochast(VLonsetT, 0.05);
+            P[pCt].infectMax = metInfectMax;
         }
     }
 
     function showCliD() {
         let cliTxt = prompt("Current days of infectivity after case is symptomatic or tested positive \nTo\
- change enter new value between 5.2 and 13.2 or cancel (applies to REDs)", VLinfEnd);
-        let cliDays = eval(cliTxt);
+ change enter new value or cancel (applies to REDs)", metDiagMax);
+        let cliDays = parseInt(cliTxt);
         document.getElementById("dCliD").innerHTML = cliDays;
-        console.log("Red Days changed to "+cliTxt);
-        if (cliDays === null || cliDays == "" || cliDays == VLinfEnd) return;
-        VLinfEnd = cliDays;
+        if (cliDays === null || cliDays == "" || cliDays == metDiagMax) return;
+        metDiagMax = cliDays;
         let pCt = 0;
         for (pCt = 0; pCt < M.PCt; pCt++) {
-            P[pCt].tInert = stochast(VLinfEnd, 0.05);
+            P[pCt].diagMax = metDiagMax;
         }
     }
 
 
     function showCycle() {
         let infTxt = prompt("Current activity events per hour. To change, enter new value else cancel", cycleMax);
-        let infCyc = eval(infTxt);
+        let infCyc = parseInt(infTxt);
         document.getElementById("dCycl").innerHTML = infCyc;
         if (infCyc === null || infCyc == "" || infCyc == cycleMax) return;
         cycleMax = infCyc;
     }
 
-  function showPradius() {
+    function showPradius() {
         let rTxt = prompt("Enter Hazard rtadius of personal safety \nThe smaller the extent of isolation", VLradius);
         let pRad = eval(rTxt);
         document.getElementById("dPrad").innerHTML = pRad;
-        console.log("New Hazard Radius = "+rTxt);
         if (pRad === null || pRad == "" || pRad == VLradius) return;
         VLradius = pRad;
         let pCt = 0;
@@ -1711,99 +1719,65 @@ var oneTime = 0;
         }
     };
 
-  function showMingle(){
-    	   var txt = prompt("Set or Change mingle factor FOR THE CURRENT UNIVERSE -- from 0.1 to 10");
-    	   document.getElementById("dMingl").innerHTML = txt;
-         console.log("new Mingle Factor = "+txt);
-    		let mn = eval(txt);
-    		U[vU].minglf = mn;     // now this is consistent with U and person scales
-    	}
+    function showMingle(){
+       var txt = prompt("Set or Change mingle factor FOR THE CURRENT UNIVERSE -- from 0.1 to 10");
+       document.getElementById("dMingl").innerHTML = txt;
+      let mn = eval(txt);
+      U[vU].minglf = mn/10;     // so user can keep the same scale of 1 to 10 for U and Persons
+    }
 
-  function showVax(){
-    let txt = prompt("Enter AgeGroup and %  as m,n eg 1,20\n0 = <10; 1=10-19; 2=20-29 etc....9=90+");
-    document.getElementById("vaxnow").innerHTML = txt;
-    console.log("Age Group "+txt+" 1st shot; 2nd auto in 35days");
-    let y = txt.indexOf(",",0);
-    if (y==-1) {return};
-    U[vU].vaxAgeGp = Math.round(txt.substring(0,y));
-    U[vU].vaxGroup = Math.round(txt.substring(y+1));
-    U[vU].vaxMode = 2;    // for now, always 2
-    console.log("Gen"+gen+" AgeGp ="+U[vU].vaxAgeGp+" To be vaccinated="+U[vU].vaxGroup+"%");
-    let vax = U[vU].vaxGroup;
-    let ages = U[vU].vaxAgeGp;
-    implementVax(ages,vax);
-}
+    function showVax(){
+        let txt = prompt("Set the % of remaining susceptibles in this Universe to be declared immune following second vaccination - as integer eg 30");
+        document.getElementById("vaxnow").innerHTML = txt;
+        let vax = eval(txt);
+        implementVax(vax);
+    }
 
-function implementVax(ages,vax){
-    // create list of susceptibles (global)
-    var susList = [];
-    var susvxCt = 0;
-    var aCt = U[vU].Population;
-    console.log(U[vU].person);
-    for (let i=0;i<aCt; i++){
-      let k = U[vU].person[i];
-      let pAge = P[k].ageGp;
-
-      if (P[k].state != "green"){
-         continue}
-      else {
-         if (pAge == ages){
+    function implementVax(vax){
+        // create list of susceptibles (global)
+        var susList = [];
+        var susvxCt = 0;
+        var aCt = U[vU].Population;
+        console.log(aCt);
+        console.log(U[vU].person);
+        for (let i=0;i<aCt; i++){
+          let k = U[vU].person[i];
+          if (P[k].state != "green"){
+             continue}
+          else {
              susList[susvxCt] = k;
              susvxCt++;
-             AG[ages].vax++;
-             AG[ages].vaxGen = gen;
+            }
           }
-      }
-    }
-    console.log("ageGp"+ages+" count: "+susvxCt+" List: "+susList);
-
-      // dec 31 2020 - instead of removing, we flag them for consideration
-      // in VLtransfer()
-
-  /* now take % away
-      let target = parseInt(susvxCt*vax/100);
-      target = parseInt(target*5/6);  // accounts for noVaxers
-      target = parseInt(target*0.95); // 95% effective vaccine
-      console.log("Vaccination list = "+target);
-      if (target==0) {return};
-      let vaxed = [];
-      for (i=0; i<target; i++){
-        let selectvax = parseInt(Math.random()*susvxCt);
-        let j = susList[selectvax];
-        vaxed.push(j);
-        susList.splice(selectvax,1);
-        P[j].state = "orange";
-        P[j].clr = "orange";
-        M.GreenCt--;
-        M.OrangeCt++;
-        U[vU].greenCt--;
-        U[vU].orangeCt++;
-        susvxCt--;
-    */
-
-        // now apply % away
-        let target = parseInt(susvxCt*vax/100);
-        console.log("Vaccination list = "+target);
-        if (target==0) {return};
-        let vaxed = [];
-        for (i=0; i<target; i++){
-          let selectvax = parseInt(Math.random()*susvxCt);
-          let j = susList[selectvax];
-          vaxed.push(j);
-          susList.splice(selectvax,1);
-//          P[j].ViralLoad = 0;
-          P[j].vaxD = cD;
-          P[j].vaxType = U[vU].vaxMode;
-          susvxCt--;
+          console.log(susList);
+          // now take % away
+          let target = parseInt(susvxCt*vax/100);
+          target = parseInt(target*5/6);  // accounts for noVaxers
+          target = parseInt(target*0.95); // 95% effective vaccine
+          console.log("Vaccination list = "+target);
+          if (target==0) {return};
+          let vaxed = [];
+          for (i=0; i<target; i++){
+            let selectvax = parseInt(Math.random()*susvxCt);
+            let j = susList[selectvax];
+            vaxed.push(j);
+            susList.splice(selectvax,1);
+            P[j].state = "orange";
+            P[j].clr = "orange";
+            M.GreenCt--;
+            M.OrangeCt++;
+            U[vU].greenCt--;
+            U[vU].orangeCt++;
+            susvxCt--;
+          }
+          console.log("vaccinated "+vaxed);
 
       }
-      console.log("AgeGp"+ages+" vaccinated "+target+" List: "+vaxed);
 
-  }
 
-  function getToTime() {
+    function getToTime() {
         let toTxt = prompt("Enter the DDHH time that this program is to run until", cycleMax);
-        let toHHDD = eval(toTxt);
+        let toHHDD = parseInt(toTxt);
         document.getElementById("toHHDD").innerHTML = toHHDD;
         if (toHHDD === null || toHHDD == "" || toHHDD == toTime) return;
         toTime = toHHDD;
@@ -1897,7 +1871,7 @@ function implementVax(ages,vax){
 
         for (cy = 0; cy < cycleMax; cy++) {
             if (use_html) {
-                if (wU == vU && VIEW == "local") drawRect(0, 0, canWidth, canHeight, "black");
+//                if (wU == vU && VIEW == "local") drawRect(0, 0, canWidth, canHeight, "black");
                 if (wU == vU && VIEW == "local") drawEpi();
             }
             Q = U[wU];
@@ -1910,12 +1884,13 @@ function implementVax(ages,vax){
                 //        adjminglf(P[j],j,epic);
                 //        findOverlap(P[j],j,U[wU],wU);
                 testOverlap(P[j], j, i);
-
-                if (wU == vU && VIEW == "local") drawAgent(P[j].X, P[j].Y, j, "black");
+//                console.log("from moveIt1");
+//                if (wU == vU && VIEW == "local") drawAgent(P[j].X, P[j].Y, j, "black");
 
                 P[j].X = P[j].newX;
                 P[j].Y = P[j].newY;
                 if (wU == vU && VIEW == "local") {
+                    console.log("from MoveIt2");
                     drawAgent(P[j].newX, P[j].newY, j, -1);
                 }
                 if (use_html) {
@@ -1987,8 +1962,8 @@ function implementVax(ages,vax){
             G.newY = 10;
             G.delX = G.Y - G.newY;
         }
-        if (G.newY > canHeight) {
-            G.newY = canHeight - 10;
+        if (G.newY > canWidth) {
+            G.newY = canWidth - 10;
             G.delX = G.newY - G.Y;
         }
     }
@@ -2096,10 +2071,6 @@ function implementVax(ages,vax){
     function VLtransfer(i, j) {
         let iVL = P[i].ViralLoad;
         let jVL = P[j].ViralLoad;
-        if (isNaN(iVL) || (isNaN(jVL))) {
-          alert("NaN i:j "+i+":"+j);
-          iVL = 5; jVL=5;
-        }
         // console.log("i,j viral load = "+iVL.toFixed(2)+","+jVL.toFixed(2));
         if (iVL == 0 && jVL == 0) {
             return
@@ -2123,13 +2094,10 @@ function implementVax(ages,vax){
 
         let Vgrad = Math.abs(jVL - iVL);
         let diff = raMax - yLength;
-        // if gap is A, then overlap = sum - gap
-        let Vdist = Math.pow(1-(diff / raMax), 3);
+        let Vdist = Math.pow((diff / raMax), 3);
         let Vbig = i;
-        let Vsmall = j;
         if (iVL < jVL) {
-            Vbig = j;   //the bigger viral load agent
-            Vsmall = i;
+            Vbig = j
         };
         let VTrans = Vgrad * Vdist;
         // console.log("Virus Transfer = "+VTrans+" Overlap diff "+diff);
@@ -2142,184 +2110,8 @@ function implementVax(ages,vax){
             }
         }
 
-        //before transmission check vax Status
-
-        /*********************************************************
-        /                 VAX Status checks
-        /*********************************************************
-        */
-
-        let vaxT = cD - P[Vsmall].vaxD;
-        let vaxSwitch = 1;
-        let VaxProb = Math.random();
-
-      if (P[Vsmall].vaxType==0) { }
-      else {
-
-          if (P[Vsmall].vaxType == 1){
-            if (vaxT>13 && vaxT<36){
-              if (VaxProb<0.75) {vaxSwitch = 0};
-            }
-          }
-          if (P[Vsmall].vaxType == 2){
-            if (vaxT>28) {
-              if (VaxProb<0.95) {vaxSwitch = 0};
-            }
-            if (vaxT>13 && vaxT<29){
-              if (VaxProb<0.75) {vaxSwitch = 0};
-            }
-          }
-          if (vaxSwitch==0) {
-            console.log("Vax prevented "+Vsmall+" ageGp"+P[Vsmall].ageGp+" by "+Vbig+" ageGp"+P[Vbig].ageGp+" gen"+gen+" Prob "+VaxProb);
-            return}
-      }
-
-      // if vaccinated transmitter, will do so with inverse %
-
-      let vaxTT = cD - P[Vbig].vaxD;
-      vaxSwitch = 1;
-
-    if (P[Vbig].vaxType==0) { }
-    else {
-
-        if (P[Vbig].vaxType == 1){
-          if (vaxTT>13 && vaxTT<36){
-            if (VaxProb>0.25) {vaxSwitch = 0};
-          }
-        }
-        if (P[Vsmall].vaxType == 2){
-          if (vaxTT>28) {
-            if (VaxProb>0.95) {vaxSwitch = 0};
-          }
-          if (vaxTT>13 && vaxTT<29){
-            if (VaxProb>0.75) {vaxSwitch = 0};
-          }
-        }
-        if (vaxSwitch==0) {
-          console.log("No transmit "+Vbig+ " ageGp"+P[Vbig].ageGp+" on "+Vsmall+" ageGp"+P[Vsmall].ageGp+" gen"+gen+" Prob "+VaxProb);
-          return}
-    }
-
-
-
-
-
-/*
-        if (Vbig == i) {
-            let jinfD = Math.floor(jpostInfect);
-          if (jinfD < 21) {
-                var jinfVir = tViral[jinfD]
-            } else jinfVir = 1;
-            qVir = Math.min((jVL + VTrans), jinfVir);
-            qVir = stochast(qVir, 0.05);
-            if (qVir < 0) {alert("neg viral load in j")};
-            P[j].ViralLoad = Math.max(qVir, 1); //forcing infection VL to 1
-          if (P[j].tInfect == 0) {
-                P[j].tInfect = cT
-          }
-			    if (P[j].state=="green") {
-			         let iInf = M.PCt-M.GreenCt;
-               let jAgeGp = P[j].ageGp;
-               AG[jAgeGp].infected++;
-               console.log(iInf+"I j:ageGp:fam "+j+":"+P[j].ageGp+":"+P[j].famKey+" by "+P[i].state+" "+i+":"+P[i].ageGp+":"+P[i].famKey+" at gen"+gen+" Univ"+wU+" prob="+VaxProb.toFixed(3));
-			    }
-
-        } else {
-            let iinfD = Math.floor(ipostInfect);
-            if (iinfD < 21) {
-                var iinfVir = tViral[iinfD]
-            } else iinfVir = 1;
-            qVir = Math.min((iVL + VTrans), iinfVir);
-            qVir = stochast(qVir, 0.1);
-            if (qVir < 0) {alert("neg viral load in i")};
-            P[i].ViralLoad = Math.max((iVL + VTrans), 1);
-            if (P[i].tInfect == 0) { // once for infection
-                P[i].tInfect = cT
-            }
-			    if (P[i].state=="green"){
-				      let jInf = M.PCt-M.GreenCt;
-              let iAgeGp = P[i].ageGp;
-              AG[iAgeGp].infected++;
-              console.log(jInf+"I i:ageGp:fam "+i+":"+P[i].ageGp+":"+P[i].famKey+" by "+P[j].state+" "+j+":"+P[j].ageGp+":"+P[j].famKey+" at gen"+gen+" Univ"+wU+" prob="+VaxProb.toFixed(3));
-			    }
-        }
-
-*/
-
-
-
-
-        let qVir = 0;
-
         let ipostInfect = cT - P[i].tInfect;
         let jpostInfect = cT - P[j].tInfect;
-        let xpostInf;
-        let xVL;
-
-        let xinfD;
-        let xinfVir;
-        let xInf;
-        let x;
-
-        if (ipostInfect<0)  { ipostInfect = -ipostInfect };
-        if (jpostInfect <0) { jpostInfect = - jpostInfect};
-        if (Vbig == i){
-            xpostInf = jpostInfect;
-            xVL = jVL;
-            x = j;
-         } else {
-            xpostInf = ipostInfect;
-            xVL = iVL;
-            x = i;
-         }
-        xinfD = Math.floor(xpostInf);
-        if (xinfD < 21) {
-            xinfVir = tViral[xinfD]
-        } else {
-            xinfVir = 1;
-        }
-
-        qVir = Math.min((xVL + VTrans), xinfVir);
-        qVir = stochast(qVir, 0.05);
-        if (isNaN(qVir)) {
-          alert("NaN qVir");
-        }
-        if (qVir < 0) {
-            alert("neg viral load "+qVir)
-        };
-
-
-
-
-        if (P[x].tInfect == 0){
-            P[x].tInfect = cT;
-            P[x].ViralLoad = Math.max(qVir,1);
-        } else {
-            P[x].tInfect = P[x].tInfect + 0.000001;
-            return;
-        }
-
-        let xAgeGp = P[x].ageGp;
-        let AGtotal = AG[xAgeGp].total;
-        let AGinfcd = AG[xAgeGp].infected;
-        if (AGinfcd > AGtotal) alert("AG limit exceeded");
-
-
-        if (P[x].state == "green"){
-            xInf = M.PCt-M.GreenCt;
-            xAgeGp = P[x].ageGp;
-            if (P[x].tInfect == cT){      // new infection
-                AG[xAgeGp].infected++;
-            }
-          let vic = i;
-          let dra = j;
-          if (x==j) {
-              vic = j;
-              dra = i;
-          }
-          console.log(xInf+"I x:ageGp:fam "+vic+":"+P[vic].ageGp+":"+P[vic].famKey+" by "+P[dra].state+" "+dra+":"+P[dra].ageGp+":"+P[dra].famKey+" at gen"+gen+" Univ"+wU+" prob="+VaxProb.toFixed(3));
-        }
-
 
         if (ipostInfect > VLincD) {
             P[i].touchCt++
@@ -2334,20 +2126,51 @@ function implementVax(ages,vax){
             P[j].susCt++
         };
 
+        let qVir = 0;
+        if (Vbig == i) {
+            let jinfD = Math.floor(jpostInfect);
+            if (jinfD < 21) {
+                var jinfVir = tViral[jinfD]
+            } else jinfVir = 1;
+            qVir = Math.min((jVL + VTrans), jinfVir);
+            qVir = stochast(qVir, 0.05);
+            P[j].ViralLoad = Math.max(qVir, 1); //forcing infection VL to 1
+            if (P[j].tInfect == 0) {
+                P[j].tInfect = cT
+            }
+			  if (P[j].state=="green") {
+			   let iInf = M.PCt-M.GreenCt;
+               console.log(iInf+"I j:famKey "+j+":"+P[j].famKey+" infected by "+P[i].state+" i:famKey "+i+":"+P[i].famKey+" at gen "+gen+" in Univ"+wU);                    // console.log(P[j].state+" "+j+" infected by "+P[i].state+" "+i);
+			  }
 
-
-
-  }
+        } else {
+            let iinfD = Math.floor(ipostInfect);
+            if (iinfD < 21) {
+                var iinfVir = tViral[iinfD]
+            } else iinfVir = 1;
+            qVir = Math.min((jVL + VTrans), iinfVir);
+            qVir = stochast(qVir, 0.1);
+            P[i].ViralLoad = Math.max((iVL + VTrans), 1);
+            if (P[i].tInfect == 0) { // once for infection
+                P[i].tInfect = cT
+            }
+			  if (P[i].state=="green"){
+				let jInf = M.PCt-M.GreenCt;
+				console.log(jInf+"I i:famKey "+i+":"+P[i].famKey+" infected by "+P[j].state+" j:famKey "+j+":"+P[j].famKey+" at gen "+gen+" in U"+wU);
+			  }
+        }
+    }
     // &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
     //          MAIN CONTROL LOOP STARTS here
     // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     var anFlag = true;
+    var animClk;
     var cycleCount = 0;
     var nU = 0;
 
     var iCycle;
-    var cycleMax = 1;
+    var cycleMax = 5;
     var arrFlag = false;
     var depFlag = false;
 
@@ -2461,7 +2284,7 @@ function implementVax(ages,vax){
     function drawLocal() {
         if (VIEW == "local" && MODE == "manual") {
             if (use_html) {
-                drawRect(0, 0, canWidth, canHeight, "black");
+//                drawRect(0, 0, canWidth, canHeight, "black");
                 canvTxt(15, 30, cD, cH, vU);
             }
             drawU();
@@ -2511,33 +2334,33 @@ function implementVax(ages,vax){
         // for each person
         for (var i = 0; i < P.length; i++) {
             let Q = P[i];
-            if (Q.ViralLoad == 0) {continue};
+            if (Q.ViralLoad == 0) continue;
 
             if (Q.state == "orange") {
                 Q.ViralLoad = Q.ViralLoad * 0.875;
-                continue;
+                continue
             }
 
             let vfactor = 0;
             Q.prevVL = Q.ViralLoad;
 
-/*            if ((cT - Q.tInfect) < Q.tPeakVL) {
+            if ((cT - Q.tInfect) < Q.tPeakVL) {
                 vfactor = (VLprePeakRate - 1) / (24 * 10);
                 newVL = Q.ViralLoad * (1 + vfactor);
             } else {
                 vfactor = (1 - VLpostPeak) / (24);
                 newVL = Q.ViralLoad * (1 - vfactor);
             }
-*/
+
             let postDays = Math.floor(cT - Q.tInfect);
             let tableVL = 1;
             if (postDays < 20) {
                 tableVL = tViral[postDays];
-            } else {tableVL = 1};
+            } else(tableVL = 1); // ernie is this statement correct?
 
-            //console.log("calc vs tableVL "+newVL+","+tableVL);
+            // console.log("calc vs tableVL "+newVL+","+tableVL);
             Q.ViralLoad = Math.max(Q.ViralLoad, tableVL);
-            Q.ViralLoad = stochast(Q.ViralLoad, 0.15);
+            Q.ViralLoad = stochast(Q.ViralLoad, 0.2);
             // console.log("final VL= "+Q.ViralLoad);
 
             changeState(i);
@@ -2550,16 +2373,11 @@ function implementVax(ages,vax){
         for (i = 0; i < M.PCt; i++) {
             let Q = P[i];
             let vRatio = 1;
-            //console.log("final size of "+i+" = "+P[i].currSize);
             if (Q.prevVL != 0) {
                 vRatio = Q.ViralLoad / Q.prevVL;
             }
-            if (Q.ViralLoad == 0) {continue}; //size unchanged
-            let newSize = Q.currSize * Math.sqrt(vRatio);
-            if (isNaN(newSize)) {
-              alert("NaN in reSizeAll");
-              newSize = Q.currSize * vRatio;
-            }
+            if (Q.ViralLoad == 0) continue; //size unchanged
+            let newSize = Q.currSize * Math.cbrt(vRatio);
 
             // console.log("newSize = "+newSize);
             if (newSize < Q.baseSize) {
@@ -2570,7 +2388,7 @@ function implementVax(ages,vax){
                 }
             }
             Q.currSize = stochast(newSize, 0.05);
-
+            // console.log("final size of "+i+" = "+Q.currSize);
         }
     }
 
@@ -2647,6 +2465,7 @@ function implementVax(ages,vax){
         }
 
         Q.person.push(g);
+        console.log("from inject(x,y)");
         if (wU == vU && VIEW == "local") drawAgent(G.X, G.Y, g, "white");
     }
 
@@ -2735,7 +2554,7 @@ function implementVax(ages,vax){
             document.getElementById("blCt").innerHTML = Q.blueCt;
             document.getElementById("reCt").innerHTML = Q.redCt;
             document.getElementById("orCt").innerHTML = Q.orangeCt;
-            document.getElementById("dMingl").innerHTML = Q.minglf;
+            document.getElementById("dMingl").innerHTML = Q.minglf*10;
         }
     }
 
@@ -2836,38 +2655,38 @@ function implementVax(ages,vax){
             let len = 0;
             Q.endGreen.push({
                 y: Q.logGreen[gen],
-                x: gen
+                x: gen / 24
             });
             Q.endYellow.push({
                 y: Q.logYellow[gen],
-                x: gen
+                x: gen / 24
             });
             Q.endBlue.push({
                 y: Q.logBlue[gen],
-                x: gen
+                x: gen / 24
             });
             Q.endRed.push({
                 y: Q.logRed[gen],
-                x: gen
+                x: gen / 24
             });
             Q.endOrange.push({
                 y: Q.logOrange[gen],
-                x: gen
+                x: gen / 24
             });
             Q.endCases.push({
                 y: Q.logCases[gen],
-                x: gen
+                x: gen / 24
             });
             if (gen > 1) {
                 let del = Q.logCases[gen] - Q.logCases[gen - 1];
                 Q.endRedDelta.push({
                     y: del,
-                    x: gen
+                    x: gen / 24
                 });
             } else {
                 Q.endRedDelta.push({
                     y: 0,
-                    x: gen
+                    x: gen / 24
                 })
             };
 
@@ -2925,39 +2744,39 @@ function implementVax(ages,vax){
 
         M.endGreen.push({
             y: M.logGreen[gen],
-            x: gen
+            x: gen / 24
         });
         M.endYellow.push({
             y: M.logYellow[gen],
-            x: gen
+            x: gen / 24
         });
         M.endBlue.push({
             y: M.logBlue[gen],
-            x: gen
+            x: gen / 24
         });
         M.endRed.push({
             y: M.logRed[gen],
-            x: gen
+            x: gen / 24
         });
         M.endOrange.push({
             y: M.logOrange[gen],
-            x: gen
+            x: gen / 24
         });
         M.endCases.push({
             y: M.logCases[gen],
-            x: gen
+            x: gen / 24
         });
 
         if (gen > 1) {
             let del = M.logCases[gen] - M.logCases[gen - 1];
             M.endRedDelta.push({
                 y: del,
-                x: gen
+                x: gen / 24
             });
         } else
             M.endRedDelta.push({
                 y: 0,
-                x: gen
+                x: gen / 24
             });
 
         len = M.endRedDelta.length;
@@ -2975,52 +2794,10 @@ function implementVax(ages,vax){
         });
     }
 
-    var lastG = [];
-    var lastY = [];
-    var lastB = [];
-    var lastR = [];
-    var lastO = [];
-
-    for(let aX=0;aX<11;aX++){
-      lastG[aX] = 0;
-      lastY[aX] = 0;
-      lastB[aX] = 0;
-      lastR[aX] = 0;
-      lastO[aX] = 0;
-    }
-
-    function consoleComp(Univ){
-      if (Univ==10){
-        if (M.GreenCt != lastG[10] || M.YellowCt != lastY[10] || M.BlueCt != lastB[10] || M.RedCt != lastR[10]) {
-            lastG[10] = M.GreenCt;
-            lastY[10] = M.YellowCt;
-            lastB[10] = M.BlueCt;
-            lastR[10] = M.RedCt;
-            lastO[10] = M.OrangeCt;
-            console.log("Structure S0 "+"gen"+gen+" "+M.GreenCt+":"+M.YellowCt+":"+M.BlueCt+":"+M.RedCt+":"+M.OrangeCt);
-            return;
-        }
-        return
-      };
-      if (U[Univ].greenCt != lastG[Univ] || U[Univ].yellowCt != lastY[Univ] || U[Univ].blueCt != lastB[Univ] || U[Univ].redCt != lastR[Univ] || U[Univ].orangeCt != lastO[Univ]){
-          lastG[Univ] = U[Univ].greenCt;
-          lastY[Univ] = U[Univ].yellowCt;
-          lastB[Univ] = U[Univ].blueCt;
-          lastR[Univ] = U[Univ].redCt;
-          lastO[Univ] = U[Univ].orangeCt;
-          console.log("Structure U"+Univ+" "+"gen"+gen+" "+U[Univ].greenCt+":"+U[Univ].yellowCt+":"+U[Univ].blueCt+":"+U[Univ].redCt+":"+U[Univ].orangeCt);
-      }
-    }
-
 
     function upDateGraph(Q, q) {
         let X = Q.arr[gen];
         let Y = Q.depT[gen];
-
-        for (let is=0;is<9;is++){
-          consoleComp(is);
-        };
-        consoleComp(10);
 
         if (VIEW == "local") {
             if (use_html) {
@@ -3060,7 +2837,7 @@ function implementVax(ages,vax){
                 document.getElementById("VisDep").innerHTML = Y.visCt;
             }
         }
-    if (VIEW == "MV") {
+        if (VIEW == "MV") {
 			if (M.UCt > 0) { chart7.render() };
 			if (M.UCt > 1) { chart8.render() };
 			if (M.UCt > 2) { chart9.render() };
@@ -3077,7 +2854,6 @@ function implementVax(ages,vax){
 			chart19.render();
 			chart20.render();
 
-      document.getElementById("dispGen").innerHTML = "gen: "+gen;
 			document.getElementById("TGreen").innerHTML = M.GreenCt;
 			document.getElementById("TYellow").innerHTML = M.YellowCt;
 			document.getElementById("TBlue").innerHTML = M.BlueCt;
@@ -3094,19 +2870,10 @@ function implementVax(ages,vax){
 			if (M.UCt > 6) { MVtable6() };
 			if (M.UCt > 7) { MVtable7() };
 			if (M.UCt > 8) { MVtable8() };
+        }
     }
-
-      if (M.YellowCt==0 && M.BlueCt==0 && M.RedCt==0 && gen>1 && oneTime==0) {
-        alert('STOP at gen'+gen);
-        oneTime = 1;
-        return};
-    }
-
-
-
 
     function MVtable0() {
-
         let X = U[0].arr[gen];
         let Y = U[0].depT[gen];
 
@@ -3487,24 +3254,19 @@ function implementVax(ages,vax){
                 text: "Progress of Transitions"
             },
             data: [{
-                type: "line",
-                fillopacity: 0.2,
+                type: "stackedColumn",
                 dataPoints: U[vU].endGreen
             }, {
-                type: "line",
-                fillopacity: 0.2,
+                type: "stackedColumn",
                 dataPoints: U[vU].endYellow
             }, {
-                type: "line",
-                fillopacity: 0.2,
+                type: "stackedColumn",
                 dataPoints: U[vU].endBlue
             }, {
-                type: "line",
-                fillopacity: 0.2,
+                type: "stackedColumn",
                 dataPoints: U[vU].endRed
             }, {
-                type: "line",
-                fillopacity: 0.2,
+                type: "stackedColumn",
                 dataPoints: U[vU].endOrange
             }]
         });
@@ -3528,27 +3290,29 @@ function implementVax(ages,vax){
                 title: "Y + R"
             },
             axisY: {
-                title: "Counts"
+                title: "G + B + O"
             },
             data: [{
-                type: "stackedColumn",
+                type: "column",
                 markerType: "none",
                 dataPoints: U[vU].endGreen
 
             }, {
-                type: "stackedColumn",
+                type: "column",
+                axisYType: "secondary",
                 markerType: "none",
                 dataPoints: U[vU].endYellow
             }, {
-                type: "stackedColumn",
+                type: "column",
                 markerType: "none",
                 dataPoints: U[vU].endBlue
             }, {
-                type: "stackedColumn",
+                type: "column",
                 markerType: "none",
+                axisYType: "secondary",
                 dataPoints: U[vU].endRed
             }, {
-                type: "stackedColumn",
+                type: "column",
                 markerType: "none",
                 dataPoints: U[vU].endOrange
             }]
@@ -3966,7 +3730,7 @@ function implementVax(ages,vax){
             },
             width: 500,
             data: [{
-                type: "line",
+                type: "column",
                 color: "orange",
                 showInLegend: true,
                 legendMarkerColor: "grey",

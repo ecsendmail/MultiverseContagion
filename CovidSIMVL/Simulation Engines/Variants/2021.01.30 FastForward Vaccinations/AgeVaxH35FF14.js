@@ -1,7 +1,7 @@
 // ****************************************************************************
 // check if DOM (document object model) exists ********************************
 // ****************************************************************************
-console.log("CovidSIMVL 2021.02.20 version = SingleU graph to line; Comp; States output per gen");
+
 var use_html = true
 try {
     document // does DOM exist?
@@ -869,8 +869,7 @@ try {
 
     M.UCt = 9;
     console.log(Date());
-  	console.log("CovidSIMVL Feb 2021 supports CaseInfDays + HzR + mingleFactor/Univ + popnAges + Multiverse + RiskFactor");
-    console.log("CovidSIMVL Vax by VisibleU any day for n% remaining susceptibe; Mode1 and Mode2 two jabs");
+    console.log("CovidSIMVL Mode1 and Mod2 Hybrid 35d");
     console.log("Mode 1 >13 and <36 is 75%");
     console.log("Mode 2 >28 is 95%; >13 and <29 is 75%");
     if (use_html) {
@@ -1055,8 +1054,8 @@ var oneTime = 0;
         this.ageGp;
         this.role;
         this.suscIndx;
-        this.prevVL;
         this.ViralLoad;
+        this.prevVL;
 		    this.famKey;
         this.convT;
         this.gen;
@@ -1121,11 +1120,11 @@ var oneTime = 0;
         P.state = "green";
         P.clr = "green";
         P.age = -1;
-        P.ageGp = 0;
+        P.ageGp = -1;
         P.role = "R";
         P.suscIndx = 1;
-        P.prevVL = 0;
         P.ViralLoad = 0;
+        P.prevVL = 0;
 		    P.famKey = -1;
         P.gen = 0;
 
@@ -1257,7 +1256,7 @@ var oneTime = 0;
     		let trFam = lineS[9];
     		if (ID==pID && ID !=0) {return true}    // first one is 0
     		else {
-//    			if (lineS[8]=="" || lineS[8] === undefined) {return true };
+    			if (lineS[8]=="" || lineS[8] === undefined) {return true };
           P[ID].ageGp = trAgeGp;
           AG[trAgeGp].total++;
     			P[ID].famKey = -1;
@@ -1555,7 +1554,6 @@ var oneTime = 0;
         ctx.font = "30px Arial";
         ctx.fillStyle = "white";
         ctx.fillText("Day" + day + "   HR:" + hr + "  U" + u, x, y);
-        ctx.fillText("gen "+gen,15,60);
     }
 
     function drawC(x, y, rad, color) {
@@ -1563,8 +1561,12 @@ var oneTime = 0;
         ctx.arc(x, y, rad, 0, 2 * Math.PI);
         ctx.fillStyle = color;
         ctx.fill();
-        ctx.strokeStyle = "black";
         ctx.stroke();
+        ctx.strokeStyle = "#FFFFFF22";
+        drawRect(0, 0, 270, 80, "#00000000");
+        ctx.font = "30px Arial";
+        ctx.fillStyle = "#FFFFFF22";
+        ctx.fillText("gen "+gen,15,60);
 
     }
 
@@ -1621,13 +1623,7 @@ var oneTime = 0;
         let i, j, k, l;
         if (use_html) {
             drawRect(0, 0, canWidth, canHeight, "black");
-            drawRect(0, 0, 270, 80, "#00000044");
             canvTxt(15, 30, cD, cH, vU);
-
-           ctx.beginPath();
-           ctx.font = "30px Arial";
-           ctx.fillStyle = "white";
-           ctx.fillText("gen "+gen,15,60);
         }
         k = U[vU].person.slice(0);
         l = k.length;
@@ -1728,7 +1724,7 @@ var oneTime = 0;
     U[vU].vaxAgeGp = Math.round(txt.substring(0,y));
     U[vU].vaxGroup = Math.round(txt.substring(y+1));
     U[vU].vaxMode = 2;    // for now, always 2
-    console.log("Gen"+gen+" AgeGp ="+U[vU].vaxAgeGp+" To be vaccinated="+U[vU].vaxGroup+"%");
+    console.log("AgeGp ="+U[vU].vaxAgeGp+" To be vaccinated="+U[vU].vaxGroup+"%");
     let vax = U[vU].vaxGroup;
     let ages = U[vU].vaxAgeGp;
     implementVax(ages,vax);
@@ -1750,8 +1746,8 @@ function implementVax(ages,vax){
          if (pAge == ages){
              susList[susvxCt] = k;
              susvxCt++;
-             AG[ages].vax++;
-             AG[ages].vaxGen = gen;
+//             AG[ages].vax++;
+//             AG[ages].vaxGen = gen;
           }
       }
     }
@@ -1792,8 +1788,10 @@ function implementVax(ages,vax){
           vaxed.push(j);
           susList.splice(selectvax,1);
 //          P[j].ViralLoad = 0;
-          P[j].vaxD = cD;
+          P[j].vaxD = cD-14;
           P[j].vaxType = U[vU].vaxMode;
+          AG[ages].vax++;
+          AG[ages].vaxgen = gen;
           susvxCt--;
 
       }
@@ -2170,7 +2168,7 @@ function implementVax(ages,vax){
             }
           }
           if (vaxSwitch==0) {
-            console.log("Vax prevented "+Vsmall+" ageGp"+P[Vsmall].ageGp+" by "+Vbig+" ageGp"+P[Vbig].ageGp+" gen"+gen+" Prob "+VaxProb);
+            console.log("Vax prevented "+Vsmall+" ageGp"+P[Vsmall].ageGp+" by "+Vbig+" gen"+gen);
             return}
       }
 
@@ -2196,12 +2194,28 @@ function implementVax(ages,vax){
           }
         }
         if (vaxSwitch==0) {
-          console.log("No transmit "+Vbig+ " ageGp"+P[Vbig].ageGp+" on "+Vsmall+" ageGp"+P[Vsmall].ageGp+" gen"+gen+" Prob "+VaxProb);
+          console.log("No transmit "+Vbig+ " ageGp"+P[Vbig].ageGp+" on "+Vsmall+" ageGp"+P[Vsmall].ageGp+" gen"+gen);
           return}
     }
 
 
+      let ipostInfect = cT - P[i].tInfect;
+      let jpostInfect = cT - P[j].tInfect;
 
+      if (ipostInfect > VLincD) {
+          P[i].touchCt++
+      };
+      if (ipostInfect > VLincD && P[j].state == "green") {
+          P[i].susCt++
+      };
+      if (jpostInfect > VLincD) {
+          P[j].touchCt++
+      };
+      if (jpostInfect > VLincD && P[i].state == "green") {
+          P[j].susCt++
+      };
+
+        let qVir = 0;
 
 
 /*
@@ -2245,24 +2259,14 @@ function implementVax(ages,vax){
         }
 
 */
-
-
-
-
-        let qVir = 0;
-
-        let ipostInfect = cT - P[i].tInfect;
-        let jpostInfect = cT - P[j].tInfect;
         let xpostInf;
         let xVL;
-
+        let x;
         let xinfD;
         let xinfVir;
         let xInf;
-        let x;
+        let xAgeGp;
 
-        if (ipostInfect<0)  { ipostInfect = -ipostInfect };
-        if (jpostInfect <0) { jpostInfect = - jpostInfect};
         if (Vbig == i){
             xpostInf = jpostInfect;
             xVL = jVL;
@@ -2281,30 +2285,15 @@ function implementVax(ages,vax){
 
         qVir = Math.min((xVL + VTrans), xinfVir);
         qVir = stochast(qVir, 0.05);
-        if (isNaN(qVir)) {
-          alert("NaN qVir");
-        }
         if (qVir < 0) {
             alert("neg viral load "+qVir)
         };
-
-
-
-
-        if (P[x].tInfect == 0){
-            P[x].tInfect = cT;
             P[x].ViralLoad = Math.max(qVir,1);
+        if (P[x].tInfect == 0){
+            P[x].tInfect = cT
         } else {
-            P[x].tInfect = P[x].tInfect + 0.000001;
-            return;
+            P[x].tInfect = P[x].tInfect + 0.0001
         }
-
-        let xAgeGp = P[x].ageGp;
-        let AGtotal = AG[xAgeGp].total;
-        let AGinfcd = AG[xAgeGp].infected;
-        if (AGinfcd > AGtotal) alert("AG limit exceeded");
-
-
         if (P[x].state == "green"){
             xInf = M.PCt-M.GreenCt;
             xAgeGp = P[x].ageGp;
@@ -2319,22 +2308,10 @@ function implementVax(ages,vax){
           }
           console.log(xInf+"I x:ageGp:fam "+vic+":"+P[vic].ageGp+":"+P[vic].famKey+" by "+P[dra].state+" "+dra+":"+P[dra].ageGp+":"+P[dra].famKey+" at gen"+gen+" Univ"+wU+" prob="+VaxProb.toFixed(3));
         }
-
-
-        if (ipostInfect > VLincD) {
-            P[i].touchCt++
-        };
-        if (ipostInfect > VLincD && P[j].state == "green") {
-            P[i].susCt++
-        };
-        if (jpostInfect > VLincD) {
-            P[j].touchCt++
-        };
-        if (jpostInfect > VLincD && P[i].state == "green") {
-            P[j].susCt++
-        };
-
-
+        xAgeGp = P[x].ageGp;
+        let AGtotal = AG[xAgeGp].total;
+        let AGinfcd = AG[xAgeGp].infected;
+        if (AGinfcd > AGtotal) alert("AG limit exceeded");
 
 
   }
@@ -2836,38 +2813,38 @@ function implementVax(ages,vax){
             let len = 0;
             Q.endGreen.push({
                 y: Q.logGreen[gen],
-                x: gen
+                x: gen / 24
             });
             Q.endYellow.push({
                 y: Q.logYellow[gen],
-                x: gen
+                x: gen / 24
             });
             Q.endBlue.push({
                 y: Q.logBlue[gen],
-                x: gen
+                x: gen / 24
             });
             Q.endRed.push({
                 y: Q.logRed[gen],
-                x: gen
+                x: gen / 24
             });
             Q.endOrange.push({
                 y: Q.logOrange[gen],
-                x: gen
+                x: gen / 24
             });
             Q.endCases.push({
                 y: Q.logCases[gen],
-                x: gen
+                x: gen / 24
             });
             if (gen > 1) {
                 let del = Q.logCases[gen] - Q.logCases[gen - 1];
                 Q.endRedDelta.push({
                     y: del,
-                    x: gen
+                    x: gen / 24
                 });
             } else {
                 Q.endRedDelta.push({
                     y: 0,
-                    x: gen
+                    x: gen / 24
                 })
             };
 
@@ -2925,39 +2902,39 @@ function implementVax(ages,vax){
 
         M.endGreen.push({
             y: M.logGreen[gen],
-            x: gen
+            x: gen / 24
         });
         M.endYellow.push({
             y: M.logYellow[gen],
-            x: gen
+            x: gen / 24
         });
         M.endBlue.push({
             y: M.logBlue[gen],
-            x: gen
+            x: gen / 24
         });
         M.endRed.push({
             y: M.logRed[gen],
-            x: gen
+            x: gen / 24
         });
         M.endOrange.push({
             y: M.logOrange[gen],
-            x: gen
+            x: gen / 24
         });
         M.endCases.push({
             y: M.logCases[gen],
-            x: gen
+            x: gen / 24
         });
 
         if (gen > 1) {
             let del = M.logCases[gen] - M.logCases[gen - 1];
             M.endRedDelta.push({
                 y: del,
-                x: gen
+                x: gen / 24
             });
         } else
             M.endRedDelta.push({
                 y: 0,
-                x: gen
+                x: gen / 24
             });
 
         len = M.endRedDelta.length;
@@ -2975,52 +2952,10 @@ function implementVax(ages,vax){
         });
     }
 
-    var lastG = [];
-    var lastY = [];
-    var lastB = [];
-    var lastR = [];
-    var lastO = [];
-
-    for(let aX=0;aX<11;aX++){
-      lastG[aX] = 0;
-      lastY[aX] = 0;
-      lastB[aX] = 0;
-      lastR[aX] = 0;
-      lastO[aX] = 0;
-    }
-
-    function consoleComp(Univ){
-      if (Univ==10){
-        if (M.GreenCt != lastG[10] || M.YellowCt != lastY[10] || M.BlueCt != lastB[10] || M.RedCt != lastR[10]) {
-            lastG[10] = M.GreenCt;
-            lastY[10] = M.YellowCt;
-            lastB[10] = M.BlueCt;
-            lastR[10] = M.RedCt;
-            lastO[10] = M.OrangeCt;
-            console.log("Structure S0 "+"gen"+gen+" "+M.GreenCt+":"+M.YellowCt+":"+M.BlueCt+":"+M.RedCt+":"+M.OrangeCt);
-            return;
-        }
-        return
-      };
-      if (U[Univ].greenCt != lastG[Univ] || U[Univ].yellowCt != lastY[Univ] || U[Univ].blueCt != lastB[Univ] || U[Univ].redCt != lastR[Univ] || U[Univ].orangeCt != lastO[Univ]){
-          lastG[Univ] = U[Univ].greenCt;
-          lastY[Univ] = U[Univ].yellowCt;
-          lastB[Univ] = U[Univ].blueCt;
-          lastR[Univ] = U[Univ].redCt;
-          lastO[Univ] = U[Univ].orangeCt;
-          console.log("Structure U"+Univ+" "+"gen"+gen+" "+U[Univ].greenCt+":"+U[Univ].yellowCt+":"+U[Univ].blueCt+":"+U[Univ].redCt+":"+U[Univ].orangeCt);
-      }
-    }
-
 
     function upDateGraph(Q, q) {
         let X = Q.arr[gen];
         let Y = Q.depT[gen];
-
-        for (let is=0;is<9;is++){
-          consoleComp(is);
-        };
-        consoleComp(10);
 
         if (VIEW == "local") {
             if (use_html) {
@@ -3060,7 +2995,7 @@ function implementVax(ages,vax){
                 document.getElementById("VisDep").innerHTML = Y.visCt;
             }
         }
-    if (VIEW == "MV") {
+        if (VIEW == "MV") {
 			if (M.UCt > 0) { chart7.render() };
 			if (M.UCt > 1) { chart8.render() };
 			if (M.UCt > 2) { chart9.render() };
@@ -3077,13 +3012,13 @@ function implementVax(ages,vax){
 			chart19.render();
 			chart20.render();
 
-      document.getElementById("dispGen").innerHTML = "gen: "+gen;
 			document.getElementById("TGreen").innerHTML = M.GreenCt;
 			document.getElementById("TYellow").innerHTML = M.YellowCt;
 			document.getElementById("TBlue").innerHTML = M.BlueCt;
 			document.getElementById("TRed").innerHTML = M.RedCt;
 			document.getElementById("TOrange").innerHTML = M.OrangeCt;
 			document.getElementById("trafficB").innerHTML = "TRAFFIC";
+
 
 			if (M.UCt > 0) { MVtable0() };
 			if (M.UCt > 1) { MVtable1() };
@@ -3094,7 +3029,7 @@ function implementVax(ages,vax){
 			if (M.UCt > 6) { MVtable6() };
 			if (M.UCt > 7) { MVtable7() };
 			if (M.UCt > 8) { MVtable8() };
-    }
+        }
 
       if (M.YellowCt==0 && M.BlueCt==0 && M.RedCt==0 && gen>1 && oneTime==0) {
         alert('STOP at gen'+gen);
@@ -3102,11 +3037,7 @@ function implementVax(ages,vax){
         return};
     }
 
-
-
-
     function MVtable0() {
-
         let X = U[0].arr[gen];
         let Y = U[0].depT[gen];
 
@@ -3487,24 +3418,19 @@ function implementVax(ages,vax){
                 text: "Progress of Transitions"
             },
             data: [{
-                type: "line",
-                fillopacity: 0.2,
+                type: "stackedColumn",
                 dataPoints: U[vU].endGreen
             }, {
-                type: "line",
-                fillopacity: 0.2,
+                type: "stackedColumn",
                 dataPoints: U[vU].endYellow
             }, {
-                type: "line",
-                fillopacity: 0.2,
+                type: "stackedColumn",
                 dataPoints: U[vU].endBlue
             }, {
-                type: "line",
-                fillopacity: 0.2,
+                type: "stackedColumn",
                 dataPoints: U[vU].endRed
             }, {
-                type: "line",
-                fillopacity: 0.2,
+                type: "stackedColumn",
                 dataPoints: U[vU].endOrange
             }]
         });
@@ -3528,27 +3454,29 @@ function implementVax(ages,vax){
                 title: "Y + R"
             },
             axisY: {
-                title: "Counts"
+                title: "G + B + O"
             },
             data: [{
-                type: "stackedColumn",
+                type: "column",
                 markerType: "none",
                 dataPoints: U[vU].endGreen
 
             }, {
-                type: "stackedColumn",
+                type: "column",
+                axisYType: "secondary",
                 markerType: "none",
                 dataPoints: U[vU].endYellow
             }, {
-                type: "stackedColumn",
+                type: "column",
                 markerType: "none",
                 dataPoints: U[vU].endBlue
             }, {
-                type: "stackedColumn",
+                type: "column",
                 markerType: "none",
+                axisYType: "secondary",
                 dataPoints: U[vU].endRed
             }, {
-                type: "stackedColumn",
+                type: "column",
                 markerType: "none",
                 dataPoints: U[vU].endOrange
             }]
@@ -3966,7 +3894,7 @@ function implementVax(ages,vax){
             },
             width: 500,
             data: [{
-                type: "line",
+                type: "column",
                 color: "orange",
                 showInLegend: true,
                 legendMarkerColor: "grey",

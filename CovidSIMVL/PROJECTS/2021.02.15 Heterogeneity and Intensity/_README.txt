@@ -1,0 +1,9 @@
+2021.02.20 Birth-Death Studies
+
+The idea was to see how the rate of new infections exceed the rate of deaths at any particular moment in time - gen, but after realizing that 8 days is not 8 generations but much more, the end result is anyway that the death curve PARALLELS the BIRTH curve of infectives, but with a constant lag.
+
+Most of the calculations and graphs are in error but one - and that is because the days for REDs were used as gens....
+
+Nevertheless, the main thing to learn is that at any particular moment, there may be because of the lag, and the shape of the growth of infectives, a very large gap between deaths (turning orange) and births (turning yellow).....but other things, like the pileup of red agents, do not show here...
+
+This led to the temporary abandonment of this project, in favor of the  more detailed STATE-COMPOSITION (aka STRUCTURE) studies in the eponymous project....
