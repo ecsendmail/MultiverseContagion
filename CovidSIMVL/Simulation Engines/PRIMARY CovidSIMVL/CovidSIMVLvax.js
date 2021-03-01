@@ -787,9 +787,21 @@ try {
     var VLinfEnd = 13.2;      // infectiousness ends 13.2 day after infection
     
     try {
-      VLinfEnd = VLinfEnd_R; // does VLinfEnd_R exist?
+      VLinfEnd = SYMPTOMATIC_CASES; // does VLinfEnd_R exist?
     } catch {
       // we must not be running from R
+    }
+
+    try {
+      VLonsetT = PRESYMPTOMATIC;
+    } catch {
+      // we must not be running from R
+    }
+
+    try {
+      VLincD = INCUBATING;
+    } catch {
+     // we must not be running from R
     }
 
     var VLprePeakRate = 1.069; // every 0.1 days
