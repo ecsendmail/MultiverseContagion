@@ -21,7 +21,7 @@ system....
 
 
 The Handbook has information useful to run and understand the goals of CovidSIMVL.
-The version in this github is 2020.09.10.
+![please click here for the version in this github 2020.09.10](CovidSIMVL/Documents/Manuscripts and Notes/HANDBOOK versions/A HANDBOOK FOR CovidSIMVL 20200910-1015.docx)
 
 The use of AUTO will keep going, hour by hour
 Pressing the AUTO button again will put the system back into manual mode.
