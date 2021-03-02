@@ -2,6 +2,12 @@
 import os
 import sys
 
+def run(c):
+    a = os.system(c)
+
+# make sure the compiled code is ready
+run("Rscript run.R 1")
+
 N_SIMULATIONS = 10
 CPU_COUNT = os.cpu_count()
 
@@ -12,6 +18,5 @@ for i in range(N_SIMULATIONS):
         f.write('wait\n'.encode())
 f.close()
 
-a = os.system('chmod 755 run.sh')
-a = os.system('./run.sh')
-
+run('chmod 755 run.sh')
+run('./run.sh')
