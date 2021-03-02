@@ -19,4 +19,4 @@ install_package<-function(x){
 # set up dependencies
 install_package("V8")
 install_package("Rcpp")
-install_package("parallel")
+# install_package("parallel")
