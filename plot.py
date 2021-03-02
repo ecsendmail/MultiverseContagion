@@ -4,6 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 d = {}
+max_N = 0
 files = [x.strip() for x in os.popen("ls -1 count*.csv").readlines()]
 for f in files:
     lines = [x.strip() for x in open(f).readlines()]
@@ -20,6 +21,11 @@ for f in files:
         if i > 0:
             w = [int(x) for x in w]
         data.append(w)
+
+    N = len(data) - 1
+    if N > max_N:
+        max_N = N
+
     d[f] = data
 
-
+print('max_N', max_N)
