@@ -3131,10 +3131,15 @@ function implementVax(ages,vax){
 			if (M.UCt > 8) { MVtable8() };
     }
 
-      if (M.YellowCt==0 && M.BlueCt==0 && M.RedCt==0 && gen>1 && oneTime==0) {
-        alert('STOP at gen'+gen);
+      if (M.YellowCt==0 && M.BlueCt==0 && M.RedCt==0 && gen>1 && oneTime==0){
+        try{
+          alert('STOP at gen'+gen)
+        } catch {
+          console.log('STOP at gen' + gen)
+        }
         oneTime = 1;
-        return};
+        return
+      };
     }
 
 
