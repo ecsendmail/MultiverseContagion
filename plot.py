@@ -51,6 +51,7 @@ for k in range(len(value)):
     plt.plot(value[k] / N, color=lab[k], label=lab[k])
 plt.legend()
 plt.title("average count per state over " + str(int(N)) + "simulations")
+plt.tight_layout()
 plt.show()
 
 '''
@@ -65,3 +66,5 @@ plt.show()
 "8",95,0,5,0,0
 "9",95,0,5,0,0
 '''
+
+# next: add error bars re: standard deviation?
