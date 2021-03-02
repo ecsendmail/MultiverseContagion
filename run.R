@@ -62,7 +62,7 @@ state_names <- ctx$get("state_names")
 state_counts <- ctx$get("state_counts")
 colnames(state_counts) <- state_names # give the matrix column names
 
-csv_fn <- paste("counts_", 1, ".csv", sep="")
+csv_fn <- paste("counts_", args[1], ".csv", sep="")
 write.csv(state_counts, csv_fn)
 
 if(length(args)==0){
