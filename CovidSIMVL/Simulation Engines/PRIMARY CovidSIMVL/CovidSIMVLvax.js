@@ -785,6 +785,25 @@ try {
     var VLonsetT = 5.2;       // onset symptoms
     var VLpeakFnd = 6.2;      // peak VL to one day after onset
     var VLinfEnd = 13.2;      // infectiousness ends 13.2 day after infection
+    
+    try {
+      VLinfEnd = SYMPTOMATIC_CASES; // does VLinfEnd_R exist?
+    } catch {
+      // we must not be running from R
+    }
+
+    try {
+      VLonsetT = PRESYMPTOMATIC;
+    } catch {
+      // we must not be running from R
+    }
+
+    try {
+      VLincD = INCUBATING;
+    } catch {
+     // we must not be running from R
+    }
+
     var VLprePeakRate = 1.069; // every 0.1 days
     var VLpostPeak = 0.865;
     var VLradius = 5;
@@ -910,6 +929,7 @@ try {
     M.qInfective = VLlower;
     M.tPeakVL = VLpeak0;
     M.qPeakVL = VLpeakVL;
+    console.log("VLinfEnd (red days?)= ", VLinfEnd);
     M.tInfectEnd = VLinfEnd;
     M.tOnset = VLonsetT;
     M.tInert = VLinfEnd;
@@ -1674,8 +1694,7 @@ var oneTime = 0;
     }
 
     function showCliD() {
-        let cliTxt = prompt("Current days of infectivity after case is symptomatic or tested positive \nTo\
- change enter new value between 5.2 and 13.2 or cancel (applies to REDs)", VLinfEnd);
+        let cliTxt = prompt("Current days of infectivity after case is symptomatic or tested positive \nTo change enter new value between 5.2 and 13.2 or cancel (applies to REDs)", VLinfEnd);
         let cliDays = eval(cliTxt);
         document.getElementById("dCliD").innerHTML = cliDays;
         console.log("Red Days changed to "+cliTxt);

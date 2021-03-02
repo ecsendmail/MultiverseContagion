@@ -1,9 +1,14 @@
 library(Rcpp) # run C++ code in R
 library(V8) # run v8 JS interpreter in R
 
-# simulation parameters
+# simulation parameters ###############################
 csv_traffic_file <- "./CovidSIMVL/Simulation Engines/PRIMARY CovidSIMVL/2021.02.15 AgeGpPop1000MVLTC.csv"
-csv_cases_file <- "./CovidSIMVL/Simulation Engines/PRIMARY CovidSIMVL/2021.02.15 VLfive.csv";
+csv_cases_file <- "./CovidSIMVL/Simulation Engines/PRIMARY CovidSIMVL/2021.02.15 VLfive.csv"
+
+SYMPTOMATIC_CASES <- 13.0
+PRESYMPTOMATIC <- 5.2
+INCUBATING <- 2.2
+# end simulation parameters ###########################
 
 src<-function(x){
   cat(paste(x, "\n", sep=""))
@@ -23,7 +28,12 @@ ctx <- v8() # create v8 instance: javascript interpreter within R
 # pass both CSV data files contents, plus number of agents, into JS
 ctx$assign("csv_cases", csv_cases)
 ctx$assign("csv_traffic", csv_traffic) 
-ctx$assign("number_of_agents", number_of_agents);
+ctx$assign("number_of_agents", number_of_agents)
+
+# pass parameters into simulation
+ctx$assign("SYMPTOMATIC_CASES", SYMPTOMATIC_CASES)
+ctx$assign("PRESYMPTOMATIC", PRESYMPTOMATIC)
+ctx$assign("INCUBATING", INCUBATING)
 
 # set up and run the simulation
 ctx$source("./CovidSIMVL/Simulation Engines/PRIMARY CovidSIMVL/CovidSIMVLvax.js")
