@@ -4536,12 +4536,26 @@ function list_to_str(x){
 var state_names = ["green", "yellow", "blue", "red", "orange"]
 var state_counts = null // try to pass this back to R
 var min_iter = 2000
+var max_iterations = 100000
+
+try{
+  min_iter = MIN_ITERATIONS;
+} catch {
+  // not running from R
+}
+
+try{
+  max_iterations = MAX_ITERATIONS;
+} catch {
+  // not running from R
+}
+
 try {
     if (!use_html) {
         auto();
         load();
 	var max_iter_same = 25 // simulation exits after metric is 0 for this many iterations
-	var max_iterations = 100000
+
         var last_state_count = null // last iteration's counts for people in each state, for comparison
 	var count_zero = 0 // increment this if metric is zero, zero this if metric is nonzero
 
