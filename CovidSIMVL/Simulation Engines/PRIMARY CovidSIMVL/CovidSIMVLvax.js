@@ -997,6 +997,11 @@ try {
         U.Attached = 0;
         U.Transient = 0;
         U.minglf = 1;
+        try{
+          U.minglf = MINGLE_FACTOR;
+	} catch {
+	}
+
         U.greenCt = 0;
         U.yellowCt = 0;
         U.blueCt = 0;
@@ -1166,6 +1171,12 @@ var oneTime = 0;
         P.baseSize = stochast(VLradius, 0.05);
         P.currSize = P.baseSize;
         P.minglf = 1;
+        try{
+          P.minglf = MINGLE_FACTOR;
+	} catch {
+          // must not be running from R
+	}
+
         P.X = 0;
         P.Y = 0;
         P.old = 0;

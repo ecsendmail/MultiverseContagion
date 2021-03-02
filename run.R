@@ -10,6 +10,7 @@ PRESYMPTOMATIC <- 5.2
 INCUBATING <- 2.2
 
 HAZARD_RADIUS <- 5 # hazard radius
+MINGLE_FACTOR <- 1. # mingle factor
 # end simulation parameters ###########################
 
 src<-function(x){
@@ -36,6 +37,8 @@ ctx$assign("number_of_agents", number_of_agents)
 ctx$assign("SYMPTOMATIC_CASES", SYMPTOMATIC_CASES)
 ctx$assign("PRESYMPTOMATIC", PRESYMPTOMATIC)
 ctx$assign("INCUBATING", INCUBATING)
+ctx$assign("HAZARD_RADIUS", HAZARD_RADIUS)
+ctx$assign("MINGLE_FACTOR", MINGLE_FACTOR)
 
 # set up and run the simulation
 ctx$source("./CovidSIMVL/Simulation Engines/PRIMARY CovidSIMVL/CovidSIMVLvax.js")
