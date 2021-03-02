@@ -786,6 +786,10 @@ try {
     var VLpeakFnd = 6.2;      // peak VL to one day after onset
     var VLinfEnd = 13.2;      // infectiousness ends 13.2 day after infection
     
+    var VLprePeakRate = 1.069; // every 0.1 days
+    var VLpostPeak = 0.865;
+    var VLradius = 5; // Hazard radius
+
     try {
       VLinfEnd = SYMPTOMATIC_CASES; // does VLinfEnd_R exist?
     } catch {
@@ -804,10 +808,11 @@ try {
      // we must not be running from R
     }
 
-    var VLprePeakRate = 1.069; // every 0.1 days
-    var VLpostPeak = 0.865;
-    var VLradius = 5;
-
+    try {
+      VLradius = HAZARD_RADIUS;
+    } catch {
+      // we must not be running from R
+    }
 
     function CreateAgeGP() {
       this.AGname;
@@ -992,6 +997,11 @@ try {
         U.Attached = 0;
         U.Transient = 0;
         U.minglf = 1;
+        try{
+          U.minglf = MINGLE_FACTOR;
+	} catch {
+	}
+
         U.greenCt = 0;
         U.yellowCt = 0;
         U.blueCt = 0;
@@ -1161,6 +1171,12 @@ var oneTime = 0;
         P.baseSize = stochast(VLradius, 0.05);
         P.currSize = P.baseSize;
         P.minglf = 1;
+        try{
+          P.minglf = MINGLE_FACTOR;
+	} catch {
+          // must not be running from R
+	}
+
         P.X = 0;
         P.Y = 0;
         P.old = 0;
@@ -3115,10 +3131,15 @@ function implementVax(ages,vax){
 			if (M.UCt > 8) { MVtable8() };
     }
 
-      if (M.YellowCt==0 && M.BlueCt==0 && M.RedCt==0 && gen>1 && oneTime==0) {
-        alert('STOP at gen'+gen);
+      if (M.YellowCt==0 && M.BlueCt==0 && M.RedCt==0 && gen>1 && oneTime==0){
+        try{
+          alert('STOP at gen'+gen)
+        } catch {
+          console.log('STOP at gen' + gen)
+        }
         oneTime = 1;
-        return};
+        return
+      };
     }
 
 
