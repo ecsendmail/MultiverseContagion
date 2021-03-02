@@ -40,7 +40,7 @@ ctx <- v8() # create v8 instance: javascript interpreter within R
 
 # pass both CSV data files contents, plus number of agents, into JS
 ctx$assign("csv_cases", csv_cases)
-ctx$assign("csv_traffic", csv_traffic) 
+ctx$assign("csv_traffic", csv_traffic)
 ctx$assign("number_of_agents", number_of_agents)
 
 # pass parameters into simulation
@@ -64,3 +64,21 @@ colnames(state_counts) <- state_names # give the matrix column names
 
 csv_fn <- paste("counts_", 1, ".csv", sep="")
 write.csv(state_counts, csv_fn)
+
+if(length(args)==0){
+  pdf("counts.pdf")
+  matplot(state_counts,
+    xlim = c(0, nrow(state_counts)),
+    ylim = c(0, max(state_counts)),
+    type="l",
+    lwd = 1,
+    lty="solid",
+    xlab="iteration",
+    ylab="count",
+    main="Individuals per state, per iteration",
+    col = state_names)
+
+  legend("topright", legend= state_names, col=state_names) #, lty=1:5)
+  dev.off()
+  cat("output written to counts.pdf\n")
+}
