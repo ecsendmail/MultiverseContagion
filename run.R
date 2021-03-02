@@ -8,6 +8,8 @@ csv_cases_file <- "./CovidSIMVL/Simulation Engines/PRIMARY CovidSIMVL/2021.02.15
 SYMPTOMATIC_CASES <- 13.0
 PRESYMPTOMATIC <- 5.2
 INCUBATING <- 2.2
+
+HAZARD_RADIUS <- 5 # hazard radius
 # end simulation parameters ###########################
 
 src<-function(x){

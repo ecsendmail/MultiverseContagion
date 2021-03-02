@@ -786,6 +786,10 @@ try {
     var VLpeakFnd = 6.2;      // peak VL to one day after onset
     var VLinfEnd = 13.2;      // infectiousness ends 13.2 day after infection
     
+    var VLprePeakRate = 1.069; // every 0.1 days
+    var VLpostPeak = 0.865;
+    var VLradius = 5; // Hazard radius
+
     try {
       VLinfEnd = SYMPTOMATIC_CASES; // does VLinfEnd_R exist?
     } catch {
@@ -804,10 +808,11 @@ try {
      // we must not be running from R
     }
 
-    var VLprePeakRate = 1.069; // every 0.1 days
-    var VLpostPeak = 0.865;
-    var VLradius = 5;
-
+    try {
+      VLradius = HAZARD_RADIUS;
+    } catch {
+      // we must not be running from R
+    }
 
     function CreateAgeGP() {
       this.AGname;
