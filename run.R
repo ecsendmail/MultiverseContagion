@@ -18,7 +18,6 @@ PRESYMPTOMATIC <- 5.2 # longditudinal value (days): presymptomatic from INCUBATI
 SYMPTOMATIC_CASES <- 13.0 # longditudinal value (days): symptomatic from PRESYMPTOMATIC to SYMPTOMATIC_CASES
 
 # meta parameters
-NUMBER_OF_SIMULATIONS <- 10 # number of simulation trials to run
 MIN_ITERATIONS <- 2000 # minimum number of steps per trial
 MAX_ITERATIONS <- 100000 # maximum number of steps per trial
 
