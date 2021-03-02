@@ -8,7 +8,7 @@ def run(c):
 # make sure the compiled code is ready
 run("Rscript run.R 1")
 
-N_SIMULATIONS = 10
+N_SIMULATIONS = 100
 CPU_COUNT = os.cpu_count()
 
 f = open('run.sh', 'wb')
