@@ -46,6 +46,7 @@ for f in files:
             value[k][j] += w[k]
 
 N = float(len(files))
+print("N", N)
 lab = ["green","yellow","blue","red","orange"]
 for k in range(len(value)):
     plt.plot(value[k] / N, color=lab[k], label=lab[k])
