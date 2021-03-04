@@ -20,12 +20,12 @@ for f in files:
         w = lines[i].strip().split(',')
         w = [x.strip('"') for x in w]
         if i > 0:
-            w = [int(x) for x in w]
-        data.append(w)
+            w = [int(x) for x in w] # read non-header row
+            data.append(w)
 
-    N = len(data) - 1
+    N = len(data)
     if N > max_N:
-        max_N = N 
+        max_N = N  # max number of iterations observed in batch 
     d[f] = data
 
 value = [np.zeros(max_N) for i in range(5)]
@@ -37,12 +37,12 @@ ci = 1
 for f in files:
     print(ci, f)
     ci += 1
-    data = d[f]
-    for i in range(len(data) - 1):
-        w = data[i + 1]
+    data = d[f]  # time series for this file
+    for i in range(len(data)):
+        w = data[i]
         j = w[0] - 1
         w = w[1:]
-        for k in range(len(w)):
+        for k in range(len(w)): # for each dimension of vector
             value[k][j] += w[k]
 
 N = float(len(files))
@@ -51,7 +51,7 @@ lab = ["green","yellow","blue","red","orange"]
 for k in range(len(value)):
     plt.plot(value[k] / N, color=lab[k], label=lab[k])
 plt.legend()
-plt.title("avg counts / state: " + str(int(N)) + "simulations")
+plt.title("avg counts / state: " + str(int(N)) + " runs")
 plt.tight_layout()
 plt.savefig("plot.png")
 
