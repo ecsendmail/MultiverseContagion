@@ -1,3 +1,4 @@
+# work queue.. each worker picks up one job, completes it, picks up another until queue is empty
 import os
 import sys
 import time
