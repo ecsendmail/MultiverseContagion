@@ -28,7 +28,10 @@ for f in files:
         max_N = N  # max number of iterations observed in batch 
     d[f] = data
 
-value = [np.zeros(max_N) for i in range(5)]
+value = [np.zeros(max_N) for i in range(5)] # average value 
+lower = [sys.float_info.max * np.ones(max_N) for i in range(5)] # lower envelope
+upper = [sys.float_info.min * np.ones(max_N) for i in range(5)] # upper envelope
+
 print(value)
 
 print('max_N', max_N)
@@ -39,18 +42,30 @@ for f in files:
     ci += 1
     data = d[f]  # time series for this file
     for i in range(len(data)):
-        w = data[i]
+        w = data[i] # vector for a point in time
         j = w[0] - 1
         w = w[1:]
         for k in range(len(w)): # for each dimension of vector
             value[k][j] += w[k]
+            
+            if w[k] < lower[k][j]:
+                lower[k][j] = w[k]
+            if w[k] > upper[k][j]:
+                upper[k][j] = w[k] 
 
 N = float(len(files))
 print("N", N)
+
+plt.figure(figsize=(16, 12))
+plt.rcParams['axes.facecolor'] = 'black'
 lab = ["green","yellow","blue","red","orange"]
 for k in range(len(value)):
     plt.plot(value[k] / N, color=lab[k], label=lab[k])
-plt.legend()
+    plt.plot(lower[k], color=lab[k], ls='--')
+    plt.plot(upper[k], color=lab[k], ls='--')
+
+legend = plt.legend()
+plt.setp(legend.get_texts(), color='w')
 plt.title("avg counts / state: " + str(int(N)) + " runs")
 plt.tight_layout()
 plt.savefig("plot.png")
