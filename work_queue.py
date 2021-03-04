@@ -2,7 +2,7 @@ import os
 import sys
 import time
 import multiprocessing
-from thread import allocate_lock, start_new_thread
+from _thread import allocate_lock, start_new_thread
 
 def err(m):
     print("Error: " + m)
@@ -40,7 +40,7 @@ threads_alive, next_j, j_max = ncpu, 0, n_task - 1
 def cprint(s):
     global p_lock
     p_lock.acquire()
-    print s
+    print(s)
     p_lock.release()
 
 cprint("nworkers " + str(ncpu))
@@ -54,8 +54,8 @@ def threadfun(my_id):  # worker thread picks up task
         lock.release()
 	
         if(j > j_max):
-	    threads_alive -= 1  # kill thread if no work
-	    return
+            threads_alive -= 1  # kill thread if no work
+            return
 
         if tasks[j].strip() == "":  # don't run empty task
             continue
@@ -70,7 +70,7 @@ def wait_to_finish():  # sleep a bit?
     poll_int = .01 # polling is bad, don't do too much
     while True:
         time.sleep(poll_int)
-	if(threads_alive == 0):
+        if(threads_alive == 0):
             sys.exit(0)
 
 for i in range(0, ncpu):
