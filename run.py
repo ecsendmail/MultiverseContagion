@@ -1,4 +1,4 @@
-# run R simulation wrapper, in parallel
+# run R simulation wrapper, in parallel # should use a work queue format
 import os
 import sys
 

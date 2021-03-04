@@ -51,9 +51,9 @@ lab = ["green","yellow","blue","red","orange"]
 for k in range(len(value)):
     plt.plot(value[k] / N, color=lab[k], label=lab[k])
 plt.legend()
-plt.title("average count per state over " + str(int(N)) + "simulations")
+plt.title("avg counts / state: " + str(int(N)) + "simulations")
 plt.tight_layout()
-plt.show()
+plt.savefig("plot.png")
 
 '''
 "","green","yellow","blue","red","orange"

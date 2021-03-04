@@ -19,7 +19,7 @@ SYMPTOMATIC_CASES <- 13.0 # longditudinal value (days): symptomatic from PRESYMP
 
 # meta parameters
 MIN_ITERATIONS <- 2000 # minimum number of steps per trial
-MAX_ITERATIONS <- 100000 # maximum number of steps per trial
+MAX_ITERATIONS <- 2000 # maximum number of steps per trial
 
 # end simulation parameters ###########################
 

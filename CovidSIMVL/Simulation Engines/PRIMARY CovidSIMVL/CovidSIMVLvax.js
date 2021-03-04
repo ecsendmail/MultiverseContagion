@@ -4583,6 +4583,7 @@ try {
             // console.log(d, " ", info)
 
 	    if(count_zero >= max_iter_same && i >= min_iter) break // exit for loop / stop iterating, if we reached a fixed point
+            if(i >= max_iterations) break;
 
 	    TimesUp(); // go to next state
             last_state_count = state_count;
