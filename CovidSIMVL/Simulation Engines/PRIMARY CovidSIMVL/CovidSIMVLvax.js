@@ -785,10 +785,34 @@ try {
     var VLonsetT = 5.2;       // onset symptoms
     var VLpeakFnd = 6.2;      // peak VL to one day after onset
     var VLinfEnd = 13.2;      // infectiousness ends 13.2 day after infection
+    
     var VLprePeakRate = 1.069; // every 0.1 days
     var VLpostPeak = 0.865;
-    var VLradius = 5;
+    var VLradius = 5; // Hazard radius
 
+    try {
+      VLinfEnd = SYMPTOMATIC_CASES; // does VLinfEnd_R exist?
+    } catch {
+      // we must not be running from R
+    }
+
+    try {
+      VLonsetT = PRESYMPTOMATIC;
+    } catch {
+      // we must not be running from R
+    }
+
+    try {
+      VLincD = INCUBATING;
+    } catch {
+     // we must not be running from R
+    }
+
+    try {
+      VLradius = HAZARD_RADIUS;
+    } catch {
+      // we must not be running from R
+    }
 
     function CreateAgeGP() {
       this.AGname;
@@ -910,6 +934,7 @@ try {
     M.qInfective = VLlower;
     M.tPeakVL = VLpeak0;
     M.qPeakVL = VLpeakVL;
+    console.log("VLinfEnd (red days?)= ", VLinfEnd);
     M.tInfectEnd = VLinfEnd;
     M.tOnset = VLonsetT;
     M.tInert = VLinfEnd;
@@ -972,6 +997,11 @@ try {
         U.Attached = 0;
         U.Transient = 0;
         U.minglf = 1;
+        try{
+          U.minglf = MINGLE_FACTOR;
+	} catch {
+	}
+
         U.greenCt = 0;
         U.yellowCt = 0;
         U.blueCt = 0;
@@ -1141,6 +1171,12 @@ var oneTime = 0;
         P.baseSize = stochast(VLradius, 0.05);
         P.currSize = P.baseSize;
         P.minglf = 1;
+        try{
+          P.minglf = MINGLE_FACTOR;
+	} catch {
+          // must not be running from R
+	}
+
         P.X = 0;
         P.Y = 0;
         P.old = 0;
@@ -1674,8 +1710,7 @@ var oneTime = 0;
     }
 
     function showCliD() {
-        let cliTxt = prompt("Current days of infectivity after case is symptomatic or tested positive \nTo\
- change enter new value between 5.2 and 13.2 or cancel (applies to REDs)", VLinfEnd);
+        let cliTxt = prompt("Current days of infectivity after case is symptomatic or tested positive \nTo change enter new value between 5.2 and 13.2 or cancel (applies to REDs)", VLinfEnd);
         let cliDays = eval(cliTxt);
         document.getElementById("dCliD").innerHTML = cliDays;
         console.log("Red Days changed to "+cliTxt);
@@ -3096,10 +3131,15 @@ function implementVax(ages,vax){
 			if (M.UCt > 8) { MVtable8() };
     }
 
-      if (M.YellowCt==0 && M.BlueCt==0 && M.RedCt==0 && gen>1 && oneTime==0) {
-        alert('STOP at gen'+gen);
+      if (M.YellowCt==0 && M.BlueCt==0 && M.RedCt==0 && gen>1 && oneTime==0){
+        try{
+          alert('STOP at gen'+gen)
+        } catch {
+          console.log('STOP at gen' + gen)
+        }
         oneTime = 1;
-        return};
+        return
+      };
     }
 
 
@@ -4496,12 +4536,26 @@ function list_to_str(x){
 var state_names = ["green", "yellow", "blue", "red", "orange"]
 var state_counts = null // try to pass this back to R
 var min_iter = 2000
+var max_iterations = 100000
+
+try{
+  min_iter = MIN_ITERATIONS;
+} catch {
+  // not running from R
+}
+
+try{
+  max_iterations = MAX_ITERATIONS;
+} catch {
+  // not running from R
+}
+
 try {
     if (!use_html) {
         auto();
         load();
 	var max_iter_same = 25 // simulation exits after metric is 0 for this many iterations
-	var max_iterations = 100000
+
         var last_state_count = null // last iteration's counts for people in each state, for comparison
 	var count_zero = 0 // increment this if metric is zero, zero this if metric is nonzero
 
@@ -4529,6 +4583,7 @@ try {
             // console.log(d, " ", info)
 
 	    if(count_zero >= max_iter_same && i >= min_iter) break // exit for loop / stop iterating, if we reached a fixed point
+            if(i >= max_iterations) break;
 
 	    TimesUp(); // go to next state
             last_state_count = state_count;
