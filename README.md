@@ -9,10 +9,12 @@ There are 3 top-level folders:
      c. Simulation Engines
      
 Within /Simulation Engines, the PRIMARY CovidSIMVL contains the:
-     * index.html
-     * [the .js Javascript file](https://github.com/ecsendmail/MultiverseContagion/blob/master/CovidSIMVL/Simulation%20Engines/PRIMARY%20CovidSIMVL/CovidSIMVLvax.js)
-     * the two CSV files - one defining the population, the other the cases
-     * and an Excel sheet containing the sample outputs pasted from the console.log and screen images
+
+* index.html
+* [the .js Javascript file](https://github.com/ecsendmail/MultiverseContagion/blob/master/CovidSIMVL/Simulation%20Engines/PRIMARY%20CovidSIMVL/CovidSIMVLvax.js)
+* the two CSV files - one defining the population, the other the cases
+* and an Excel sheet containing the sample outputs pasted from the console.log and screen images
+
 read the _README.txt in the folders where you find them, especially in /Simulation Engines
 
 In the /documents folder, the /Hnadbook directory has many versions as they have evolved. The latest is
