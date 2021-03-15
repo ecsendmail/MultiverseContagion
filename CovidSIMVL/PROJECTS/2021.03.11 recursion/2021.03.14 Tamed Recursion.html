@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Bouncing Ball</title>
+  <style>
+  #getFile {
+    position: absolute;
+    display:block;
+    left:530px;
+    top:125px;
+  }
+  </style>
+</head>
+
+<body>
+  <div id="getFile">
+  <input type="file" id="csvFileInput" onchange="handleFiles(this.files)"
+            accept=".csv">
+  </div>
+  <canvas id="gameCanvas" width="800" height="600"></canvas>
+  <script>
+
+  var lines = [];
+
+ 
+  
+
+  function handleFiles(files) {
+          // Check for the various File API support.
+          if (window.FileReader) {
+  //            alert(files);
+  //            alert(files[0]);
+  //            console.log("getAsText", files[0])
+              getAsText(files[0]);
+          } else {
+              alert('FileReader are not supported in this browser.');
+          }
+  }
+
+  function getAsText(fileToRead) {
+      console.log(fileToRead);
+      var reader = new FileReader();
+      reader.onload = loadHandler; // handle errors load
+      reader.onerror = errorHandler;
+      reader.readAsText(fileToRead); // read file into memory as utf-8
+  }
+
+  function loadHandler(event) {
+      var csv = event.target.result;
+      processData(csv);
+  }
+
+  function processData(csv) {
+      var allTextLines = csv.split(/\r\n|\n/);
+      lines = [];
+      while (allTextLines.length) {
+          lines.push(allTextLines.shift().split(','));
+      }
+      processLines();
+  }
+
+  function errorHandler(evt) {
+      if (evt.target.error.name == "NotReadableError") {
+          alert("Cannot read file !");
+      }
+  }
+  
+  /* ************************************************************************* */
+  var asymm = [];
+  var UN = [];
+  var nodes = [];
+  var nodeCt = [];
+  var nodeN;
+  var nodeList = prompt("Enter total size plus root nodes separated by commas. Maximum 9 entries");
+  
+  parseNodeSpecs(nodeList);
+  let i;
+  for (i=0;i<nodeN;i++){
+	nodes[i] = ""
+	nodeCt[i] = 0;
+	asymm[i] = [];
+	asymm[i][0] = "";
+	}
+	
+  function parseNodeSpecs(x) {
+		let i, y, z;
+		if (x == "" || x == null) {
+			alert("invalid specifications");
+			return;
+		}
+
+
+		for (i = 0; i < 10; i++) {
+			y = x.indexOf(",", 0);
+			if (y == -1) break;
+			if (i==0) {
+				nodeN = x.substring(0,y)
+			} else {
+				UN[i-1] = x.substring(0, y);
+			}
+			x = x.substring(y + 1);
+		}
+		UN[i-1] = x;
+	
+		console.log("Total Tree Size "+nodeN);
+		console.log("roots of trees to be processed "+UN);
+	}
+
+
+
+  function processLines(){
+      let i, j;
+      if (lines[0][0] == "Biter"){ lines.shift() }
+      var lineNo = lines.length;
+      for (i=0;i<lineNo;i++){
+		if (lines[i]!=""){
+			nodes[i]=lines[i];
+		}
+		nodeN = lineNo;
+	  }     
+	  OKletsGO();
+  }
+
+  
+  function bSearch(bnode) {
+		let bIndx;
+		for (bIndx=0; bIndx<nodeN+1;bIndx++) {
+			if (nodes[bIndx][0] == ""){ exit };
+			if (nodes[bIndx][0] == bnode){
+				return(bIndx)}
+		}
+		return(-1);
+	}
+	
+	function vSearch(vnode) {
+		let vIndx;
+		for (vIndx=0; vIndx<nodeN+1;vIndx++) {
+			if (nodes[vIndx][1] == "") { exit };
+			if (nodes[vIndx][1] == vnode) {
+				return(vIndx)
+			}
+		}
+		return(-1)
+	}
+			
+	
+	function OKletsGO(){
+		let ix,iy;
+		iy = UN.length;
+		for (ix=0;ix<iy;ix++){
+			console.log("\n Processing root node "+UN[ix]);
+			var x = UN[ix];
+			descend(x,"");
+		}	
+		let nCt = nodeCt.length;
+		for (let i=0;i<nCt;i++){
+			if (nodeCt[i]!=0)
+				console.log("node "+i+" "+nodeCt[i]);
+		}
+		asymmetry();
+	}
+	
+	function span(x,padx){
+		let dStr = "";
+		let i=0;
+		let y;
+		let z;
+		let val;
+		let fill;
+		let xx;
+	
+		let pad = padx.concat("    ");
+//		asymm[x][0] = x;
+		if ((z=bSearch(x)) == -1) {		
+//			console.log(pad+x+" is leaf");
+			return (-1);
+		} else {
+			/* now we have a victim may have more */
+			/* just iterate at this level till next entry is not x */
+			dStr = dStr.concat(x,"  (");
+			y = nodes[z+i][0];
+			while (y == x){
+				// go one step further to see if a leaf and not print out the leaf line 
+				xx = nodes[z+i][1];
+				if (bSearch(xx) == -1) {
+					fill = "* "
+				} else {
+					fill = " "
+				}
+				
+				dStr = dStr.concat(nodes[z+i][1],fill);
+//				asymm[x][i+1] = xx;
+				i++;
+				y = nodes[z+i][0];
+			}
+
+			console.log(pad.concat(dStr.substring(0,dStr.length-1),")"));
+			return(z);				
+			}
+	}	
+			
+			
+	function descend(x,padx){
+		let exists = false;
+		let padi = padx.concat("   ");
+		let i = 0;
+		let zpl;
+		let val = 0;
+		
+	
+	// recursive routine which will
+	
+	// use span() to output all the immediate descendant nodes
+		let place = span(x,padi);
+		if (place != -1){
+			exists = true;
+			zpl = place;
+		}
+
+		while (exists){
+			let vic = nodes[zpl+i][1];
+			val = descend(vic,padi);
+			nodeCt[x] = nodeCt[x]+val;
+			i++;
+			if (nodes[zpl+i][0]!=x) {exists = false};
+		}
+		return(nodeCt[x]+1);		
+	}
+
+			
+		
+	
+		
+		
+
+
+
+
+    </script>
+  </body>
+</html>

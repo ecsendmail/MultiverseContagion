@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Bouncing Ball</title>
+  <style>
+  #getFile {
+    position: absolute;
+    display:block;
+    left:530px;
+    top:125px;
+  }
+  </style>
+</head>
+
+<body>
+  <div id="getFile">
+  <input type="file" id="csvFileInput" onchange="handleFiles(this.files)"
+            accept=".csv">
+  </div>
+  <canvas id="gameCanvas" width="800" height="600"></canvas>
+  <script>
+
+  var lines = [];
+
+ 
+  
+
+  function handleFiles(files) {
+          // Check for the various File API support.
+          if (window.FileReader) {
+  //            alert(files);
+  //            alert(files[0]);
+  //            console.log("getAsText", files[0])
+              getAsText(files[0]);
+          } else {
+              alert('FileReader are not supported in this browser.');
+          }
+  }
+
+  function getAsText(fileToRead) {
+      console.log(fileToRead);
+      var reader = new FileReader();
+      reader.onload = loadHandler; // handle errors load
+      reader.onerror = errorHandler;
+      reader.readAsText(fileToRead); // read file into memory as utf-8
+  }
+
+  function loadHandler(event) {
+      var csv = event.target.result;
+      processData(csv);
+  }
+
+  function processData(csv) {
+      var allTextLines = csv.split(/\r\n|\n/);
+      lines = [];
+      while (allTextLines.length) {
+          lines.push(allTextLines.shift().split(','));
+      }
+      processLines();
+  }
+
+  function errorHandler(evt) {
+      if (evt.target.error.name == "NotReadableError") {
+          alert("Cannot read file !");
+      }
+  }
+  
+  /* ************************************************************************* */
+  
+  
+  var nodes = [];
+  var nodeCt = [];
+  var nodeN = prompt("Enter ceiling of number of nodes");
+  
+  nodeN = eval(nodeN);
+  let i;
+  for (i=0;i<nodeN;i++){
+	nodes[i] = ""
+	nodeCt[i] = 0;
+	}
+	
+
+  function processLines(){
+      let i, j;
+      if (lines[0][0] == "Biter"){ lines.shift() }
+      var lineNo = lines.length;
+      for (i=0;i<lineNo;i++){
+		if (lines[i]!=""){
+			nodes[i]=lines[i];
+		}
+		nodeN = lineNo;
+	  }     
+	  OKletsGO();
+  }
+
+  
+  function bSearch(bnode) {
+		let bIndx;
+		for (bIndx=0; bIndx<nodeN+1;bIndx++) {
+			if (nodes[bIndx][0] == ""){ exit };
+			if (nodes[bIndx][0] == bnode){
+				return(bIndx)}
+		}
+		return(-1);
+	}
+	
+	function vSearch(vnode) {
+		let vIndx;
+		for (vIndx=0; vIndx<nodeN+1;vIndx++) {
+			if (nodes[vIndx][1] == "") { exit };
+			if (nodes[vIndx][1] == vnode) {
+				return(vIndx)
+			}
+		}
+		return(-1)
+	}
+			
+	
+	function OKletsGO(){
+		var x = prompt(" biter node number");
+		alert(bSearch(x));
+		alert(x+" "+descend2(x));
+
+	
+	}
+	
+
+
+	function descend2(x){
+		let i=0;
+		let y;
+		let z;
+		let val;
+		
+		if ((z=bSearch(x)) == -1){
+			nodeCt[x]++;
+			return(nodeCt[x]);}		
+		else {
+		
+	
+			while (nodes[z+i][0] != "") {
+				if (nodes[z+i][0] == x) {
+
+					y=nodes[z+i][1];
+					val = descend2(y);
+//					console.log("val = "+val);
+					nodeCt[x] = nodeCt[x] + val;
+
+					console.log("node "+nodes[z+i][0]+" count "+nodeCt[x]+" victim "+nodes[z+i][1]);
+					i++;
+				}
+				else {break}
+			}
+			nodeCt[x]++;
+			return(nodeCt[x]);
+		}
+	}
+
+
+
+
+    function recurse(arg){
+      console.log("recurse arg "+arg);
+      if (arg==0){return}
+      else {
+        recurse(arg-1);
+      }
+    }
+    recurse(6);
+    // declare variables
+    const FPS = 30;
+    var bs = 12;    //ball size
+    var bx = [];      //presumably ball center
+    var by = [];
+    var xv = [];    //velocity in x and y directions
+    var yv = [];
+    var bColor = [];
+
+    var canvas, ctx;
+    var nBalls = 300;
+
+    // load canvas
+
+
+    </script>
+  </body>
+</html>
