@@ -1,0 +1,8 @@
+Parameters,
+population,100
+HzR,4
+mF,2.6
+RedDays,11.2
+pop file,pop100.json
+case file,case5.json
+STOP,350

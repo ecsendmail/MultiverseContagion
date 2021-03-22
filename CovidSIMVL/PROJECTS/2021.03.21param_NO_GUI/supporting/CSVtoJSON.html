@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Convert csv to JSON</title>
+  <style>
+
+  #getFile {
+    position: absolute;
+    display:block;
+    left:530px;
+    top:125px;
+  }
+
+
+
+  </style>
+</head>
+
+<body>
+  <div id="getFile">
+  <input type="file" id="csvFileInput" onchange="handleFiles(this.files)"
+            accept=".csv">
+  </div>
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script>
+
+  var lines = [];
+
+  function handleFiles(files) {
+          if (window.FileReader) {
+              getAsText(files[0]);
+          } else {
+              alert('FileReader are not supported in this browser.');
+          }
+  }
+
+  function getAsText(fileToRead) {
+      console_log(fileToRead);
+      var reader = new FileReader();
+      reader.onload = loadHandler; // handle errors load
+      reader.onerror = errorHandler;
+      reader.readAsText(fileToRead); // read file into memory as utf-8
+  }
+
+  function loadHandler(event) {
+      var csv = event.target.result;
+      COLLECTION = csv;
+      //processData(csv);
+      writeJSON();
+  }
+
+  function errorHandler(evt) {
+      if (evt.target.error.name == "NotReadableError") {
+          alert("Cannot read file !");
+      }
+  }
+
+
+/*
+  function processData(q) {
+      var allTextLines = q.split(/\r\n|\n/);
+      let i;
+      lines = [];
+      while (allTextLines.length) {
+          lines.push(allTextLines.shift().split(','));
+      }
+      console_log("Number of Lines = "+(lines.length-1));
+
+      writeJSON();
+  }
+
+*/
+
+
+
+  /* ************************************************************************* */
+
+
+  var nodes = [];
+  var nodeCt = [];
+  var COLLECTION;
+  var COLLECTION2;
+
+
+
+
+
+
+
+
+  function processLines(){
+      let i, j;
+      if (lines[0][0] == "Biter"){ lines.shift() }
+      var lineNo = lines.length;
+      for (i=0;i<lineNo;i++){
+      		if (lines[i]!=""){
+      			nodes[i]=lines[i];
+		      }
+    	}
+      console_log("nodes length = "+nodes.length);
+      console_log("\n"+nodes);
+      for (i=0; i<nodes.length; i++){
+        console_log(nodes[i]+"\n");
+      }
+  }
+
+  function writeJSON(){
+    var oFile = prompt("JSON file output as: name.json");
+    mySave(oFile);
+    alert("Conversion completed. \nLook for .json file in system DOWNLOAD directory")
+  }
+
+
+
+
+	function console_log(x){
+          console.log(x);
+    }
+
+
+    /* ***************************************************************************************************** */
+    /* ***************************************************************************************************** */
+    /* ***************************************************************************************************** */
+    /* ***************************************************************************************************** */
+    /* ***************************************************************************************************** */
+    /* ***************************************************************************************************** */
+
+
+
+
+
+    // ========================================================================
+
+    function mySave(fn){
+          var saveData = (function () {
+          var a = document.createElement("a");
+          document.body.appendChild(a);
+          a.style = "display: none";
+          return function (data, fileName) {;
+              var json = JSON.stringify(data);
+                  blob = new Blob([json], {type: 'application/json'}),
+                  url = window.URL.createObjectURL(blob);
+              a.href = url;
+              a.download = fileName;
+              a.click();
+              window.URL.revokeObjectURL(url);
+          };
+      }());
+      var data = {x: COLLECTION},
+          fileName = fn;
+      saveData(data, fileName);
+    }
+
+
+
+/******************************************************************************************/
+
+    var loadresult;
+
+    function myLoad() {
+      iLoad("param01.json");
+      COLLECTION2 = loadresult.x;
+    }
+
+
+var txt = '';
+function iLoad(xFile){
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.onreadystatechange = function(){
+  if(xmlhttp.status == 200 && xmlhttp.readyState == 4){
+      txt = xmlhttp.responseText;
+      loadresult = JSON.parse(txt);
+    }
+  };
+  xmlhttp.open("GET","http://localhost:3001/"+xFile,false);
+  xmlhttp.send();
+}
+
+/* we can now use the code from the read .csv to parse COLLECTION2 */
+
+
+    function StartIt(){
+      document.getElementById("getFile");
+      alert("Start COvidSIMVL Convert .csv to .json Utility \nNo need to start node.js for JSON output");
+    }
+    StartIt();
+
+
+
+
+    </script>
+  </body>
+</html>
