@@ -20,7 +20,7 @@ function GetURLParameter(sParam)
     }
 }
 
-var use_html = true;
+var use_html = false;
 
 /*
 try {
@@ -100,15 +100,17 @@ function myLoad(xfname) {
      let i, j;
      var inType = lines[0][0];
      switch (inType){
-             case "Parameters":
-                 JSONprocessParam();
+             case "Parameters": JSONprocessParam();
                  break;
-             case "Population":
-                 JSONprocessPop()
+             case "pID":
+                 if (lines[0][1] == "sno") {
+                     JSONprocessPop()
+                 } else {
+                     if (lines[0][1] == "age-Gp") {
+                         JSONprocessCase()
+                     }
+                 }
                  break;
-             case "Cases":
-                JSONprocessCase();
-                break;
              default:
                console_log("File format error");
                alertX("File Format error");
@@ -116,7 +118,7 @@ function myLoad(xfname) {
  }
 
 function JSONprocessParam(){
-    initMV();
+    initializeMV();
     let i=0;
     lines.shift();
     let lineNo = lines.length;
@@ -125,13 +127,16 @@ function JSONprocessParam(){
       parx = lines[i][0];
       let parN = lines[i][1];
       switch(parx){
+          case "use_html":
+              if (parN == "Y" || parN == "y"){
+                use_html = true
+              } else { use_html = false };
+              break;
           case "population":
               initPopn(parN);
               console_log("Population parameter set to "+parN);
               break;
           case "UN":
-              M.UCt = Number(lines[i][1]);
-              JSONinitUn();
               let p;
               for (p=0;p<M.UCt;p++){
                 UN[p] = lines[i][p+1];
@@ -165,7 +170,6 @@ function JSONprocessParam(){
           default:
               console_log("Error in Parameter File format");
               alertX("Error in parameter file format");
-              break;
       }
     }
 }
@@ -189,7 +193,6 @@ function startCaseFile(){
 
 function JSONprocessPop() {
     lines.shift();
-    lines.shift();
     initTicket();
     let i;                //gets rid of row labels
     let lineNo = lines.length;
@@ -203,7 +206,6 @@ function JSONprocessPop() {
 function JSONprocessCase() {
     let i=0;
     lines.shift();                  //gets rid of row labels
-    lines.shift();
     let lineNo = lines.length;
     for (i = 0; i < lineNo; i++) {
         if (!parseC(lines[i])) break;
@@ -238,14 +240,16 @@ function parseC(lineStr) {
 
 
 var oneTime = 0;
-function JSONinitUn() {
+function initializeMV() {
     let i,j;
     oneTime = 0;
+    initMV();
     for (i = 0; i < M.UCt; i++) {
         U[i] = new CreateUniverse();
         initUniv(U[i], i);
     }
     initEpiCenters();
+    initPopn();
 }
 
 /*************************** END JSON SPECIFIC ROUTINES *******************************************/
@@ -321,12 +325,11 @@ function HTprocessLines() {
         return;
     }
     if (lines[0][0] == "Parameters"){
-        lines.shift();
-        HTprocParam();
-      }
-        GUIstyle("getFile","none");
-        startMain();
-
+        HTprocParam(); }
+    else {
+          GUIstyle("getFile","none");
+          startMain();
+        }
   }
 
 function initSetPopUniv(){
@@ -337,7 +340,7 @@ function initSetPopUniv(){
         for (i=0;i<M.UCt;i++){
           UN[i] = lines[0][i+4]
         }
-        initUniverse();       // use defaults if entry is null
+        initUniverse();
         initPopn(M.PCt);
     }
     console_log("Population specified as: "+M.PCt);
@@ -404,43 +407,10 @@ function procClines(){
     GUIstyle("getFile","block");
     let x = prompt("If parameter file enter Y else enter N");
     if (x=="Y" || x=="y") {
-//      HTprocParam();
+      return
     } else {
       GUIstyle("getFile","none");
       startMain();
-    }
-}
-
-function HTprocParam(){
-    let lineNo = lines.length;
-    let i = 0;
-    let parx;
-    for (i=0;i<lineNo;i++){
-        parx = lines[i][0];
-        let parN = lines[i][1];
-        switch(parx){
-          case "HzR":
-              changeHzR(parN);
-              break;
-          case "sizeF":
-              let univ = lines[i][2];
-              chSizeF(parN,univ);
-              break;
-          case "mF":
-              let u2 = lines[i][2];
-              changeMF(parN,u2);
-              break;
-          case "RedDays":
-              changeRedDays(parN);
-              break;
-          case "STOP":
-              HALTgen = Number(parN);
-              break;
-          case "":
-              break;
-          default:
-              break;
-        }
     }
 }
 
@@ -1952,11 +1922,11 @@ function startMain(){
 
   function changeMF(newMF,univ){
         GUI("dMingl",newMF);
-        let nu;
         console_log("new Mingle Factor in Universe = "+newMF+" U"+univ);
         if (univ == "" || univ === undefined){ nu = vU }
-        else {nu = univ};
-
+        else {
+            let nu = Number(univ);
+        }
         U[nu].minglf = Number(newMF);
   }
 
@@ -3269,7 +3239,7 @@ function implementVax(ages,vax){
 			if (M.UCt > 8) { MVtable8() };
     }
 
-      if (M.YellowCt==0 && M.BlueCt==0 && M.RedCt==0 && gen>1 && gen>3) {
+      if (M.YellowCt==0 && M.BlueCt==0 && M.RedCt==0 && gen>1 && oneTime==0) {
         HALT();
       }
   }
@@ -4714,7 +4684,7 @@ function HALT(){
 
     function wrapUp(){
         console_log("\nWRAPUP: gen" +gen);
-        console_log("calculated R0: "+R0);
+        console_log("calculated R0: "+R0.toFixed(2));
     }
 
     function alertX (x){
