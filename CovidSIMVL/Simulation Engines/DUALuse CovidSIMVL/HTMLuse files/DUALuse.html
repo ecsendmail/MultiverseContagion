@@ -114,12 +114,12 @@
 
 
 #windowpane {
-  display: block;
+  display: none;
 }
 
 
 #controls {
-  display: block;
+  display: none;
   left:8px;
   top:3px;
   position: absolute;
@@ -132,7 +132,7 @@
   width:400px;
   height:30px;
   position: absolute;
-  display: block;
+  display: none;
 }
 
 #MVmatrix {
@@ -183,7 +183,7 @@ td {
 .slider {
   -webkit-appearance: none;
   position: absolute;
-  display:block;
+  display:none;
   width: 150px;
   height: 9px;
   left:790px;
@@ -463,7 +463,7 @@ td {
   display: none;
 }
 
-#TGreen {
+#dispGen {
   position:absolute;
   display:block;
   left:5px;
@@ -472,7 +472,7 @@ td {
   height:40px;
 }
 
-#TYellow {
+#TGreen {
   position:absolute;
   display:block;
   left:5px;
@@ -481,7 +481,7 @@ td {
   height:40px;
 }
 
-#TBlue {
+#TYellow {
   position:absolute;
   display:block;
   left:5px;
@@ -490,7 +490,7 @@ td {
   height:40px;
 }
 
-#TRed {
+#TBlue {
   position:absolute;
   display:block;
   left:5px;
@@ -499,7 +499,7 @@ td {
   height:40px;
 }
 
-#TOrange {
+#TRed {
   position:absolute;
   display:block;
   left:5px;
@@ -508,16 +508,25 @@ td {
   height:40px;
 }
 
+#TOrange {
+  position:absolute;
+  display:block;
+  left:5px;
+  top:410px;
+  width:90px;
+  height:40px;
+}
+
 #getFile {
   position: absolute;
-  display:block;
-  left:30px;
+  display:none;
+  left:330px;
   top:125px;
-  z-index:+4;
+  z-index:+9;
 }
 
 #localCharts {
-  display: block;
+  display: none;
 }
 
 
@@ -538,7 +547,7 @@ th,  td {
 
 #MVstats0 {
   position: absolute;
-  display:block;
+  display:none;
   top: 250px;
   left:108px;
   z-index: +3;
@@ -546,7 +555,7 @@ th,  td {
 
 #MVstats1 {
   position: absolute;
-  display:block;
+  display:none;
   top: 250px;
   left:408px;
   z-index: +3;
@@ -554,7 +563,7 @@ th,  td {
 
 #MVstats2 {
   position: absolute;
-  display:block;
+  display:none;
   top: 250px;
   left:708px;
   z-index: +3;
@@ -562,7 +571,7 @@ th,  td {
 
 #MVstats3 {
   position: absolute;
-  display:block;
+  display:none;
   top: 550px;
   left:108px;
   z-index: +3;
@@ -570,7 +579,7 @@ th,  td {
 
 #MVstats4 {
   position: absolute;
-  display:block;
+  display:none;
   top: 550px;
   left:408px;
   z-index: +3;
@@ -578,7 +587,7 @@ th,  td {
 
 #MVstats5 {
   position: absolute;
-  display:block;
+  display:none;
   top: 550px;
   left:708px;
   z-index: +3;
@@ -586,7 +595,7 @@ th,  td {
 
 #MVstats6 {
   position: absolute;
-  display:block;
+  display:none;
   top: 850px;
   left:108px;
   z-index: +3;
@@ -594,7 +603,7 @@ th,  td {
 
 #MVstats7 {
   position: absolute;
-  display:block;
+  display:none;
   top: 850px;
   left:408px;
   z-index: +3;
@@ -602,7 +611,7 @@ th,  td {
 
 #MVstats8 {
   position: absolute;
-  display:block;
+  display:none;
   top: 850px;
   left:708px;
   z-index: +3;
@@ -657,6 +666,10 @@ th,  td {
     z-index: +5;
 }
 
+#fields {
+  display: none;
+}
+
 
 </style>
 </head>
@@ -675,14 +688,14 @@ th,  td {
 <div id="getFile">
     <form class="form-horizontal well">
       <fieldset>
-          <label for="csvFileInput"> <strong>Mounir Messelmeni 2012<br><br>CSV File:</strong>
-          </label>
+          <label id="FName" for="csvFileInput"> Select Population file    (c) Mounir Messelmeni 2012<br><br>CSV File:</label>
           <input type="file" id="csvFileInput" onchange="handleFiles(this.files)"
           accept=".csv">
         </div>
       </fieldset>
     </form>
 </div>
+
 
 <div id=MVstats0>
   <table>
@@ -1167,7 +1180,7 @@ th,  td {
           </tr>
         </table>
     </div>
-    100
+
     <div>
       <table id="MVmatrix">
       <tr>
@@ -1203,6 +1216,7 @@ th,  td {
     <div id="dayhr">
         <button id="day" type="button">DAY:</button>
         <button id="hour" type="button">HOUR:</button>
+        <button id="dispGen" type="button">gen:</button>
         <button id="TGreen" type="button" style="background-color:green; color:white">GREEN:</button>
         <button id="TYellow" type="button" style="background-color:yellow; color:black">YELLOW:</button>
         <button id="TBlue" type="button" style="background-color:blue; color:white">BLUE:</button>
@@ -1344,7 +1358,10 @@ th,  td {
     -->
         </style>
 
-        <script src="TestNanFeb11.js">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
+        <script src="DUALuse.js">
         </script>
 
         </head>

@@ -1,19 +1,266 @@
 // ****************************************************************************
 // check if DOM (document object model) exists ********************************
 // ****************************************************************************
+console_log("paramSIMVL 2021.03.25 GUI-HTML parameter CovidSIMVL");
+console_log(Date());
 
-var use_html = true
+
+
+function GetURLParameter(sParam)
+{
+    var sPageURL = window.location.search.substring(1);
+    var sURLVariables = sPageURL.split('&');
+    for (var i = 0; i < sURLVariables.length; i++)
+    {
+        var sParameterName = sURLVariables[i].split('=');
+        if (sParameterName[0] == sParam)
+        {
+            return sParameterName[1];
+        }
+    }
+}
+
+/*
+var use_html = false;
+let x = GetURLParameter("use_html");
+if (x===undefined){
+  x = true
+}
+use_html = x;
+alert(use_html);
+*/
+/*
 try {
     document // does DOM exist?
 } catch {
     use_html = false // if DOM doesn't exist, assume we're running from R / v8
 }
+*/
 
-// ****************************************************************************
-// file handling **************************************************************
-// ****************************************************************************
 
 var lines = [];
+var loadresult;
+var COLLECTION;
+
+var fullCt = 0;
+var VIEW = "local";
+var MODE = "manual"; // or "MV" - master controller of behavior
+var graphFlag = "NO";
+
+
+var cn = [];
+var offX = 75;
+var offY = 100;
+var pHz = "300" + "px";
+var pVt = (200).toString() + "px";
+
+var c;
+
+/******************************************************************************************************************* */
+
+/*                                  BELONGS TO JSON CreateNode                                                      */
+
+/********************************************************************************************************************/
+
+
+function startParam(){
+      //alertX("Load param.json file starting");
+      myLoad("param.json");
+      JSONprocessData(COLLECTION);
+      //alertX("Finished with parameter loading");
+}
+
+function myLoad(xfname) {
+    iLoad(xfname);
+    COLLECTION = loadresult.x;
+  }
+
+ var txt = '';
+ function iLoad(xFile){
+     var xmlhttp = new XMLHttpRequest();
+     xmlhttp.onreadystatechange = function(){
+         if(xmlhttp.status == 200 && xmlhttp.readyState == 4){
+              txt = xmlhttp.responseText;
+              loadresult = JSON.parse(txt);
+         }
+     };
+     xmlhttp.open("GET","http://localhost:3001/"+xFile,false);
+     xmlhttp.send();
+ }
+
+ function errorHandler(evt) {
+     if (evt.target.error.name == "NotReadableError") {
+         alertX("Cannot read file !");
+     }
+ }
+
+ function JSONprocessData(one) {
+     var allTextLines = one.split(/\r\n|\n/);
+     lines = [];
+     while (allTextLines.length) {
+         lines.push(allTextLines.shift().split(','));
+     }
+     JSONprocessL();
+ }
+
+ function JSONprocessL() {
+     let i, j;
+     var inType = lines[0][0];
+     switch (inType){
+             case "Parameters":
+                 JSONprocessParam();
+                 break;
+             case "Population":
+                 JSONprocessPop()
+                 break;
+             case "Cases":
+                JSONprocessCase();
+                break;
+             default:
+               console_log("File format error");
+               alertX("File Format error");
+     }
+ }
+
+function JSONprocessParam(){
+    initMV();
+    let i=0;
+    lines.shift();
+    let lineNo = lines.length;
+    let parx;
+    for (i=0;i<lineNo;i++){
+      parx = lines[i][0];
+      let parN = lines[i][1];
+      switch(parx){
+          case "population":
+              initPopn(parN);
+              console_log("Population parameter set to "+parN);
+              break;
+          case "UN":
+              M.UCt = Number(lines[i][1]);
+              JSONinitUn();
+              let p;
+              for (p=0;p<M.UCt;p++){
+                UN[p] = lines[i][p+1];
+              }
+              break;
+          case "HzR":
+              changeHzR(parN);
+              break;
+          case "sizeF":
+              let univ = lines[i][2];
+              chSizeF(parN,univ);
+              break;
+          case "mF":
+              let u2 = lines[i][2];
+              changeMF(parN,u2);
+              break;
+          case "RedDays":
+              changeRedDays(parN);
+              break;
+          case "pop file":
+              popnFileName = parN;
+              break;
+          case "case file":
+              caseFileName = parN;
+              break;
+          case "STOP":
+              HALTgen = Number(parN);
+              break;
+          case "":
+              break;
+          default:
+              console_log("Error in Parameter File format");
+              alertX("Error in parameter file format");
+              break;
+      }
+    }
+}
+
+
+var popnFileName;
+function startPopFile(){
+      console_log("Reading population file "+popnFileName);
+      myLoad(popnFileName);
+      JSONprocessData(COLLECTION);
+      console_log("Population File loaded");
+}
+
+var caseFileName;
+function startCaseFile(){
+      console_log("Reading Case File "+caseFileName);
+      myLoad(caseFileName);
+      JSONprocessData(COLLECTION);
+      console_log("Case File loaded");
+}
+
+function JSONprocessPop() {
+    lines.shift();
+    lines.shift();
+    initTicket();
+    let i;                //gets rid of row labels
+    let lineNo = lines.length;
+    for (i = 0; i < lineNo; i++) {
+          if (parseL(lines[i])) {
+              setupTicket();
+          }
+    }
+}
+
+function JSONprocessCase() {
+    let i=0;
+    lines.shift();                  //gets rid of row labels
+    lines.shift();
+    let lineNo = lines.length;
+    for (i = 0; i < lineNo; i++) {
+        if (!parseC(lines[i])) break;
+    }
+}
+
+
+function parseC(lineStr) {
+    let lineS = lineStr;
+    if (lineS == "" || lineS === undefined) return false;
+    let ID = Number(lineS[0]);
+
+    if (P[ID].pID === undefined || P[ID].pID == "null") return false;
+
+    P[ID].ageGp = Number(lineS[1]); // age group
+    P[ID].suscIndx = Number(lineS[2]); // combined risk
+    if (P[ID].suscIndx != 0) {
+        resizeRisk(ID)
+    };
+
+    if (Number(lineS[3]) === undefined || Number(lineS[3]) == "") {} else P[ID].ViralLoad = Number(lineS[3]);
+    if (Number(lineS[4]) === undefined || Number(lineS[4]) == "") {} else P[ID].tInfect = 0 - Number(lineS[4]);
+
+    // resizeVL(ID);     //we grow VL for one cycle, so resize after growth
+    caseState(ID); //changes state and color by post-inf days
+
+    if (lineS[5] === undefined || lineS[5] == "") {} else P[ID].role = lineS[5];
+    if (Number(lineS[6]) === undefined || Number(lineS[6]) == "") {} else P[ID].minglf = Number(lineS[6]);
+    return true;
+}
+
+
+
+var oneTime = 0;
+function JSONinitUn() {
+    let i,j;
+    oneTime = 0;
+    for (i = 0; i < M.UCt; i++) {
+        U[i] = new CreateUniverse();
+        initUniv(U[i], i);
+    }
+    initEpiCenters();
+}
+
+/*************************** END JSON SPECIFIC ROUTINES *******************************************/
+/*
+/*                           start html GUI SPECIFIC FILE ROUTINES *******************************
+/*
+/***************************************************************************************************/
+
 
 function handleFiles(files) {
     if (use_html) {
@@ -32,51 +279,230 @@ function getAsText(fileToRead) {
     console.log(fileToRead);
     var reader = new FileReader();
     reader.onload = loadHandler; // handle errors load
-    reader.onerror = errorHandler;
+    reader.onerror = HTerrorHandler;
     reader.readAsText(fileToRead); // read file into memory as utf-8
 }
 
 function loadHandler(event) {
     var csv = event.target.result;
-    processData(csv);
+    HTprocessData(csv);
 }
 
-function processData(csv) {
-    var allTextLines = csv.split(/\r\n|\n/);
+function HTprocessData(one) {
+    var allTextLines = one.split(/\r\n|\n/);
     lines = [];
     while (allTextLines.length) {
         lines.push(allTextLines.shift().split(','));
     }
-    processLines();
+    HTprocessLines();
 }
 
-function errorHandler(evt) {
+function HTerrorHandler(evt) {
     if (evt.target.error.name == "NotReadableError") {
         alert("Cannot read file !");
     }
 }
 
-// ****************************************************************************
+function HTprocessLines() {
+    let i, j;
+    if (lines[0][0] == "Population") {
+        initSetPopUniv();
+        lines.shift(); // one for the population and universe parameters
+        lines.shift(); // one for the CSV column headers
+        initTicket();
+        var lineNo = lines.length;
+        for (i = 0; i < lineNo; i++) {
+            if (parseL(lines[i])) {
+                setupTicket();
+            }
+          }
+          document.getElementById("FName").innerHTML = "Now select Cases File";
+          GUIstyle("getFile","block");
+          return;
 
-if (use_html) {
-    var slider = document.getElementById("myRange");
+    };
+    if (lines[0][0] == "Cases"){
+        lines.shift();
+        lines.shift();
+        procClines();
+        return;
+    }
+    if (lines[0][0] == "Parameters"){
+        lines.shift();
+        HTprocParam();
+      }
+        GUIstyle("getFile","none");
+        startMain();
+
+  }
+
+function initSetPopUniv(){
+    M.PCt = Number(lines[0][1]);
+    if (lines[0][2] != ""){
+        M.UCt = Number(lines[0][3]);
+        let i;
+        for (i=0;i<M.UCt;i++){
+          UN[i] = lines[0][i+4]
+        }
+        initUniverse();       // use defaults if entry is null
+        initPopn(M.PCt);
+    }
+    console_log("Population specified as: "+M.PCt);
+    console_log("Universes: "+M.UCt);
+}
+
+function initUniverse(){
+  let i;
+  for (i = 0; i < M.UCt; i++) {
+      U[i] = new CreateUniverse();
+      initUniv(U[i], i);
+  }
+  initEpiCenters();
+  initGUI();
+}
+
+  function initPopn(pnum){
+        M.PCt = Number(pnum);
+        M.GreenCt = M.PCt;
+        let i,j;
+        for (i = 0; i < M.PCt; i++) {
+            P[i] = new CreatePerson;
+            initPerson(P[i], i);
+        }
+        initAgeTable();
+  }
+
+
+function parseL(lineStr) {
+    let lineS = lineStr;
+    if (lineS == "") return false;
+    let ID = Number(lineS[0]);
+    transfer.pID = ID;
+    transfer.stopno = Number(lineS[1]);
+    transfer.ETA = Number(lineS[2]);
+    transfer.AU = Number(lineS[3]);
+    transfer.ETD = Number(lineS[4]);
+    transfer.TU = Number(lineS[5]);
+    transfer.role = lineS[6];
+    transfer.Mx = Number(lineS[7]);
+    let trAgeGp = lineS[8];
+    trAgeGp = Math.round(trAgeGp);
+    let trFam = lineS[9];
+    if (ID==pID && ID !=0) {return true}    // first one is 0
+    else {
+//    			if (lineS[8]=="" || lineS[8] === undefined) {return true };
+      P[ID].ageGp = trAgeGp;
+      AG[trAgeGp].total++;
+      P[ID].famKey = -1;
+      if (trFam!="" && trFam!==undefined) {P[ID].famKey=trFam};
+    };
+    return true;
+}
+
+/* ********************************************************************************** */
+
+function procClines(){
+    var cLinesNo = lines.length;
+    let i;
+    for (i=0;i<cLinesNo;i++){
+          if (!parseC(lines[i])) break;
+    }
+    document.getElementById("FName").innerHTML = "Select Parameter File if Any";
+    GUIstyle("getFile","block");
+    let x = prompt("If parameter file enter Y else enter N");
+    if (x=="Y" || x=="y") {
+//      HTprocParam();
+    } else {
+      GUIstyle("getFile","none");
+      startMain();
+    }
+}
+
+function HTprocParam(){
+    let lineNo = lines.length;
+    let i = 0;
+    let parx;
+    for (i=0;i<lineNo;i++){
+        parx = lines[i][0];
+        let parN = lines[i][1];
+        switch(parx){
+          case "ID":
+            M.ID = parN;
+            break;
+          case "HzR":
+              changeHzR(parN);
+              break;
+          case "sizeF":
+              let univ = lines[i][2];
+              chSizeF(parN,univ);
+              break;
+          case "mF":
+              let u2 = lines[i][2];
+              changeMF(parN,u2);
+              break;
+          case "RedDays":
+              changeRedDays(parN);
+              break;
+          case "STOP":
+              HALTgen = Number(parN);
+              break;
+          case "":
+              break;
+          default:
+              break;
+        }
+    }
+}
+
+
+function startMain(){
+          GUIstyle("getFile","none");
+          VIEW = "local";
+          load();
+          load();
+          hideMV();
+          GUIstyle("graphCanvas","none");
+          GUIstyle("controls","block");
+          VIEW = "local";
+          netFlag = true;
+          MVtoggle = false;
+          hideMV();
+}
+
+
+  function initPCtUCt(){
+        let Mtxt = prompt("Enter population size, number of Universes as: n,m without commas");
+        let Mx, My, Mz;
+        Mx = Mtxt.indexOf(",");
+        if (Mx==-1) {
+            console_log("Population and Univ parameters in error");
+            alertX("Halt on prompt POPULATION, UNIVERSE error");
+            throw "input error";
+        }
+        My = Mtxt.substring(0,Mx);
+        Mz = Mtxt.substring(Mx+1);
+        M.PCt = Number(My);
+        M.UCt = Number(Mz);
+        console_log("Population specified as: "+M.PCt);
+        console_log("Universes: "+M.UCt);
+  }
+
+
+
+  var slider;
+  function initSliders(){
+    slider = document.getElementById("myRange");
     slider.oninput = function() {
         clearInterval(clockTimer);
         MOTION = this.value * 500;
         clockTimer = setInterval(TimesUp, MOTION / FPS);
     }
-}
-
-try {
-    var fullCt = 0;
-    var VIEW = "local";
-    var MODE = "manual"; // or "MV" - master controller of behavior
-    var graphFlag = "NO";
-
+  }
 
     // *********************************** CREATE CANVASES FOR EACH PANE *******************************
 
     function drawc(x, y, rad, color, ctx) {
+        if (!use_html) { return };
         ctx.beginPath();
         ctx.arc(x, y, rad, 0, 2 * Math.PI);
         ctx.fillStyle = color;
@@ -84,6 +510,8 @@ try {
         ctx.stroke();
         ctx.strokeStyle = "black";
     }
+
+    /*
 
     function CreateCanvases() {
         this.cid;
@@ -94,376 +522,287 @@ try {
         this.ctx;
     }
 
-    var cn = [];
-    var offX = 75;
-    var offY = 100;
-    var pHz = "300" + "px";
-    var pVt = (200).toString() + "px";
+    */
 
-    var c;
+    /***********************************************************************************************************************************************/
 
-    if (use_html) {
-        c = document.getElementById("fields").children;
+    function createField() {
+            c = document.getElementById("fields").children;
 
-        for (let i = 0; i < c.length; i++) {
-            var x = 0;
-            var y = 0;
-            cn[i] = document.getElementById(c[i].id);
-            cn[i].cid = c[i].id;
-            cn[i].width = 300;
-            cn[i].height = 250;
-            cn[i].style.top = ((x % 3) * 300 + offX).toString() + "px";
-            cn[i].style.left = ((y % 3) * 300 + offY).toString() + "px";
-            x++;
-            y++;
-            cn[i].ctx = cn[i].getContext("2d");
-        }
+            for (let i = 0; i < c.length; i++) {
+                let x = 0;
+                let y = 0;
+                cn[i] = document.getElementById(c[i].id);
+                cn[i].cid = c[i].id;
+                cn[i].width = 300;
+                cn[i].height = 250;
+                cn[i].style.top = ((x % 3) * 300 + offX).toString() + "px";
+                cn[i].style.left = ((y % 3) * 300 + offY).toString() + "px";
+                x++;
+                y++;
+                cn[i].ctx = cn[i].getContext("2d");
+            }
     }
 
     var canp1;
-    if (use_html) {
-        canp1 = document.getElementById("canp1");
-        canp1.width = 300;
-        canp1.height = 250;
-        canp1.style.top = "75px";
-        canp1.style.left = "100px";
-    }
-
     var ctx1;
-    if (use_html) {
-        ctx1 = canp1.getContext("2d");
-        ctx1.fillStyle = "MidnightBlue";
-        ctx1.fillRect(0, 0, canp1.width, canp1.height);
-        drawc(10, 10, 8, "green", ctx1);
-        /*
-        canp1.addEventListener("mousemove", mouseMove1, {passive:true});
-        canp1.addEventListener("mouseout", mouseOut1, {passive:true});
-        canp1.addEventListener("click", mouseClick1, {passive:true});
-        */
-    }
+    function crCanp1(){
+              canp1 = document.getElementById("canp1");
+              canp1.width = 300;
+              canp1.height = 250;
+              canp1.style.top = "75px";
+              canp1.style.left = "100px";
 
-    // ********************************************************
+              ctx1 = canp1.getContext("2d");
+              ctx1.fillStyle = "MidnightBlue";
+              ctx1.fillRect(0, 0, canp1.width, canp1.height);
+              drawc(10, 10, 8, "green", ctx1);
+    }
 
     var canp2;
-    if (use_html) {
-        canp2 = document.getElementById("canp2");
-        canp2.width = 300;
-        canp2.height = 250;
-        canp2.style.top = "75px";
-        canp2.style.left = "400px";
-    }
-
     var ctx2;
-    if (use_html) {
-        ctx2 = canp2.getContext("2d");
-        ctx2.fillStyle = "MidnightBlue";
-        ctx2.fillRect(0, 0, canp2.width, canp2.height);
-        drawc(10, 10, 8, "green", ctx2);
-        /*
-        canp2.addEventListener("mousemove", mouseMove2, {passive:true});
-        canp2.addEventListener("mouseout", mouseOut2, {passive:true});
-        canp2.addEventListener("click", mouseClick2, {passive:true});
-        */
+    function crCanp2(){
+              canp2 = document.getElementById("canp2");
+              canp2.width = 300;
+              canp2.height = 250;
+              canp2.style.top = "75px";
+              canp2.style.left = "400px";
+
+              ctx2 = canp2.getContext("2d");
+              ctx2.fillStyle = "MidnightBlue";
+              ctx2.fillRect(0, 0, canp2.width, canp2.height);
+              drawc(10, 10, 8, "green", ctx2);
     }
-    // *********************************************************************
 
     var canp3;
-    if (use_html) {
-        canp3 = document.getElementById("canp3");
-        canp3.width = 300;
-        canp3.height = 250;
-        canp3.style.top = "75px";
-        canp3.style.left = "700px";
+    var ctx3;
+    function crCanp3(){
+              canp3 = document.getElementById("canp3");
+              canp3.width = 300;
+              canp3.height = 250;
+              canp3.style.top = "75px";
+              canp3.style.left = "700px";
+
+              ctx3 = canp3.getContext("2d");
+              ctx3.fillStyle = "MidnightBlue";
+              ctx3.fillRect(0, 0, canp3.width, canp3.height);
+              drawc(10, 10, 8, "green", ctx3);
     }
 
-    var ctx3;
-    if (use_html) {
-        ctx3 = canp3.getContext("2d");
-        ctx3.fillStyle = "MidnightBlue";
-        ctx3.fillRect(0, 0, canp3.width, canp3.height);
-        drawc(10, 10, 8, "green", ctx3);
-        /*
-        canp3.addEventListener("mousemove", mouseMove3, {passive:true});
-        canp3.addEventListener("mouseout", mouseOut3, {passive:true});
-        canp3.addEventListener("click", mouseClick3, {passive:true});
-        */
-    }
-    // ********************************************************
 
     var canp4;
-    if (use_html) {
-        canp4 = document.getElementById("canp4");
-        canp4.width = 300;
-        canp4.height = 250;
-        canp4.style.top = "375px";
-        canp4.style.left = "100px";
+    var ctx4;
+    function crCanp4(){
+            canp4 = document.getElementById("canp4");
+            canp4.width = 300;
+            canp4.height = 250;
+            canp4.style.top = "375px";
+            canp4.style.left = "100px";
+
+            ctx4 = canp4.getContext("2d");
+            ctx4.fillStyle = "MidnightBlue";
+            ctx4.fillRect(0, 0, canp4.width, canp4.height);
+            drawc(10, 10, 8, "green", ctx4);
     }
 
-    var ctx4;
-    if (use_html) {
-        ctx4 = canp4.getContext("2d");
-        ctx4.fillStyle = "MidnightBlue";
-        ctx4.fillRect(0, 0, canp4.width, canp4.height);
-        drawc(10, 10, 8, "green", ctx4);
-        /*
-        canp4.addEventListener("mousemove", mouseMove4, {passive:true});
-        canp4.addEventListener("mouseout", mouseOut4, {passive:true});
-        canp4.addEventListener("click", mouseClick4, {passive:true});
-        */
-    }
-    // ********************************************************
 
     var canp5;
-    if (use_html) {
-        canp5 = document.getElementById("canp5");
-        canp5.width = 300;
-        canp5.height = 250;
-        canp5.style.top = "374px";
-        canp5.style.left = "400px";
+    var ctx5;
+    function crCanp5(){
+            canp5 = document.getElementById("canp5");
+            canp5.width = 300;
+            canp5.height = 250;
+            canp5.style.top = "374px";
+            canp5.style.left = "400px";
+
+            ctx5 = canp5.getContext("2d");
+            ctx5.fillStyle = "MidnightBlue";
+            ctx5.fillRect(0, 0, canp5.width, canp5.height);
+            drawc(10, 10, 8, "green", ctx5);
     }
 
-    var ctx5;
-    if (use_html) {
-        ctx5 = canp5.getContext("2d");
-        ctx5.fillStyle = "MidnightBlue";
-        ctx5.fillRect(0, 0, canp5.width, canp5.height);
-        drawc(10, 10, 8, "green", ctx5);
-        /*
-        canp5.addEventListener("mousemove", mouseMove5, {passive:true});
-        canp5.addEventListener("mouseout", mouseOut5, {passive:true});
-        canp5.addEventListener("click", mouseClick5, {passive:true});
-        */
-    }
-    // ********************************************************
 
     var canp6;
-    if (use_html) {
-        canp6 = document.getElementById("canp6");
-        canp6.width = 300;
-        canp6.height = 250;
-        canp6.style.top = "375px";
-        canp6.style.left = "700px";
+    var ctx6;
+    function crCanp6(){
+              canp6 = document.getElementById("canp6");
+              canp6.width = 300;
+              canp6.height = 260;
+              canp6.style.top = "375px";
+              canp6.style.left = "700px";
+
+              ctx6 = canp6.getContext("2d");
+              ctx6.fillStyle = "MidnightBlue";
+              ctx6.fillRect(0, 0, canp6.width, canp6.height);
+              drawc(10, 10, 8, "green", ctx6);
     }
 
-    var ctx6;
-    if (use_html) {
-        ctx6 = canp6.getContext("2d");
-        ctx6.fillStyle = "MidnightBlue";
-        ctx6.fillRect(0, 0, canp6.width, canp6.height);
-        drawc(10, 10, 8, "green", ctx6);
-        /*
-        canp6.addEventListener("mousemove", mouseMove6, {passive:true});
-        canp6.addEventListener("mouseout", mouseOut6, {passive:true});
-        canp6.addEventListener("click", mouseClick6, {passive:true});
-        */
-    }
-    // ********************************************************
 
     var canp7;
-    if (use_html) {
-        canp7 = document.getElementById("canp7");
-        canp7.width = 300;
-        canp7.height = 250;
-        canp7.style.top = "675px";
-        canp7.style.left = "100px";
-    }
-
     var ctx7;
-    if (use_html) {
-        ctx7 = canp7.getContext("2d");
-        ctx7.fillStyle = "MidnightBlue";
-        ctx7.fillRect(0, 0, canp7.width, canp7.height);
-        drawc(10, 10, 8, "green", ctx7);
-        /*
-        canp7.addEventListener("mousemove", mouseMove7, {passive:true});
-        canp7.addEventListener("mouseout", mouseOut7, {passive:true});
-        canp7.addEventListener("click", mouseClick7, {passive:true});
-        */
+    function crCanp7(){
+              canp7 = document.getElementById("canp7");
+              canp7.width = 300;
+              canp7.height = 250;
+              canp7.style.top = "675px";
+              canp7.style.left = "100px";
+
+              ctx7 = canp7.getContext("2d");
+              ctx7.fillStyle = "MidnightBlue";
+              ctx7.fillRect(0, 0, canp7.width, canp7.height);
+              drawc(10, 10, 8, "green", ctx7);
     }
-    // ********************************************************
 
     var canp8;
-    if (use_html) {
-        canp8 = document.getElementById("canp8");
-        canp8.width = 300;
-        canp8.height = 250;
-        canp8.style.top = "675px";
-        canp8.style.left = "400px";
+    var ctx8;
+    function crCanp8(){
+              canp8 = document.getElementById("canp8");
+              canp8.width = 300;
+              canp8.height = 250;
+              canp8.style.top = "675px";
+              canp8.style.left = "400px";
+
+              ctx8 = canp8.getContext("2d");
+              ctx8.fillStyle = "MidnightBlue";
+              ctx8.fillRect(0, 0, canp8.width, canp8.height);
+              drawc(10, 10, 8, "green", ctx8);
     }
 
-    var ctx8;
-    if (use_html) {
-        ctx8 = canp8.getContext("2d");
-        ctx8.fillStyle = "MidnightBlue";
-        ctx8.fillRect(0, 0, canp8.width, canp8.height);
-        drawc(10, 10, 8, "green", ctx8);
-        /*
-        canp8.addEventListener("mousemove", mouseMove8, {passive:true});
-        canp8.addEventListener("mouseout", mouseOut8, {passive:true});
-        canp8.addEventListener("click", mouseClick8, {passive:true});
-        */
-    }
-    // ********************************************************
 
     var canp9;
-    if (use_html) {
-        canp9 = document.getElementById("canp9");
-        canp9.width = 300;
-        canp9.height = 250;
-        canp9.style.top = "675px";
-        canp9.style.left = "700px";
-    }
-
     var ctx9;
-    if (use_html) {
-        ctx9 = canp9.getContext("2d");
-        ctx9.fillStyle = "MidnightBlue";
-        ctx9.fillRect(0, 0, canp9.width, canp9.height);
-        drawc(10, 10, 8, "green", ctx9);
-        /*
-        canp9.addEventListener("mousemove", mouseMove9, {passive:true});
-        canp9.addEventListener("mouseout", mouseOut9, {passive:true});
-        canp9.addEventListener("click", mouseClick9, {passive:true});
-        */
+    function crCanp9(){
+              canp9 = document.getElementById("canp9");
+              canp9.width = 300;
+              canp9.height = 250;
+              canp9.style.top = "675px";
+              canp9.style.left = "700px";
+              ctx9 = canp9.getContext("2d");
+              ctx9.fillStyle = "MidnightBlue";
+              ctx9.fillRect(0, 0, canp9.width, canp9.height);
+              drawc(10, 10, 8, "green", ctx9);
+    }
+
+    function crCanpn(){
+        crCanp1();
+        crCanp2();
+        crCanp3();
+        crCanp4();
+        crCanp5();
+        crCanp6();
+        crCanp7();
+        crCanp8();
+        crCanp9();
     }
 
 
-    // ***************************************************************************
+/**********************************************************************************************/
 
     function mouseMove1() {
         document.getElementById("canp1").style.border = "thick solid yellow";
     }
-
     function mouseOut1() {
         document.getElementById("canp1").style.border = "thin  solid blue";
     }
-
     function mouseClick1() {
-        //
     }
 
-    // ******************************************** mouse 2 ********************
+
 
     function mouseMove2() {
         document.getElementById("canp2").style.border = "thick solid yellow";
     }
-
     function mouseOut2() {
         document.getElementById("canp2").style.border = "thin  solid blue";
     }
-
-    var vid2;
-
     function mouseClick2() {
-        vid2 = document.getElementById("myVideo2");
-        vid2.loop = true;
-        vid2.play();
     }
-
     function playVid2() {
-        vid2 = document.getElementById("myVideo2");
-        vid2.play();
+    }
+    function pauseVid2() {
     }
 
-    function pauseVid2() {
-        vid2.pause();
-    }
+
 
     function mouseMove3() {
         document.getElementById("canp3").style.border = "thick solid yellow";
     }
-
     function mouseOut3() {
         document.getElementById("canp3").style.border = "thin  solid blue";
     }
-
     function mouseClick3() {
-        //
     }
+
+
 
     function mouseMove4() {
         document.getElementById("canp4").style.border = "thick solid yellow";
     }
-
     function mouseOut4() {
         document.getElementById("canp4").style.border = "thin  solid blue";
     }
-
-    var vid4;
-
     function mouseClick4() {
-        vid4 = document.getElementById("myVideo4");
-        vid4.loop = true;
-        vid4.play();
     }
-
     function playVid4() {
-        vid4 = document.getElementById("myVideo4");
-        vid4.play();
+    }
+    function pauseVid4() {
     }
 
-    function pauseVid4() {
-        vid4.pause();
-    }
+
 
     function mouseMove5() {
         document.getElementById("canp5").style.border = "thick solid yellow";
     }
-
     function mouseOut5() {
         document.getElementById("canp5").style.border = "thin  solid blue";
     }
-
     function mouseClick5() {
-        //
     }
+
+
 
     function mouseMove6() {
         document.getElementById("canp6").style.border = "thick solid yellow";
     }
-
     function mouseOut6() {
         document.getElementById("canp6").style.border = "thin  solid blue";
     }
-
     function mouseClick6() {
-        //
     }
+
+
+
 
     function mouseMove7() {
         document.getElementById("canp7").style.border = "thick solid yellow";
     }
-
     function mouseOut7() {
         document.getElementById("canp7").style.border = "thin  solid blue";
     }
-
     function mouseClick7() {
-        //
     }
+
+
+
 
     function mouseMove8() {
         document.getElementById("canp8").style.border = "thick solid yellow";
     }
-
     function mouseOut8() {
         document.getElementById("canp8").style.border = "thin  solid blue";
     }
-
     function mouseClick8() {
-        //
     }
+
+
 
     function mouseMove9() {
         document.getElementById("canp9").style.border = "thick solid yellow";
     }
-
     function mouseOut9() {
         document.getElementById("canp9").style.border = "thin  solid blue";
     }
-
     function mouseClick9() {
-        //
     }
 
 
@@ -476,78 +815,61 @@ try {
         this.canp;
     }
 
-    for (let i = 1; i < 10; i++) {
-        winP[i] = new CreateWinP;
+    function initWinP(){
+            for (let i = 1; i < 10; i++) {
+                winP[i] = new CreateWinP;
+            }
+
+            winP[1].ctx = ctx1;
+            winP[1].canp = canp1;
+            winP[2].ctx = ctx2;
+            winP[2].canp = canp2;
+            winP[3].ctx = ctx3;
+            winP[3].canp = canp3;
+            winP[4].ctx = ctx4;
+            winP[4].canp = canp4;
+            winP[5].ctx = ctx5;
+            winP[5].canp = canp5;
+            winP[6].ctx = ctx6;
+            winP[6].canp = canp6;
+            winP[7].ctx = ctx7;
+            winP[7].canp = canp7;
+            winP[8].ctx = ctx8;
+            winP[8].canp = canp8;
+            winP[9].ctx = ctx9;
+            winP[9].canp = canp9;
     }
 
-    winP[1].ctx = ctx1;
-    winP[1].canp = canp1;
-    winP[2].ctx = ctx2;
-    winP[2].canp = canp2;
-    winP[3].ctx = ctx3;
-    winP[3].canp = canp3;
-    winP[4].ctx = ctx4;
-    winP[4].canp = canp4;
-    winP[5].ctx = ctx5;
-    winP[5].canp = canp5;
-    winP[6].ctx = ctx6;
-    winP[6].canp = canp6;
-    winP[7].ctx = ctx7;
-    winP[7].canp = canp7;
-    winP[8].ctx = ctx8;
-    winP[8].canp = canp8;
-    winP[9].ctx = ctx9;
-    winP[9].canp = canp9;
 
     // *************************** the following are mouse click functions but of course can be called elsewhere *****
 
     function selPane1() {
-        alert("Pane 1");
-        document.getElementById("pane1").innerHTML = "Hello World";
+        //GUI("panel","Hello World");
+        GUI("pane1","Hello, World");
     }
 
     function selPane2() {
-        alert("Pane 2");
-        alert("making them all disappear except canvas");
-        document.getElementById("windowpane").style.display = "none";
-        document.getElementById("fields").style.display = "none";
-
     }
 
     function selPane3() {
-        alert("Pane 3");
     }
 
     function selPane4() {
-        alert("Pane 4");
-        document.getElementById("pane4").innerHTML = "Hello World 4";
     }
 
     function selPane5() {
-        alert("Pane 5");
     }
 
     function selPane6() {
-        alert("Pane 6");
-        document.getElementById("pane6").innerHTML = U[6].name;
-        //    document.getElementById("pane6").style.border = "thick solid yellow";
-        document.getElementById("canp6").style.border = "thick solid yellow";
-
     }
 
     function selPane7() {
-        alert("Pane 7");
-        document.getElementById("pane7").innerHTML = "Hello World 7";
     }
 
     function selPane8() {
-        alert("Pane 8");
-        document.getElementById("pane8").innerHTML = "Hello World 8";
     }
 
     function selPane9() {
-        alert("Pane ");
-        document.getElementById("pane9").innerHTML = U[9].name;
     }
 
 
@@ -556,18 +878,19 @@ try {
 
     // ***************************************************** NAMES OF UNIVERSES **************************
 
+    var UN = [];
+    function loadUNames(){
 
-
-	var UN = [];
-	UN[0] = "0 CLASSROOM 1";
-	UN[1] = "1 PROJECT/LAB";
-	UN[2] = "2 PLAYGROUND";
-	UN[3] = "3 LUNCHROOM";
-	UN[4] = "4 CLASSROOM 2";
-	UN[5] = "5 TEACHER LOUNGE";
-	UN[6] = "6 LONG TERM CARE";
-	UN[7] = "7 BAR/DANCE/RECEPTION";
-	UN[8] = "8 HOME";
+        	UN[0] = "0 CLASSROOM 1";
+        	UN[1] = "1 PROJECT/LAB";
+        	UN[2] = "2 PLAYGROUND";
+        	UN[3] = "3 LUNCHROOM";
+        	UN[4] = "4 CLASSROOM 2";
+        	UN[5] = "5 TEACHER LOUNGE";
+        	UN[6] = "6 LONG TERM CARE";
+        	UN[7] = "7 BAR/DANCE/RECEPTION";
+        	UN[8] = "8 HOME";
+    }
 
     function loadMVnames() {
         var text = prompt("Enter names of the Universes as a list separated by commas. No quotes necessary.");
@@ -578,31 +901,58 @@ try {
         let i, y, z;
         if (x == "" || x == null) return;
 
-		for (i = 0; i < 9; i++) {
-			y = x.indexOf(",", 0);
-			if (y == -1) break;
-			UN[i] = (x.substring(0, y));
-			x = x.substring(y + 1);
-		}
-		showMVname();
+    		for (i = 0; i < M.UCt; i++) {
+    			y = x.indexOf(",", 0);
+    			if (y == -1) break;
+    			UN[i] = (x.substring(0, y));
+    			x = x.substring(y + 1);
+          if (i==0){chart7.options.title.text = UN[0]};
+          if (i==1){chart8.options.title.text = UN[1]};
+          if (i==2){chart9.options.title.text = UN[2]};
+          if (i==3){chart10.options.title.text = UN[3]};
+          if (i==4){chart11.options.title.text = UN[4]};
+          if (i==5){chart12.options.title.text = UN[5]};
+          if (i==6){chart13.options.title.text = UN[6]};
+          if (i==7){chart14.options.title.text = UN[7]};
+          if (i==8){chart15.options.title.text = UN[8]};
+		    showMVname();
+      }
     }
 
     function showMVname() {
-        document.getElementById("pane1").innerHTML = UN[0].fontcolor("white");
-        document.getElementById("pane2").innerHTML = UN[1].fontcolor("white");
-        document.getElementById("pane3").innerHTML = UN[2].fontcolor("white");
-        document.getElementById("pane4").innerHTML = UN[3].fontcolor("white");
-        document.getElementById("pane5").innerHTML = UN[4].fontcolor("white");
-        document.getElementById("pane6").innerHTML = UN[5].fontcolor("white");
-        document.getElementById("pane7").innerHTML = UN[6].fontcolor("white");
-        document.getElementById("pane8").innerHTML = UN[7].fontcolor("white");
-        document.getElementById("pane9").innerHTML = UN[8].fontcolor("white");
+//      document.getElementById("pane1").innerHTML = UN[0].fontcolor("white");
+
+        let i = M.UCt;
+        if (i>0) {GUI("row1","UN[0]")};
+        if (i>1) {GUI("row2","UN[1]")};
+        if (i>2) {GUI("row3","UN[2]")};
+        if (i>3) {GUI("row4","UN[3]")};
+        if (i>4) {GUI("row5","UN[4]")};
+        if (i>5) {GUI("row6","UN[5]")};
+        if (i>6) {GUI("row7","UN[6]")};
+        if (i>7) {GUI("row8","UN[7]")};
+        if (i>8) {GUI("row9","UN[8]")};
+
+
+        i = M.UCt;
+        if (i>0) {GUI("pane1",UN[0].fontcolor("white"))};
+        if (i>1) {GUI("pane2",UN[1].fontcolor("white"))};
+        if (i>2) {GUI("pane3",UN[2].fontcolor("white"))};
+        if (i>3) {GUI("pane4",UN[3].fontcolor("white"))};
+        if (i>4) {GUI("pane5",UN[4].fontcolor("white"))};
+        if (i>5) {GUI("pane6",UN[5].fontcolor("white"))};
+        if (i>6) {GUI("pane7",UN[6].fontcolor("white"))};
+        if (i>7) {GUI("pane8",UN[7].fontcolor("white"))};
+        if (i>8) {GUI("pane9",UN[8].fontcolor("white"))};
     }
+
+
+    /**************************************************************************************************/
 
     function rBlues() {
         let ranB, id, univ;
         var txt = prompt("Enter number of travelom conversion to Infected State");
-        document.getElementById("rBlueNum").innerHTML = txt;
+        GUI("rBlueNum",txt);
         if (txt == "" || txt == undefined) return;
         ranB = parseInt(txt);
         for (let i = 0; i < ranB; i++) {
@@ -619,28 +969,10 @@ try {
         }
     }
 
-    // ************************************* CREATE MATRIX FOR MUTIVERSE ************************
 
 
-
-    if (use_html) {
-        document.getElementById("row1").innerHTML = UN[0];
-        document.getElementById("row2").innerHTML = UN[1];
-        document.getElementById("row3").innerHTML = UN[2];
-        document.getElementById("row4").innerHTML = UN[3];
-        document.getElementById("row5").innerHTML = UN[4];
-        document.getElementById("row6").innerHTML = UN[5];
-        document.getElementById("row7").innerHTML = UN[6];
-        document.getElementById("row8").innerHTML = UN[7];
-        document.getElementById("row9").innerHTML = UN[8];
-        showMVname();
-    }
 
     // *************************************** DISPLAY MATRIX AND PROBABILITY DIStrIButioNS ******************
-
-    (function() {
-        hideMV()
-    })();
 
     var MVtoggle = false;
 
@@ -651,27 +983,25 @@ try {
         } else {
             MVtoggle = true;
             if (use_html) {
-                document.getElementById("myTab").style.display = "block";
-                document.getElementById("chartContainer6").style.display = "block";
-                document.getElementById("gameCanvas").style.display = "block";
-                document.getElementById("localCharts").style.display = "block";
-
-                document.getElementById("MVstats0").style.display = "none";
-                document.getElementById("MVstats1").style.display = "none";
-                document.getElementById("MVstats2").style.display = "none";
-                document.getElementById("MVstats3").style.display = "none";
-                document.getElementById("MVstats4").style.display = "none";
-                document.getElementById("MVstats5").style.display = "none";
-                document.getElementById("MVstats6").style.display = "none";
-                document.getElementById("MVstats7").style.display = "none";
-                document.getElementById("MVstats8").style.display = "none";
-
-                document.getElementById("MVcharts").style.display = "none";
-                document.getElementById("dayhr").style.display = "none";
-                document.getElementById("windowpane").style.display = "none";
-                document.getElementById("fields").style.display = "none";
-                document.getElementById("MVmatrix").style.display = "none";
-                document.getElementById("MV-menu").style.display = "none";
+                GUIstyle("myTab","block");
+                GUIstyle("gameCanvas","block");
+                GUIstyle("localCharts","block");
+                GUIstyle("fields","block");
+                GUIstyle("MVstats0","none");
+                GUIstyle("MVstats1","none");
+                GUIstyle("MVstats2","none");
+                GUIstyle("MVstats3","none");
+                GUIstyle("MVstats4","none");
+                GUIstyle("MVstats5","none");
+                GUIstyle("MVstats6","none");
+                GUIstyle("MVstats7","none");
+                GUIstyle("MVstats8","none");
+                GUIstyle("MVcharts","none");
+                GUIstyle("dayhr","none");
+                GUIstyle("windowpane","none");
+                GUIstyle("fields","none");
+                GUIstyle("MVmatrix","none");
+                GUIstyle("MV-menu","none");
             }
             VIEW = "local";
             if (gen > 0) {
@@ -685,50 +1015,35 @@ try {
     }
 
     function showMV() {
-        document.getElementById("myTab").style.display = "none";
-        document.getElementById("chartContainer6").style.display = "none";
-        document.getElementById("gameCanvas").style.display = "none";
-        document.getElementById("localCharts").style.display = "none";
+        GUIstyle("myTab","none");
+        GUIstyle("gameCanvas","none");
+        GUIstyle("localCharts","none");
 
-        if (M.UCt > 0) {
-            document.getElementById("MVstats0").style.display = "block"
-        };
-        if (M.UCt > 1) {
-            document.getElementById("MVstats1").style.display = "block"
-        };
-        if (M.UCt > 2) {
-            document.getElementById("MVstats2").style.display = "block"
-        };
-        if (M.UCt > 3) {
-            document.getElementById("MVstats3").style.display = "block"
-        };
-        if (M.UCt > 4) {
-            document.getElementById("MVstats4").style.display = "block"
-        };
-        if (M.UCt > 5) {
-            document.getElementById("MVstats5").style.display = "block"
-        };
-        if (M.UCt > 6) {
-            document.getElementById("MVstats6").style.display = "block"
-        };
-        if (M.UCt > 7) {
-            document.getElementById("MVstats7").style.display = "block"
-        };
-        if (M.UCt > 8) {
-            document.getElementById("MVstats8").style.display = "block"
-        };
+        let i = M.UCt;
+        if (i>0){GUIstyle("MVstats0","block")};
+        if (i>1) {GUIstyle("MVstats1","block")};
+        if (i>2) {GUIstyle("MVstats2","block")};
+        if (i>3) {GUIstyle("MVstats3","block")};
+        if (i>4) {GUIstyle("MVstats4","block")};
+        if (i>5) {GUIstyle("MVstats5","block")};
+        if (i>6) {GUIstyle("MVstats6","block")};
+        if (i>7) {GUIstyle("MVstats7","block")};
+        if (i>8) {GUIstyle("MVstats8","block")};
 
+        GUIstyle("MVcharts","block");
+        GUIstyle("dayhr","block");
+        GUIstyle("windowpane","block");
+        GUIstyle("fields","block");
+        GUIstyle("MVmatrix","block"); //for now
+        GUIstyle("MV-menu","block");
+        //showMVname();
 
-        document.getElementById("MVcharts").style.display = "block";
-        document.getElementById("dayhr").style.display = "block";
-        document.getElementById("windowpane").style.display = "block";
-        document.getElementById("fields").style.display = "block";
-        document.getElementById("MVmatrix").style.display = "none"; //for now
-        document.getElementById("MV-menu").style.display = "block";
         VIEW = "MV";
         upDateGraph(U[vU], vU);
-        document.getElementById("day").innerHTML = ("DAY:\n" + cD);
-        document.getElementById("hour").innerHTML = ("HOUR:\n" + cH);
+        GUI("day",("DAY:\n" + cD));
+        GUI("hour",("HOUR:\n" + cH));
+        showMVname();
+
     }
 
 
@@ -742,7 +1057,6 @@ try {
 
     const LTC = 1;
     const HOME = 0;
-    var csvAct = "Population";
 
     var U = []; // local Universes
     var P = []; // all people in the system
@@ -750,9 +1064,10 @@ try {
     var D = [];
     var H = []; // timer-based schedule of events - arr depart
     var AG = []; // age groups
+    var ageRiskT = [];
 
     var toTime = 0;
-    var toDD = 0;
+    var toDD = 9999;
     var toHH = 0;
 
     var cD = 0; // not sure if we will use as globals
@@ -798,35 +1113,8 @@ try {
       this.infected;
     }
 
-    function initAG(AG,agp){
-      AG.total = 0;
-      AG.vax = 0;
-      AG.vaxGen = 0;
-      AG.infected = 0;
-      switch(agp){
-        case 0: AG.AGname = "<10";
-             break;
-        case 1: AG.AGname = "10-19";
-             break;
-        case 2: AG.AGname = "20-29";
-             break;
-        case 3: AG.AGname = "30-39";
-             break;
-        case 4: AG.AGname = "40-49";
-             break;
-        case 5: AG.AGname = "50-59";
-             break;
-        case 6: AG.AGname = "60-69";
-             break;
-        case 7: AG.AGname = "70-79";
-             break;
-        case 8: AG.AGname = "80-99";
-             break;
-        case 9: AG.AGname = "90++";
-      }
-    }
-
     function ConstructMVC() {
+        this.ID;
         this.UCt; // count of Universes
         this.PCt;
         this.GreenCt; // these are totals of all universes at this time
@@ -851,7 +1139,7 @@ try {
         this.endBlue = [];
         this.endRed = [];
         this.endOrange = [];
-        this.endRedDelta = [];
+        this.Delta = [];
         this.endCases = [];
         this.endVelocity = [];
         this.endR0 = [];
@@ -866,52 +1154,44 @@ try {
     }
 
 
+    function initMV(){
+          M.ID = "";
+          M.UCt = 9;
+          M.GreenCt = M.PCt; // these are totalled from U's
+          M.YellowCt = 0;
+          M.BlueCt = 0;
+          M.RedCt = 0;
+          M.OrangeCt = 0;
+          M.Cases = 0;
+          M.R0 = 0;
+          M.clockDay = 0;
+          M.clockHr = 0;
 
-    M.UCt = 9;
-    console.log(Date());
-    console.log("CovidSIMVL Mode1 and Mod2 Hybrid 35d");
-    console.log("Mode 1 >13 and <36 is 75%");
-    console.log("Mode 2 >28 is 95%; >13 and <29 is 75%");
-    if (use_html) {
-        M.PCt = prompt("Enter the global population size");
-    } else {
-        M.PCt = number_of_agents; // passed in from R/V8 javascript interpreter
+          M.logGreen = [];
+          M.logYellow = [];
+          M.logBlue = [];
+          M.logRed = [];
+          M.logOrange = [];
+          M.logCases = [];
+          M.logR0 = [];
+          M.endGreen = [];
+          M.endYellow = [];
+          M.endBlue = [];
+          M.endRed = [];
+          M.endOrange = [];
+          M.endRedDelta = [];
+          M.endCases = [];
+          M.endVelocity = [];
+          M.endR0 = [];
+
+          M.tIncubate = VLincD;
+          M.qInfective = VLlower;
+          M.tPeakVL = VLpeak0;
+          M.qPeakVL = VLpeakVL;
+          M.tInfectEnd = VLinfEnd;
+          M.tOnset = VLonsetT;
+          M.tInert = VLinfEnd;
     }
-
-    M.GreenCt = M.PCt; // these are totalled from U's
-    M.YellowCt = 0;
-    M.BlueCt = 0;
-    M.RedCt = 0;
-    M.OrangeCt = 0;
-    M.Cases = 0;
-    M.R0 = 0;
-    M.clockDay = 0;
-    M.clockHr = 0;
-
-    M.logGreen = [];
-    M.logYellow = [];
-    M.logBlue = [];
-    M.logRed = [];
-    M.logOrange = [];
-    M.logCases = [];
-    M.logR0 = [];
-    M.endGreen = [];
-    M.endYellow = [];
-    M.endBlue = [];
-    M.endRed = [];
-    M.endOrange = [];
-    M.endRedDelta = [];
-    M.endCases = [];
-    M.endVelocity = [];
-    M.endR0 = [];
-
-    M.tIncubate = VLincD;
-    M.qInfective = VLlower;
-    M.tPeakVL = VLpeak0;
-    M.qPeakVL = VLpeakVL;
-    M.tInfectEnd = VLinfEnd;
-    M.tOnset = VLonsetT;
-    M.tInert = VLinfEnd;
 
     // ************************  this describes a local universe *********************************************************
 
@@ -924,6 +1204,7 @@ try {
         this.Attached;
         this.Transient;
         this.minglf;
+        this.sizeFactor;
         this.greenCt; // these counts reflect the status of this universe at this time
         this.yellowCt;
         this.blueCt;
@@ -931,6 +1212,7 @@ try {
         this.orangeCt;
         this.allTouch;
         this.cases;
+        this.infectHere = [];
         this.canvas;
 
         this.arr = [];
@@ -971,6 +1253,7 @@ try {
         U.Attached = 0;
         U.Transient = 0;
         U.minglf = 1;
+        U.sizeFactor = 1;
         U.greenCt = 0;
         U.yellowCt = 0;
         U.blueCt = 0;
@@ -978,6 +1261,7 @@ try {
         U.orangeCt = 0;
         U.allTouch = 0;
         U.cases = 0;
+        U.infectHere = [];
         U.canvas = "";
 
         U.arr = [];
@@ -1006,23 +1290,9 @@ try {
 
         U.vaxMode = 0;
         U.vaxGroup = 0;       // % of population
-        U.vaxAgeGp = -1;      // for now, work on latest change, and use console.log to track them
-
+        U.vaxAgeGp = -1;      // for now, work on latest change, and use console_log to track them
     };
 
-var oneTime = 0;
-    (function() {
-        let i,j;
-        oneTime = 0;
-        for (i = 0; i < M.UCt; i++) {
-            U[i] = new CreateUniverse();
-            initUniv(U[i], i);
-        }
-       for (j=0;j<10;j++){
-           AG[j] = new CreateAgeGP();
-           initAG(AG[j],j);
-       }
-    })();
 
     function CreateType() {
         this.gCt = 0;
@@ -1040,7 +1310,8 @@ var oneTime = 0;
         Q.dep[gen] = [];
         Q.depT[gen] = new CreateType();
         let Y = Q.dep[gen];
-        for (let i = 0; i < M.UCt; i++) {
+        let i;
+        for (i = 0; i < M.UCt; i++) {
             Y[i] = new CreateType()
         }
     }
@@ -1106,21 +1377,13 @@ var oneTime = 0;
         this.failedCt;
     }
 
-    (function() {
-        let i;
-        for (i = 0; i < M.PCt; i++) {
-            P[i] = new CreatePerson;
-            initPerson(P[i], i);
-        }
-    })();
-
 
     function initPerson(P, i) {
         P.pID = i;
         P.state = "green";
         P.clr = "green";
         P.age = -1;
-        P.ageGp = -1;
+        P.ageGp = 0;
         P.role = "R";
         P.suscIndx = 1;
         P.prevVL = 0;
@@ -1163,9 +1426,7 @@ var oneTime = 0;
         P.vaxD = 0;       // becomes 75% effective in 14 days lasts 28 + 14 days then zero
         P.vaxType = 0;    // 1 - follows schedule above;  2 - at 28d becomes 95%
 
-        // vax effect happens when VLtransfer() is determined, and if susceptible and VL=0
-        // apply Math.random() > 0.75 to effect the change....ie do the transfer and change state
-        // obviously, if not green and zero then does not apply
+
     }
 
     // %%%%%%%%%%%%%%%%%%%%%%%%% NOW SET UP ALL THE LOCAL INFO BEFORE SPECIALIZING $$$$$$$$$$$$$$$$$$$$$$
@@ -1189,14 +1450,15 @@ var oneTime = 0;
     //
 
 
-    (function() {
-        let i;
-        for (i = 0; i < M.PCt; i++) {
-            T[i] = new CreateTicket();
-            T[i].pID = i;
-            T[i].S = [];
-        }
-    })();
+    function initTicket(){
+            let i;
+            for (i = 0; i < M.PCt; i++) {
+                T[i] = new CreateTicket();
+                T[i].pID = i;
+                T[i].S = [];
+            }
+    }
+
 
     function CreateTicket() {
         this.pID;
@@ -1224,7 +1486,7 @@ var oneTime = 0;
         this.Mx;
     }
 
-    var transfer = new CreateTransfer();
+
 
     function CreateD() {
         this.DD;
@@ -1237,32 +1499,6 @@ var oneTime = 0;
         this.cID;
         this.cS;
         this.cDir;
-    }
-
-    function parseL(lineStr) {
-        let lineS = lineStr;
-        if (lineS == "") return false;
-        let ID = eval(lineS[0]);
-        transfer.pID = ID;
-        transfer.stopno = eval(lineS[1]);
-        transfer.ETA = eval(lineS[2]);
-        transfer.AU = eval(lineS[3]);
-        transfer.ETD = eval(lineS[4]);
-        transfer.TU = eval(lineS[5]);
-        transfer.role = lineS[6];
-        transfer.Mx = eval(lineS[7]);
-        let trAgeGp = lineS[8];
-		    trAgeGp = Math.round(trAgeGp);
-    		let trFam = lineS[9];
-    		if (ID==pID && ID !=0) {return true}    // first one is 0
-    		else {
-    			if (lineS[8]=="" || lineS[8] === undefined) {return true };
-          P[ID].ageGp = trAgeGp;
-          AG[trAgeGp].total++;
-    			P[ID].famKey = -1;
-    			if (trFam!="" && trFam!==undefined) {P[ID].famKey=trFam};
-    		};
-        return true;
     }
 
 
@@ -1333,70 +1569,35 @@ var oneTime = 0;
         D[d].H[h].push(X);
     }
 
-    function processLines() {
-        let i, j;
-        if (lines[0][0] == "pID") lines.shift(); //gets rid of row labels
-        var lineNo = lines.length;
-        if (csvAct == "Population") {
-            for (i = 0; i < lineNo; i++) {
-                if (parseL(lines[i])) {
-                    setupTicket();
-                }
-            }
-            if (use_html) {
-                document.getElementById("getFile").style.display = "none";
-            }
-        } else {
-            if (csvAct == "Cases") {
-                for (i = 0; i < lineNo; i++) {
-                    if (!parseC(lines[i])) break;
-                }
 
-                if (use_html) {
-                    //drawAgents(0);
-                    //showCounts();
-                    document.getElementById("getFile").style.display = "none";
-                    //document.getElementById("csvButton").style.display="none";
-                }
-            }
-        }
-    }
-
-    function caseLoad() {
-        if (use_html) {
-            document.getElementById("getFile").style.display = "block";
-        }
-        csvAct = "Cases";
-    }
-
-    function parseC(lineStr) {
-        let lineS = lineStr;
-        if (lineS == "" || lineS === undefined) return false;
-        let ID = eval(lineS[0]);
-
-        if (P[ID].pID === undefined || P[ID].pID == "null") return false;
-
-        P[ID].ageGp = eval(lineS[1]); // age group
-        P[ID].suscIndx = eval(lineS[2]); // combined risk
-        if (P[ID].suscIndx != 0) {
-            resizeRisk(ID)
-        };
-
-        if (eval(lineS[3]) === undefined || eval(lineS[3]) == "") {} else P[ID].ViralLoad = eval(lineS[3]);
-        if (eval(lineS[4]) === undefined || eval(lineS[4]) == "") {} else P[ID].tInfect = 0 - eval(lineS[4]);
-
-        // resizeVL(ID);     //we grow VL for one cycle, so resize after growth
-        changeState(ID); //changes state and color by post-inf days
-
-        if (lineS[5] === undefined || lineS[5] == "") {} else P[ID].role = lineS[5];
-        if (eval(lineS[6]) === undefined || eval(lineS[6]) == "") {} else P[ID].minglf = eval(lineS[6]);
-        return true;
-    }
 
     function resizeRisk(ID) {
         let Q = P[ID];
         Q.baseSize = Q.baseSize * Math.cbrt(Q.suscIndx);
         Q.currSize = stochast(Q.baseSize, 0.05);
+    }
+
+
+    function caseState(ID){
+          let G = P[ID];
+          let postInfect = (cT - G.tInfect);
+          if (postInfect < G.tIncubate){
+              G.state = "yellow";
+              G.clr = "yellow";
+              M.YellowCt++;
+              return;
+          };
+          if (postInfect < G.tOnset){
+              G.state = "blue";
+              G.clr = "blue";
+              M.blueCt++;
+              return;
+          };
+          if (postInfect < G.tInert){
+              G.state = "red";
+              G.clr = "red";
+              M.RedCt++;
+          }
     }
 
     // must test to see if these are transitions
@@ -1406,6 +1607,9 @@ var oneTime = 0;
         if (G.u == -1) {
             return
         }
+        let q = P[ID].u;
+        let Q = U[q];
+
         if (postInfect > 0) {
             if (postInfect < G.tIncubate) {
                 if (G.ViralLoad > 0)
@@ -1424,9 +1628,7 @@ var oneTime = 0;
             }
             newState(ID, "orange");
         }
-        if (use_html) {
-            showUstat(G, ID);
-        }
+        showUstat(Q,q);
     }
 
     function newState(ID, newState) {
@@ -1436,19 +1638,28 @@ var oneTime = 0;
         switch (G.state) {
             case "green":
                 Q.greenCt--;
+                M.GreenCt--;
+                if (newState=="yellow"){
+                  let r = Q.infectHere.length;
+                  Q.infectHere[r] = [gen,r+1];
+                }
                 break;
             case "yellow":
                 Q.yellowCt--;
+                M.YellowCt--;
                 break;
             case "blue":
                 Q.blueCt--;
+                M.BlueCt--;
                 break;
             case "red":
                 Q.redCt--;
+                M.RedCt--;
                 Q.cases--;
                 break;
             case "orange":
                 Q.orangeCt--;
+                M.OrangeCt--;
                 Q.cases--;
                 break
         }
@@ -1457,16 +1668,20 @@ var oneTime = 0;
         switch (G.state) {
             case "yellow":
                 Q.yellowCt++;
+                M.YellowCt++;
                 break;
             case "blue":
                 Q.blueCt++;
+                M.BlueCt++;
                 break;
             case "red":
                 Q.redCt++;
+                M.RedCt++;
                 Q.cases++;
                 break;
             case "orange":
                 Q.orangeCt++;
+                M.OrangeCt++;
                 Q.cases++;
                 break;
         }
@@ -1490,14 +1705,23 @@ var oneTime = 0;
 
     var canvas, ctx;
 
-    if (use_html) {
-        // load canvas
-        canvas = document.getElementById("gameCanvas");
+    function blackCanvas(selCan){
+        if (selCan=="game"){
+            canvas = document.getElementById("gameCanvas");
+            GUIstyle("gameCanvas","block");
+          }
+        else {
+            if (selCan == "graph"){
+                canvas = document.getElementById("graphCanvas");
+                GUIstyle("graphCanvas","block");
+            }
+        }
         ctx = canvas.getContext("2d");
-        ctx.fillStyle = "black";
+        ctx.fillStyle = "white";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         ctx.globalCompositeOperation = "source-over";
     }
+
 
     var travel = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 6, 6, 6, 6, 7, 7, 7, 8, 8, 9];
     var dIRECTION = [-1, 0, 1];
@@ -1511,66 +1735,70 @@ var oneTime = 0;
         this.perim;
     }
 
-    var epic1 = new Epicenter;
-    epic1.X = canWidth / 4;
-    epic1.Y = canHeight / 4;
-    epic1.perim = 30;
-    var epic2 = new Epicenter;
-    epic2.X = canWidth / 4;
-    epic2.Y = canHeight / 4 * 3;
-    epic2.perim = 30;
-    var epic3 = new Epicenter;
-    epic3.X = canWidth / 4 * 3;
-    epic3.Y = canHeight / 4;
-    epic3.perim = 30;
-    var epic4 = new Epicenter;;
-    epic4.X = canWidth / 4 * 3;
-    epic4.Y = canHeight / 4 * 3;
-    epic4.perim = 30;
-    var epic5 = new Epicenter;
-    epic5.X = canWidth / 2;
-    epic5.Y = canHeight / 2;
-    epic5.perim = 30;
-
 
     var perim = 20;
+    var epic1, epic2, epic3, epic4, epic5;
+    function initEpiCenters(){
+          epic1 = new Epicenter;
+          epic1.X = canWidth / 4;
+          epic1.Y = canHeight / 4;
+          epic1.perim = 30;
+          epic2 = new Epicenter;
+          epic2.X = canWidth / 4;
+          epic2.Y = canHeight / 4 * 3;
+          epic2.perim = 30;
+          epic3 = new Epicenter;
+          epic3.X = canWidth / 4 * 3;
+          epic3.Y = canHeight / 4;
+          epic3.perim = 30;
+          epic4 = new Epicenter;;
+          epic4.X = canWidth / 4 * 3;
+          epic4.Y = canHeight / 4 * 3;
+          epic4.perim = 30;
+          epic5 = new Epicenter;
+          epic5.X = canWidth / 2;
+          epic5.Y = canHeight / 2;
+          epic5.perim = 30;
 
-    epic1.X = epic3.X;
-    epic2.X = epic3.X;
-    epic4.X = epic3.X;
-    epic5.X = epic3.X;
-    epic1.Y = epic3.Y;
-    epic2.Y = epic3.Y;
-    epic4.Y = epic3.Y;
-    epic5.Y = epic3.Y;
-    epic1.perim = perim;
-    epic2.perim = perim;
-    epic3.perim = perim;
-    epic4.perim = perim;
-    epic5.perim = perim;
+          epic1.X = epic3.X;
+          epic2.X = epic3.X;
+          epic4.X = epic3.X;
+          epic5.X = epic3.X;
+          epic1.Y = epic3.Y;
+          epic2.Y = epic3.Y;
+          epic4.Y = epic3.Y;
+          epic5.Y = epic3.Y;
+          epic1.perim = perim;
+          epic2.perim = perim;
+          epic3.perim = perim;
+          epic4.perim = perim;
+          epic5.perim = perim
+    }
+
+
 
 
     function canvTxt(x, y, day, hr, u) {
+        if (!use_html) { return };
         ctx.font = "30px Arial";
         ctx.fillStyle = "white";
         ctx.fillText("Day" + day + "   HR:" + hr + "  U" + u, x, y);
+        ctx.fillText("gen "+gen,15,60);
     }
 
     function drawC(x, y, rad, color) {
+        if (!use_html) { return };
         ctx.beginPath();
         ctx.arc(x, y, rad, 0, 2 * Math.PI);
         ctx.fillStyle = color;
         ctx.fill();
+        ctx.strokeStyle = "black";
         ctx.stroke();
-        ctx.strokeStyle = "#FFFFFF22";
-        drawRect(0, 0, 270, 80, "#00000000");
-        ctx.font = "30px Arial";
-        ctx.fillStyle = "#FFFFFF22";
-        ctx.fillText("gen "+gen,15,60);
 
     }
 
     function drawCross(x, y, width, height, clr) {
+        if (!use_html) { return };
         ctx.beginPath();
         ctx.moveTo(x, y);
         ctx.fillStyle = clr;
@@ -1579,6 +1807,7 @@ var oneTime = 0;
     }
 
     function drawRect(x, y, width, height, clr) {
+        if (!use_html) { return };
         ctx.beginPath();
         ctx.moveTo(x, y);
         ctx.fillStyle = clr;
@@ -1586,26 +1815,27 @@ var oneTime = 0;
     }
 
     function drawEpi() {
-        drawCross(epic1.X, epic1.Y, 5, 1, "pink");
-        drawCross(epic2.X, epic2.Y, 5, 1, "pink");
-        drawCross(epic3.X, epic3.Y, 5, 1, "pink");
-        drawCross(epic4.X, epic4.Y, 5, 1, "pink");
-        drawCross(epic5.X, epic5.Y, 5, 1, "pink");
-        canvTxt(15, 30, cD, cH, vU);
+        if (!use_html) { return };
+            drawCross(epic1.X, epic1.Y, 5, 1, "pink");
+            drawCross(epic2.X, epic2.Y, 5, 1, "pink");
+            drawCross(epic3.X, epic3.Y, 5, 1, "pink");
+            drawCross(epic4.X, epic4.Y, 5, 1, "pink");
+            drawCross(epic5.X, epic5.Y, 5, 1, "pink");
+            canvTxt(15, 30, cD, cH, vU);
     }
 
     function drawAgent(x, y, g, clrFlag) {
+        if (!use_html) { return };
+            fullCt++;
+            let clr, size;
+            size = P[g].currSize;
+            //    canvTxt(15,30,cD,cH,vU);
+            if (clrFlag == -1) {
+                clr = P[g].state;
+            } else {
+                clr = clrFlag;
+            }
 
-        fullCt++;
-        let clr, size;
-        size = P[g].currSize;
-        //    canvTxt(15,30,cD,cH,vU);
-        if (clrFlag == -1) {
-            clr = P[g].state;
-        } else {
-            clr = clrFlag;
-        }
-        if (use_html) {
             switch (P[g].role) {
                 case "R":
                     drawC(x, y, size, clr);
@@ -1616,22 +1846,27 @@ var oneTime = 0;
                 case "T":
                     drawRect(x, y, 1.5 * size, 1.5 * size, clr);
             }
-        }
     }
 
     function drawU() {
-        let i, j, k, l;
-        if (use_html) {
-            drawRect(0, 0, canWidth, canHeight, "black");
-            canvTxt(15, 30, cD, cH, vU);
-        }
-        k = U[vU].person.slice(0);
-        l = k.length;
-        for (i = 0; i < l; i++) {
-            j = k.pop();
-            drawAgent(P[j].X, P[j].Y, j, -1);
-        }
-    }
+        if (!use_html) { return };
+        let i, j, k, m;
+        drawRect(0, 0, canWidth, canHeight, "black");
+        drawRect(0, 0, 270, 80, "#00000044");
+        canvTxt(15, 30, cD, cH, vU);
+
+       ctx.beginPath();
+       ctx.font = "30px Arial";
+       ctx.fillStyle = "white";
+       ctx.fillText("gen "+gen,15,60);
+
+      k = U[vU].person.slice(0);
+      m = k.length;
+      for (i = 0; i < m; i++) {
+          j = k.pop();
+          drawAgent(P[j].X, P[j].Y, j, -1);
+      }
+  }
 
 
 
@@ -1646,8 +1881,8 @@ var oneTime = 0;
 
     function showIncD() {
         let incTxt = prompt("Current incubation days as shown below. Enter new value if desired, otherwise cancel", VLincD);
-        let incDays = eval(incTxt);
-        document.getElementById("dIncD").innerHTML = incDays;
+        let incDays = Number(incTxt);
+        GUI("dIncD",incDays);
         if (incDays === null || incDays == "" || incDays == VLincD) return;
         VLincD = incDays;
         M.tIncubate = VLincD;
@@ -1659,8 +1894,8 @@ var oneTime = 0;
 
     function showInfD() {
         let infTxt = prompt("Current asymptomatic transmission days shown below. To change, enter new value else cancel", VLonsetT);
-        let infDays = eval(infTxt);
-        document.getElementById("dInfD").innerHTML = infDays;
+        let infDays = Number(infTxt);
+        GUI("dInfD",infDays);
         if (infDays === null || infDays == "" || infDays == VLonsetT) return;
         VLonsetT = infDays;
         let pCt = 0;
@@ -1672,9 +1907,14 @@ var oneTime = 0;
     function showCliD() {
         let cliTxt = prompt("Current days of infectivity after case is symptomatic or tested positive \nTo\
  change enter new value between 5.2 and 13.2 or cancel (applies to REDs)", VLinfEnd);
-        let cliDays = eval(cliTxt);
-        document.getElementById("dCliD").innerHTML = cliDays;
-        console.log("Red Days changed to "+cliTxt);
+        changeRedDays(cliTxt);
+
+    }
+
+    function changeRedDays(cliTxt){
+        GUI("dCliD",cliTxt);
+        console_log("Red Days changed to "+cliTxt);
+        let cliDays = Number(cliTxt);
         if (cliDays === null || cliDays == "" || cliDays == VLinfEnd) return;
         VLinfEnd = cliDays;
         let pCt = 0;
@@ -1686,45 +1926,69 @@ var oneTime = 0;
 
     function showCycle() {
         let infTxt = prompt("Current activity events per hour. To change, enter new value else cancel", cycleMax);
-        let infCyc = eval(infTxt);
-        document.getElementById("dCycl").innerHTML = infCyc;
+        let infCyc = Number(infTxt);
+        GUI("dCycl",infCyc);
         if (infCyc === null || infCyc == "" || infCyc == cycleMax) return;
         cycleMax = infCyc;
     }
 
   function showPradius() {
-        let rTxt = prompt("Enter Hazard rtadius of personal safety \nThe smaller the extent of isolation", VLradius);
-        let pRad = eval(rTxt);
-        document.getElementById("dPrad").innerHTML = pRad;
-        console.log("New Hazard Radius = "+rTxt);
-        if (pRad === null || pRad == "" || pRad == VLradius) return;
-        VLradius = pRad;
-        let pCt = 0;
-        for (pCt = 0; pCt < M.PCt; pCt++) {
-            let rRatio = P[pCt].currSize / P[pCt].baseSize;
-            P[pCt].baseSize = VLradius;
-            P[pCt].currSize = VLradius * rRatio;
-        }
+        let rTxt = prompt("Enter Hazard Radius", VLradius);
+        changeHzR(rTxt);
     };
 
+
+    function changeHzR(rTxt){
+          GUI("dPrad",rTxt);
+          if (rTxt === null || rTxt == "" || rTxt == VLradius) return;
+          let HzR = Number(rTxt);
+          console_log("New Hazard Radius = "+rTxt);
+
+          VLradius = HzR;
+          let pCt = 0;
+          for (pCt = 0; pCt < M.PCt; pCt++) {
+              let rRatio = P[pCt].currSize / P[pCt].baseSize;
+              P[pCt].baseSize = VLradius;
+              P[pCt].currSize = VLradius * rRatio;
+          }
+    }
+
+    function chSizeF(x,u){
+        console_log("Size Factor in U "+x+" U"+u);
+        U[u].sizeFactor = Number(x);
+    }
+
   function showMingle(){
-    	   var txt = prompt("Set or Change mingle factor FOR THE CURRENT UNIVERSE -- from 0.1 to 10");
-    	   document.getElementById("dMingl").innerHTML = txt;
-         console.log("new Mingle Factor = "+txt);
-    		let mn = eval(txt);
-    		U[vU].minglf = mn;     // now this is consistent with U and person scales
+    	   var txt = prompt("Enter Mingle Factor, Universe as: i,j where mF from 0.1 to 10 and Univ = 1-9");
+         let x,y,z;
+         x = txt.indexOf(",",0);
+         if (y==-1){ return };
+         y = txt.substring(0,x);
+         z = txt.substring(x+1);
+    	   changeMF(y,z);
     	}
+
+  function changeMF(newMF,univ){
+        GUI("dMingl",newMF);
+        let nu;
+        console_log("new Mingle Factor in Universe = "+newMF+" U"+univ);
+        if (univ == "" || univ === undefined){ nu = vU }
+        else {nu = univ};
+
+        U[nu].minglf = Number(newMF);
+  }
 
   function showVax(){
     let txt = prompt("Enter AgeGroup and %  as m,n eg 1,20\n0 = <10; 1=10-19; 2=20-29 etc....9=90+");
-    document.getElementById("vaxnow").innerHTML = txt;
-    console.log("Age Group "+txt+" 1st shot; 2nd auto in 35days");
+
+    GUI("vaxnow",txt);
+    console_log("Age Group "+txt+" 1st shot; 2nd auto in 35days");
     let y = txt.indexOf(",",0);
     if (y==-1) {return};
     U[vU].vaxAgeGp = Math.round(txt.substring(0,y));
     U[vU].vaxGroup = Math.round(txt.substring(y+1));
     U[vU].vaxMode = 2;    // for now, always 2
-    console.log("Gen"+gen+" AgeGp ="+U[vU].vaxAgeGp+" To be vaccinated="+U[vU].vaxGroup+"%");
+    console_log("Gen"+gen+" AgeGp ="+U[vU].vaxAgeGp+" To be vaccinated="+U[vU].vaxGroup+"%");
     let vax = U[vU].vaxGroup;
     let ages = U[vU].vaxAgeGp;
     implementVax(ages,vax);
@@ -1735,7 +1999,7 @@ function implementVax(ages,vax){
     var susList = [];
     var susvxCt = 0;
     var aCt = U[vU].Population;
-    console.log(U[vU].person);
+    console_log(U[vU].person);
     for (let i=0;i<aCt; i++){
       let k = U[vU].person[i];
       let pAge = P[k].ageGp;
@@ -1751,35 +2015,12 @@ function implementVax(ages,vax){
           }
       }
     }
-    console.log("ageGp"+ages+" count: "+susvxCt+" List: "+susList);
+    console_log("ageGp"+ages+" count: "+susvxCt+" List: "+susList);
 
-      // dec 31 2020 - instead of removing, we flag them for consideration
-      // in VLtransfer()
-
-  /* now take % away
-      let target = parseInt(susvxCt*vax/100);
-      target = parseInt(target*5/6);  // accounts for noVaxers
-      target = parseInt(target*0.95); // 95% effective vaccine
-      console.log("Vaccination list = "+target);
-      if (target==0) {return};
-      let vaxed = [];
-      for (i=0; i<target; i++){
-        let selectvax = parseInt(Math.random()*susvxCt);
-        let j = susList[selectvax];
-        vaxed.push(j);
-        susList.splice(selectvax,1);
-        P[j].state = "orange";
-        P[j].clr = "orange";
-        M.GreenCt--;
-        M.OrangeCt++;
-        U[vU].greenCt--;
-        U[vU].orangeCt++;
-        susvxCt--;
-    */
 
         // now apply % away
         let target = parseInt(susvxCt*vax/100);
-        console.log("Vaccination list = "+target);
+        console_log("Vaccination list = "+target);
         if (target==0) {return};
         let vaxed = [];
         for (i=0; i<target; i++){
@@ -1793,81 +2034,109 @@ function implementVax(ages,vax){
           susvxCt--;
 
       }
-      console.log("AgeGp"+ages+" vaccinated "+target+" List: "+vaxed);
+      console_log("AgeGp"+ages+" vaccinated "+target+" List: "+vaxed);
 
   }
 
-  function getToTime() {
-        let toTxt = prompt("Enter the DDHH time that this program is to run until", cycleMax);
-        let toHHDD = eval(toTxt);
-        document.getElementById("toHHDD").innerHTML = toHHDD;
-        if (toHHDD === null || toHHDD == "" || toHHDD == toTime) return;
-        toTime = toHHDD;
-    }
 
     function sizeP(G, g) {
         return (G.currSize);
     }
 
-
     var ageRiskT = [];
-    ageRiskT[0] = {
-        low: 0,
-        high: 9,
-        risk: 0.33
-    };
-    ageRiskT[1] = {
-        low: 10,
-        high: 19,
-        risk: 0.44
-    };
-    ageRiskT[2] = {
-        low: 20,
-        high: 29,
-        risk: 0.90
-    };
-    ageRiskT[3] = {
-        low: 30,
-        high: 39,
-        risk: 1.10
-    };
-    ageRiskT[4] = {
-        low: 40,
-        high: 49,
-        risk: 1.08
-    };
-    ageRiskT[5] = {
-        low: 50,
-        high: 59,
-        risk: 1.15
-    };
-    ageRiskT[6] = {
-        low: 60,
-        high: 69,
-        risk: 0.96
-    };
-    ageRiskT[7] = {
-        low: 70,
-        high: 79,
-        risk: 1.05
-    };
-    ageRiskT[8] = {
-        low: 80,
-        high: 89,
-        risk: 1.49
-    };
-    ageRiskT[9] = {
-        low: 90,
-        high: 99,
-        risk: 2.33
-    };
+    function initAgeTable(){
+      let j;
+      for (j=0;j<10;j++){
+          AG[j] = new CreateAgeGP();
+          initAG(AG[j],j);
+      }
+          ageRiskT[0] = {
+              low: 0,
+              high: 9,
+              risk: 0.33
+          };
+          ageRiskT[1] = {
+              low: 10,
+              high: 19,
+              risk: 0.44
+          };
+          ageRiskT[2] = {
+              low: 20,
+              high: 29,
+              risk: 0.90
+          };
+          ageRiskT[3] = {
+              low: 30,
+              high: 39,
+              risk: 1.10
+          };
+          ageRiskT[4] = {
+              low: 40,
+              high: 49,
+              risk: 1.08
+          };
+          ageRiskT[5] = {
+              low: 50,
+              high: 59,
+              risk: 1.15
+          };
+          ageRiskT[6] = {
+              low: 60,
+              high: 69,
+              risk: 0.96
+          };
+          ageRiskT[7] = {
+              low: 70,
+              high: 79,
+              risk: 1.05
+          };
+          ageRiskT[8] = {
+              low: 80,
+              high: 89,
+              risk: 1.49
+          };
+          ageRiskT[9] = {
+              low: 90,
+              high: 99,
+              risk: 2.33
+          };
+    }
+
+    function initAG(AG,agp){
+      AG.total = 0;
+      AG.vax = 0;
+      AG.vaxGen = 0;
+      AG.infected = 0;
+      switch(agp){
+        case 0: AG.AGname = "<10";
+             break;
+        case 1: AG.AGname = "10-19";
+             break;
+        case 2: AG.AGname = "20-29";
+             break;
+        case 3: AG.AGname = "30-39";
+             break;
+        case 4: AG.AGname = "40-49";
+             break;
+        case 5: AG.AGname = "50-59";
+             break;
+        case 6: AG.AGname = "60-69";
+             break;
+        case 7: AG.AGname = "70-79";
+             break;
+        case 8: AG.AGname = "80-99";
+             break;
+        case 9: AG.AGname = "90++";
+      }
+    }
+
 
 
     function ageRisk(G, g) {
         let i;
         if (G.age == "") return (1);
         if (G.age >= 90) return (2.33);
-        for (i = 0; i < 9; i++) {
+        for (i = 0; i < 10; i++) {
             if (G.age >= ageRiskT[i].low && G.age <= age[i].high)
                 return (ageRiskT[i]);
         }
@@ -1885,17 +2154,13 @@ function implementVax(ages,vax){
         let Q;
 
         cycleCount = 0;
-//        if (use_html) {
-//            document.getElementById("dCycl").innerHTML = cycleCount;
-//        }
 
         let cy = cycleCount;
 
         for (cy = 0; cy < cycleMax; cy++) {
-            if (use_html) {
-                if (wU == vU && VIEW == "local") drawRect(0, 0, canWidth, canHeight, "black");
-                if (wU == vU && VIEW == "local") drawEpi();
-            }
+            if (wU == vU && VIEW == "local") drawRect(0, 0, canWidth, canHeight, "black");
+            if (wU == vU && VIEW == "local") drawEpi();
+
             Q = U[wU];
             k = Q.person;
             len = k.length;
@@ -1914,16 +2179,12 @@ function implementVax(ages,vax){
                 if (wU == vU && VIEW == "local") {
                     drawAgent(P[j].newX, P[j].newY, j, -1);
                 }
-                if (use_html) {
-                    if (wU == vU && VIEW == "local") showUstat(U[wU], wU);
-                }
+                if (wU == vU && VIEW == "local") showUstat(U[wU], wU);
             }
         }
 
         if (wU == vU && VIEW == "local") drawU();
-        if (use_html) {
-            if (wU == vU && VIEW == "local") showUstat(U[wU], wU);
-        }
+        if (wU == vU && VIEW == "local") showUstat(U[wU], wU);
     }
 
     // #######################################################################
@@ -2007,22 +2268,20 @@ function implementVax(ages,vax){
                 yLength = Math.sqrt(xDelta + yDelta);
 
                 raMax = G.currSize + F.currSize;
-                if (yLength > raMax) {
-                    touchFlag = false;
-                } else {
-                    touchFlag = true;
-                    Q.allTouch++;
-                    // console.log("overlap g,h = "+g+","+k[j]+": "+G.state+","+F.state);
+                if (yLength > raMax) { touchFlag = false;
+                    } else {
+                        touchFlag = true;
+                        Q.allTouch++;
+                        // console_log("overlap g,h = "+g+","+k[j]+": "+G.state+","+F.state);
                 }
-				if (touchFlag) {
-					if (wU != 8) {VLtransfer(g, k[j])}			//U8 is HOME always
-					else {
-						if (G.famKey == F.famKey && G.famKey != -1) {VLtransfer(g, k[j])};
-					}
-				}
-            }
+        				if (touchFlag && (wU != 8)) {VLtransfer(g, k[j])			//U8 is HOME always
+            				} else {
+            						if (G.famKey == F.famKey && G.famKey != -1) {VLtransfer(g, k[j])};
+            	  }
+				     }
         }
     }
+
 
 
     // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -2093,10 +2352,10 @@ function implementVax(ages,vax){
         let iVL = P[i].ViralLoad;
         let jVL = P[j].ViralLoad;
         if (isNaN(iVL) || (isNaN(jVL))) {
-          alert("NaN i:j "+i+":"+j);
+          alertX("NaN i:j "+i+":"+j);
           iVL = 5; jVL=5;
         }
-        // console.log("i,j viral load = "+iVL.toFixed(2)+","+jVL.toFixed(2));
+        // console_log("i,j viral load = "+iVL.toFixed(2)+","+jVL.toFixed(2));
         if (iVL == 0 && jVL == 0) {
             return
         }
@@ -2109,11 +2368,11 @@ function implementVax(ages,vax){
         // if they are both in incubation, they cannot infect
 
         if (Math.max(iVL, jVL) < VLlower) {
-            // console.log("iVL, jVL below threshold for i,j"+i+","+j);
+            // console_log("iVL, jVL below threshold for i,j"+i+","+j);
             return
         }
         if (Math.max((cT - P[i].tInfect), (cT - P[j].tInfect)) < VLincD) {
-            // console.log("both i,j in incubation for"+i+","+j);
+            // console_log("both i,j in incubation for"+i+","+j);
             return
         }
 
@@ -2128,7 +2387,7 @@ function implementVax(ages,vax){
             Vsmall = i;
         };
         let VTrans = Vgrad * Vdist;
-        // console.log("Virus Transfer = "+VTrans+" Overlap diff "+diff);
+        // console_log("Virus Transfer = "+VTrans+" Overlap diff "+diff);
 
         // this is a stochastic threshold for ineffective touches
         if (VTrans < 0.05) {
@@ -2137,8 +2396,6 @@ function implementVax(ages,vax){
                 return
             }
         }
-
-        //before transmission check vax Status
 
         /*********************************************************
         /                 VAX Status checks
@@ -2166,7 +2423,7 @@ function implementVax(ages,vax){
             }
           }
           if (vaxSwitch==0) {
-            console.log("Vax prevented "+Vsmall+" ageGp"+P[Vsmall].ageGp+" by "+Vbig+" ageGp"+P[Vbig].ageGp+" gen"+gen+" Prob "+VaxProb);
+            console_log("Vax prevented "+Vsmall+" ageGp"+P[Vsmall].ageGp+" by "+Vbig+" ageGp"+P[Vbig].ageGp+" gen"+gen+" Prob "+VaxProb);
             return}
       }
 
@@ -2192,58 +2449,9 @@ function implementVax(ages,vax){
           }
         }
         if (vaxSwitch==0) {
-          console.log("No transmit "+Vbig+ " ageGp"+P[Vbig].ageGp+" on "+Vsmall+" ageGp"+P[Vsmall].ageGp+" gen"+gen+" Prob "+VaxProb);
+          console_log("No transmit "+Vbig+ " ageGp"+P[Vbig].ageGp+" on "+Vsmall+" ageGp"+P[Vsmall].ageGp+" gen"+gen+" Prob "+VaxProb);
           return}
     }
-
-
-
-
-
-/*
-        if (Vbig == i) {
-            let jinfD = Math.floor(jpostInfect);
-          if (jinfD < 21) {
-                var jinfVir = tViral[jinfD]
-            } else jinfVir = 1;
-            qVir = Math.min((jVL + VTrans), jinfVir);
-            qVir = stochast(qVir, 0.05);
-            if (qVir < 0) {alert("neg viral load in j")};
-            P[j].ViralLoad = Math.max(qVir, 1); //forcing infection VL to 1
-          if (P[j].tInfect == 0) {
-                P[j].tInfect = cT
-          }
-			    if (P[j].state=="green") {
-			         let iInf = M.PCt-M.GreenCt;
-               let jAgeGp = P[j].ageGp;
-               AG[jAgeGp].infected++;
-               console.log(iInf+"I j:ageGp:fam "+j+":"+P[j].ageGp+":"+P[j].famKey+" by "+P[i].state+" "+i+":"+P[i].ageGp+":"+P[i].famKey+" at gen"+gen+" Univ"+wU+" prob="+VaxProb.toFixed(3));
-			    }
-
-        } else {
-            let iinfD = Math.floor(ipostInfect);
-            if (iinfD < 21) {
-                var iinfVir = tViral[iinfD]
-            } else iinfVir = 1;
-            qVir = Math.min((iVL + VTrans), iinfVir);
-            qVir = stochast(qVir, 0.1);
-            if (qVir < 0) {alert("neg viral load in i")};
-            P[i].ViralLoad = Math.max((iVL + VTrans), 1);
-            if (P[i].tInfect == 0) { // once for infection
-                P[i].tInfect = cT
-            }
-			    if (P[i].state=="green"){
-				      let jInf = M.PCt-M.GreenCt;
-              let iAgeGp = P[i].ageGp;
-              AG[iAgeGp].infected++;
-              console.log(jInf+"I i:ageGp:fam "+i+":"+P[i].ageGp+":"+P[i].famKey+" by "+P[j].state+" "+j+":"+P[j].ageGp+":"+P[j].famKey+" at gen"+gen+" Univ"+wU+" prob="+VaxProb.toFixed(3));
-			    }
-        }
-
-*/
-
-
-
 
         let qVir = 0;
 
@@ -2254,7 +2462,7 @@ function implementVax(ages,vax){
 
         let xinfD;
         let xinfVir;
-        let xInf;
+        let xInf = 0;
         let x;
 
         if (ipostInfect<0)  { ipostInfect = -ipostInfect };
@@ -2278,14 +2486,11 @@ function implementVax(ages,vax){
         qVir = Math.min((xVL + VTrans), xinfVir);
         qVir = stochast(qVir, 0.05);
         if (isNaN(qVir)) {
-          alert("NaN qVir");
+          alertX("NaN qVir");
         }
         if (qVir < 0) {
-            alert("neg viral load "+qVir)
+            alertX("neg viral load "+qVir)
         };
-
-
-
 
         if (P[x].tInfect == 0){
             P[x].tInfect = cT;
@@ -2298,7 +2503,7 @@ function implementVax(ages,vax){
         let xAgeGp = P[x].ageGp;
         let AGtotal = AG[xAgeGp].total;
         let AGinfcd = AG[xAgeGp].infected;
-        if (AGinfcd > AGtotal) alert("AG limit exceeded");
+        if (AGinfcd > AGtotal) alertX("AG limit exceeded");
 
 
         if (P[x].state == "green"){
@@ -2313,7 +2518,7 @@ function implementVax(ages,vax){
               vic = j;
               dra = i;
           }
-          console.log(xInf+"I x:ageGp:fam "+vic+":"+P[vic].ageGp+":"+P[vic].famKey+" by "+P[dra].state+" "+dra+":"+P[dra].ageGp+":"+P[dra].famKey+" at gen"+gen+" Univ"+wU+" prob="+VaxProb.toFixed(3));
+          console_log(xInf+"I x:ageGp:fam "+vic+":"+P[vic].ageGp+":"+P[vic].famKey+" by "+P[dra].state+" "+dra+":"+P[dra].ageGp+":"+P[dra].famKey+" at gen"+gen+" Univ"+wU+" prob="+VaxProb.toFixed(3));
         }
 
 
@@ -2329,9 +2534,6 @@ function implementVax(ages,vax){
         if (jpostInfect > VLincD && P[i].state == "green") {
             P[j].susCt++
         };
-
-
-
 
   }
     // &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
@@ -2351,9 +2553,8 @@ function implementVax(ages,vax){
     cD = -1;
     cH = 23; // set up to initialize to first day = 0
     chkMaxTime = 23;
-    if (use_html) {
-        drawEpi();
-    }
+
+
 
     var clockTimer;
     var movieTimer;
@@ -2364,26 +2565,24 @@ function implementVax(ages,vax){
     function auto() {
         if (MODE == "auto") {
             MODE = "manual";
-            if (use_html) {
-                clearInterval(clockTimer);
-            }
+            clearInterval(clockTimer);
             return;
         }
         MODE = "auto";
-        if (use_html) {
-            clockTimer = setInterval(TimesUp, MOTION / FPS);
-        }
+        clockTimer = setInterval(TimesUp, MOTION / FPS);
     }
 
     function load() {
         var x;
+        let j;
         if (use_html) {
             x = document.getElementById("loadB").innerHTML;
-        }
-        if (x == "HR++") {
-            TimesUp();
+            if (x == "HR++") {
+              TimesUp();
             return
-        };
+          }
+        }
+
         M.clockHr = 24; // one-time initialization
         M.clockDay = -1;
         gen = -1;
@@ -2391,19 +2590,25 @@ function implementVax(ages,vax){
         wU = 0;
         MODE = "manual";
         startNet();
-        for (let i = 0; i < M.UCt; i++) {
-            initNet(U[i], 0);
+        for (j = 0; j < M.UCt; j++) {
+            initNet(U[j], 0);
         }
-        if (use_html) {
-            document.getElementById("loadB").innerHTML = "HR++";
-        }
+
+        GUI("loadB","HR++");
+
     }
 
-    function TimesUp() {
+    function  TimesUp() {
         gen++;
-        for (let i = 0; i < M.UCt; i++) {
+        if (gen % 10 == 0 && !use_html) {console_log("another 10 gens....")};
+        let i;
+        if (gen > HALTgen && HALTgen!=0) {
+            HALT();
+            throw "halt on generation parameter specified";
+        };
+        for (i = 0; i < M.UCt; i++) {
             initNet(U[i], gen);
-        }
+        };
         if (MODE == "auto" && cH == toHH && cD == toDD) {
             MODE = "manual";
             clearInterval(clockTimer);
@@ -2412,17 +2617,17 @@ function implementVax(ages,vax){
             advanceTime();
             conductor();
             tabulate();
-        }
-        if (graphFlag == "YES") {
+        };
+        if (graphFlag == "YES") {         // if we never invoke graphB we never set this flag to YES
             document.getElementById("grSlider").value = 1910;
             sliderFlag = false;
             graphB()
-        }
+        };
     }
 
     function advanceTime() {
         if (cH == chkMaxTime) {
-            // alert("End of Day - go home, no more coding!");
+            // alertX("End of Day - go home, no more coding!");
             M.clockDay++;
             M.clockHr = 0;
             cD = M.clockDay;
@@ -2446,10 +2651,8 @@ function implementVax(ages,vax){
         drawLocal();
 
         if (VIEW == "MV") {
-            if (use_html) {
-                document.getElementById("day").innerHTML = ("DAY:\n" + cD);
-                document.getElementById("hour").innerHTML = ("HOUR:\n" + cH);
-            }
+                GUI("day",("DAY:\n" + cD))
+                GUI("hour",("HOUR:\n" + cH))
         }
         growVL();
     }
@@ -2461,15 +2664,12 @@ function implementVax(ages,vax){
                 canvTxt(15, 30, cD, cH, vU);
             }
             drawU();
-            if (use_html) {
-                drawEpi();
-            }
+            drawEpi();
         }
     }
 
     function conductor() {
         let slot, action;
-
         if (D[xD] === undefined || D[xD] == "" || D[xD].H[cH] === undefined || D[xD].H[cH] == "") {
             finishHour();
             return;
@@ -2497,7 +2697,6 @@ function implementVax(ages,vax){
                 drawU()
             };
         }
-
     }
 
     // needs to be for entire population ie M (?)
@@ -2517,24 +2716,15 @@ function implementVax(ages,vax){
             let vfactor = 0;
             Q.prevVL = Q.ViralLoad;
 
-/*            if ((cT - Q.tInfect) < Q.tPeakVL) {
-                vfactor = (VLprePeakRate - 1) / (24 * 10);
-                newVL = Q.ViralLoad * (1 + vfactor);
-            } else {
-                vfactor = (1 - VLpostPeak) / (24);
-                newVL = Q.ViralLoad * (1 - vfactor);
-            }
-*/
+
             let postDays = Math.floor(cT - Q.tInfect);
             let tableVL = 1;
             if (postDays < 20) {
                 tableVL = tViral[postDays];
             } else {tableVL = 1};
 
-            //console.log("calc vs tableVL "+newVL+","+tableVL);
             Q.ViralLoad = Math.max(Q.ViralLoad, tableVL);
             Q.ViralLoad = stochast(Q.ViralLoad, 0.15);
-            // console.log("final VL= "+Q.ViralLoad);
 
             changeState(i);
         }
@@ -2546,18 +2736,16 @@ function implementVax(ages,vax){
         for (i = 0; i < M.PCt; i++) {
             let Q = P[i];
             let vRatio = 1;
-            //console.log("final size of "+i+" = "+P[i].currSize);
             if (Q.prevVL != 0) {
                 vRatio = Q.ViralLoad / Q.prevVL;
             }
             if (Q.ViralLoad == 0) {continue}; //size unchanged
             let newSize = Q.currSize * Math.sqrt(vRatio);
             if (isNaN(newSize)) {
-              alert("NaN in reSizeAll");
+              alertX("NaN in reSizeAll");
               newSize = Q.currSize * vRatio;
             }
 
-            // console.log("newSize = "+newSize);
             if (newSize < Q.baseSize) {
                 newSize = Q.baseSize
             } else {
@@ -2592,6 +2780,9 @@ function implementVax(ages,vax){
 
         present = Q.person.includes(g);
         if (present) return;
+
+        G.currSize = G.currSize * Q.sizeFactor;
+        G.baseSize = G.baseSize * Q.sizeFactor;
 
         G.X = Math.floor(Math.random() * canWidth);
         G.Y = Math.floor(Math.random() * canHeight);
@@ -2631,7 +2822,6 @@ function implementVax(ages,vax){
                 break;
             case "red":
                 Q.redCt++;
-                // console.log("inject red pID = "+g+" redCt in U++");
                 Z.rCt++;
                 Q.cases++;
                 break;
@@ -2651,6 +2841,8 @@ function implementVax(ages,vax){
         let Y;
         let edge;
         Q = U[wU];
+        G.baseSize = G.baseSize / Q.sizeFactor;
+        G.currSize = G.currSize / Q.sizeFactor;
         if (T[g].S[slot].ETD != -1) { // staying
             Q.Population--;
             len = Q.person.length;
@@ -2714,24 +2906,26 @@ function implementVax(ages,vax){
     }
 
     function getToTime() {
-        let tTime = prompt("Enter Last Date in format DDHH, otherwise CANCEL", 0100);
-        toTime = parseInt(tTime);
-        if (toTime === null || toTime == "" || toTime == 0100) return;
-        document.getElementById("toHHDD").innerHTML = toTime;
-        toHH = toTime % 100;
-        toDD = Math.floor(toTime / 100);
-        MODE = "auto";
-    }
+          let toTxt = prompt("Enter the DDHH time that this program is to run until", cycleMax);
+          let toHHDD = Number(toTxt);
+          GUI("toHHDD",toHHDD);
+          if (toHHDD === null || toHHDD == "" || toHHDD == toTime) return;
+          toTime = toHHDD;
+          toHH = toTime % 100;
+          toDD = Math.floor(toTime / 100);
+          MODE = "auto";
+      }
+
 
 
     function showUstat(Q, q) {
         if (VIEW == "local" && q == vU) {
-            document.getElementById("grCt").innerHTML = Q.greenCt;
-            document.getElementById("yeCt").innerHTML = Q.yellowCt;
-            document.getElementById("blCt").innerHTML = Q.blueCt;
-            document.getElementById("reCt").innerHTML = Q.redCt;
-            document.getElementById("orCt").innerHTML = Q.orangeCt;
-            document.getElementById("dMingl").innerHTML = Q.minglf;
+            GUI("grCt",Q.greenCt);
+            GUI("yeCt",Q.yellowCt);
+            GUI("blCt",Q.blueCt);
+            GUI("reCt",Q.redCt);
+            GUI("orCt",Q.orangeCt);
+            GUI("dMingl",Q.minglf);
         }
     }
 
@@ -2832,38 +3026,38 @@ function implementVax(ages,vax){
             let len = 0;
             Q.endGreen.push({
                 y: Q.logGreen[gen],
-                x: gen / 24
+                x: gen
             });
             Q.endYellow.push({
                 y: Q.logYellow[gen],
-                x: gen / 24
+                x: gen
             });
             Q.endBlue.push({
                 y: Q.logBlue[gen],
-                x: gen / 24
+                x: gen
             });
             Q.endRed.push({
                 y: Q.logRed[gen],
-                x: gen / 24
+                x: gen
             });
             Q.endOrange.push({
                 y: Q.logOrange[gen],
-                x: gen / 24
+                x: gen
             });
             Q.endCases.push({
                 y: Q.logCases[gen],
-                x: gen / 24
+                x: gen
             });
             if (gen > 1) {
                 let del = Q.logCases[gen] - Q.logCases[gen - 1];
                 Q.endRedDelta.push({
                     y: del,
-                    x: gen / 24
+                    x: gen
                 });
             } else {
                 Q.endRedDelta.push({
                     y: 0,
-                    x: gen / 24
+                    x: gen
                 })
             };
 
@@ -2911,9 +3105,7 @@ function implementVax(ages,vax){
             R0 = totConv / R0Ct;
             M.R0 = R0;
             M.logR0[gen] = M.R0;
-            if (use_html) {
-                document.getElementById("R0button").innerHTML = R0.toFixed(2);
-            }
+            GUI("R0button",R0.toFixed(2));
         }
 
         let vNum, vDenom, endV = 0;
@@ -2921,39 +3113,39 @@ function implementVax(ages,vax){
 
         M.endGreen.push({
             y: M.logGreen[gen],
-            x: gen / 24
+            x: gen
         });
         M.endYellow.push({
             y: M.logYellow[gen],
-            x: gen / 24
+            x: gen
         });
         M.endBlue.push({
             y: M.logBlue[gen],
-            x: gen / 24
+            x: gen
         });
         M.endRed.push({
             y: M.logRed[gen],
-            x: gen / 24
+            x: gen
         });
         M.endOrange.push({
             y: M.logOrange[gen],
-            x: gen / 24
+            x: gen
         });
         M.endCases.push({
             y: M.logCases[gen],
-            x: gen / 24
+            x: gen
         });
 
         if (gen > 1) {
             let del = M.logCases[gen] - M.logCases[gen - 1];
             M.endRedDelta.push({
                 y: del,
-                x: gen / 24
+                x: gen
             });
         } else
             M.endRedDelta.push({
                 y: 0,
-                x: gen / 24
+                x: gen
             });
 
         len = M.endRedDelta.length;
@@ -2971,10 +3163,54 @@ function implementVax(ages,vax){
         });
     }
 
+    var lastG = [];
+    var lastY = [];
+    var lastB = [];
+    var lastR = [];
+    var lastO = [];
+
+    for(let aX=0;aX<11;aX++){
+      lastG[aX] = 0;
+      lastY[aX] = 0;
+      lastB[aX] = 0;
+      lastR[aX] = 0;
+      lastO[aX] = 0;
+    }
+
+    function consoleComp(Univ){
+      if (Univ==10){
+        if (M.GreenCt != lastG[10] || M.YellowCt != lastY[10] || M.BlueCt != lastB[10] || M.RedCt != lastR[10]) {
+            lastG[10] = M.GreenCt;
+            lastY[10] = M.YellowCt;
+            lastB[10] = M.BlueCt;
+            lastR[10] = M.RedCt;
+            lastO[10] = M.OrangeCt;
+            //console_log("Structure S0 "+"gen"+gen+" "+M.GreenCt+":"+M.YellowCt+":"+M.BlueCt+":"+M.RedCt+":"+M.OrangeCt);
+            return;
+        }
+        return
+      };
+      if (Univ < M.UCt){
+            if (U[Univ].greenCt != lastG[Univ] || U[Univ].yellowCt != lastY[Univ] || U[Univ].blueCt != lastB[Univ] || U[Univ].redCt != lastR[Univ] || U[Univ].orangeCt != lastO[Univ]){
+                lastG[Univ] = U[Univ].greenCt;
+                lastY[Univ] = U[Univ].yellowCt;
+                lastB[Univ] = U[Univ].blueCt;
+                lastR[Univ] = U[Univ].redCt;
+                lastO[Univ] = U[Univ].orangeCt;
+                //console_log("Structure U"+Univ+" "+"gen"+gen+" "+U[Univ].greenCt+":"+U[Univ].yellowCt+":"+U[Univ].blueCt+":"+U[Univ].redCt+":"+U[Univ].orangeCt);
+            }
+      }
+    }
+
 
     function upDateGraph(Q, q) {
         let X = Q.arr[gen];
         let Y = Q.depT[gen];
+
+        for (let is=0;is<M.UCt;is++){
+          consoleComp(is);
+        };
+        consoleComp(10);
 
         if (VIEW == "local") {
             if (use_html) {
@@ -2985,36 +3221,36 @@ function implementVax(ages,vax){
                 chart3.render();
                 chart4.render();
 
-                document.getElementById("popStat").innerHTML = Q.Population;
-                document.getElementById("arrStat").innerHTML = (X.resCt + X.attCt + X.visCt);
-                document.getElementById("depStat").innerHTML = (Y.resCt + Y.attCt + Y.visCt);
+                GUI("popStat",Q.Population);
+                GUI("arrStat",(X.resCt + X.attCt + X.visCt));
+                GUI("depStat",(Y.resCt + Y.attCt + Y.visCt));
 
-//                document.getElementById("totouch").innerHTML = Q.allTouch;
+//                GUI("totouch",Q.allTouch;
 
-                document.getElementById("resCt").innerHTML = Q.Resident;
-                document.getElementById("attCt").innerHTML = Q.Attached;
-                document.getElementById("visCt").innerHTML = Q.Transient;
+                GUI("resCt",Q.Resident);
+                GUI("attCt",Q.Attached);
+                GUI("visCt",Q.Transient);
 
-                document.getElementById("GArr").innerHTML = X.gCt;
-                document.getElementById("YArr").innerHTML = X.yCt;
-                document.getElementById("BArr").innerHTML = X.bCt;
-                document.getElementById("RArr").innerHTML = X.rCt;
-                document.getElementById("OArr").innerHTML = X.oCt;
-                document.getElementById("ResArr").innerHTML = X.resCt;
-                document.getElementById("AttArr").innerHTML = X.attCt;
-                document.getElementById("VisArr").innerHTML = X.visCt;
+                GUI("GArr",X.gCt);
+                GUI("YArr",X.yCt);
+                GUI("BArr",X.bCt);
+                GUI("RArr",X.rCt);
+                GUI("OArr",X.oCt);
+                GUI("ResArr",X.resCt);
+                GUI("AttArr",X.attCt);
+                GUI("VisArr",X.visCt);
 
-                document.getElementById("GDep").innerHTML = Y.gCt;
-                document.getElementById("YDep").innerHTML = Y.yCt;
-                document.getElementById("BDep").innerHTML = Y.bCt;
-                document.getElementById("RDep").innerHTML = Y.rCt;
-                document.getElementById("ODep").innerHTML = Y.oCt;
-                document.getElementById("ResDep").innerHTML = Y.resCt;
-                document.getElementById("AttDep").innerHTML = Y.attCt;
-                document.getElementById("VisDep").innerHTML = Y.visCt;
+                GUI("GDep",Y.gCt);
+                GUI("YDep",Y.yCt);
+                GUI("BDep",Y.bCt);
+                GUI("RDep",Y.rCt);
+                GUI("ODep",Y.oCt);
+                GUI("ResDep",Y.resCt);
+                GUI("AttDep",Y.attCt);
+                GUI("VisDep",Y.visCt);
             }
         }
-        if (VIEW == "MV") {
+    if (VIEW == "MV") {
 			if (M.UCt > 0) { chart7.render() };
 			if (M.UCt > 1) { chart8.render() };
 			if (M.UCt > 2) { chart9.render() };
@@ -3031,13 +3267,14 @@ function implementVax(ages,vax){
 			chart19.render();
 			chart20.render();
 
-			document.getElementById("TGreen").innerHTML = M.GreenCt;
-			document.getElementById("TYellow").innerHTML = M.YellowCt;
-			document.getElementById("TBlue").innerHTML = M.BlueCt;
-			document.getElementById("TRed").innerHTML = M.RedCt;
-			document.getElementById("TOrange").innerHTML = M.OrangeCt;
-			document.getElementById("trafficB").innerHTML = "TRAFFIC";
 
+      GUI("dispGen",("gen: "+gen));
+      GUI("TGreen",M.GreenCt);
+      GUI("TYellow",M.YellowCt);
+      GUI("TBlue",M.BlueCt);
+      GUI("TRed",M.RedCt);
+      GUI("TOrange",M.OrangeCt);
+      GUI("trafficB","TRAFFIC");
 
 			if (M.UCt > 0) { MVtable0() };
 			if (M.UCt > 1) { MVtable1() };
@@ -3048,44 +3285,47 @@ function implementVax(ages,vax){
 			if (M.UCt > 6) { MVtable6() };
 			if (M.UCt > 7) { MVtable7() };
 			if (M.UCt > 8) { MVtable8() };
-        }
-
-      if (M.YellowCt==0 && M.BlueCt==0 && M.RedCt==0 && gen>1 && oneTime==0) {
-        alert('STOP at gen'+gen);
-        oneTime = 1;
-        return};
     }
 
+      if (M.YellowCt==0 && M.BlueCt==0 && M.RedCt==0 && gen>1 && gen>3) {
+        HALT();
+      }
+  }
+
+
+
+
     function MVtable0() {
+
         let X = U[0].arr[gen];
         let Y = U[0].depT[gen];
 
-        document.getElementById("grMV0").innerHTML = U[0].greenCt;
-        document.getElementById("yeMV0").innerHTML = U[0].yellowCt;
-        document.getElementById("blMV0").innerHTML = U[0].blueCt;
-        document.getElementById("reMV0").innerHTML = U[0].redCt;
-        document.getElementById("orMV0").innerHTML = U[0].orangeCt;
-        document.getElementById("resMV0").innerHTML = U[0].Resident;
-        document.getElementById("attMV0").innerHTML = U[0].Attached;
-        document.getElementById("visMV0").innerHTML = U[0].Transient;
+        GUI("grMV0",U[0].greenCt);
+        GUI("yeMV0",U[0].yellowCt);
+        GUI("blMV0",U[0].blueCt);
+        GUI("reMV0",U[0].redCt);
+        GUI("orMV0",U[0].orangeCt);
+        GUI("resMV0",U[0].Resident);
+        GUI("attMV0",U[0].Attached);
+        GUI("visMV0",U[0].Transient);
 
-        document.getElementById("GMV0").innerHTML = X.gCt;
-        document.getElementById("YMV0").innerHTML = X.yCt;
-        document.getElementById("BMV0").innerHTML = X.bCt;
-        document.getElementById("RMV0").innerHTML = X.rCt;
-        document.getElementById("OMV0").innerHTML = X.oCt;
-        document.getElementById("ResMV0").innerHTML = X.resCt;
-        document.getElementById("AttMV0").innerHTML = X.attCt;
-        document.getElementById("VisMV0").innerHTML = X.visCt;
+        GUI("GMV0",X.gCt);
+        GUI("YMV0",X.yCt);
+        GUI("BMV0",X.bCt);
+        GUI("RMV0",X.rCt);
+        GUI("OMV0",X.oCt);
+        GUI("ResMV0",X.resCt);
+        GUI("AttMV0",X.attCt);
+        GUI("VisMV0",X.visCt);
 
-        document.getElementById("GMD0").innerHTML = Y.gCt;
-        document.getElementById("YMD0").innerHTML = Y.yCt;
-        document.getElementById("BMD0").innerHTML = Y.bCt;
-        document.getElementById("RMD0").innerHTML = Y.rCt;
-        document.getElementById("OMD0").innerHTML = Y.oCt;
-        document.getElementById("ResMD0").innerHTML = Y.resCt;
-        document.getElementById("AttMD0").innerHTML = Y.attCt;
-        document.getElementById("VisMD0").innerHTML = Y.visCt;
+        GUI("GMD0",Y.gCt);
+        GUI("YMD0",Y.yCt);
+        GUI("BMD0",Y.bCt);
+        GUI("RMD0",Y.rCt);
+        GUI("OMD0",Y.oCt);
+        GUI("ResMD0",Y.resCt);
+        GUI("AttMD0",Y.attCt);
+        GUI("VisMD0",Y.visCt);
     }
     //      11111111111111111111111111111111111111111111111111111111111111
     //
@@ -3093,256 +3333,256 @@ function implementVax(ages,vax){
         let X = U[1].arr[gen];
         let Y = U[1].depT[gen];
 
-        document.getElementById("grMV1").innerHTML = U[1].greenCt;
-        document.getElementById("yeMV1").innerHTML = U[1].yellowCt;
-        document.getElementById("blMV1").innerHTML = U[1].blueCt;
-        document.getElementById("reMV1").innerHTML = U[1].redCt;
-        document.getElementById("orMV1").innerHTML = U[1].orangeCt;
-        document.getElementById("resMV1").innerHTML = U[1].Resident;
-        document.getElementById("attMV1").innerHTML = U[1].Attached;
-        document.getElementById("visMV1").innerHTML = U[1].Transient;
+        GUI("grMV1",U[1].greenCt);
+        GUI("yeMV1",U[1].yellowCt);
+        GUI("blMV1",U[1].blueCt);
+        GUI("reMV1",U[1].redCt);
+        GUI("orMV1",U[1].orangeCt);
+        GUI("resMV1",U[1].Resident);
+        GUI("attMV1",U[1].Attached);
+        GUI("visMV1",U[1].Transient);
 
-        document.getElementById("GMV1").innerHTML = X.gCt;
-        document.getElementById("YMV1").innerHTML = X.yCt;
-        document.getElementById("BMV1").innerHTML = X.bCt;
-        document.getElementById("RMV1").innerHTML = X.rCt;
-        document.getElementById("OMV1").innerHTML = X.oCt;
-        document.getElementById("ResMV1").innerHTML = X.resCt;
-        document.getElementById("AttMV1").innerHTML = X.attCt;
-        document.getElementById("VisMV1").innerHTML = X.visCt;
+        GUI("GMV1",X.gCt);
+        GUI("YMV1",X.yCt);
+        GUI("BMV1",X.bCt);
+        GUI("RMV1",X.rCt);
+        GUI("OMV1",X.oCt);
+        GUI("ResMV1",X.resCt);
+        GUI("AttMV1",X.attCt);
+        GUI("VisMV1",X.visCt);
 
-        document.getElementById("GMD1").innerHTML = Y.gCt;
-        document.getElementById("YMD1").innerHTML = Y.yCt;
-        document.getElementById("BMD1").innerHTML = Y.bCt;
-        document.getElementById("RMD1").innerHTML = Y.rCt;
-        document.getElementById("OMD1").innerHTML = Y.oCt;
-        document.getElementById("ResMD1").innerHTML = Y.resCt;
-        document.getElementById("AttMD1").innerHTML = Y.attCt;
-        document.getElementById("VisMD1").innerHTML = Y.visCt;
+        GUI("GMD1",Y.gCt);
+        GUI("YMD1",Y.yCt);
+        GUI("BMD1",Y.bCt);
+        GUI("RMD1",Y.rCt);
+        GUI("OMD1",Y.oCt);
+        GUI("ResMD1",Y.resCt);
+        GUI("AttMD1",Y.attCt);
+        GUI("VisMD1",Y.visCt);
     }
 
     function MVtable2() {
         let X = U[2].arr[gen];
         let Y = U[2].depT[gen];
 
-        document.getElementById("grMV2").innerHTML = U[2].greenCt;
-        document.getElementById("yeMV2").innerHTML = U[2].yellowCt;
-        document.getElementById("blMV2").innerHTML = U[2].blueCt;
-        document.getElementById("reMV2").innerHTML = U[2].redCt;
-        document.getElementById("orMV2").innerHTML = U[2].orangeCt;
-        document.getElementById("resMV2").innerHTML = U[2].Resident;
-        document.getElementById("attMV2").innerHTML = U[2].Attached;
-        document.getElementById("visMV2").innerHTML = U[2].Transient;
+        GUI("grMV2",U[2].greenCt);
+        GUI("yeMV2",U[2].yellowCt);
+        GUI("blMV2",U[2].blueCt);
+        GUI("reMV2",U[2].redCt);
+        GUI("orMV2",U[2].orangeCt);
+        GUI("resMV2",U[2].Resident);
+        GUI("attMV2",U[2].Attached);
+        GUI("visMV2",U[2].Transient);
 
-        document.getElementById("GMV2").innerHTML = X.gCt;
-        document.getElementById("YMV2").innerHTML = X.yCt;
-        document.getElementById("BMV2").innerHTML = X.bCt;
-        document.getElementById("RMV2").innerHTML = X.rCt;
-        document.getElementById("OMV2").innerHTML = X.oCt;
-        document.getElementById("ResMV2").innerHTML = X.resCt;
-        document.getElementById("AttMV2").innerHTML = X.attCt;
-        document.getElementById("VisMV2").innerHTML = X.visCt;
+        GUI("GMV2",X.gCt);
+        GUI("YMV2",X.yCt);
+        GUI("BMV2",X.bCt);
+        GUI("RMV2",X.rCt);
+        GUI("OMV2",X.oCt);
+        GUI("ResMV2",X.resCt);
+        GUI("AttMV2",X.attCt);
+        GUI("VisMV2",X.visCt);
 
-        document.getElementById("GMD2").innerHTML = Y.gCt;
-        document.getElementById("YMD2").innerHTML = Y.yCt;
-        document.getElementById("BMD2").innerHTML = Y.bCt;
-        document.getElementById("RMD2").innerHTML = Y.rCt;
-        document.getElementById("OMD2").innerHTML = Y.oCt;
-        document.getElementById("ResMD2").innerHTML = Y.resCt;
-        document.getElementById("AttMD2").innerHTML = Y.attCt;
-        document.getElementById("VisMD2").innerHTML = Y.visCt;
+        GUI("GMD2",Y.gCt);
+        GUI("YMD2",Y.yCt);
+        GUI("BMD2",Y.bCt);
+        GUI("RMD2",Y.rCt);
+        GUI("OMD2",Y.oCt);
+        GUI("ResMD2",Y.resCt);
+        GUI("AttMD2",Y.attCt);
+        GUI("VisMD2",Y.visCt);
     }
 
     function MVtable3() {
         let X = U[3].arr[gen];
         let Y = U[3].depT[gen];
 
-        document.getElementById("grMV3").innerHTML = U[3].greenCt;
-        document.getElementById("yeMV3").innerHTML = U[3].yellowCt;
-        document.getElementById("blMV3").innerHTML = U[3].blueCt;
-        document.getElementById("reMV3").innerHTML = U[3].redCt;
-        document.getElementById("orMV3").innerHTML = U[3].orangeCt;
-        document.getElementById("resMV3").innerHTML = U[3].Resident;
-        document.getElementById("attMV3").innerHTML = U[3].Attached;
-        document.getElementById("visMV3").innerHTML = U[3].Transient;
+        GUI("grMV3",U[3].greenCt);
+        GUI("yeMV3",U[3].yellowCt);
+        GUI("blMV3",U[3].blueCt);
+        GUI("reMV3",U[3].redCt);
+        GUI("orMV3",U[3].orangeCt);
+        GUI("resMV3",U[3].Resident);
+        GUI("attMV3",U[3].Attached);
+        GUI("visMV3",U[3].Transient);
 
-        document.getElementById("GMV3").innerHTML = X.gCt;
-        document.getElementById("YMV3").innerHTML = X.yCt;
-        document.getElementById("BMV3").innerHTML = X.bCt;
-        document.getElementById("RMV3").innerHTML = X.rCt;
-        document.getElementById("OMV3").innerHTML = X.oCt;
-        document.getElementById("ResMV3").innerHTML = X.resCt;
-        document.getElementById("AttMV3").innerHTML = X.attCt;
-        document.getElementById("VisMV3").innerHTML = X.visCt;
+        GUI("GMV3",X.gCt);
+        GUI("YMV3",X.yCt);
+        GUI("BMV3",X.bCt);
+        GUI("RMV3",X.rCt);
+        GUI("OMV3",X.oCt);
+        GUI("ResMV3",X.resCt);
+        GUI("AttMV3",X.attCt);
+        GUI("VisMV3",X.visCt);
 
-        document.getElementById("GMD3").innerHTML = Y.gCt;
-        document.getElementById("YMD3").innerHTML = Y.yCt;
-        document.getElementById("BMD3").innerHTML = Y.bCt;
-        document.getElementById("RMD3").innerHTML = Y.rCt;
-        document.getElementById("OMD3").innerHTML = Y.oCt;
-        document.getElementById("ResMD3").innerHTML = Y.resCt;
-        document.getElementById("AttMD3").innerHTML = Y.attCt;
-        document.getElementById("VisMD3").innerHTML = Y.visCt;
+        GUI("GMD3",Y.gCt);
+        GUI("YMD3",Y.yCt);
+        GUI("BMD3",Y.bCt);
+        GUI("RMD3",Y.rCt);
+        GUI("OMD3",Y.oCt);
+        GUI("ResMD3",Y.resCt);
+        GUI("AttMD3",Y.attCt);
+        GUI("VisMD3",Y.visCt);
     }
 
     function MVtable4() {
         let X = U[4].arr[gen];
         let Y = U[4].depT[gen];
 
-        document.getElementById("grMV4").innerHTML = U[4].greenCt;
-        document.getElementById("yeMV4").innerHTML = U[4].yellowCt;
-        document.getElementById("blMV4").innerHTML = U[4].blueCt;
-        document.getElementById("reMV4").innerHTML = U[4].redCt;
-        document.getElementById("orMV4").innerHTML = U[4].orangeCt;
-        document.getElementById("resMV4").innerHTML = U[4].Resident;
-        document.getElementById("attMV4").innerHTML = U[4].Attached;
-        document.getElementById("visMV4").innerHTML = U[4].Transient;
+        GUI("grMV4",U[4].greenCt);
+        GUI("yeMV4",U[4].yellowCt);
+        GUI("blMV4",U[4].blueCt);
+        GUI("reMV4",U[4].redCt);
+        GUI("orMV4",U[4].orangeCt);
+        GUI("resMV4",U[4].Resident);
+        GUI("attMV4",U[4].Attached);
+        GUI("visMV4",U[4].Transient);
 
-        document.getElementById("GMV4").innerHTML = X.gCt;
-        document.getElementById("YMV4").innerHTML = X.yCt;
-        document.getElementById("BMV4").innerHTML = X.bCt;
-        document.getElementById("RMV4").innerHTML = X.rCt;
-        document.getElementById("OMV4").innerHTML = X.oCt;
-        document.getElementById("ResMV4").innerHTML = X.resCt;
-        document.getElementById("AttMV4").innerHTML = X.attCt;
-        document.getElementById("VisMV4").innerHTML = X.visCt;
+        GUI("GMV4",X.gCt);
+        GUI("YMV4",X.yCt);
+        GUI("BMV4",X.bCt);
+        GUI("RMV4",X.rCt);
+        GUI("OMV4",X.oCt);
+        GUI("ResMV4",X.resCt);
+        GUI("AttMV4",X.attCt);
+        GUI("VisMV4",X.visCt);
 
-        document.getElementById("GMD4").innerHTML = Y.gCt;
-        document.getElementById("YMD4").innerHTML = Y.yCt;
-        document.getElementById("BMD4").innerHTML = Y.bCt;
-        document.getElementById("RMD4").innerHTML = Y.rCt;
-        document.getElementById("OMD4").innerHTML = Y.oCt;
-        document.getElementById("ResMD4").innerHTML = Y.resCt;
-        document.getElementById("AttMD4").innerHTML = Y.attCt;
-        document.getElementById("VisMD4").innerHTML = Y.visCt;
+        GUI("GMD4",Y.gCt);
+        GUI("YMD4",Y.yCt);
+        GUI("BMD4",Y.bCt);
+        GUI("RMD4",Y.rCt);
+        GUI("OMD4",Y.oCt);
+        GUI("ResMD4",Y.resCt);
+        GUI("AttMD4",Y.attCt);
+        GUI("VisMD4",Y.visCt);
     }
 
     function MVtable5() {
         let X = U[5].arr[gen];
         let Y = U[5].depT[gen];
 
-        document.getElementById("grMV5").innerHTML = U[5].greenCt;
-        document.getElementById("yeMV5").innerHTML = U[5].yellowCt;
-        document.getElementById("blMV5").innerHTML = U[5].blueCt;
-        document.getElementById("reMV5").innerHTML = U[5].redCt;
-        document.getElementById("orMV5").innerHTML = U[5].orangeCt;
-        document.getElementById("resMV5").innerHTML = U[5].Resident;
-        document.getElementById("attMV5").innerHTML = U[5].Attached;
-        document.getElementById("visMV5").innerHTML = U[5].Transient;
+        GUI("grMV5",U[5].greenCt);
+        GUI("yeMV5",U[5].yellowCt);
+        GUI("blMV5",U[5].blueCt);
+        GUI("reMV5",U[5].redCt);
+        GUI("orMV5",U[5].orangeCt);
+        GUI("resMV5",U[5].Resident);
+        GUI("attMV5",U[5].Attached);
+        GUI("visMV5",U[5].Transient);
 
-        document.getElementById("GMV5").innerHTML = X.gCt;
-        document.getElementById("YMV5").innerHTML = X.yCt;
-        document.getElementById("BMV5").innerHTML = X.bCt;
-        document.getElementById("RMV5").innerHTML = X.rCt;
-        document.getElementById("OMV5").innerHTML = X.oCt;
-        document.getElementById("ResMV5").innerHTML = X.resCt;
-        document.getElementById("AttMV5").innerHTML = X.attCt;
-        document.getElementById("VisMV5").innerHTML = X.visCt;
+        GUI("GMV5",X.gCt);
+        GUI("YMV5",X.yCt);
+        GUI("BMV5",X.bCt);
+        GUI("RMV5",X.rCt);
+        GUI("OMV5",X.oCt);
+        GUI("ResMV5",X.resCt);
+        GUI("AttMV5",X.attCt);
+        GUI("VisMV5",X.visCt);
 
-        document.getElementById("GMD5").innerHTML = Y.gCt;
-        document.getElementById("YMD5").innerHTML = Y.yCt;
-        document.getElementById("BMD5").innerHTML = Y.bCt;
-        document.getElementById("RMD5").innerHTML = Y.rCt;
-        document.getElementById("OMD5").innerHTML = Y.oCt;
-        document.getElementById("ResMD5").innerHTML = Y.resCt;
-        document.getElementById("AttMD5").innerHTML = Y.attCt;
-        document.getElementById("VisMD5").innerHTML = Y.visCt;
+        GUI("GMD5",Y.gCt);
+        GUI("YMD5",Y.yCt);
+        GUI("BMD5",Y.bCt);
+        GUI("RMD5",Y.rCt);
+        GUI("OMD5",Y.oCt);
+        GUI("ResMD5",Y.resCt);
+        GUI("AttMD5",Y.attCt);
+        GUI("VisMD5",Y.visCt);
     }
 
     function MVtable6() {
         let X = U[6].arr[gen];
         let Y = U[6].depT[gen];
 
-        document.getElementById("grMV6").innerHTML = U[6].greenCt;
-        document.getElementById("yeMV6").innerHTML = U[6].yellowCt;
-        document.getElementById("blMV6").innerHTML = U[6].blueCt;
-        document.getElementById("reMV6").innerHTML = U[6].redCt;
-        document.getElementById("orMV6").innerHTML = U[6].orangeCt;
-        document.getElementById("resMV6").innerHTML = U[6].Resident;
-        document.getElementById("attMV6").innerHTML = U[6].Attached;
-        document.getElementById("visMV6").innerHTML = U[6].Transient;
+        GUI("grMV6",U[6].greenCt);
+        GUI("yeMV6",U[6].yellowCt);
+        GUI("blMV6",U[6].blueCt);
+        GUI("reMV6",U[6].redCt);
+        GUI("orMV6",U[6].orangeCt);
+        GUI("resMV6",U[6].Resident);
+        GUI("attMV6",U[6].Attached);
+        GUI("visMV6",U[6].Transient);
 
-        document.getElementById("GMV6").innerHTML = X.gCt;
-        document.getElementById("YMV6").innerHTML = X.yCt;
-        document.getElementById("BMV6").innerHTML = X.bCt;
-        document.getElementById("RMV6").innerHTML = X.rCt;
-        document.getElementById("OMV6").innerHTML = X.oCt;
-        document.getElementById("ResMV6").innerHTML = X.resCt;
-        document.getElementById("AttMV6").innerHTML = X.attCt;
-        document.getElementById("VisMV6").innerHTML = X.visCt;
+        GUI("GMV6",X.gCt);
+        GUI("YMV6",X.yCt);
+        GUI("BMV6",X.bCt);
+        GUI("RMV6",X.rCt);
+        GUI("OMV6",X.oCt);
+        GUI("ResMV6",X.resCt);
+        GUI("AttMV6",X.attCt);
+        GUI("VisMV6",X.visCt);
 
-        document.getElementById("GMD6").innerHTML = Y.gCt;
-        document.getElementById("YMD6").innerHTML = Y.yCt;
-        document.getElementById("BMD6").innerHTML = Y.bCt;
-        document.getElementById("RMD6").innerHTML = Y.rCt;
-        document.getElementById("OMD6").innerHTML = Y.oCt;
-        document.getElementById("ResMD6").innerHTML = Y.resCt;
-        document.getElementById("AttMD6").innerHTML = Y.attCt;
-        document.getElementById("VisMD6").innerHTML = Y.visCt;
+        GUI("GMD6",Y.gCt);
+        GUI("YMD6",Y.yCt);
+        GUI("BMD6",Y.bCt);
+        GUI("RMD6",Y.rCt);
+        GUI("OMD6",Y.oCt);
+        GUI("ResMD6",Y.resCt);
+        GUI("AttMD6",Y.attCt);
+        GUI("VisMD6",Y.visCt);
     }
 
     function MVtable7() {
         let X = U[7].arr[gen];
         let Y = U[7].depT[gen];
 
-        document.getElementById("grMV7").innerHTML = U[7].greenCt;
-        document.getElementById("yeMV7").innerHTML = U[7].yellowCt;
-        document.getElementById("blMV7").innerHTML = U[7].blueCt;
-        document.getElementById("reMV7").innerHTML = U[7].redCt;
-        document.getElementById("orMV7").innerHTML = U[7].orangeCt;
-        document.getElementById("resMV7").innerHTML = U[7].Resident;
-        document.getElementById("attMV7").innerHTML = U[7].Attached;
-        document.getElementById("visMV7").innerHTML = U[7].Transient;
+        GUI("grMV7",U[7].greenCt);
+        GUI("yeMV7",U[7].yellowCt);
+        GUI("blMV7",U[7].blueCt);
+        GUI("reMV7",U[7].redCt);
+        GUI("orMV7",U[7].orangeCt);
+        GUI("resMV7",U[7].Resident);
+        GUI("attMV7",U[7].Attached);
+        GUI("visMV7",U[7].Transient);
 
-        document.getElementById("GMV7").innerHTML = X.gCt;
-        document.getElementById("YMV7").innerHTML = X.yCt;
-        document.getElementById("BMV7").innerHTML = X.bCt;
-        document.getElementById("RMV7").innerHTML = X.rCt;
-        document.getElementById("OMV7").innerHTML = X.oCt;
-        document.getElementById("ResMV7").innerHTML = X.resCt;
-        document.getElementById("AttMV7").innerHTML = X.attCt;
-        document.getElementById("VisMV7").innerHTML = X.visCt;
+        GUI("GMV7",X.gCt);
+        GUI("YMV7",X.yCt);
+        GUI("BMV7",X.bCt);
+        GUI("RMV7",X.rCt);
+        GUI("OMV7",X.oCt);
+        GUI("ResMV7",X.resCt);
+        GUI("AttMV7",X.attCt);
+        GUI("VisMV7",X.visCt);
 
-        document.getElementById("GMD7").innerHTML = Y.gCt;
-        document.getElementById("YMD7").innerHTML = Y.yCt;
-        document.getElementById("BMD7").innerHTML = Y.bCt;
-        document.getElementById("RMD7").innerHTML = Y.rCt;
-        document.getElementById("OMD7").innerHTML = Y.oCt;
-        document.getElementById("ResMD7").innerHTML = Y.resCt;
-        document.getElementById("AttMD7").innerHTML = Y.attCt;
-        document.getElementById("VisMD7").innerHTML = Y.visCt;
+        GUI("GMD7",Y.gCt);
+        GUI("YMD7",Y.yCt);
+        GUI("BMD7",Y.bCt);
+        GUI("RMD7",Y.rCt);
+        GUI("OMD7",Y.oCt);
+        GUI("ResMD7",Y.resCt);
+        GUI("AttMD7",Y.attCt);
+        GUI("VisMD7",Y.visCt);
     }
 
     function MVtable8() {
         let X = U[8].arr[gen];
         let Y = U[8].depT[gen];
 
-        document.getElementById("grMV8").innerHTML = U[8].greenCt;
-        document.getElementById("yeMV8").innerHTML = U[8].yellowCt;
-        document.getElementById("blMV8").innerHTML = U[8].blueCt;
-        document.getElementById("reMV8").innerHTML = U[8].redCt;
-        document.getElementById("orMV8").innerHTML = U[8].orangeCt;
-        document.getElementById("resMV8").innerHTML = U[8].Resident;
-        document.getElementById("attMV8").innerHTML = U[8].Attached;
-        document.getElementById("visMV8").innerHTML = U[8].Transient;
+        GUI("grMV8",U[8].greenCt);
+        GUI("yeMV8",U[8].yellowCt);
+        GUI("blMV8",U[8].blueCt);
+        GUI("reMV8",U[8].redCt);
+        GUI("orMV8",U[8].orangeCt);
+        GUI("resMV8",U[8].Resident);
+        GUI("attMV8",U[8].Attached);
+        GUI("visMV8",U[8].Transient);
 
-        document.getElementById("GMV8").innerHTML = X.gCt;
-        document.getElementById("YMV8").innerHTML = X.yCt;
-        document.getElementById("BMV8").innerHTML = X.bCt;
-        document.getElementById("RMV8").innerHTML = X.rCt;
-        document.getElementById("OMV8").innerHTML = X.oCt;
-        document.getElementById("ResMV8").innerHTML = X.resCt;
-        document.getElementById("AttMV8").innerHTML = X.attCt;
-        document.getElementById("VisMV8").innerHTML = X.visCt;
+        GUI("GMV8",X.gCt);
+        GUI("YMV8",X.yCt);
+        GUI("BMV8",X.bCt);
+        GUI("RMV8",X.rCt);
+        GUI("OMV8",X.oCt);
+        GUI("ResMV8",X.resCt);
+        GUI("AttMV8",X.attCt);
+        GUI("VisMV8",X.visCt);
 
-        document.getElementById("GMD8").innerHTML = Y.gCt;
-        document.getElementById("YMD8").innerHTML = Y.yCt;
-        document.getElementById("BMD8").innerHTML = Y.bCt;
-        document.getElementById("RMD8").innerHTML = Y.rCt;
-        document.getElementById("OMD8").innerHTML = Y.oCt;
-        document.getElementById("ResMD8").innerHTML = Y.resCt;
-        document.getElementById("AttMD8").innerHTML = Y.attCt;
-        document.getElementById("VisMD8").innerHTML = Y.visCt;
+        GUI("GMD8",Y.gCt);
+        GUI("YMD8",Y.yCt);
+        GUI("BMD8",Y.bCt);
+        GUI("RMD8",Y.rCt);
+        GUI("OMD8",Y.oCt);
+        GUI("ResMD8",Y.resCt);
+        GUI("AttMD8",Y.attCt);
+        GUI("VisMD8",Y.visCt);
     }
 
     var chart1, chart2, chart3, chart4;
@@ -3351,38 +3591,76 @@ function implementVax(ages,vax){
     var chart13, chart14, chart15, chart16;
     var chart17, chart18, chart19, chart20;
 
-    if (use_html) {
-        CanvasJS.addColorSet("Overview GYBRO",
-            [
-                "#008000",
-                "#FFD700",
-                "#1E90FF",
-                "#FF0000",
-                "#FF8C00",
-            ]);
+    function initGUI(){
 
-        chart1 = new CanvasJS.Chart("chartContainer1", {
-            zoomEnabled: true,
-            theme: "light2", // "light1", "light2", "dark1", "dark2"
-            title: {
-                text: "TOTAL Cases to Date"
-            },
-            axisY: {
-                title: "Total Cases"
-            },
-            width: 500,
-            data: [{
-                type: "column",
-                color: "orange",
-                showInLegend: true,
-                legendMarkerColor: "grey",
-                legendText: "Days since beginning",
-                dataPoints: U[vU].endCases
-            }]
-        });
+          createField();
+          crCanpn();
+          initWinP();
+          initSliders();
+          blackCanvas("game");
+          VIEW = "local";
+          hideMV();
+
+        CanvasJS.addColorSet("Overview GYBRO",
+          [
+              "#008000",
+              "#FFD700",
+              "#1E90FF",
+              "#FF0000",
+              "#FF8C00",
+          ]);
+        initChart01();
+        initChart02();
+        initChart03();
+        initChart04();
+        //initChart05();
+        initChart06();
+
+    		if (M.UCt > 0) { initChart07() };
+    		if (M.UCt > 1) { initChart08() };
+    		if (M.UCt > 2) { initChart09() };
+    		if (M.UCt > 3) { initChart10() };
+    		if (M.UCt > 4) { initChart11() };
+    		if (M.UCt > 5) { initChart12() };
+    		if (M.UCt > 6) { initChart13() };
+    		if (M.UCt > 7) { initChart14() };
+    		if (M.UCt > 8) { initChart15() };
+
+        initChart16();
+        initChart17();
+        initChart18();
+        initChart19();
+        initChart20();
+    }
+
+
+
+
+    function initChart01() {
+          chart1 = new CanvasJS.Chart("chartContainer1", {
+              zoomEnabled: true,
+              theme: "light2", // "light1", "light2", "dark1", "dark2"
+              title: {
+                  text: "TOTAL Cases to Date"
+              },
+              axisY: {
+                  title: "Total Cases"
+              },
+              width: 500,
+              data: [{
+                  type: "column",
+                  color: "orange",
+                  showInLegend: true,
+                  legendMarkerColor: "grey",
+                  legendText: "Days since beginning",
+                  dataPoints: U[vU].endCases
+              }]
+          });
+      }
 
         // chart 2 **********************************************
 
+    function initChart02() {
         chart2 = new CanvasJS.Chart("chartContainer2", {
             zoomEnabled: true,
             theme: "light2", // "light1", "light2", "dark1", "dark2"
@@ -3402,10 +3680,12 @@ function implementVax(ages,vax){
                 dataPoints: U[vU].endRedDelta
             }]
         });
+      }
 
 
         // CHART3 **********************************************************
 
+    function initChart03() {
         chart3 = new CanvasJS.Chart("chartContainer3", {
             colorSet: "Overview GYBRO",
             zoomEnabled: true,
@@ -3424,11 +3704,13 @@ function implementVax(ages,vax){
                 dataPoints: U[vU].endVelocity
             }]
         });
+    }
 
 
         // *********************************************************************************
         // CHART 4 - GREEN YELLOE BLUE RED over time
 
+    function initChart04() {
         chart4 = new CanvasJS.Chart("chartContainer4", {
             //  theme: "light1",
             colorSet: "Overview GYBRO",
@@ -3437,23 +3719,31 @@ function implementVax(ages,vax){
                 text: "Progress of Transitions"
             },
             data: [{
-                type: "stackedColumn",
+                type: "line",
+                fillopacity: 0.2,
                 dataPoints: U[vU].endGreen
             }, {
-                type: "stackedColumn",
+                type: "line",
+                fillopacity: 0.2,
                 dataPoints: U[vU].endYellow
             }, {
-                type: "stackedColumn",
+                type: "line",
+                fillopacity: 0.2,
                 dataPoints: U[vU].endBlue
             }, {
-                type: "stackedColumn",
+                type: "line",
+                fillopacity: 0.2,
                 dataPoints: U[vU].endRed
             }, {
-                type: "stackedColumn",
+                type: "line",
+                fillopacity: 0.2,
                 dataPoints: U[vU].endOrange
             }]
         });
+    }
 
+
+    function initChart06() {
         CanvasJS.addColorSet("Overview GYBRO",
             [
                 "#008000",
@@ -3473,35 +3763,36 @@ function implementVax(ages,vax){
                 title: "Y + R"
             },
             axisY: {
-                title: "G + B + O"
+                title: "Counts"
             },
             data: [{
-                type: "column",
+                type: "stackedColumn",
                 markerType: "none",
                 dataPoints: U[vU].endGreen
 
             }, {
-                type: "column",
-                axisYType: "secondary",
+                type: "stackedColumn",
                 markerType: "none",
                 dataPoints: U[vU].endYellow
             }, {
-                type: "column",
+                type: "stackedColumn",
                 markerType: "none",
                 dataPoints: U[vU].endBlue
             }, {
-                type: "column",
+                type: "stackedColumn",
                 markerType: "none",
-                axisYType: "secondary",
                 dataPoints: U[vU].endRed
             }, {
-                type: "column",
+                type: "stackedColumn",
                 markerType: "none",
                 dataPoints: U[vU].endOrange
             }]
         });
+    }
 
-        var chart7 = new CanvasJS.Chart("chartContainer7", {
+
+    function initChart07() {
+        chart7 = new CanvasJS.Chart("chartContainer7", {
             colorSet: "Overview GYBRO",
             zoomEnabled: true,
             title: {
@@ -3540,8 +3831,11 @@ function implementVax(ages,vax){
             ]
         }
         );
+    }
 
-        var chart8 = new CanvasJS.Chart("chartContainer8", {
+
+    function initChart08() {
+        chart8 = new CanvasJS.Chart("chartContainer8", {
             colorSet: "Overview GYBRO",
             zoomEnabled: true,
             title: {
@@ -3580,8 +3874,11 @@ function implementVax(ages,vax){
             ]
         }
         );
+    }
 
-        var chart9 = new CanvasJS.Chart("chartContainer9", {
+
+    function initChart09() {
+        chart9 = new CanvasJS.Chart("chartContainer9", {
             colorSet: "Overview GYBRO",
             zoomEnabled: true,
             title: {
@@ -3620,8 +3917,11 @@ function implementVax(ages,vax){
             ]
         }
         );
+    }
 
-        var chart10 = new CanvasJS.Chart("chartContainer10", {
+
+    function initChart10() {
+        chart10 = new CanvasJS.Chart("chartContainer10", {
             colorSet: "Overview GYBRO",
             zoomEnabled: true,
             title: {
@@ -3658,10 +3958,12 @@ function implementVax(ages,vax){
                 dataPoints: U[3].endOrange
             }
             ]
-        }
-        );
+        });
+    }
 
-        var chart11 = new CanvasJS.Chart("chartContainer11", {
+
+    function initChart11() {
+        chart11 = new CanvasJS.Chart("chartContainer11", {
             colorSet: "Overview GYBRO",
             zoomEnabled: true,
             title: {
@@ -3698,11 +4000,12 @@ function implementVax(ages,vax){
                 dataPoints: U[4].endOrange
             }
             ]
-        }
-        );
+        });
+    }
 
 
-        var chart12 = new CanvasJS.Chart("chartContainer12", {
+    function initChart12() {
+        chart12 = new CanvasJS.Chart("chartContainer12", {
             colorSet: "Overview GYBRO",
             zoomEnabled: true,
             title: {
@@ -3741,9 +4044,12 @@ function implementVax(ages,vax){
             ]
         }
         );
+    }
 
 
-        var chart13 = new CanvasJS.Chart("chartContainer13", {
+
+    function initChart13() {
+        chart13 = new CanvasJS.Chart("chartContainer13", {
             colorSet: "Overview GYBRO",
             zoomEnabled: true,
             title: {
@@ -3782,9 +4088,12 @@ function implementVax(ages,vax){
             ]
         }
         );
+    }
 
 
-        var chart14 = new CanvasJS.Chart("chartContainer14", {
+
+    function initChart14() {
+        chart14 = new CanvasJS.Chart("chartContainer14", {
             colorSet: "Overview GYBRO",
             zoomEnabled: true,
             title: {
@@ -3823,9 +4132,12 @@ function implementVax(ages,vax){
             ]
         }
         );
+    }
 
 
-        var chart15 = new CanvasJS.Chart("chartContainer15", {
+
+    function initChart15() {
+        chart15 = new CanvasJS.Chart("chartContainer15", {
             colorSet: "Overview GYBRO",
             zoomEnabled: true,
             title: {
@@ -3864,7 +4176,10 @@ function implementVax(ages,vax){
             ]
         }
         );
+    }
 
+
+    function initChart16() {
         chart16 = new CanvasJS.Chart("chartContainer16", {
             colorSet: "Overview GYBRO",
             zoomEnabled: true,
@@ -3901,7 +4216,10 @@ function implementVax(ages,vax){
                 dataPoints: M.endOrange
             }]
         });
+    }
 
+
+    function initChart17() {
         chart17 = new CanvasJS.Chart("chartContainer17", {
             zoomEnabled: true,
             theme: "light2", // "light1", "light2", "dark1", "dark2"
@@ -3913,7 +4231,7 @@ function implementVax(ages,vax){
             },
             width: 500,
             data: [{
-                type: "column",
+                type: "line",
                 color: "orange",
                 showInLegend: true,
                 legendMarkerColor: "grey",
@@ -3921,10 +4239,10 @@ function implementVax(ages,vax){
                 dataPoints: M.endCases
             }]
         });
+    }
 
 
-        // chart 2 **********************************************
-
+    function initChart18() {
         chart18 = new CanvasJS.Chart("chartContainer18", {
             zoomEnabled: true,
             theme: "light2", // "light1", "light2", "dark1", "dark2"
@@ -3944,9 +4262,9 @@ function implementVax(ages,vax){
                 dataPoints: M.endRedDelta
             }]
         });
+    }
 
-        // CHART3 **********************************************************
-
+    function initChart19() {
         chart19 = new CanvasJS.Chart("chartContainer19", {
             colorSet: "Overview GYBRO",
             zoomEnabled: true,
@@ -3965,12 +4283,11 @@ function implementVax(ages,vax){
                 dataPoints: M.endVelocity
             }]
         });
+    }
 
 
-        // *********************************************************************************
-        // CHART 4 - GREEN YELLOE BLUE RED over time
-
-        chart20 = new CanvasJS.Chart("chartContainer20", {
+    function initChart20() {
+      chart20 = new CanvasJS.Chart("chartContainer20", {
             zoomEnabled: true,
             colorSet: "Overview GYBRO",
             title: {
@@ -3993,7 +4310,6 @@ function implementVax(ages,vax){
                 dataPoints: M.endOrange
             }]
         });
-
     }
 
     // &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
@@ -4038,24 +4354,30 @@ function implementVax(ages,vax){
 
     var netFlag = true;
     function graphB() {
+        if (!use_html) {return};      // this will avoid anything to do with the network including sliders etc
         graphFlag = "YES";
         if (netFlag) {
-            document.getElementById("graphCanvas").style.display = "block";
-            document.getElementById("grExit").style.display = "block";
-            document.getElementById("grB").style.display = "block";
-            document.getElementById("grF").style.display = "block";
-            document.getElementById("grSlider").style.display = "block";
+            GUIstyle("graphCanvas","block");
+            GUIstyle("grExit","block");
+            GUIstyle("grB","block");
+            GUIstyle("grF","block");
+            GUIstyle("grSlider","block");
             gcanvas = document.getElementById("graphCanvas");
             gctx = gcanvas.getContext("2d");
             gctx.fillStyle = "black";
+            saveGen = gen;
             netFlag = false;
         }
         if (sliderFlag) {
             gen = saveGen;
+            GUIstyle("controls","block");
             sliderFlag = false
             writeSlider(gen);
         } else {
+            MODE = "manual";
+            clearInterval(clockTimer);
             saveGen = gen;
+            GUIstyle("controls","none");
         }
         graphNetwork(gen);
     }
@@ -4082,11 +4404,13 @@ function implementVax(ages,vax){
     }
 
     function graphExit() {
-        document.getElementById("graphCanvas").style.display = "none";
-        document.getElementById("grExit").style.display = "none";
-        document.getElementById("grB").style.display = "none";
-        document.getElementById("grF").style.display = "none";
-        document.getElementById("grSlider").style.display = "none";
+        GUIstyle("graphCanvas","none");
+        GUIstyle("grExit","none");
+        GUIstyle("grB","none");
+        GUIstyle("grF","none");
+        GUIstyle("grSlider","none");
+        GUIstyle("controls","block");
+        gen = saveGen;
         clearInterval(Ntimer);
         graphFlag = "NO";
         netFlag = true;
@@ -4099,11 +4423,8 @@ function implementVax(ages,vax){
         clearInterval(Ntimer);
         sliderFlag = true;
         sliderVal = document.getElementById("grSlider").value;
-        //console.log("sliderVal = " + sliderVal);
         genEquiv = Math.floor(sliderVal / 1920 * saveGen);
-        //console.log("genEquiv = " + genEquiv);
         gen = genEquiv;
-        //console.log("new gen = " + gen);
         graphNetwork(gen)
     }
 
@@ -4119,7 +4440,6 @@ function implementVax(ages,vax){
     function foreGraph() {
         if (!sliderFlag) { return };
         if (gen == saveGen) { return };
-        //process gen++
         gen++;
         writeSlider(gen);
         graphNetwork(gen);
@@ -4134,19 +4454,27 @@ function implementVax(ages,vax){
 
     var N = [];
     function startNet() {
-        for (let nct = 0; nct < 9; nct++) {
+        for (let nct = 0; nct < M.UCt; nct++) {
             N[nct] = new CreateNode();
         }
-        N[0].x = 250; N[0].y = 110;
-        N[1].x = 460; N[1].y = 70;
-        N[2].x = 670; N[2].y = 150;
-        N[3].x = 760; N[3].y = 320;
-        N[4].x = 710; N[4].y = 520;
-        N[5].x = 500; N[5].y = 630;
-        N[6].x = 270; N[6].y = 600;
-        N[7].x = 130; N[7].y = 440;
-        N[8].x = 120; N[8].y = 250;
-
+        if (M.UCt > 0){
+            N[0].x = 250; N[0].y = 110;}
+        if (M.UCt > 1){
+            N[1].x = 460; N[1].y = 70;}
+        if (M.UCt > 2){
+            N[2].x = 670; N[2].y = 150;}
+        if (M.UCt > 3){
+            N[3].x = 760; N[3].y = 320;}
+        if (M.UCt > 4){
+            N[4].x = 710; N[4].y = 520;}
+        if (M.UCt > 5){
+            N[5].x = 500; N[5].y = 630;}
+        if (M.UCt > 6){
+            N[6].x = 270; N[6].y = 600;}
+        if (M.UCt > 7){
+            N[7].x = 130; N[7].y = 440;}
+        if (M.UCt > 8){
+            N[8].x = 120; N[8].y = 250;}
     }
 
     // nodes are drawn, edges created but not drawn till we know what traffic is
@@ -4154,7 +4482,7 @@ function implementVax(ages,vax){
     function drawNArena(gen) {
         gctx.fillStyle = "Black";
         gctx.fillRect(0, 0, gcanvas.width, gcanvas.height);
-        for (let i = 0; i < 9; i++) {
+        for (let i = 0; i < M.UCt; i++) {
             drawNC(i, gen, N[i].x, N[i].y, 20, "midnightblue");
             drawCircleTxt(gctx,N[i].x,N[i].y,i);
         }
@@ -4162,16 +4490,17 @@ function implementVax(ages,vax){
 
     var nInst;
     function loadNet(gen) {
-        for (let i = 0; i < 9; i++) {
+        for (let i = 0; i < M.UCt; i++) {
             N[i].to = [];
             if (sumDep(i, gen) == 0) { continue };    // no departures
             nInst = 0;
-            for (j = 0; j < 9; j++) {
+            for (j = 0; j < M.UCt; j++) {
                 if (i == j) { continue };     // skip edge to itself
                 markEdges(i, j, gen);
             }
         }
     }
+
 
     function sumDep(i, gen) {
         let sum = 0;
@@ -4189,7 +4518,7 @@ function implementVax(ages,vax){
         let Y = U[i].dep[gen][j];
         if (Y.gCt > 0) { loadEdge(i, j, gen, "green") };
         if (Y.yCt > 0) { loadEdge(i, j, gen, "yellow") };
-        if (Y.bCt > 0) { loadEdge(i, j, gen, "blue") };
+        if (Y.bCt > 0) { loadEdge(i, j, gen, "aqua") };
         if (Y.rCt > 0) { loadEdge(i, j, gen, "red") };
         if (Y.oCt > 0) { loadEdge(i, j, gen, "orange") };
     }
@@ -4207,7 +4536,7 @@ function implementVax(ages,vax){
             case "yellow":
                 Z[nInst].ct = Y.yCt;
                 break;
-            case "blue":
+            case "aqua":
                 Z[nInst].ct = Y.bCt;
                 break;
             case "red":
@@ -4222,7 +4551,7 @@ function implementVax(ages,vax){
 
     function calcdydx() {
         let n;
-        for (n = 0; n < 9; n++) {
+        for (n = 0; n < M.UCt; n++) {
             focusN(n);
         }
     }
@@ -4278,7 +4607,7 @@ function implementVax(ages,vax){
         drawNRect(0, 0, 800, 700, "black");
         drawNArena(gen);
         graphDDHH(gen);
-        for (let n = 0; n < 9; n++) {
+        for (let n = 0; n < M.UCt; n++) {
             if (N[n].to == "" || N[n].to === undefined) continue;
             showNode(n);
         }
@@ -4378,21 +4707,248 @@ function implementVax(ages,vax){
         canv.fillText(i.toFixed(0),x,y);
     }
 
-} catch (e) {
-    console.log(e.stack); // use this to print out line number in this file, of error (within R/V8 JS interpreter)
+/**********************************************************************************/
+var HALTgen = 90000;
+var oneTime = 0;
+function HALT(){
+      wrapUp();
+      if (gen > HALTgen && HALTgen >0){
+          alertX("HALTgen maximum generations reached at gen"+gen);
+          MODE="manual";
+          clearInterval(clockTimer);
+          return;
+      }
+      if (oneTime == 0) {
+          alertX("Self-terminate with no further infectives at gen "+gen);
+          oneTime = 1;
+          return;
+      }
+
+      if (use_html) {
+          if (MODE=="auto"){
+              MODE = "manual";
+              clearInterval(clockTimer);
+              drawLocal();
+          };
+          return;
+      };
+      MODE="manual";
+      console_log("Paradise Regained");
+      clearInterval(clockTimer);
 }
 
-try {
-    // try to load the input data
-    if (!use_html) {
-        processData(csv_traffic); // open csv traffic file
-        caseLoad() // switch to cases file
-        processData(csv_cases); // open csv cases file
+
+    var wrapGreen = 0;
+    var wrapYellow = 0;
+    var wrapBlue = 0;
+    var wrapRed = 0;
+    var wrapOrange = 0;
+    var totGreen = 0;
+    var totYellow = 0;
+    var totBlue = 0;
+    var totRed = 0;
+    var totOrange = 0;
+
+
+    function wrapUp(){
+        console_log("\nWRAPUP: gen" +gen);
+        console_log("calculated R0: "+R0);
+        console_log(" ");
+
+        if (M.ID == "MV-LTC"){
+            wrapup_mvLTC();
+            return;
+        };
+        if (M.ID == "Reaction1"){
+            wrapupReaction1();
+            return;
+        }
     }
-} catch (e) {
-    console.log(e.stack);
+
+    function wrapupReaction1(){
+        console_log("Wrapup Reaction1 results");
+
+        for (k=0; k<M.UCt; k++){
+            findReactmax(k);
+        }
+    }
+
+    function findReactmax(k){
+        let i, max, r, ptr;
+        let A;
+        A = U[k].infectHere;
+        r = U[k].logRed.length;
+        if (A == "" || A === undefined) { }
+          else {
+            max = 0; ptr = 0;
+            console_log("First infection in U"+k+" at gen "+A[0][0]);
+            for (i=0;i<r;i++){
+              if (U[k].logRed[i] > max){
+                  max = U[k].logRed[i];
+                  ptr = i;
+              }            }
+            console_log("Max infections in U"+k+" at gen "+ptr+": "+max);
+            console_log(" ");
+            stepThrough(0,1);
+            stepThrough(2,3);
+            stepThrough(4,5);
+        }
+    }
+
+    function stepThrough(a,b){
+        let min;
+        min = U[a].infectHere[0][0];
+        if (U[b].infectHere[0][0] < min){
+            min = U[b].infectHere[0][0]
+        }
+        let step = 200;
+        let limit = gen;
+        let i;
+        for (i=min; i<gen; i+200){
+            print_console("U"+a+":"+U[a].logRed[i]+" at gen"+i);
+            print_console("U"+b+":"+U[b].logRed[i]+" at gen"+i);
+        }
+    }
+
+    function wrapup_mvLTC(){
+        totGreen = 0;
+        totYellow = 0;
+        totBlue = 0;
+        totRed = 0;
+        totOrange = 0;
+
+
+        wrapCt("Student GpA",0,9);
+        wrapCt("Student GpB",10,19);
+        wrapCt("Student GpC",20,29);
+        wrapCt("Teachers",30,35);
+        wrapCt("Spouses",36,40);
+        wrapCt("Grandparents",41,47);
+        wrapCt("LTC Staff DayShift",48,54);
+        wrapCt("LTC Staff Evenight Shift",55,58);
+        wrapCt("LTC Staff Night Shift",59,61);
+        wrapCt("LTC Residents with Fam",62,71);
+        wrapCt("LTC Residents NO Fam",72,89);
+        wrapCt("Bar Staff",90,99);
+        console_log(" Total G-Y-B-R-O = "+totGreen+" "+totYellow+" "+totBlue+" "+totRed+" "+totOrange);
+        let i;
+        for (i=0;i<M.UCt;i++){
+            let r = U[i].infectHere.length-1;
+            console_log(U[i].infectHere[r][1]+" infections happened in U"+i+"  "+UN[i]);
+        }
+    }
+
+    function wrapCt(a,b,c){
+        wrapGreen = 0;
+        wrapYellow = 0;
+        wrapBlue = 0;
+        wrapRed = 0;
+        wrapOrange = 0;
+
+        let x = (c-b+1);
+        let j;
+        for (j=b; j<c+1; j++){
+            switch(P[j].state){
+                case "green":
+                    wrapGreen++;
+                    break;
+                case "yellow":
+                    wrapYellow++;
+                    break;
+                case "blue":
+                    wrapBlue++;
+                    break;
+                case "red":
+                    wrapRed++;
+                case "orange":
+                    wrapOrange++;
+                    break;
+                default:
+                    break;
+            }
+          }
+          totGreen = totGreen + wrapGreen;
+          totYellow = totYellow + wrapYellow;
+          totBlue = totBlue+ wrapBlue;
+          totRed = totRed + wrapRed;
+          totOrange = totOrange + wrapOrange;
+          console_log(a);
+          console_log("     Green     "+wrapGreen);
+          console_log("     Yellow    "+wrapYellow);
+          console_log("     Blue      "+wrapBlue);
+          console_log("     Red       "+wrapRed);
+          console_log("     Orange    "+wrapOrange);
+          console_log(" ");
+    }
+
+
+    function alertX (x){
+        console_log("ALERT! "+x);
+        if (use_html) {
+            alert(x);
+        }
+    }
+
+    function GUI(elem,argu){
+      if (use_html){
+          document.getElementById(elem).innerHTML = argu;
+      }
+    }
+
+
+
+    function GUIstyle(elem,argu) {
+        if (use_html) {
+            document.getElementById(elem).style.display = argu;
+        }
+    }
+
+
+    function console_log(x){
+        console.log(x)
+    }
+
+
+/* this initialization is for JSON parameter version
+
+*/
+var use_html = false;
+let x = GetURLParameter("use_html");
+if (x===undefined){
+  x = true
+}
+if (x == "false"){
+  use_html = false
+} else {
+  use_html = true
 }
 
+
+
+
+var transfer = new CreateTransfer();
+if (use_html) {
+      initMV();
+      blackCanvas("graph");
+      GUIstyle("getFile","block");
+} else {
+      startParam();
+      startPopFile();
+      startCaseFile();
+      initEpiCenters();
+      load();
+      load();
+      load();
+      auto();
+}
+
+
+
+
+
+
+
+/********************   ASH stuff **********************************************
 // produce string representation for key-value store e.g. a histogram
 function dic_to_str(x) {
     var i = 0
@@ -4438,11 +4994,11 @@ function list_to_str(x){
   return s
 }
 
-
 //try to run the simulation
 var state_names = ["green", "yellow", "blue", "red", "orange"]
 var state_counts = null // try to pass this back to R
 var min_iter = 2000
+
 try {
     if (!use_html) {
         auto();
@@ -4453,7 +5009,7 @@ try {
 	var count_zero = 0 // increment this if metric is zero, zero this if metric is nonzero
 
 	var state_counts = []
-        console.log(list_to_str(state_names))
+        console_log(list_to_str(state_names))
 
         for (var i = 0; i < max_iterations; i++) {
 
@@ -4465,15 +5021,16 @@ try {
 	    for(var j = 0; j < state_names.length; j++){
 	      count_list.push(state_count[state_names[j]])
 	    }
-	    console.log(count_list)
+	    console_log(count_list)
 	    state_counts.push(count_list) // track all the counts
+
 
 	    // var info = dic_to_str(state_count) + (last_state_count ? dic_to_str(last_state_count) : "")
 
 	    var d = last_state_count ? (dic_metric(state_count, last_state_count)): 0 // are people changing state?
             if(d > 0) count_zero = 0 // people are changing state
             else count_zero += 1 // people aren't changing state
-            // console.log(d, " ", info)
+            // console_log(d, " ", info)
 
 	    if(count_zero >= max_iter_same && i >= min_iter) break // exit for loop / stop iterating, if we reached a fixed point
 
@@ -4482,6 +5039,6 @@ try {
         }
     }
 } catch (e) {
-    console.log(e.stack)
+    console_log(e.stack)
 }
-console.log("exit covidSim")
+*/

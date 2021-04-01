@@ -1,3 +1,4 @@
+Population,100,Universe,9,0 Classroom 1,1 Project/Lab,2 Playground,3 Lunchroom,4 Classroom 2,5 Teacher's Lounge,6 LTC,7 Bar/Reception,8 HOME,,,,,,,,,,,,,,,,,,,,
 pID,sno,ETA, @U,ETD, >U, @Role, @Mx,Age,FamKey,,   23-24, 00-01, 02-05, 05-06, 06-07, 07-08 , 08-09, 09-10, 10-11, 11-12, 12-13, 13-14, 14-15, 15-16, 16-17, 17-18, 18-19, 19-20, 20-21, 21-22, 22-23, 23-00
 0,0,0,8,9,1,R,6,0,F00,,U8,U8,,,U8,U8,U8,U1,U0,U2,U3,U4,U1,U0,U8,,,,,,,
 0,1,9,1,10,2,R,1.8,,F00,,,,,,,,,,,,,,,,,,,,,,,
