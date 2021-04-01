@@ -4805,8 +4805,8 @@ function HALT(){
         let limit = gen;
         let i;
         for (i=min; i<gen; i+200){
-            print_console("U"+a+":"+U[a].logRed[i]+" at gen"+i);
-            print_console("U"+b+":"+U[b].logRed[i]+" at gen"+i);
+            console_log("U"+a+":"+U[a].logRed[i]+" at gen"+i);
+            console_log("U"+b+":"+U[b].logRed[i]+" at gen"+i);
         }
     }
 
