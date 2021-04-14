@@ -1,0 +1,1368 @@
+﻿<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+
+#R0button {
+  position: absolute;
+  left: 660px;
+}
+
+#pane1 {
+  left:100px;
+  top: 30px;
+  padding: 5px;
+  border-width:1px;
+  cursor:pointer;
+  height:300px;
+  width:300px;
+  position: absolute;
+}
+
+#pane2 {
+  left:400px;
+  top: 30px;
+  padding: 5px;
+  border-width:1px;
+  cursor:pointer;
+  height:300px;
+  width:300px;
+  position: absolute;
+}
+
+#pane3 {
+  left:700px;
+  top: 30px;
+  padding: 5px;
+  border-width:1px;
+  cursor:pointer;
+  height:300px;
+  width:300px;
+  position: absolute;
+}
+
+#pane4 {
+  left:100px;
+  top: 330px;
+  padding: 5px;
+  border-width:1px;
+  cursor:pointer;
+  height:300px;
+  width:300px;
+  position: absolute;
+}
+
+#pane5 {
+  left:400px;
+  top: 330px;
+  padding: 5px;
+  border-width:1px;
+  cursor:pointer;
+  height:300px;
+  width:300px;
+  position: absolute;
+}
+
+#pane6 {
+  left:700px;
+  top: 330px;
+  padding: 5px;
+  border-width:1px;
+  cursor:pointer;
+  height:300px;
+  width:300px;
+  position: absolute;
+}
+
+#pane7 {
+  left:100px;
+  top: 630px;
+  padding: 5px;
+  border-width:1px;
+  cursor:pointer;
+  height:300px;
+  width:300px;
+  position: absolute;
+}
+
+#pane8 {
+  left:400px;
+  top: 630px;
+  padding: 5px;
+  border-width:1px;
+  cursor:pointer;
+  height:300px;
+  width:300px;
+  position: absolute;
+}
+
+#pane9 {
+  left:700px;
+  top: 630px;
+  padding: 5px;
+  border-width:1px;
+  cursor:pointer;
+  height:300px;
+  width:300px;
+  position: absolute;
+}
+
+
+
+#windowpane {
+  display: none;
+}
+
+
+#controls {
+  display: none;
+  left:8px;
+  top:3px;
+  position: absolute;
+  cursor:pointer;
+}
+
+#MV-menu {
+  top: 25px;
+  left: 1050px;
+  width:400px;
+  height:30px;
+  position: absolute;
+  display: none;
+}
+
+#MVmatrix {
+  top: 150px;
+  left:1050px;
+  position: absolute;
+  display: none;
+}
+
+
+
+
+/* *********************************************************************************************
+  $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+                        THIS PART DEALS WITH INDIVIDUAL UNIVERSES IN THE LARGE
+
+  **********************************************************************************************
+*/
+table {
+  border-collapse: collapse;
+  padding:5px;
+  font-family: arial, sans-serif;
+  font-style: normal;
+  font-size: 13px
+}
+
+th,  td {
+  border: 1px solid black;
+  padding:3px;
+  text-align: center;
+}
+th {
+    cursor: pointer;
+}
+td {
+  height:
+}
+
+#myTab {
+  display: none;
+  position: absolute;
+  width: 1600px;
+  top:30px;
+  left:6px;
+}
+
+.slider {
+  -webkit-appearance: none;
+  position: absolute;
+  display:none;
+  width: 150px;
+  height: 9px;
+  left:790px;
+  top:10px;
+  border-radius: 10px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  background: dodgerblue;
+  cursor: pointer;
+}
+
+
+
+#AgeTab {
+  display: none;
+}
+
+#RaceTab {
+  display: none;
+}
+
+#chartContainer1 {
+    border: 1px solid black;
+    position: absolute;
+    left: 820px;
+    top: 240px;
+    width:380px;
+    height:120px;
+    display: block;
+    z-index: +3;
+}
+
+#chartContainer2 {
+    border: 1px solid blue;
+    position: absolute;
+    left: 820px;
+    top: 365px;
+    width:380px;
+    height:120px;
+    display: block;
+    z-index: +3;
+}
+
+#chartContainer3 {
+    border: 1px solid orange;
+    position: absolute;
+    left: 820px;
+    top: 490px;
+    width:380px;
+    height:165px;
+    display: block;
+    z-index: +3;
+}
+
+#chartContainer4 {
+    border: 1px solid green;
+    position: absolute;
+    left: 820px;
+    top: 660px;
+    width:380px;
+    height:180px;
+    display: block;
+    z-index: +3;
+}
+
+#chartContainer6 {
+    border: 1px solid pink;
+    position: absolute;
+    left: 520px;
+    top: 72px;
+    height:160px;
+    width:680px;
+    display: block;
+    z-index: +3;
+}
+
+
+#chartContainer7 {
+    border: 1px solid pink;
+    position: absolute;
+    left: 93px;
+    top: 71px;
+    display: block;
+    z-index: +3;
+}
+
+#chartContainer8 {
+    border: 1px solid pink;
+    position: absolute;
+    left: 394px;
+    top: 71px;
+    display: block;
+    z-index: +3;
+}
+
+#chartContainer9 {
+    border: 1px solid pink;
+    position: absolute;
+    left: 695px;
+    top:  71px;
+    display: block;
+    z-index: +3;
+}
+
+#chartContainer10 {
+    border: 1px solid pink;
+    position: absolute;
+    left: 93px;
+    top: 371px;
+    display: block;
+    z-index: +3;
+}
+
+#chartContainer11 {
+    border: 1px solid pink;
+    position: absolute;
+    left: 394px;
+    top: 371px;
+    display: block;
+    z-index: +3;
+}
+
+#chartContainer12 {
+  border: 1px solid pink;
+  position: absolute;
+  left: 695px;
+  top:  371px;
+  display: block;
+  z-index: +3;
+}
+
+#chartContainer13 {
+  border: 1px solid pink;
+  position: absolute;
+  left: 93px;
+  top:  671px;
+  display: block;
+  z-index: +3;
+}
+
+#chartContainer14 {
+  border: 1px solid pink;
+  position: absolute;
+  left: 394px;
+  top:  671px;
+  display: block;
+  z-index: +3;
+}
+
+#chartContainer15 {
+  border: 1px solid pink;
+  position: absolute;
+  left: 695px;
+  top:  671px;
+  display: block;
+  z-index: +3;
+}
+
+#chartContainer16 {
+    border: 1px solid black;
+    position: absolute;
+    left: 1050px;
+    top: 78px;
+    height:150px;
+    width:300px;
+    display: block;
+    z-index: +4;
+}
+
+#chartContainer17 {
+  border: 1px solid lightGray;
+  position: absolute;
+  left: 1050px;
+  top:  228px;
+  height:150px;
+  width:300px;
+  display: block;
+  z-index: +3;
+}
+
+#chartContainer18 {
+  border: 1px solid green;
+  position: absolute;
+  left: 1050px;
+  top:  378px;
+  height:150px;
+  width:300px;
+  display: block;
+  z-index: +3
+  ;
+}
+
+#chartContainer19 {
+  border: 1px solid lightGray;
+  position: absolute;
+  left: 1050px;
+  top:528px;
+  height:150px;
+  width:300px;
+  display: block;
+  z-index: +3;
+}
+
+#chartContainer20 {
+  border: 1px solid lightGray;
+  position: absolute;
+  left: 1050px;
+  top:678px;
+  height:150px;
+  width:300px;
+  display: block;
+  z-index: +3;
+}
+
+
+
+#MVcharts {
+  position: absolute;
+  display: none;
+}
+
+#myCanvas {
+  display: block;
+  position: absolute;
+  left:100px;
+  top:300px;
+  z-index:+3;
+}
+
+#gameCanvas {
+  position: absolute;
+  display: block;
+  left:8px;
+  top:240px;
+}
+
+#graphCanvas {
+  position: absolute;
+  display: none;
+  left:100px;
+  top:30px;
+  z-index: +4;
+}
+
+#day {
+  position: absolute;
+  left:5px;
+  top:30px;
+  width:90px;
+  height: 90px;
+}
+
+#hour {
+  position: absolute;
+  left:5px;
+  top:120px;
+  width:90px;
+  height:90px;
+}
+
+#dayhr {
+  display: none;
+}
+
+#dispGen {
+  position:absolute;
+  display:block;
+  left:5px;
+  top:210px;
+  width:90px;
+  height:40px;
+}
+
+#TGreen {
+  position:absolute;
+  display:block;
+  left:5px;
+  top:250px;
+  width:90px;
+  height:40px;
+}
+
+#TYellow {
+  position:absolute;
+  display:block;
+  left:5px;
+  top:290px;
+  width:90px;
+  height:40px;
+}
+
+#TBlue {
+  position:absolute;
+  display:block;
+  left:5px;
+  top:330px;
+  width:90px;
+  height:40px;
+}
+
+#TRed {
+  position:absolute;
+  display:block;
+  left:5px;
+  top:370px;
+  width:90px;
+  height:40px;
+}
+
+#TOrange {
+  position:absolute;
+  display:block;
+  left:5px;
+  top:410px;
+  width:90px;
+  height:40px;
+}
+
+#getFile {
+  position: absolute;
+  display:none;
+  left:330px;
+  top:125px;
+  z-index:+9;
+}
+
+#localCharts {
+  display: none;
+}
+
+
+table {
+  border-collapse: collapse;
+  padding:1px;
+  font-family: arial, sans-serif;
+  font-style: normal;
+  font-size: 10px
+}
+
+th,  td {
+  border: 1px solid black;
+  padding:1px;
+  text-align: center;
+  height:8px
+}
+
+#MVstats0 {
+  position: absolute;
+  display:none;
+  top: 250px;
+  left:108px;
+  z-index: +3;
+}
+
+#MVstats1 {
+  position: absolute;
+  display:none;
+  top: 250px;
+  left:408px;
+  z-index: +3;
+}
+
+#MVstats2 {
+  position: absolute;
+  display:none;
+  top: 250px;
+  left:708px;
+  z-index: +3;
+}
+
+#MVstats3 {
+  position: absolute;
+  display:none;
+  top: 550px;
+  left:108px;
+  z-index: +3;
+}
+
+#MVstats4 {
+  position: absolute;
+  display:none;
+  top: 550px;
+  left:408px;
+  z-index: +3;
+}
+
+#MVstats5 {
+  position: absolute;
+  display:none;
+  top: 550px;
+  left:708px;
+  z-index: +3;
+}
+
+#MVstats6 {
+  position: absolute;
+  display:none;
+  top: 850px;
+  left:108px;
+  z-index: +3;
+}
+
+#MVstats7 {
+  position: absolute;
+  display:none;
+  top: 850px;
+  left:408px;
+  z-index: +3;
+}
+
+#MVstats8 {
+  position: absolute;
+  display:none;
+  top: 850px;
+  left:708px;
+  z-index: +3;
+}
+
+#trafficB {
+  position:absolute;
+  display:block;
+  top:500px;
+  left:5px;
+  width:90px;
+  height:40px;
+  z-index: +3;
+}
+
+#grExit {
+  position:absolute;
+  display:none;
+  top:540px;
+  left:5px;
+  width:90px;
+  height:30px;
+  z-index: +3;
+}
+
+#grB {
+    position: absolute;
+    display: block;
+    top:470px;
+    left:5px;
+    width:45px;
+    height:30Px;
+    z-index: +3;
+}
+
+#grF {
+    position: absolute;
+    display: block;
+    top: 470px;
+    left: 50px;
+    width: 45px;
+    height: 30Px;
+    z-index: +3;
+}
+
+#grSlider {
+    position: absolute;
+    display: none;
+    top: 780px;
+    left: 400px;
+    width: 500px;
+    z-index: +5;
+}
+
+#fields {
+  display: none;
+}
+
+
+</style>
+</head>
+
+<!-- *******************************************************************************************
+     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+                   NOW WE START THE CSS SECTION AND IT RELATES FIRST TO MULTIVERSE
+
+     &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+-->
+
+<body>
+
+
+<div id="getFile">
+    <form class="form-horizontal well">
+      <fieldset>
+          <label id="FName" for="csvFileInput"> Select Population file    (c) Mounir Messelmeni 2012<br><br>CSV File:</label>
+          <input type="file" id="csvFileInput" onchange="handleFiles(this.files)"
+          accept=".csv">
+        </div>
+      </fieldset>
+    </form>
+</div>
+
+
+<div id=MVstats0>
+  <table>
+    <tr>
+      <th bgcolor=Green style="color:white"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+      <th bgcolor=Yellow> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+      <th bgcolor=Blue style="color:white"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+      <th bgcolor=Red style="color:white"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+      <th bgcolor=Orange> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+      <th bgcolor=Beige style="font-size:10px">Reside</th>
+      <th bgcolor=Beige style="font-size:10px">Attach</th>
+      <th bgcolor=Beige style="font-size:10px">Visit</th>
+      <th bgcolor=black> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+    </tr>
+    <tr bgcolor=linen>
+      <td id="grMV0">0</td>
+      <td id="yeMV0">0</td>
+      <td id="blMV0">0</td>
+      <td id="reMV0">0</td>
+      <td id="orMV0">0</td>
+      <td id="resMV0">0</td>
+      <td id="attMV0">0</td>
+      <td id="visMV0">0</td>
+      <td bgcolor=black style="color:white; font-size:10px">Status</td>
+    </tr>
+    <tr bgcolor=lightgray>
+      <td id=GMV0>0</td>
+      <td id=YMV0>1000</td>
+      <td id=BMV0>0</td>
+      <td id=RMV0>0</td>
+      <td id=OMV0>0</td>
+      <td id=ResMV0>0</td>
+      <td id=AttMV0>0</td>
+      <td id=VisMV0>0</td>
+      <td bgcolor=lightGray style="color:black;font-size:10px">Arrive</td>
+    </tr>
+    <tr bgcolor=linen>
+      <td id=GMD0>0</td>
+      <td id=YMD0>0</td>
+      <td id=BMD0>0</td>
+      <td id=RMD0>0</td>
+      <td id=OMD0>0</td>
+      <td id=ResMD0>0</td>
+      <td id=AttMD0>0</td>
+      <td id=VisMD0>0</td>
+      <td bgcolor=black style="color:white;font-size:10px">Depart</td>
+  </tr>
+  </table>
+</div>
+
+<div id=MVstats1>
+  <table>
+    <tr>
+      <th bgcolor=Green style="color:white"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+      <th bgcolor=Yellow> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+      <th bgcolor=Blue style="color:white"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+      <th bgcolor=Red style="color:white"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+      <th bgcolor=Orange> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+      <th bgcolor=Beige style="font-size:10px">Reside</th>
+      <th bgcolor=Beige style="font-size:10px">Attach</th>
+      <th bgcolor=Beige style="font-size:10px">Visit</th>
+      <th bgcolor=black> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+    </tr>
+    <tr bgcolor=linen>
+      <td id="grMV1">1,000</td>
+      <td id="yeMV1">0</td>
+      <td id="blMV1">0</td>
+      <td id="reMV1">0</td>
+      <td id="orMV1">0</td>
+      <td id="resMV1">0</td>
+      <td id="attMV1">0</td>
+      <td id="visMV1">0</td>
+      <td bgcolor=black style="color:white; font-size:10px">Status</td>
+    </tr>
+    <tr bgcolor=lightgray>
+      <td id=GMV1>0</td>
+      <td id=YMV1>1000</td>
+      <td id=BMV1>0</td>
+      <td id=RMV1>0</td>
+      <td id=OMV1>0</td>
+      <td id=ResMV1>0</td>
+      <td id=AttMV1>0</td>
+      <td id=VisMV1>0</td>
+      <td bgcolor=lightGray style="color:black;font-size:10px">Arrive</td>
+    </tr>
+    <tr bgcolor=linen>
+      <td id=GMD1>0</td>
+      <td id=YMD1>0</td>
+      <td id=BMD1>0</td>
+      <td id=RMD1>0</td>
+      <td id=OMD1>0</td>
+      <td id=ResMD1>0</td>
+      <td id=AttMD1>0</td>
+      <td id=VisMD1>0</td>
+      <td bgcolor=black style="color:white;font-size:10px">Depart</td>
+  </tr>
+  </table>
+</div>
+
+<div id=MVstats2>
+  <table>
+    <tr>
+      <th bgcolor=Green style="color:white"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+      <th bgcolor=Yellow> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+      <th bgcolor=Blue style="color:white"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+      <th bgcolor=Red style="color:white"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+      <th bgcolor=Orange> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+      <th bgcolor=Beige style="font-size:10px">Reside</th>
+      <th bgcolor=Beige style="font-size:10px">Attach</th>
+      <th bgcolor=Beige style="font-size:10px">Visit</th>
+      <th bgcolor=black> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+    </tr>
+    <tr bgcolor=linen>
+      <td id="grMV2">1,000</td>
+      <td id="yeMV2">0</td>
+      <td id="blMV2">0</td>
+      <td id="reMV2">0</td>
+      <td id="orMV2">0</td>
+      <td id="resMV2">0</td>
+      <td id="attMV2">0</td>
+      <td id="visMV2">0</td>
+      <td bgcolor=black style="color:white; font-size:10px">Status</td>
+    </tr>
+    <tr bgcolor=lightgray>
+      <td id=GMV2>0</td>
+      <td id=YMV2>1000</td>
+      <td id=BMV2>0</td>
+      <td id=RMV2>0</td>
+      <td id=OMV2>0</td>
+      <td id=ResMV2>0</td>
+      <td id=AttMV2>0</td>
+      <td id=VisMV2>0</td>
+      <td bgcolor=lightGray style="color:black;font-size:10px">Arrive</td>
+    </tr>
+    <tr bgcolor=linen>
+      <td id=GMD2>0</td>
+      <td id=YMD2>0</td>
+      <td id=BMD2>0</td>
+      <td id=RMD2>0</td>
+      <td id=OMD2>0</td>
+      <td id=ResMD2>0</td>
+      <td id=AttMD2>0</td>
+      <td id=VisMD2>0</td>
+      <td bgcolor=black style="color:white;font-size:10px">Depart</td>
+  </tr>
+  </table>
+</div>
+
+<div id=MVstats3>
+  <table>
+    <tr>
+      <th bgcolor=Green style="color:white"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+      <th bgcolor=Yellow> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+      <th bgcolor=Blue style="color:white"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+      <th bgcolor=Red style="color:white"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+      <th bgcolor=Orange> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+      <th bgcolor=Beige style="font-size:10px">Reside</th>
+      <th bgcolor=Beige style="font-size:10px">Attach</th>
+      <th bgcolor=Beige style="font-size:10px">Visit</th>
+      <th bgcolor=black> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+    </tr>
+    <tr bgcolor=linen>
+      <td id="grMV3">1,000</td>
+      <td id="yeMV3">0</td>
+      <td id="blMV3">0</td>
+      <td id="reMV3">0</td>
+      <td id="orMV3">0</td>
+      <td id="resMV3">0</td>
+      <td id="attMV3">0</td>
+      <td id="visMV3">0</td>
+      <td bgcolor=black style="color:white; font-size:10px">Status</td>
+    </tr>
+    <tr bgcolor=lightgray>
+      <td id=GMV3>0</td>
+      <td id=YMV3>1000</td>
+      <td id=BMV3>0</td>
+      <td id=RMV3>0</td>
+      <td id=OMV3>0</td>
+      <td id=ResMV3>0</td>
+      <td id=AttMV3>0</td>
+      <td id=VisMV3>0</td>
+      <td bgcolor=lightGray style="color:black;font-size:10px">Arrive</td>
+    </tr>
+    <tr bgcolor=linen>
+      <td id=GMD3>0</td>
+      <td id=YMD3>0</td>
+      <td id=BMD3>0</td>
+      <td id=RMD3>0</td>
+      <td id=OMD3>0</td>
+      <td id=ResMD3>0</td>
+      <td id=AttMD3>0</td>
+      <td id=VisMD3>0</td>
+      <td bgcolor=black style="color:white;font-size:10px">Depart</td>
+  </tr>
+  </table>
+</div>
+
+<div id=MVstats4>
+  <table>
+    <tr>
+      <th bgcolor=Green style="color:white"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+      <th bgcolor=Yellow> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+      <th bgcolor=Blue style="color:white"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+      <th bgcolor=Red style="color:white"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+      <th bgcolor=Orange> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+      <th bgcolor=Beige style="font-size:10px">Reside</th>
+      <th bgcolor=Beige style="font-size:10px">Attach</th>
+      <th bgcolor=Beige style="font-size:10px">Visit</th>
+      <th bgcolor=black> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+    </tr>
+    <tr bgcolor=linen>
+      <td id="grMV4">1,000</td>
+      <td id="yeMV4">0</td>
+      <td id="blMV4">0</td>
+      <td id="reMV4">0</td>
+      <td id="orMV4">0</td>
+      <td id="resMV4">0</td>
+      <td id="attMV4">0</td>
+      <td id="visMV4">0</td>
+      <td bgcolor=black style="color:white; font-size:10px">Status</td>
+    </tr>
+    <tr bgcolor=lightgray>
+      <td id=GMV4>0</td>
+      <td id=YMV4>1000</td>
+      <td id=BMV4>0</td>
+      <td id=RMV4>0</td>
+      <td id=OMV4>0</td>
+      <td id=ResMV4>0</td>
+      <td id=AttMV4>0</td>
+      <td id=VisMV4>0</td>
+      <td bgcolor=lightGray style="color:black;font-size:10px">Arrive</td>
+    </tr>
+    <tr bgcolor=linen>
+      <td id=GMD4>0</td>
+      <td id=YMD4>0</td>
+      <td id=BMD4>0</td>
+      <td id=RMD4>0</td>
+      <td id=OMD4>0</td>
+      <td id=ResMD4>0</td>
+      <td id=AttMD4>0</td>
+      <td id=VisMD4>0</td>
+      <td bgcolor=black style="color:white;font-size:10px">Depart</td>
+  </tr>
+  </table>
+</div>
+
+<div id=MVstats5>
+  <table>
+    <tr>
+      <th bgcolor=Green style="color:white"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+      <th bgcolor=Yellow> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+      <th bgcolor=Blue style="color:white"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+      <th bgcolor=Red style="color:white"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+      <th bgcolor=Orange> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+      <th bgcolor=Beige style="font-size:10px">Reside</th>
+      <th bgcolor=Beige style="font-size:10px">Attach</th>
+      <th bgcolor=Beige style="font-size:10px">Visit</th>
+      <th bgcolor=black> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+    </tr>
+    <tr bgcolor=linen>
+      <td id="grMV5">1,000</td>
+      <td id="yeMV5">0</td>
+      <td id="blMV5">0</td>
+      <td id="reMV5">0</td>
+      <td id="orMV5">0</td>
+      <td id="resMV5">0</td>
+      <td id="attMV5">0</td>
+      <td id="visMV5">0</td>
+      <td bgcolor=black style="color:white; font-size:10px">Status</td>
+    </tr>
+    <tr bgcolor=lightgray>
+      <td id=GMV5>0</td>
+      <td id=YMV5>1000</td>
+      <td id=BMV5>0</td>
+      <td id=RMV5>0</td>
+      <td id=OMV5>0</td>
+      <td id=ResMV5>0</td>
+      <td id=AttMV5>0</td>
+      <td id=VisMV5>0</td>
+      <td bgcolor=lightGray style="color:black;font-size:10px">Arrive</td>
+    </tr>
+    <tr bgcolor=linen>
+      <td id=GMD5>0</td>
+      <td id=YMD5>0</td>
+      <td id=BMD5>0</td>
+      <td id=RMD5>0</td>
+      <td id=OMD5>0</td>
+      <td id=ResMD5>0</td>
+      <td id=AttMD5>0</td>
+      <td id=VisMD5>0</td>
+      <td bgcolor=black style="color:white;font-size:10px">Depart</td>
+  </tr>
+  </table>
+</div>
+
+<div id=MVstats6>
+  <table>
+    <tr>
+      <th bgcolor=Green style="color:white"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+      <th bgcolor=Yellow> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+      <th bgcolor=Blue style="color:white"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+      <th bgcolor=Red style="color:white"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+      <th bgcolor=Orange> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+      <th bgcolor=Beige style="font-size:10px">Reside</th>
+      <th bgcolor=Beige style="font-size:10px">Attach</th>
+      <th bgcolor=Beige style="font-size:10px">Visit</th>
+      <th bgcolor=black> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+    </tr>
+    <tr bgcolor=linen>
+      <td id="grMV6">1,000</td>
+      <td id="yeMV6">0</td>
+      <td id="blMV6">0</td>
+      <td id="reMV6">0</td>
+      <td id="orMV6">0</td>
+      <td id="resMV6">0</td>
+      <td id="attMV6">0</td>
+      <td id="visMV6">0</td>
+      <td bgcolor=black style="color:white; font-size:10px">Status</td>
+    </tr>
+    <tr bgcolor=lightgray>
+      <td id=GMV6>0</td>
+      <td id=YMV6>1000</td>
+      <td id=BMV6>0</td>
+      <td id=RMV6>0</td>
+      <td id=OMV6>0</td>
+      <td id=ResMV6>0</td>
+      <td id=AttMV6>0</td>
+      <td id=VisMV6>0</td>
+      <td bgcolor=lightGray style="color:black;font-size:10px">Arrive</td>
+    </tr>
+    <tr bgcolor=linen>
+      <td id=GMD6>0</td>
+      <td id=YMD6>0</td>
+      <td id=BMD6>0</td>
+      <td id=RMD6>0</td>
+      <td id=OMD6>0</td>
+      <td id=ResMD6>0</td>
+      <td id=AttMD6>0</td>
+      <td id=VisMD6>0</td>
+      <td bgcolor=black style="color:white;font-size:10px">Depart</td>
+  </tr>
+  </table>
+</div>
+
+<div id=MVstats7>
+  <table>
+    <tr>
+      <th bgcolor=Green style="color:white"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+      <th bgcolor=Yellow> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+      <th bgcolor=Blue style="color:white"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+      <th bgcolor=Red style="color:white"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+      <th bgcolor=Orange> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+      <th bgcolor=Beige style="font-size:10px">Reside</th>
+      <th bgcolor=Beige style="font-size:10px">Attach</th>
+      <th bgcolor=Beige style="font-size:10px">Visit</th>
+      <th bgcolor=black> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+    </tr>
+    <tr bgcolor=linen>
+      <td id="grMV7">1,000</td>
+      <td id="yeMV7">0</td>
+      <td id="blMV7">0</td>
+      <td id="reMV7">0</td>
+      <td id="orMV7">0</td>
+      <td id="resMV7">0</td>
+      <td id="attMV7">0</td>
+      <td id="visMV7">0</td>
+      <td bgcolor=black style="color:white; font-size:10px">Status</td>
+    </tr>
+    <tr bgcolor=lightgray>
+      <td id=GMV7>0</td>
+      <td id=YMV7>1000</td>
+      <td id=BMV7>0</td>
+      <td id=RMV7>0</td>
+      <td id=OMV7>0</td>
+      <td id=ResMV7>0</td>
+      <td id=AttMV7>0</td>
+      <td id=VisMV7>0</td>
+      <td bgcolor=lightGray style="color:black;font-size:10px">Arrive</td>
+    </tr>
+    <tr bgcolor=linen>
+      <td id=GMD7>0</td>
+      <td id=YMD7>0</td>
+      <td id=BMD7>0</td>
+      <td id=RMD7>0</td>
+      <td id=OMD7>0</td>
+      <td id=ResMD7>0</td>
+      <td id=AttMD7>0</td>
+      <td id=VisMD7>0</td>
+      <td bgcolor=black style="color:white;font-size:10px">Depart</td>
+  </tr>
+  </table>
+</div>
+
+<div id=MVstats8>
+  <table>
+    <tr>
+      <th bgcolor=Green style="color:white"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+      <th bgcolor=Yellow> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+      <th bgcolor=Blue style="color:white"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+      <th bgcolor=Red style="color:white"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+      <th bgcolor=Orange> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+      <th bgcolor=Beige style="font-size:10px">Reside</th>
+      <th bgcolor=Beige style="font-size:10px">Attach</th>
+      <th bgcolor=Beige style="font-size:10px">Visit</th>
+      <th bgcolor=black> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+    </tr>
+    <tr bgcolor=linen>
+      <td id="grMV8">1,000</td>
+      <td id="yeMV8">0</td>
+      <td id="blMV8">0</td>
+      <td id="reMV8">0</td>
+      <td id="orMV8">0</td>
+      <td id="resMV8">0</td>
+      <td id="attMV8">0</td>
+      <td id="visMV8">0</td>
+      <td bgcolor=black style="color:white; font-size:10px">Status</td>
+    </tr>
+    <tr bgcolor=lightgray>
+      <td id=GMV8>0</td>
+      <td id=YMV8>1000</td>
+      <td id=BMV8>0</td>
+      <td id=RMV8>0</td>
+      <td id=OMV8>0</td>
+      <td id=ResMV8>0</td>
+      <td id=AttMV8>0</td>
+      <td id=VisMV8>0</td>
+      <td bgcolor=lightGray style="color:black;font-size:10px">Arrive</td>
+    </tr>
+    <tr bgcolor=linen>
+      <td id=GMD8>0</td>
+      <td id=YMD8>0</td>
+      <td id=BMD8>0</td>
+      <td id=RMD8>0</td>
+      <td id=OMD8>0</td>
+      <td id=ResMD8>0</td>
+      <td id=AttMD8>0</td>
+      <td id=VisMD8>0</td>
+      <td bgcolor=black style="color:white;font-size:10px">Depart</td>
+  </tr>
+  </table>
+</div>
+
+
+
+<div id="windowpane">
+    <div id="pane1"  onclick=selPane1() style="background-color:MidnightBlue; border-color:red; border-style:solid;">Pane1 is here</div>
+    <div id="pane2"  onclick=selPane2() style="background-color:MidnightBlue; border-color:red; border-style:solid;">Pane2</div>
+    <div id="pane3"  onclick=selPane3() style="background-color:MidnightBlue; border-color:red; border-style:solid;">Pane3</div>
+    <div id="pane4"  onclick=selPane4() style="background-color:MidnightBlue; border-color:red; border-style:solid;">Pane4</div>
+    <div id="pane5"  onclick=selPane5() style="background-color:MidnightBlue; border-color:red; border-style:solid;">Pane5</div>
+    <div id=pane6  onclick=selPane6() style="background-color:MidnightBlue; border-color:red; border-style:solid;">Pane6</div>
+    <div id=pane7  onclick=selPane7() style="background-color:MidnightBlue; border-color:red; border-style:solid;">Pane7</div>
+    <div id=pane8  onclick=selPane8() style="background-color:MidnightBlue; border-color:red; border-style:solid;">Pane8</div>
+    <div id=pane9  onclick=selPane9() style="background-color:MidnightBlue; border-color:red; border-style:solid;">Pane9</div>
+</div>
+
+
+
+    <div id="fields">
+        <canvas id="canp1" style="position:absolute; border: 1px solid blue"></canvas>
+        <canvas id="canp2" style="position:absolute; border: 1px solid blue"></canvas>
+        <canvas id="canp3" style="position:absolute; border: 1px solid blue"></canvas>
+        <canvas id="canp4" style="position:absolute; border: 1px solid blue"></canvas>
+        <canvas id="canp5" style="position:absolute; border: 1px solid blue"></canvas>
+        <canvas id="canp6" style="position:absolute; border: 1px solid blue"></canvas>
+        <canvas id="canp7" style="position:absolute; border: 1px solid blue"></canvas>
+        <canvas id="canp8" style="position:absolute; border: 1px solid blue"></canvas>
+        <canvas id="canp9" style="position:absolute; border: 1px solid blue"></canvas>
+    </div>
+
+    <div>
+        <table ID="MV-menu">
+          <tr>
+            <th onclick="loadMVnames()">NAMES</th>
+            <th onclick="MVmatrix()">matrix</th>
+            <th id = "rBlue" onclick="wrapUp()">WrapUp ()</th>
+          </tr>
+          <tr>
+            <td id="MV-name">universe 1</td>
+            <td>trafficking</td>
+            <td id="rBlueNum">visit the stars</td>
+          </tr>
+        </table>
+    </div>
+
+    <div>
+      <table id="MVmatrix">
+      <tr>
+        <th> UNIVERSES AS SPACES </th>
+      </tr>
+        <tr> <td id="row1" onclick="mxRow1()" style="cursor:pointer">row1</td> </tr>
+        <tr> <td id=row2 onclick="mxRow2()" style="cursor:pointer">row2</td> </tr>
+        <tr> <td id=row3 onclick="mxRow3()" style="cursor:pointer">row3</td> </tr>
+        <tr> <td id=row4 onclick="mxRow4()" onmousemove="mouseMove4()" style="cursor:pointer">row4</td></tr>
+        <tr> <td id=row5 onclick="mxRow5()" style="cursor:pointer">row5</td> </tr>
+        <tr> <td id=row6 onclick="mxRow6()" style="cursor:pointer">row6</td> </tr>
+        <tr> <td id=row7 onclick="mxRow7()" style="cursor:pointer">row7</td> </tr>
+        <tr> <td id=row8 onclick="mxRow8()" style="cursor:pointer">row8</td> </tr>
+        <tr> <td id=row9 onclick="mxRow9()" style="cursor:pointer">row9</td> </tr>
+      <tr>
+      </table>
+    </div>
+
+    <div id="controls" style="cursor:pointer">
+        <button onclick="hideMV()" type="button" style="background-color:midnightblue;color:white;cursor:pointer">MV toggle</button>
+        <button id="loadB" onclick="load()" type="button" style="background-color:lime;color:black;cursor:pointer">Load</button>
+        <button id="popClick" onclick="auto()" style="background-color:yellow" type="button" style="cursor:pointer">Auto</button>
+        <button id="showBut" onclick="showU()" type="button" style="cursor:pointer;background-color:lime">Show U</button>
+        <button onclick="caseLoad()" type="button" style="cursor:pointer;background-color:pink">CASES</button>
+        <button type="button" style="background-color:LightSlateGrey;color:white">FROM ddhh:</button>
+        <button type="button" style="background-color:linen">&nbsp0000&nbsp</button>
+        <button onclick="getToTime()" style="background-color:LightslateGrey;color:white;cursor:pointer">TO ddhh:&nbsp&nbsp</button>
+        <button id="toHHDD" style="background-color:linen">&nbsp&nbspddhh&nbsp&nbsp</button>
+        <button id="R0button" style="background-color:HoneyDew;color=white">00.0</button>
+        <label for="R0button" style="left:900px">R0</label>
+    </div>
+
+    <div id="dayhr">
+        <button id="day" type="button">DAY:</button>
+        <button id="hour" type="button">HOUR:</button>
+        <button id="dispGen" type="button">gen:</button>
+        <button id="TGreen" type="button" style="background-color:green; color:white">GREEN:</button>
+        <button id="TYellow" type="button" style="background-color:yellow; color:black">YELLOW:</button>
+        <button id="TBlue" type="button" style="background-color:blue; color:white">BLUE:</button>
+        <button id="TRed" type="button" style="background-color:red; color:white">RED:</button>
+        <button id="TOrange" type="button" style="background-color:orange; color:black">ORANGE:</button>
+        <button id="trafficB" onclick="graphB()" type="button" style="background-color:blue; color:white">Traffic</button>
+        <button id="grExit" ondblclick="graphExit()" onclick="graphStop()" type="button" style="background-color:red; color:white">STOP/EXIT</button>
+        <button id="grB" onclick="backGraph()" type="button" style="background-color:black; color:white"><</button>
+        <button id="grF" onclick="foreGraph()" type="button" style="background-color:black; color:white">></button>
+        <input id="grSlider" oninput="graphIn()" type="range" min="1" max="1920" value="1920">
+    </div>
+
+
+        <!--   ***************************************************************************
+           $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+           &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+              FROM THIS PART ON, IT'S ALL ABOUT INDIVIDUAL UNIVERSES
+                       THE STUFF ABOVE IS ABOUT THE MULTIVERSE
+
+    -->
+
+        <div class="topnav">
+            <table ID="myTab">
+                <tr>
+                    <th bgcolor=Green style="color:white"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+                    <th bgcolor=Yellow> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+                    <th bgcolor=Blue style="color:white"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+                    <th bgcolor=Red style="color:white"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp </th>
+                    <th bgcolor=Orange> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+                    <th bgcolor=black style="font-size:10px; color:white">&nbspTotals&nbsp&nbsp&nbsp</th>
+                    <th bgcolor=Beige style="font-size:10px">Resident</th>
+                    <th bgcolor=Beige style="font-size:10px">Attached</th>
+                    <th bgcolor=Beige style="font-size:10px">Visitor</th>
+                    <th bgcolor=black> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+                    <th onclick="showIncD()" bgcolor=lightGray>Incubation</th>
+                    <th onclick="showInfD()" bgcolor=LightGray>Asympt Inf</th>
+                    <th onclick="showCliD()" bgcolor=lightGray>Sick or Dx</th>
+                    <th onclick="showCycle()" bgcolor=lightGray>&nbsp Cycles &nbsp</th>
+                    <th onclick="showPradius()" bgcolor=lightGray>PP Radius</th>
+                    <th onclick="showMingle()">MingleF</th>
+                    <th onclick="showVax()" bgcolor=orange>&nbsp Vax% &nbsp</th>                    <th bgcolor=lightgray style="cursor:pointer">Total Touches</th>
+				</tr>
+                <tr>
+                    <td id="grCt">1</td>
+                    <td id="yeCt">0</td>
+                    <td id="blCt">0</td>
+                    <td id="reCt">0</td>
+                    <td id="orCt">0</td>
+                    <td id="popStat" bgcolor=black style="color:white; font-size:10px"></td>
+                    <td id="resCt">0</td>
+                    <td id="attCt">0</td>
+                    <td id="visCt">0</td>
+                    <td bgcolor=black style="color:white; border:white">Status</td>
+                    <td id="dIncD">2.2</td>
+                    <td id="dInfD">5.2</td>
+                    <td id="dCliD">13.2</td>
+                    <td id="dCycl">1</td>
+                    <td id="dPrad">5</td>
+                    <td id="dMingl">1</td>
+                    <td id="vaxnow" bgcolor=orange>0</td>
+				</tr>
+                <tr bgcolor=lightgray>
+                    <td id=GArr>0</td>
+                    <td id=YArr>0</td>
+                    <td id=BArr>0</td>
+                    <td id=RArr>0</td>
+                    <td id=OArr>0</td>
+                    <td id="arrStat" bgcolor=DarkGray style="color:white; font-size:10px"></td>
+                    <td id=ResArr>0</td>
+                    <td id=AttArr>0</td>
+                    <td id=VisArr>0</td>
+                    <td bgcolor=DarkGray style="color:white">Arrive</td>
+                </tr>
+                <td id=GDep>0</td>
+                <td id=YDep>0</td>
+                <td id=BDep>0</td>
+                <td id=RDep>0</td>
+                <td id=ODep>0</td>
+                <td id="depStat" bgcolor=black style="color:white; font-size:10px"></td>
+                <td id=ResDep>0</td>
+                <td id=AttDep>0</td>
+                <td id=VisDep>0</td>
+                <td bgcolor=black style="color:white">Depart</td>
+                </tr>
+
+            </table>
+        </div>
+
+
+        <div class="slidecontainer">
+            <input type="range" min="1" max="200" value="50" class="slider" id="myRange">
+        </div>
+
+        <div id="localCharts">
+            <div id="chartContainer1"></div>
+            <div id="chartContainer2"></div>
+            <div id="chartContainer3"></div>
+            <div id="chartContainer4"></div>
+
+            <div id="chartContainer6"></div>
+        </div>
+
+        <div id="MVcharts">
+            <div id="chartContainer7" style="height: 150px; width: 300px; display: block;"></div>
+            <div id="chartContainer8" style="height: 150px; width: 300px; display: block;"></div>
+            <div id="chartContainer9" style="height: 150px; width: 300px; display: block;"></div>
+            <div id="chartContainer10" style="height: 150px; width: 300px; display: block;"></div>
+            <div id="chartContainer11" style="height: 150px; width: 300px; display: block;"></div>
+            <div id="chartContainer12" style="height: 150px; width: 300px; display: block;"></div>
+            <div id="chartContainer13" style="height: 150px; width: 300px; display: block;"></div>
+            <div id="chartContainer14" style="height: 150px; width: 300px; display: block;"></div>
+            <div id="chartContainer15" style="height: 150px; width: 300px; display: block;"></div>
+            <div id="chartContainer16"></div>
+            <div id="chartContainer17"></div>
+            <div id="chartContainer18"></div>
+            <div id="chartContainer19"></div>
+            <div id="chartContainer20"></div>
+        </div>
+
+        <div class=info>
+
+
+            <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
+        </div>
+
+        <!-- &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+         *********************************************************************************************
+                            THESE COME FROM TIMERS MODULE
+         ---------------------------------------------------------------------------------------------
+         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    -->
+
+        <canvas id="gameCanvas" width="800" height="600"></canvas>
+        <canvas id="graphCanvas" width="920" height="920"></canvas>
+
+        <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    -->
+        </style>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
+        <script src="DUALuseReact.js">
+        </script>
+
+        </head>
+</html>

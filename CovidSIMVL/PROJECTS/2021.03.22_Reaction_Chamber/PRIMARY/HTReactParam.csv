@@ -1,0 +1,15 @@
+Parameters,,
+population,100,
+ID,Reaction1,
+HzR,3,
+sizeF,2,4
+sizeF,2,5
+sizef,3,5
+mF,1.5,0
+mF,1.5,1
+mF,0.1,2
+mF,0.1,3
+mF,3,4
+mF,3,5
+RedDays,11.2,
+STOP,3000,

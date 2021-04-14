@@ -2274,7 +2274,7 @@ function implementVax(ages,vax){
                         Q.allTouch++;
                         // console_log("overlap g,h = "+g+","+k[j]+": "+G.state+","+F.state);
                 }
-                if (touchFlag && (wU != 8)) {
+        				if (touchFlag && (wU != 8)) {
                       VLtransfer(g, k[j]);
                       return;
                 }
@@ -3809,26 +3809,26 @@ function implementVax(ages,vax){
                 title: "G + B + O"
             },
             data: [{
-                type: "line",
+                type: "column",
                 markerType: "none",
                 dataPoints: U[0].endGreen
 
             }, {
-                type: "line",
+                type: "column",
                 axisYType: "secondary",
                 markerType: "none",
                 dataPoints: U[0].endYellow
             }, {
-                type: "line",
+                type: "column",
                 markerType: "none",
                 dataPoints: U[0].endBlue
             }, {
-                type: "line",
+                type: "column",
                 markerType: "none",
                 axisYType: "secondary",
                 dataPoints: U[0].endRed
             }, {
-                type: "line",
+                type: "column",
                 markerType: "none",
                 dataPoints: U[0].endOrange
             }
@@ -3852,26 +3852,26 @@ function implementVax(ages,vax){
                 title: "G + B + O"
             },
             data: [{
-                type: "line",
+                type: "column",
                 markerType: "none",
                 dataPoints: U[1].endGreen
 
             }, {
-                type: "line",
+                type: "column",
                 axisYType: "secondary",
                 markerType: "none",
                 dataPoints: U[1].endYellow
             }, {
-                type: "line",
+                type: "column",
                 markerType: "none",
                 dataPoints: U[1].endBlue
             }, {
-                type: "line",
+                type: "column",
                 markerType: "none",
                 axisYType: "secondary",
                 dataPoints: U[1].endRed
             }, {
-                type: "line",
+                type: "column",
                 markerType: "none",
                 dataPoints: U[1].endOrange
             }
@@ -3895,26 +3895,26 @@ function implementVax(ages,vax){
                 title: "G + B + O"
             },
             data: [{
-                type: "line",
+                type: "column",
                 markerType: "none",
                 dataPoints: U[2].endGreen
 
             }, {
-                type: "line",
+                type: "column",
                 axisYType: "secondary",
                 markerType: "none",
                 dataPoints: U[2].endYellow
             }, {
-                type: "line",
+                type: "column",
                 markerType: "none",
                 dataPoints: U[2].endBlue
             }, {
-                type: "line",
+                type: "column",
                 markerType: "none",
                 axisYType: "secondary",
                 dataPoints: U[2].endRed
             }, {
-                type: "line",
+                type: "column",
                 markerType: "none",
                 dataPoints: U[2].endOrange
             }
@@ -3938,26 +3938,26 @@ function implementVax(ages,vax){
                 title: "G + B + O"
             },
             data: [{
-                type: "line",
+                type: "column",
                 markerType: "none",
                 dataPoints: U[3].endGreen
 
             }, {
-                type: "line",
+                type: "column",
                 axisYType: "secondary",
                 markerType: "none",
                 dataPoints: U[3].endYellow
             }, {
-                type: "line",
+                type: "column",
                 markerType: "none",
                 dataPoints: U[3].endBlue
             }, {
-                type: "line",
+                type: "column",
                 markerType: "none",
                 axisYType: "secondary",
                 dataPoints: U[3].endRed
             }, {
-                type: "line",
+                type: "column",
                 markerType: "none",
                 dataPoints: U[3].endOrange
             }
@@ -4400,7 +4400,6 @@ function implementVax(ages,vax){
         gctx.font = "30px Arial";
         gctx.fillStyle = "Yellow";
         gctx.fillText("Day: " + DD + "   HR: " + HH,50,760);
-        gctx.fillText("Gen: " + gen, 50,800);
     }
 
     function graphStop() {
@@ -4521,9 +4520,9 @@ function implementVax(ages,vax){
 
     function markEdges(i, j, gen) {
         let Y = U[i].dep[gen][j];
-        if (Y.gCt > 0) { loadEdge(i, j, gen, "ForestGreen") };
+        if (Y.gCt > 0) { loadEdge(i, j, gen, "green") };
         if (Y.yCt > 0) { loadEdge(i, j, gen, "yellow") };
-        if (Y.bCt > 0) { loadEdge(i, j, gen, "Aqua") };
+        if (Y.bCt > 0) { loadEdge(i, j, gen, "aqua") };
         if (Y.rCt > 0) { loadEdge(i, j, gen, "red") };
         if (Y.oCt > 0) { loadEdge(i, j, gen, "orange") };
     }
@@ -4535,13 +4534,13 @@ function implementVax(ages,vax){
         Z[nInst].u = j;
         Z[nInst].clr = colr;
         switch (colr) {
-            case "ForestGreen":
+            case "green":
                 Z[nInst].ct = Y.gCt;
                 break;
             case "yellow":
                 Z[nInst].ct = Y.yCt;
                 break;
-            case "Aqua":
+            case "aqua":
                 Z[nInst].ct = Y.bCt;
                 break;
             case "red":
@@ -4634,7 +4633,7 @@ function implementVax(ages,vax){
         let tox = N[tou].x;
         let toy = N[tou].y;
 
-        drawNLine(A.x, A.y, tox, toy, "Gray");
+        drawNLine(A.x, A.y, tox, toy, "midnightblue");
         drawNPath(n, e);
         let timePassed = Date.now() - Nstart;
         if (timePassed >= LFACTOR * e) {
@@ -4780,11 +4779,13 @@ function HALT(){
         for (k=0; k<M.UCt; k++){
             findReactmax(k);
         }
-        stepThrough(0,1);
+        stepThrough(2,5);
         console_log(" ");
-        stepThrough(2,3);
+        stepThrough(5,8);
         console_log(" ");
-        stepThrough(4,5);
+        stepThrough(1,4);
+        console_log(" ");
+        stepThrough(4,7);
     }
 
     function findReactmax(k){
@@ -4808,15 +4809,15 @@ function HALT(){
 
     function stepThrough(a,b){
         let min;
-        if (U[a].infectHere[0]===undefined || U[b].infectHere===undefined) {return};
+        if (U[a].infectHere[0]===undefined || U[b].infectHere[0]===undefined) {return};
         min = U[a].infectHere[0][0];
         if (U[b].infectHere[0][0] < min){
             min = U[b].infectHere[0][0]
         }
-        let step = 200;
+        let step = 100;
         let limit = gen;
         let i;
-        for (i=min; i<gen; i+=200){
+        for (i=min; i<gen; i+=100){
             console_log("U"+a+":"+U[a].logRed[i]+" at gen"+i);
             console_log("U"+b+":"+U[b].logRed[i]+" at gen"+i);
         }

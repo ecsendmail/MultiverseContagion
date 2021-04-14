@@ -1,41 +1,16 @@
 // ****************************************************************************
 // check if DOM (document object model) exists ********************************
 // ****************************************************************************
-console_log("paramSIMVL 2021.03.25 GUI-HTML parameter CovidSIMVL");
+console_log("paramSIMVL 2021.03.22 GUI parameter CovidSIMVL");
 console_log(Date());
 
-
-
-function GetURLParameter(sParam)
-{
-    var sPageURL = window.location.search.substring(1);
-    var sURLVariables = sPageURL.split('&');
-    for (var i = 0; i < sURLVariables.length; i++)
-    {
-        var sParameterName = sURLVariables[i].split('=');
-        if (sParameterName[0] == sParam)
-        {
-            return sParameterName[1];
-        }
-    }
-}
-
-/*
-var use_html = false;
-let x = GetURLParameter("use_html");
-if (x===undefined){
-  x = true
-}
-use_html = x;
-alert(use_html);
-*/
-/*
+var use_html = true;
 try {
     document // does DOM exist?
 } catch {
     use_html = false // if DOM doesn't exist, assume we're running from R / v8
 }
-*/
+
 
 
 var lines = [];
@@ -56,17 +31,11 @@ var pVt = (200).toString() + "px";
 
 var c;
 
-/******************************************************************************************************************* */
-
-/*                                  BELONGS TO JSON CreateNode                                                      */
-
-/********************************************************************************************************************/
-
-
+/*
 function startParam(){
       //alertX("Load param.json file starting");
       myLoad("param.json");
-      JSONprocessData(COLLECTION);
+      processData(COLLECTION);
       //alertX("Finished with parameter loading");
 }
 
@@ -94,36 +63,38 @@ function myLoad(xfname) {
      }
  }
 
- function JSONprocessData(one) {
+ function processData(one) {
      var allTextLines = one.split(/\r\n|\n/);
      lines = [];
      while (allTextLines.length) {
          lines.push(allTextLines.shift().split(','));
      }
-     JSONprocessL();
+     processL();
  }
 
- function JSONprocessL() {
+ function processL() {
      let i, j;
      var inType = lines[0][0];
      switch (inType){
-             case "Parameters":
-                 JSONprocessParam();
+             case "Parameters": processParam();
                  break;
-             case "Population":
-                 JSONprocessPop()
+             case "pID":
+                 if (lines[0][1] == "sno") {
+                     processPop()
+                 } else {
+                     if (lines[0][1] == "age-Gp") {
+                         processCase()
+                     }
+                 }
                  break;
-             case "Cases":
-                JSONprocessCase();
-                break;
              default:
                console_log("File format error");
                alertX("File Format error");
      }
  }
 
-function JSONprocessParam(){
-    initMV();
+function processParam(){
+    initializeMV();
     let i=0;
     lines.shift();
     let lineNo = lines.length;
@@ -132,17 +103,17 @@ function JSONprocessParam(){
       parx = lines[i][0];
       let parN = lines[i][1];
       switch(parx){
+          case "use_html":
+              if (parN == "Y" || parN == "y"){
+                use_html = true
+              } else { use_html = false };
+              break;
           case "population":
               initPopn(parN);
               console_log("Population parameter set to "+parN);
               break;
           case "UN":
-              M.UCt = Number(lines[i][1]);
-              JSONinitUn();
-              let p;
-              for (p=0;p<M.UCt;p++){
-                UN[p] = lines[i][p+1];
-              }
+              initUN(parN,i);
               break;
           case "HzR":
               changeHzR(parN);
@@ -172,7 +143,6 @@ function JSONprocessParam(){
           default:
               console_log("Error in Parameter File format");
               alertX("Error in parameter file format");
-              break;
       }
     }
 }
@@ -180,26 +150,28 @@ function JSONprocessParam(){
 
 var popnFileName;
 function startPopFile(){
+      //initTicket();
+      //alertX("reading population file");
       console_log("Reading population file "+popnFileName);
       myLoad(popnFileName);
-      JSONprocessData(COLLECTION);
+      processData(COLLECTION);
       console_log("Population File loaded");
 }
 
 var caseFileName;
 function startCaseFile(){
+      //alertX("reading Case File");
       console_log("Reading Case File "+caseFileName);
       myLoad(caseFileName);
-      JSONprocessData(COLLECTION);
+      processData(COLLECTION);
       console_log("Case File loaded");
 }
 
-function JSONprocessPop() {
+function processPop() {
     lines.shift();
-    lines.shift();
-    initTicket();
     let i;                //gets rid of row labels
     let lineNo = lines.length;
+    transfer = new CreateTransfer();
     for (i = 0; i < lineNo; i++) {
           if (parseL(lines[i])) {
               setupTicket();
@@ -207,14 +179,40 @@ function JSONprocessPop() {
     }
 }
 
-function JSONprocessCase() {
+function processCase() {
     let i=0;
     lines.shift();                  //gets rid of row labels
-    lines.shift();
     let lineNo = lines.length;
     for (i = 0; i < lineNo; i++) {
         if (!parseC(lines[i])) break;
     }
+}
+
+
+function parseL(lineStr) {
+    let lineS = lineStr;
+    if (lineS == "") return false;
+    let ID = Number(lineS[0]);
+    transfer.pID = ID;
+    transfer.stopno = Number(lineS[1]);
+    transfer.ETA = Number(lineS[2]);
+    transfer.AU = Number(lineS[3]);
+    transfer.ETD = Number(lineS[4]);
+    transfer.TU = Number(lineS[5]);
+    transfer.role = lineS[6];
+    transfer.Mx = Number(lineS[7]);
+    let trAgeGp = lineS[8];
+    trAgeGp = Math.round(trAgeGp);
+    let trFam = lineS[9];
+    if (ID==pID && ID !=0) {return true}    // first one is 0
+    else {
+//    			if (lineS[8]=="" || lineS[8] === undefined) {return true };
+      P[ID].ageGp = trAgeGp;
+      AG[trAgeGp].total++;
+      P[ID].famKey = -1;
+      if (trFam!="" && trFam!==undefined) {P[ID].famKey=trFam};
+    };
+    return true;
 }
 
 
@@ -245,21 +243,20 @@ function parseC(lineStr) {
 
 
 var oneTime = 0;
-function JSONinitUn() {
+function initializeMV() {
     let i,j;
     oneTime = 0;
+    initMV();
     for (i = 0; i < M.UCt; i++) {
         U[i] = new CreateUniverse();
         initUniv(U[i], i);
     }
     initEpiCenters();
+    initTicket();
+    initPopn();
 }
+*/
 
-/*************************** END JSON SPECIFIC ROUTINES *******************************************/
-/*
-/*                           start html GUI SPECIFIC FILE ROUTINES *******************************
-/*
-/***************************************************************************************************/
 
 
 function handleFiles(files) {
@@ -279,99 +276,59 @@ function getAsText(fileToRead) {
     console.log(fileToRead);
     var reader = new FileReader();
     reader.onload = loadHandler; // handle errors load
-    reader.onerror = HTerrorHandler;
+    reader.onerror = errorHandler;
     reader.readAsText(fileToRead); // read file into memory as utf-8
 }
 
 function loadHandler(event) {
     var csv = event.target.result;
-    HTprocessData(csv);
+    processData(csv);
 }
 
-function HTprocessData(one) {
-    var allTextLines = one.split(/\r\n|\n/);
+function processData(csv) {
+    var allTextLines = csv.split(/\r\n|\n/);
     lines = [];
     while (allTextLines.length) {
         lines.push(allTextLines.shift().split(','));
     }
-    HTprocessLines();
+    processLines();
 }
 
-function HTerrorHandler(evt) {
+function errorHandler(evt) {
     if (evt.target.error.name == "NotReadableError") {
         alert("Cannot read file !");
     }
 }
 
-function HTprocessLines() {
+function processLines() {
     let i, j;
-    if (lines[0][0] == "Population") {
-        initSetPopUniv();
-        lines.shift(); // one for the population and universe parameters
-        lines.shift(); // one for the CSV column headers
-        initTicket();
-        var lineNo = lines.length;
+    if (lines[0][0] == "pID") lines.shift(); //gets rid of row labels
+    var lineNo = lines.length;
+    transfer = new CreateTransfer();
+    if (csvAct == "Population") {
         for (i = 0; i < lineNo; i++) {
             if (parseL(lines[i])) {
                 setupTicket();
             }
-          }
-          document.getElementById("FName").innerHTML = "Now select Cases File";
-          GUIstyle("getFile","block");
-          return;
-
-    };
-    if (lines[0][0] == "Cases"){
-        lines.shift();
-        lines.shift();
-        procClines();
-        return;
-    }
-    if (lines[0][0] == "Parameters"){
-        lines.shift();
-        HTprocParam();
-      }
-        GUIstyle("getFile","none");
-        startMain();
-
-  }
-
-function initSetPopUniv(){
-    M.PCt = Number(lines[0][1]);
-    if (lines[0][2] != ""){
-        M.UCt = Number(lines[0][3]);
-        let i;
-        for (i=0;i<M.UCt;i++){
-          UN[i] = lines[0][i+4]
         }
-        initUniverse();       // use defaults if entry is null
-        initPopn(M.PCt);
-    }
-    console_log("Population specified as: "+M.PCt);
-    console_log("Universes: "+M.UCt);
-}
-
-function initUniverse(){
-  let i;
-  for (i = 0; i < M.UCt; i++) {
-      U[i] = new CreateUniverse();
-      initUniv(U[i], i);
-  }
-  initEpiCenters();
-  initGUI();
-}
-
-  function initPopn(pnum){
-        M.PCt = Number(pnum);
-        M.GreenCt = M.PCt;
-        let i,j;
-        for (i = 0; i < M.PCt; i++) {
-            P[i] = new CreatePerson;
-            initPerson(P[i], i);
+        if (use_html) {
+            document.getElementById("getFile").style.display = "none";
         }
-        initAgeTable();
-  }
+    } else {
+        if (csvAct == "Cases") {
+            for (i = 0; i < lineNo; i++) {
+                if (!parseC(lines[i])) break;
+            }
 
+            if (use_html) {
+                //drawAgents(0);
+                //showCounts();
+                document.getElementById("getFile").style.display = "none";
+                //document.getElementById("csvButton").style.display="none";
+            }
+        }
+    }
+}
 
 function parseL(lineStr) {
     let lineS = lineStr;
@@ -399,77 +356,39 @@ function parseL(lineStr) {
     return true;
 }
 
-/* ********************************************************************************** */
 
-function procClines(){
-    var cLinesNo = lines.length;
-    let i;
-    for (i=0;i<cLinesNo;i++){
-          if (!parseC(lines[i])) break;
-    }
-    document.getElementById("FName").innerHTML = "Select Parameter File if Any";
-    GUIstyle("getFile","block");
-    let x = prompt("If parameter file enter Y else enter N");
-    if (x=="Y" || x=="y") {
-//      HTprocParam();
-    } else {
-      GUIstyle("getFile","none");
-      startMain();
-    }
+function caseLoad() {
+        document.getElementById("getFile").style.display = "block";
+        csvAct = "Cases";
 }
 
-function HTprocParam(){
-    let lineNo = lines.length;
-    let i = 0;
-    let parx;
-    for (i=0;i<lineNo;i++){
-        parx = lines[i][0];
-        let parN = lines[i][1];
-        switch(parx){
-          case "ID":
-            M.ID = parN;
-            break;
-          case "HzR":
-              changeHzR(parN);
-              break;
-          case "sizeF":
-              let univ = lines[i][2];
-              chSizeF(parN,univ);
-              break;
-          case "mF":
-              let u2 = lines[i][2];
-              changeMF(parN,u2);
-              break;
-          case "RedDays":
-              changeRedDays(parN);
-              break;
-          case "STOP":
-              HALTgen = Number(parN);
-              break;
-          case "":
-              break;
-          default:
-              break;
-        }
-    }
+function parseC(lineStr) {
+    let lineS = lineStr;
+    if (lineS == "" || lineS === undefined) return false;
+    let ID = Number(lineS[0]);
+
+    if (P[ID].pID === undefined || P[ID].pID == "null") return false;
+
+    P[ID].ageGp = Number(lineS[1]); // age group
+    P[ID].suscIndx = Number(lineS[2]); // combined risk
+    if (P[ID].suscIndx != 0) {
+        resizeRisk(ID)
+    };
+
+    if (Number(lineS[3]) === undefined || Number(lineS[3]) == "") {} else P[ID].ViralLoad = Number(lineS[3]);
+    if (Number(lineS[4]) === undefined || Number(lineS[4]) == "") {} else P[ID].tInfect = 0 - Number(lineS[4]);
+
+    // resizeVL(ID);     //we grow VL for one cycle, so resize after growth
+    changeState(ID); //changes state and color by post-inf days
+
+    if (lineS[5] === undefined || lineS[5] == "") {} else P[ID].role = lineS[5];
+    if (Number(lineS[6]) === undefined || Number(lineS[6]) == "") {} else P[ID].minglf = Number(lineS[6]);
+    return true;
 }
 
 
-function startMain(){
-          GUIstyle("getFile","none");
-          VIEW = "local";
-          load();
-          load();
-          hideMV();
-          GUIstyle("graphCanvas","none");
-          GUIstyle("controls","block");
-          VIEW = "local";
-          netFlag = true;
-          MVtoggle = false;
-          hideMV();
-}
 
-
+// ****************************************************************************
   function initPCtUCt(){
         let Mtxt = prompt("Enter population size, number of Universes as: n,m without commas");
         let Mx, My, Mz;
@@ -486,6 +405,38 @@ function startMain(){
         console_log("Population specified as: "+M.PCt);
         console_log("Universes: "+M.UCt);
   }
+
+
+  function initUniverse(){
+    let i;
+    for (i = 0; i < M.UCt; i++) {
+        U[i] = new CreateUniverse();
+        initUniv(U[i], i);
+    }
+    initEpiCenters();
+  }
+
+
+  function initPopn(pnum){
+        M.PCt = Number(pnum);
+        M.GreenCt = M.PCt;
+        let i,j;
+        for (i = 0; i < M.PCt; i++) {
+            P[i] = new CreatePerson;
+            initPerson(P[i], i);
+        }
+        // now init age groups
+        for (j=0;j<10;j++){
+            AG[j] = new CreateAgeGP();
+            initAG(AG[j],j);
+        }
+        initAgeRisk();
+  }
+
+
+
+
+
 
 
 
@@ -906,44 +857,36 @@ function startMain(){
     			if (y == -1) break;
     			UN[i] = (x.substring(0, y));
     			x = x.substring(y + 1);
-          if (i==0){chart7.options.title.text = UN[0]};
-          if (i==1){chart8.options.title.text = UN[1]};
-          if (i==2){chart9.options.title.text = UN[2]};
-          if (i==3){chart10.options.title.text = UN[3]};
-          if (i==4){chart11.options.title.text = UN[4]};
-          if (i==5){chart12.options.title.text = UN[5]};
-          if (i==6){chart13.options.title.text = UN[6]};
-          if (i==7){chart14.options.title.text = UN[7]};
-          if (i==8){chart15.options.title.text = UN[8]};
+          if (i==0){
+            chart7.options.title.text = UN[0];
+          }
+    		}
 		    showMVname();
-      }
     }
 
     function showMVname() {
-//      document.getElementById("pane1").innerHTML = UN[0].fontcolor("white");
+      document.getElementById("pane1").innerHTML = UN[0].fontcolor("white");
 
-        let i = M.UCt;
-        if (i>0) {GUI("row1","UN[0]")};
-        if (i>1) {GUI("row2","UN[1]")};
-        if (i>2) {GUI("row3","UN[2]")};
-        if (i>3) {GUI("row4","UN[3]")};
-        if (i>4) {GUI("row5","UN[4]")};
-        if (i>5) {GUI("row6","UN[5]")};
-        if (i>6) {GUI("row7","UN[6]")};
-        if (i>7) {GUI("row8","UN[7]")};
-        if (i>8) {GUI("row9","UN[8]")};
+        GUI("row1",UN[0]);
+        GUI("row2",UN[1]);
+        GUI("row3",UN[2]);
+        GUI("row4",UN[3]);
+        GUI("row5",UN[4]);
+        GUI("row6",UN[5]);
+        GUI("row7",UN[6]);
+        GUI("row8",UN[7]);
+        GUI("row9",UN[8]);
 
 
-        i = M.UCt;
-        if (i>0) {GUI("pane1",UN[0].fontcolor("white"))};
-        if (i>1) {GUI("pane2",UN[1].fontcolor("white"))};
-        if (i>2) {GUI("pane3",UN[2].fontcolor("white"))};
-        if (i>3) {GUI("pane4",UN[3].fontcolor("white"))};
-        if (i>4) {GUI("pane5",UN[4].fontcolor("white"))};
-        if (i>5) {GUI("pane6",UN[5].fontcolor("white"))};
-        if (i>6) {GUI("pane7",UN[6].fontcolor("white"))};
-        if (i>7) {GUI("pane8",UN[7].fontcolor("white"))};
-        if (i>8) {GUI("pane9",UN[8].fontcolor("white"))};
+        GUI("pane1",UN[0].fontcolor("white"));
+        GUI("pane2",UN[1].fontcolor("white"));
+        GUI("pane3",UN[2].fontcolor("white"));
+        GUI("pane4",UN[3].fontcolor("white"));
+        GUI("pane5",UN[4].fontcolor("white"));
+        GUI("pane6",UN[5].fontcolor("white"));
+        GUI("pane7",UN[6].fontcolor("white"));
+        GUI("pane8",UN[7].fontcolor("white"));
+        GUI("pane9",UN[8].fontcolor("white"));
     }
 
 
@@ -984,9 +927,9 @@ function startMain(){
             MVtoggle = true;
             if (use_html) {
                 GUIstyle("myTab","block");
+                GUIstyle("chartContainer6","block");
                 GUIstyle("gameCanvas","block");
                 GUIstyle("localCharts","block");
-                GUIstyle("fields","block");
                 GUIstyle("MVstats0","none");
                 GUIstyle("MVstats1","none");
                 GUIstyle("MVstats2","none");
@@ -1016,34 +959,49 @@ function startMain(){
 
     function showMV() {
         GUIstyle("myTab","none");
+        GUIstyle("chartContainer6","none");
         GUIstyle("gameCanvas","none");
         GUIstyle("localCharts","none");
 
-        let i = M.UCt;
-        if (i>0){GUIstyle("MVstats0","block")};
-        if (i>1) {GUIstyle("MVstats1","block")};
-        if (i>2) {GUIstyle("MVstats2","block")};
-        if (i>3) {GUIstyle("MVstats3","block")};
-        if (i>4) {GUIstyle("MVstats4","block")};
-        if (i>5) {GUIstyle("MVstats5","block")};
-        if (i>6) {GUIstyle("MVstats6","block")};
-        if (i>7) {GUIstyle("MVstats7","block")};
-        if (i>8) {GUIstyle("MVstats8","block")};
+        if (M.UCt > 0) {
+            GUIstyle("MVstats0","block");
+        };
+        if (M.UCt > 1) {
+            GUIstyle("MVstats1","block");
+        };
+        if (M.UCt > 2) {
+            GUIstyle("MVstats2","block");
+        };
+        if (M.UCt > 3) {
+            GUIstyle("MVstats3","block");
+        };
+        if (M.UCt > 4) {
+            GUIstyle("MVstats4","block");
+        };
+        if (M.UCt > 5) {
+            GUIstyle("MVstats5","block");
+        };
+        if (M.UCt > 6) {
+            GUIstyle("MVstats6","block");
+        };
+        if (M.UCt > 7) {
+            GUIstyle("MVstats7","block");
+        };
+        if (M.UCt > 8) {
+            GUIstyle("MVstats8","block");
+        };
 
         GUIstyle("MVcharts","block");
         GUIstyle("dayhr","block");
         GUIstyle("windowpane","block");
         GUIstyle("fields","block");
-        GUIstyle("MVmatrix","block"); //for now
+        GUIstyle("MVmatrix","none"); //for now
         GUIstyle("MV-menu","block");
-        //showMVname();
 
         VIEW = "MV";
         upDateGraph(U[vU], vU);
         GUI("day",("DAY:\n" + cD));
         GUI("hour",("HOUR:\n" + cH));
-        showMVname();
-
     }
 
 
@@ -1057,6 +1015,7 @@ function startMain(){
 
     const LTC = 1;
     const HOME = 0;
+    var csvAct = "Population";
 
     var U = []; // local Universes
     var P = []; // all people in the system
@@ -1064,7 +1023,6 @@ function startMain(){
     var D = [];
     var H = []; // timer-based schedule of events - arr depart
     var AG = []; // age groups
-    var ageRiskT = [];
 
     var toTime = 0;
     var toDD = 9999;
@@ -1113,8 +1071,35 @@ function startMain(){
       this.infected;
     }
 
+    function initAG(AG,agp){
+      AG.total = 0;
+      AG.vax = 0;
+      AG.vaxGen = 0;
+      AG.infected = 0;
+      switch(agp){
+        case 0: AG.AGname = "<10";
+             break;
+        case 1: AG.AGname = "10-19";
+             break;
+        case 2: AG.AGname = "20-29";
+             break;
+        case 3: AG.AGname = "30-39";
+             break;
+        case 4: AG.AGname = "40-49";
+             break;
+        case 5: AG.AGname = "50-59";
+             break;
+        case 6: AG.AGname = "60-69";
+             break;
+        case 7: AG.AGname = "70-79";
+             break;
+        case 8: AG.AGname = "80-99";
+             break;
+        case 9: AG.AGname = "90++";
+      }
+    }
+
     function ConstructMVC() {
-        this.ID;
         this.UCt; // count of Universes
         this.PCt;
         this.GreenCt; // these are totals of all universes at this time
@@ -1139,7 +1124,7 @@ function startMain(){
         this.endBlue = [];
         this.endRed = [];
         this.endOrange = [];
-        this.Delta = [];
+        this.endRedDelta = [];
         this.endCases = [];
         this.endVelocity = [];
         this.endR0 = [];
@@ -1155,7 +1140,6 @@ function startMain(){
 
 
     function initMV(){
-          M.ID = "";
           M.UCt = 9;
           M.GreenCt = M.PCt; // these are totalled from U's
           M.YellowCt = 0;
@@ -1212,7 +1196,6 @@ function startMain(){
         this.orangeCt;
         this.allTouch;
         this.cases;
-        this.infectHere = [];
         this.canvas;
 
         this.arr = [];
@@ -1261,7 +1244,6 @@ function startMain(){
         U.orangeCt = 0;
         U.allTouch = 0;
         U.cases = 0;
-        U.infectHere = [];
         U.canvas = "";
 
         U.arr = [];
@@ -1486,7 +1468,7 @@ function startMain(){
         this.Mx;
     }
 
-
+    var transfer;
 
     function CreateD() {
         this.DD;
@@ -1639,10 +1621,6 @@ function startMain(){
             case "green":
                 Q.greenCt--;
                 M.GreenCt--;
-                if (newState=="yellow"){
-                  let r = Q.infectHere.length;
-                  Q.infectHere[r] = [gen,r+1];
-                }
                 break;
             case "yellow":
                 Q.yellowCt--;
@@ -1705,23 +1683,13 @@ function startMain(){
 
     var canvas, ctx;
 
-    function blackCanvas(selCan){
-        if (selCan=="game"){
-            canvas = document.getElementById("gameCanvas");
-            GUIstyle("gameCanvas","block");
-          }
-        else {
-            if (selCan == "graph"){
-                canvas = document.getElementById("graphCanvas");
-                GUIstyle("graphCanvas","block");
-            }
-        }
+    function initCanvas(){
+        canvas = document.getElementById("gameCanvas");
         ctx = canvas.getContext("2d");
-        ctx.fillStyle = "white";
+        ctx.fillStyle = "black";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         ctx.globalCompositeOperation = "source-over";
     }
-
 
     var travel = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 6, 6, 6, 6, 7, 7, 7, 8, 8, 9];
     var dIRECTION = [-1, 0, 1];
@@ -1965,16 +1933,14 @@ function startMain(){
          if (y==-1){ return };
          y = txt.substring(0,x);
          z = txt.substring(x+1);
+
     	   changeMF(y,z);
     	}
 
   function changeMF(newMF,univ){
         GUI("dMingl",newMF);
-        let nu;
         console_log("new Mingle Factor in Universe = "+newMF+" U"+univ);
-        if (univ == "" || univ === undefined){ nu = vU }
-        else {nu = univ};
-
+        let nu = Number(univ);
         U[nu].minglf = Number(newMF);
   }
 
@@ -2043,13 +2009,10 @@ function implementVax(ages,vax){
         return (G.currSize);
     }
 
+
     var ageRiskT = [];
-    function initAgeTable(){
-      let j;
-      for (j=0;j<10;j++){
-          AG[j] = new CreateAgeGP();
-          initAG(AG[j],j);
-      }
+
+    function initAgeRisk(){
           ageRiskT[0] = {
               low: 0,
               high: 9,
@@ -2102,41 +2065,12 @@ function implementVax(ages,vax){
           };
     }
 
-    function initAG(AG,agp){
-      AG.total = 0;
-      AG.vax = 0;
-      AG.vaxGen = 0;
-      AG.infected = 0;
-      switch(agp){
-        case 0: AG.AGname = "<10";
-             break;
-        case 1: AG.AGname = "10-19";
-             break;
-        case 2: AG.AGname = "20-29";
-             break;
-        case 3: AG.AGname = "30-39";
-             break;
-        case 4: AG.AGname = "40-49";
-             break;
-        case 5: AG.AGname = "50-59";
-             break;
-        case 6: AG.AGname = "60-69";
-             break;
-        case 7: AG.AGname = "70-79";
-             break;
-        case 8: AG.AGname = "80-99";
-             break;
-        case 9: AG.AGname = "90++";
-      }
-    }
-
-
 
     function ageRisk(G, g) {
         let i;
         if (G.age == "") return (1);
         if (G.age >= 90) return (2.33);
-        for (i = 0; i < 10; i++) {
+        for (i = 0; i < 9; i++) {
             if (G.age >= ageRiskT[i].low && G.age <= age[i].high)
                 return (ageRiskT[i]);
         }
@@ -2274,14 +2208,10 @@ function implementVax(ages,vax){
                         Q.allTouch++;
                         // console_log("overlap g,h = "+g+","+k[j]+": "+G.state+","+F.state);
                 }
-                if (touchFlag && (wU != 8)) {
-                      VLtransfer(g, k[j]);
-                      return;
-                }
-                if (touchFlag && wU == 8 && G.famKey == F.famKey) {
-                      VLtransfer(g, k[j])
-                      return
-                }
+        				if (touchFlag && (wU != 8)) {VLtransfer(g, k[j])			//U8 is HOME always
+            				} else {
+            						if (G.famKey == F.famKey && G.famKey != -1) {VLtransfer(g, k[j])};
+            	  }
 				     }
         }
     }
@@ -2579,12 +2509,10 @@ function implementVax(ages,vax){
     function load() {
         var x;
         let j;
-        if (use_html) {
-            x = document.getElementById("loadB").innerHTML;
-            if (x == "HR++") {
-              TimesUp();
-            return
-          }
+        x = document.getElementById("loadB").innerHTML;
+        if (x == "HR++"){
+            TimesUp();
+            return;
         }
 
         M.clockHr = 24; // one-time initialization
@@ -2606,9 +2534,9 @@ function implementVax(ages,vax){
         gen++;
         if (gen % 10 == 0 && !use_html) {console_log("another 10 gens....")};
         let i;
-        if (gen > HALTgen && gen!=0) {
+        if (gen > HALTgen && HALTgen!=0) {
             HALT();
-            return;
+            throw "halt on generation parameter specified";
         };
         for (i = 0; i < M.UCt; i++) {
             initNet(U[i], gen);
@@ -3291,7 +3219,7 @@ function implementVax(ages,vax){
 			if (M.UCt > 8) { MVtable8() };
     }
 
-      if (M.YellowCt==0 && M.BlueCt==0 && M.RedCt==0 && gen>1 && gen>3) {
+      if (M.YellowCt==0 && M.BlueCt==0 && M.RedCt==0 && gen>1 && oneTime==0) {
         HALT();
       }
   }
@@ -3596,14 +3524,14 @@ function implementVax(ages,vax){
     var chart17, chart18, chart19, chart20;
 
     function initGUI(){
-
+          initCanvas();
+          hideMV();
           createField();
           crCanpn();
           initWinP();
+          loadUNames();
+          showMVname();
           initSliders();
-          blackCanvas("game");
-          VIEW = "local";
-          hideMV();
 
         CanvasJS.addColorSet("Overview GYBRO",
           [
@@ -3809,26 +3737,26 @@ function implementVax(ages,vax){
                 title: "G + B + O"
             },
             data: [{
-                type: "line",
+                type: "column",
                 markerType: "none",
                 dataPoints: U[0].endGreen
 
             }, {
-                type: "line",
+                type: "column",
                 axisYType: "secondary",
                 markerType: "none",
                 dataPoints: U[0].endYellow
             }, {
-                type: "line",
+                type: "column",
                 markerType: "none",
                 dataPoints: U[0].endBlue
             }, {
-                type: "line",
+                type: "column",
                 markerType: "none",
                 axisYType: "secondary",
                 dataPoints: U[0].endRed
             }, {
-                type: "line",
+                type: "column",
                 markerType: "none",
                 dataPoints: U[0].endOrange
             }
@@ -3852,26 +3780,26 @@ function implementVax(ages,vax){
                 title: "G + B + O"
             },
             data: [{
-                type: "line",
+                type: "column",
                 markerType: "none",
                 dataPoints: U[1].endGreen
 
             }, {
-                type: "line",
+                type: "column",
                 axisYType: "secondary",
                 markerType: "none",
                 dataPoints: U[1].endYellow
             }, {
-                type: "line",
+                type: "column",
                 markerType: "none",
                 dataPoints: U[1].endBlue
             }, {
-                type: "line",
+                type: "column",
                 markerType: "none",
                 axisYType: "secondary",
                 dataPoints: U[1].endRed
             }, {
-                type: "line",
+                type: "column",
                 markerType: "none",
                 dataPoints: U[1].endOrange
             }
@@ -3895,26 +3823,26 @@ function implementVax(ages,vax){
                 title: "G + B + O"
             },
             data: [{
-                type: "line",
+                type: "column",
                 markerType: "none",
                 dataPoints: U[2].endGreen
 
             }, {
-                type: "line",
+                type: "column",
                 axisYType: "secondary",
                 markerType: "none",
                 dataPoints: U[2].endYellow
             }, {
-                type: "line",
+                type: "column",
                 markerType: "none",
                 dataPoints: U[2].endBlue
             }, {
-                type: "line",
+                type: "column",
                 markerType: "none",
                 axisYType: "secondary",
                 dataPoints: U[2].endRed
             }, {
-                type: "line",
+                type: "column",
                 markerType: "none",
                 dataPoints: U[2].endOrange
             }
@@ -3938,26 +3866,26 @@ function implementVax(ages,vax){
                 title: "G + B + O"
             },
             data: [{
-                type: "line",
+                type: "column",
                 markerType: "none",
                 dataPoints: U[3].endGreen
 
             }, {
-                type: "line",
+                type: "column",
                 axisYType: "secondary",
                 markerType: "none",
                 dataPoints: U[3].endYellow
             }, {
-                type: "line",
+                type: "column",
                 markerType: "none",
                 dataPoints: U[3].endBlue
             }, {
-                type: "line",
+                type: "column",
                 markerType: "none",
                 axisYType: "secondary",
                 dataPoints: U[3].endRed
             }, {
-                type: "line",
+                type: "column",
                 markerType: "none",
                 dataPoints: U[3].endOrange
             }
@@ -4369,19 +4297,14 @@ function implementVax(ages,vax){
             gcanvas = document.getElementById("graphCanvas");
             gctx = gcanvas.getContext("2d");
             gctx.fillStyle = "black";
-            saveGen = gen;
             netFlag = false;
         }
         if (sliderFlag) {
             gen = saveGen;
-            GUIstyle("controls","block");
             sliderFlag = false
             writeSlider(gen);
         } else {
-            MODE = "manual";
-            clearInterval(clockTimer);
             saveGen = gen;
-            GUIstyle("controls","none");
         }
         graphNetwork(gen);
     }
@@ -4400,7 +4323,6 @@ function implementVax(ages,vax){
         gctx.font = "30px Arial";
         gctx.fillStyle = "Yellow";
         gctx.fillText("Day: " + DD + "   HR: " + HH,50,760);
-        gctx.fillText("Gen: " + gen, 50,800);
     }
 
     function graphStop() {
@@ -4414,8 +4336,6 @@ function implementVax(ages,vax){
         GUIstyle("grB","none");
         GUIstyle("grF","none");
         GUIstyle("grSlider","none");
-        GUIstyle("controls","block");
-        gen = saveGen;
         clearInterval(Ntimer);
         graphFlag = "NO";
         netFlag = true;
@@ -4521,9 +4441,9 @@ function implementVax(ages,vax){
 
     function markEdges(i, j, gen) {
         let Y = U[i].dep[gen][j];
-        if (Y.gCt > 0) { loadEdge(i, j, gen, "ForestGreen") };
+        if (Y.gCt > 0) { loadEdge(i, j, gen, "green") };
         if (Y.yCt > 0) { loadEdge(i, j, gen, "yellow") };
-        if (Y.bCt > 0) { loadEdge(i, j, gen, "Aqua") };
+        if (Y.bCt > 0) { loadEdge(i, j, gen, "aqua") };
         if (Y.rCt > 0) { loadEdge(i, j, gen, "red") };
         if (Y.oCt > 0) { loadEdge(i, j, gen, "orange") };
     }
@@ -4535,13 +4455,13 @@ function implementVax(ages,vax){
         Z[nInst].u = j;
         Z[nInst].clr = colr;
         switch (colr) {
-            case "ForestGreen":
+            case "green":
                 Z[nInst].ct = Y.gCt;
                 break;
             case "yellow":
                 Z[nInst].ct = Y.yCt;
                 break;
-            case "Aqua":
+            case "aqua":
                 Z[nInst].ct = Y.bCt;
                 break;
             case "red":
@@ -4634,7 +4554,7 @@ function implementVax(ages,vax){
         let tox = N[tou].x;
         let toy = N[tou].y;
 
-        drawNLine(A.x, A.y, tox, toy, "Gray");
+        drawNLine(A.x, A.y, tox, toy, "midnightblue");
         drawNPath(n, e);
         let timePassed = Date.now() - Nstart;
         if (timePassed >= LFACTOR * e) {
@@ -4714,22 +4634,17 @@ function implementVax(ages,vax){
 
 /**********************************************************************************/
 var HALTgen = 90000;
-var oneTime = 0;
 function HALT(){
-
+      wrapUp();
       if (gen > HALTgen && HALTgen >0){
-          console_log("HALTgen maximum generations reached at gen"+gen);
-          wrapUp();
+          alertX("HALTgen maximum generations reached at gen"+gen);
           MODE="manual";
           clearInterval(clockTimer);
           return;
       }
       if (oneTime == 0) {
-          console_log("Self-terminate with no further infectives at gen "+gen);
-          wrapUp();
+          alertX("Self-terminate with no further infectives at gen "+gen);
           oneTime = 1;
-          MODE="manual";
-          clearInterval(clockTimer);
           return;
       }
 
@@ -4747,152 +4662,10 @@ function HALT(){
 }
 
 
-    var wrapGreen = 0;
-    var wrapYellow = 0;
-    var wrapBlue = 0;
-    var wrapRed = 0;
-    var wrapOrange = 0;
-    var totGreen = 0;
-    var totYellow = 0;
-    var totBlue = 0;
-    var totRed = 0;
-    var totOrange = 0;
-
-
     function wrapUp(){
         console_log("\nWRAPUP: gen" +gen);
-        console_log("calculated R0: "+R0);
-        console_log(" ");
-
-        if (M.ID == "MV-LTC"){
-            wrapup_mvLTC();
-            return;
-        };
-        if (M.ID == "Reaction1"){
-            wrapupReaction1();
-            return;
-        }
+        console_log("calculated R0: "+R0.toFixed(2));
     }
-
-    function wrapupReaction1(){
-        console_log("Wrapup Reaction1 results");
-
-        for (k=0; k<M.UCt; k++){
-            findReactmax(k);
-        }
-        stepThrough(0,1);
-        console_log(" ");
-        stepThrough(2,3);
-        console_log(" ");
-        stepThrough(4,5);
-    }
-
-    function findReactmax(k){
-        let i, max, r, ptr;
-        let A;
-        A = U[k].infectHere;
-        r = U[k].logRed.length;
-        if (A == "" || A === undefined) { return }
-          else {
-            max = 0; ptr = 0;
-            console_log("First infection in U"+k+" at gen "+A[0][0]);
-            for (i=0;i<r;i++){
-              if (U[k].logRed[i] > max){
-                  max = U[k].logRed[i];
-                  ptr = i;
-              }            }
-            console_log("Max infections in U"+k+" at gen "+ptr+": "+max);
-            console_log(" ");
-        }
-    }
-
-    function stepThrough(a,b){
-        let min;
-        if (U[a].infectHere[0]===undefined || U[b].infectHere===undefined) {return};
-        min = U[a].infectHere[0][0];
-        if (U[b].infectHere[0][0] < min){
-            min = U[b].infectHere[0][0]
-        }
-        let step = 200;
-        let limit = gen;
-        let i;
-        for (i=min; i<gen; i+=200){
-            console_log("U"+a+":"+U[a].logRed[i]+" at gen"+i);
-            console_log("U"+b+":"+U[b].logRed[i]+" at gen"+i);
-        }
-    }
-
-    function wrapup_mvLTC(){
-        totGreen = 0;
-        totYellow = 0;
-        totBlue = 0;
-        totRed = 0;
-        totOrange = 0;
-
-
-        wrapCt("Student GpA",0,9);
-        wrapCt("Student GpB",10,19);
-        wrapCt("Student GpC",20,29);
-        wrapCt("Teachers",30,35);
-        wrapCt("Spouses",36,40);
-        wrapCt("Grandparents",41,47);
-        wrapCt("LTC Staff DayShift",48,54);
-        wrapCt("LTC Staff Evenight Shift",55,58);
-        wrapCt("LTC Staff Night Shift",59,61);
-        wrapCt("LTC Residents with Fam",62,71);
-        wrapCt("LTC Residents NO Fam",72,89);
-        wrapCt("Bar Staff",90,99);
-        console_log(" Total G-Y-B-R-O = "+totGreen+" "+totYellow+" "+totBlue+" "+totRed+" "+totOrange);
-        let i;
-        for (i=0;i<M.UCt;i++){
-            let r = U[i].infectHere.length-1;
-            console_log(U[i].infectHere[r][1]+" infections happened in U"+i+"  "+UN[i]);
-        }
-    }
-
-    function wrapCt(a,b,c){
-        wrapGreen = 0;
-        wrapYellow = 0;
-        wrapBlue = 0;
-        wrapRed = 0;
-        wrapOrange = 0;
-
-        let x = (c-b+1);
-        let j;
-        for (j=b; j<c+1; j++){
-            switch(P[j].state){
-                case "green":
-                    wrapGreen++;
-                    break;
-                case "yellow":
-                    wrapYellow++;
-                    break;
-                case "blue":
-                    wrapBlue++;
-                    break;
-                case "red":
-                    wrapRed++;
-                case "orange":
-                    wrapOrange++;
-                    break;
-                default:
-                    break;
-            }
-          }
-          totGreen = totGreen + wrapGreen;
-          totYellow = totYellow + wrapYellow;
-          totBlue = totBlue+ wrapBlue;
-          totRed = totRed + wrapRed;
-          totOrange = totOrange + wrapOrange;
-          console_log(a);
-          console_log("     Green     "+wrapGreen);
-          console_log("     Yellow    "+wrapYellow);
-          console_log("     Blue      "+wrapBlue);
-          console_log("     Red       "+wrapRed);
-          console_log("     Orange    "+wrapOrange);
-          console_log(" ");
-    }
-
 
     function alertX (x){
         console_log("ALERT! "+x);
@@ -4922,39 +4695,38 @@ function HALT(){
 
 
 /* this initialization is for JSON parameter version
+        startParam();
+        startPopFile();
+        startCaseFile();
+        initEpiCenters();
+        if (use_html) {
+            initGUI();
+        }
+        load();
+        load();
+        load();
+        auto();
 
 */
-var use_html = false;
-let x = GetURLParameter("use_html");
-if (x===undefined){
-  x = true
-}
-if (x == "false"){
-  use_html = false
-} else {
-  use_html = true
-}
+
+var oneTime = 0;
 
 
-
-
-var transfer = new CreateTransfer();
-if (use_html) {
-      initMV();
-      blackCanvas("graph");
+function initGetFiles(){
       GUIstyle("getFile","block");
-} else {
-      startParam();
-      startPopFile();
-      startCaseFile();
-      initEpiCenters();
-      load();
-      load();
-      load();
-      auto();
+      //csvAct = "Param"
+      //GUI("getFile","block");
 }
 
-
+      initMV();
+      initPCtUCt();
+      initUniverse();
+      initPopn(M.PCt);
+      initGUI();
+      initTicket();
+      initGetFiles();
+//      load();
+//      load();
 
 
 

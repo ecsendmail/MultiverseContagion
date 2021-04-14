@@ -2274,7 +2274,7 @@ function implementVax(ages,vax){
                         Q.allTouch++;
                         // console_log("overlap g,h = "+g+","+k[j]+": "+G.state+","+F.state);
                 }
-                if (touchFlag && (wU != 8)) {
+        				if (touchFlag && (wU != 8)) {
                       VLtransfer(g, k[j]);
                       return;
                 }
@@ -3002,15 +3002,13 @@ function implementVax(ages,vax){
         chart4.options.data[4].dataPoints = U[vU].endOrange;
 
         chart6.options.data[0].dataPoints = [];
-        chart6.options.data[0].dataPoints = U[vU].endGreen;
+        chart6.options.data[0].dataPoints = U[vU].endYellow;
         chart6.options.data[1].dataPoints = [];
-        chart6.options.data[1].dataPoints = U[vU].endYellow;
+        chart6.options.data[1].dataPoints = U[vU].endBlue;
         chart6.options.data[2].dataPoints = [];
-        chart6.options.data[2].dataPoints = U[vU].endBlue;;
+        chart6.options.data[2].dataPoints = U[vU].endRed;;
         chart6.options.data[3].dataPoints = [];
-        chart6.options.data[3].dataPoints = U[vU].endRed;
-        chart6.options.data[4].dataPoints = [];
-        chart6.options.data[4].dataPoints = U[vU].endOrange;
+        chart6.options.data[3].dataPoints = U[vU].endOrange;
     }
 
     function tabulate() {
@@ -3653,10 +3651,8 @@ function implementVax(ages,vax){
               width: 500,
               data: [{
                   type: "column",
-                  color: "orange",
-                  showInLegend: true,
+                  color: "red",
                   legendMarkerColor: "grey",
-                  legendText: "Days since beginning",
                   dataPoints: U[vU].endCases
               }]
           });
@@ -3678,9 +3674,7 @@ function implementVax(ages,vax){
             data: [{
                 type: "column",
                 color: "red",
-                showInLegend: true,
                 legendMarkerColor: "grey",
-                legendText: "Days since beginning",
                 dataPoints: U[vU].endRedDelta
             }]
         });
@@ -3702,9 +3696,7 @@ function implementVax(ages,vax){
             },
             data: [{
                 type: "line",
-                showInLegend: true,
                 legendMarkerColor: "grey",
-                legendText: "Days since beginning",
                 dataPoints: U[vU].endVelocity
             }]
         });
@@ -3720,10 +3712,10 @@ function implementVax(ages,vax){
             colorSet: "Overview GYBRO",
             zoomEnabled: true,
             title: {
-                text: "Progress of Transitions"
+                text: "Progress of Transitions (Totals)"
             },
             data: [{
-                type: "line",
+              type: "line",
                 fillopacity: 0.2,
                 dataPoints: U[vU].endGreen
             }, {
@@ -3738,7 +3730,7 @@ function implementVax(ages,vax){
                 type: "line",
                 fillopacity: 0.2,
                 dataPoints: U[vU].endRed
-            }, {
+           }, {
                 type: "line",
                 fillopacity: 0.2,
                 dataPoints: U[vU].endOrange
@@ -3748,33 +3740,29 @@ function implementVax(ages,vax){
 
 
     function initChart06() {
-        CanvasJS.addColorSet("Overview GYBRO",
-            [
-                "#008000",
-                "#FFD700",
-                "#1E90FF",
-                "#FF0000",
-                "#FF8C00",
-            ]);
+
+      CanvasJS.addColorSet("Special YBRO",
+          [
+              "#FFD700",
+              "#1E90FF",
+              "#FF0000",
+              "#FF8C00",
+          ]);
+
 
         chart6 = new CanvasJS.Chart("chartContainer6", {
-            colorSet: "Overview GYBRO",
+            colorSet: "Special YBRO",
             zoomEnabled: true,
             title: {
-                text: "Progress of Epidemic"
+                text: "Progress of Epidemic (Daily)"
             },
             axisY2: {
-                title: "Y + R"
+                title: "Red"
             },
             axisY: {
                 title: "Counts"
             },
             data: [{
-                type: "stackedColumn",
-                markerType: "none",
-                dataPoints: U[vU].endGreen
-
-            }, {
                 type: "stackedColumn",
                 markerType: "none",
                 dataPoints: U[vU].endYellow
@@ -3784,18 +3772,20 @@ function implementVax(ages,vax){
                 dataPoints: U[vU].endBlue
             }, {
                 type: "stackedColumn",
-                markerType: "none",
+                legendMarkerColor: "grey",
                 dataPoints: U[vU].endRed
             }, {
                 type: "stackedColumn",
                 markerType: "none",
                 dataPoints: U[vU].endOrange
-            }]
+            }],
         });
     }
 
 
     function initChart07() {
+
+
         chart7 = new CanvasJS.Chart("chartContainer7", {
             colorSet: "Overview GYBRO",
             zoomEnabled: true,
@@ -4400,7 +4390,6 @@ function implementVax(ages,vax){
         gctx.font = "30px Arial";
         gctx.fillStyle = "Yellow";
         gctx.fillText("Day: " + DD + "   HR: " + HH,50,760);
-        gctx.fillText("Gen: " + gen, 50,800);
     }
 
     function graphStop() {
@@ -4521,9 +4510,9 @@ function implementVax(ages,vax){
 
     function markEdges(i, j, gen) {
         let Y = U[i].dep[gen][j];
-        if (Y.gCt > 0) { loadEdge(i, j, gen, "ForestGreen") };
+        if (Y.gCt > 0) { loadEdge(i, j, gen, "green") };
         if (Y.yCt > 0) { loadEdge(i, j, gen, "yellow") };
-        if (Y.bCt > 0) { loadEdge(i, j, gen, "Aqua") };
+        if (Y.bCt > 0) { loadEdge(i, j, gen, "aqua") };
         if (Y.rCt > 0) { loadEdge(i, j, gen, "red") };
         if (Y.oCt > 0) { loadEdge(i, j, gen, "orange") };
     }
@@ -4535,13 +4524,13 @@ function implementVax(ages,vax){
         Z[nInst].u = j;
         Z[nInst].clr = colr;
         switch (colr) {
-            case "ForestGreen":
+            case "green":
                 Z[nInst].ct = Y.gCt;
                 break;
             case "yellow":
                 Z[nInst].ct = Y.yCt;
                 break;
-            case "Aqua":
+            case "aqua":
                 Z[nInst].ct = Y.bCt;
                 break;
             case "red":
@@ -4634,7 +4623,7 @@ function implementVax(ages,vax){
         let tox = N[tou].x;
         let toy = N[tou].y;
 
-        drawNLine(A.x, A.y, tox, toy, "Gray");
+        drawNLine(A.x, A.y, tox, toy, "midnightblue");
         drawNPath(n, e);
         let timePassed = Date.now() - Nstart;
         if (timePassed >= LFACTOR * e) {
@@ -4780,11 +4769,13 @@ function HALT(){
         for (k=0; k<M.UCt; k++){
             findReactmax(k);
         }
-        stepThrough(0,1);
+        stepThrough(2,5);
         console_log(" ");
-        stepThrough(2,3);
+        stepThrough(5,8);
         console_log(" ");
-        stepThrough(4,5);
+        stepThrough(1,4);
+        console_log(" ");
+        stepThrough(4,7);
     }
 
     function findReactmax(k){
@@ -4808,15 +4799,15 @@ function HALT(){
 
     function stepThrough(a,b){
         let min;
-        if (U[a].infectHere[0]===undefined || U[b].infectHere===undefined) {return};
+        if (U[a].infectHere[0]===undefined || U[b].infectHere[0]===undefined) {return};
         min = U[a].infectHere[0][0];
         if (U[b].infectHere[0][0] < min){
             min = U[b].infectHere[0][0]
         }
-        let step = 200;
+        let step = 100;
         let limit = gen;
         let i;
-        for (i=min; i<gen; i+=200){
+        for (i=min; i<gen; i+=100){
             console_log("U"+a+":"+U[a].logRed[i]+" at gen"+i);
             console_log("U"+b+":"+U[b].logRed[i]+" at gen"+i);
         }
