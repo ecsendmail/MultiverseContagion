@@ -1,0 +1,463 @@
+Some messages have been moved to the Issues panel.
+2021.03.16 AsymmetryIndex.html:274 Total Tree Size 1100
+2021.03.16 AsymmetryIndex.html:274 roots of trees to be processed 0,1,22
+2021.03.16 AsymmetryIndex.html:274 File {name: "2021.04.15RStar14Trees.csv", lastModified: 1618506072242, lastModifiedDate: Thu Apr 15 2021 10:01:12 GMT-0700 (Pacific Daylight Time), webkitRelativePath: "", size: 6768, …}
+2021.03.16 AsymmetryIndex.html:274 
+ Processing root node 0
+2021.03.16 AsymmetryIndex.html:274        +0  (13)
+2021.03.16 AsymmetryIndex.html:274           ++13  (89)
+2021.03.16 AsymmetryIndex.html:274              +++89  (8 70)
+2021.03.16 AsymmetryIndex.html:274                 ++++8  (155 409)
+2021.03.16 AsymmetryIndex.html:274                    +++++155  (170*)
+2021.03.16 AsymmetryIndex.html:274                    +++++409  (204)
+2021.03.16 AsymmetryIndex.html:274                       ++++++204  (241 111 202)
+2021.03.16 AsymmetryIndex.html:274                          +++++++241  (262)
+2021.03.16 AsymmetryIndex.html:274                             ++++++++262  (209)
+2021.03.16 AsymmetryIndex.html:274                                +++++++++209  (233*)
+2021.03.16 AsymmetryIndex.html:274                          +++++++111  (606)
+2021.03.16 AsymmetryIndex.html:274                             ++++++++606  (603 698 171* 7*)
+2021.03.16 AsymmetryIndex.html:274                                +++++++++603  (651 629* 154* 694)
+2021.03.16 AsymmetryIndex.html:274                                   ++++++++++651  (678 679* 646)
+2021.03.16 AsymmetryIndex.html:274                                      +++++++++++678  (607)
+2021.03.16 AsymmetryIndex.html:274                                         ++++++++++++607  (657* 667*)
+2021.03.16 AsymmetryIndex.html:274                                      +++++++++++646  (630 632*)
+2021.03.16 AsymmetryIndex.html:274                                         ++++++++++++630  (689)
+2021.03.16 AsymmetryIndex.html:274                                            +++++++++++++689  (620 609)
+2021.03.16 AsymmetryIndex.html:274                                               ++++++++++++++620  (617)
+2021.03.16 AsymmetryIndex.html:274                                                  +++++++++++++++617  (675*)
+2021.03.16 AsymmetryIndex.html:274                                               ++++++++++++++609  (175* 107)
+2021.03.16 AsymmetryIndex.html:274                                                  +++++++++++++++107  (169* 68*)
+2021.03.16 AsymmetryIndex.html:274                                   ++++++++++694  (650 640*)
+2021.03.16 AsymmetryIndex.html:274                                      +++++++++++650  (654)
+2021.03.16 AsymmetryIndex.html:274                                         ++++++++++++654  (614*)
+2021.03.16 AsymmetryIndex.html:274                                +++++++++698  (618* 628)
+2021.03.16 AsymmetryIndex.html:274                                   ++++++++++628  (695)
+2021.03.16 AsymmetryIndex.html:274                                      +++++++++++695  (690 672 623 626)
+2021.03.16 AsymmetryIndex.html:274                                         ++++++++++++690  (671 684)
+2021.03.16 AsymmetryIndex.html:274                                            +++++++++++++671  (611*)
+2021.03.16 AsymmetryIndex.html:274                                            +++++++++++++684  (627*)
+2021.03.16 AsymmetryIndex.html:274                                         ++++++++++++672  (625*)
+2021.03.16 AsymmetryIndex.html:274                                         ++++++++++++623  (619)
+2021.03.16 AsymmetryIndex.html:274                                            +++++++++++++619  (605*)
+2021.03.16 AsymmetryIndex.html:274                                         ++++++++++++626  (687* 637* 669 682* 604)
+2021.03.16 AsymmetryIndex.html:274                                            +++++++++++++669  (659*)
+2021.03.16 AsymmetryIndex.html:274                                            +++++++++++++604  (658 674* 309)
+2021.03.16 AsymmetryIndex.html:274                                               ++++++++++++++658  (660* 697* 680*)
+2021.03.16 AsymmetryIndex.html:274                                               ++++++++++++++309  (157* 312)
+2021.03.16 AsymmetryIndex.html:274                                                  +++++++++++++++312  (361)
+2021.03.16 AsymmetryIndex.html:274                                                     ++++++++++++++++361  (381)
+2021.03.16 AsymmetryIndex.html:274                                                        +++++++++++++++++381  (357* 302)
+2021.03.16 AsymmetryIndex.html:274                                                           ++++++++++++++++++302  (306)
+2021.03.16 AsymmetryIndex.html:274                                                              +++++++++++++++++++306  (324 602)
+2021.03.16 AsymmetryIndex.html:274                                                                 ++++++++++++++++++++324  (339*)
+2021.03.16 AsymmetryIndex.html:274                                                                 ++++++++++++++++++++602  (663)
+2021.03.16 AsymmetryIndex.html:274                                                                    +++++++++++++++++++++663  (634)
+2021.03.16 AsymmetryIndex.html:274                                                                       ++++++++++++++++++++++634  (653*)
+2021.03.16 AsymmetryIndex.html:274                          +++++++202  (245 125 236* 161)
+2021.03.16 AsymmetryIndex.html:274                             ++++++++245  (237 257* 224 225)
+2021.03.16 AsymmetryIndex.html:274                                +++++++++237  (228* 252*)
+2021.03.16 AsymmetryIndex.html:274                                +++++++++224  (200*)
+2021.03.16 AsymmetryIndex.html:274                                +++++++++225  (275*)
+2021.03.16 AsymmetryIndex.html:274                             ++++++++125  (174)
+2021.03.16 AsymmetryIndex.html:274                                +++++++++174  (608 809 180)
+2021.03.16 AsymmetryIndex.html:274                                   ++++++++++608  (685* 190 805)
+2021.03.16 AsymmetryIndex.html:274                                      +++++++++++190  (109 801)
+2021.03.16 AsymmetryIndex.html:274                                         ++++++++++++109  (105* 401 133*)
+2021.03.16 AsymmetryIndex.html:274                                            +++++++++++++401  (476 405 490 101 191 410)
+2021.03.16 AsymmetryIndex.html:274                                               ++++++++++++++476  (488* 427)
+2021.03.16 AsymmetryIndex.html:274                                                  +++++++++++++++427  (404 408*)
+2021.03.16 AsymmetryIndex.html:274                                                     ++++++++++++++++404  (406 167)
+2021.03.16 AsymmetryIndex.html:274                                                        +++++++++++++++++406  (502 474*)
+2021.03.16 AsymmetryIndex.html:274                                                           ++++++++++++++++++502  (525* 554*)
+2021.03.16 AsymmetryIndex.html:274                                                        +++++++++++++++++167  (165)
+2021.03.16 AsymmetryIndex.html:274                                                           ++++++++++++++++++165  (118)
+2021.03.16 AsymmetryIndex.html:274                                                              +++++++++++++++++++118  (3*)
+2021.03.16 AsymmetryIndex.html:274                                               ++++++++++++++405  (432 438 452 418* 479)
+2021.03.16 AsymmetryIndex.html:274                                                  +++++++++++++++432  (459 449)
+2021.03.16 AsymmetryIndex.html:274                                                     ++++++++++++++++459  (494*)
+2021.03.16 AsymmetryIndex.html:274                                                     ++++++++++++++++449  (497*)
+2021.03.16 AsymmetryIndex.html:274                                                  +++++++++++++++438  (425* 473*)
+2021.03.16 AsymmetryIndex.html:274                                                  +++++++++++++++452  (478)
+2021.03.16 AsymmetryIndex.html:274                                                     ++++++++++++++++478  (491)
+2021.03.16 AsymmetryIndex.html:274                                                        +++++++++++++++++491  (493*)
+2021.03.16 AsymmetryIndex.html:274                                                  +++++++++++++++479  (458*)
+2021.03.16 AsymmetryIndex.html:274                                               ++++++++++++++490  (435* 453*)
+2021.03.16 AsymmetryIndex.html:274                                               ++++++++++++++101  (507 144* 12*)
+2021.03.16 AsymmetryIndex.html:274                                                  +++++++++++++++507  (571*)
+2021.03.16 AsymmetryIndex.html:274                                               ++++++++++++++191  (186*)
+2021.03.16 AsymmetryIndex.html:274                                               ++++++++++++++410  (451 487)
+2021.03.16 AsymmetryIndex.html:274                                                  +++++++++++++++451  (403 463*)
+2021.03.16 AsymmetryIndex.html:274                                                     ++++++++++++++++403  (433)
+2021.03.16 AsymmetryIndex.html:274                                                        +++++++++++++++++433  (443 448*)
+2021.03.16 AsymmetryIndex.html:274                                                           ++++++++++++++++++443  (445* 454)
+2021.03.16 AsymmetryIndex.html:274                                                              +++++++++++++++++++454  (419 468* 441)
+2021.03.16 AsymmetryIndex.html:274                                                                 ++++++++++++++++++++419  (430)
+2021.03.16 AsymmetryIndex.html:274                                                                    +++++++++++++++++++++430  (447)
+2021.03.16 AsymmetryIndex.html:274                                                                       ++++++++++++++++++++++447  (417*)
+2021.03.16 AsymmetryIndex.html:274                                                                 ++++++++++++++++++++441  (423*)
+2021.03.16 AsymmetryIndex.html:274                                                  +++++++++++++++487  (461*)
+2021.03.16 AsymmetryIndex.html:274                                         ++++++++++++801  (876* 899 600 147 879 810* 151*)
+2021.03.16 AsymmetryIndex.html:274                                            +++++++++++++899  (854)
+2021.03.16 AsymmetryIndex.html:274                                               ++++++++++++++854  (811)
+2021.03.16 AsymmetryIndex.html:274                                                  +++++++++++++++811  (888)
+2021.03.16 AsymmetryIndex.html:274                                                     ++++++++++++++++888  (893 803)
+2021.03.16 AsymmetryIndex.html:274                                                        +++++++++++++++++893  (819* 820*)
+2021.03.16 AsymmetryIndex.html:274                                                        +++++++++++++++++803  (836* 849)
+2021.03.16 AsymmetryIndex.html:274                                                           ++++++++++++++++++849  (818* 878)
+2021.03.16 AsymmetryIndex.html:274                                                              +++++++++++++++++++878  (807)
+2021.03.16 AsymmetryIndex.html:274                                                                 ++++++++++++++++++++807  (826)
+2021.03.16 AsymmetryIndex.html:274                                                                    +++++++++++++++++++++826  (855 822*)
+2021.03.16 AsymmetryIndex.html:274                                                                       ++++++++++++++++++++++855  (857*)
+2021.03.16 AsymmetryIndex.html:274                                            +++++++++++++600  (647)
+2021.03.16 AsymmetryIndex.html:274                                               ++++++++++++++647  (649)
+2021.03.16 AsymmetryIndex.html:274                                                  +++++++++++++++649  (670* 635*)
+2021.03.16 AsymmetryIndex.html:274                                            +++++++++++++147  (195)
+2021.03.16 AsymmetryIndex.html:274                                               ++++++++++++++195  (506 123)
+2021.03.16 AsymmetryIndex.html:274                                                  +++++++++++++++506  (146* 545)
+2021.03.16 AsymmetryIndex.html:274                                                     ++++++++++++++++545  (567)
+2021.03.16 AsymmetryIndex.html:274                                                        +++++++++++++++++567  (562)
+2021.03.16 AsymmetryIndex.html:274                                                           ++++++++++++++++++562  (515*)
+2021.03.16 AsymmetryIndex.html:274                                                  +++++++++++++++123  (131*)
+2021.03.16 AsymmetryIndex.html:274                                            +++++++++++++879  (828)
+2021.03.16 AsymmetryIndex.html:274                                               ++++++++++++++828  (821* 844)
+2021.03.16 AsymmetryIndex.html:274                                                  +++++++++++++++844  (856*)
+2021.03.16 AsymmetryIndex.html:274                                      +++++++++++805  (851*)
+2021.03.16 AsymmetryIndex.html:274                                   ++++++++++809  (187* 117*)
+2021.03.16 AsymmetryIndex.html:274                                   ++++++++++180  (153* 704 108*)
+2021.03.16 AsymmetryIndex.html:274                                      +++++++++++704  (745 110*)
+2021.03.16 AsymmetryIndex.html:274                                         ++++++++++++745  (763)
+2021.03.16 AsymmetryIndex.html:274                                            +++++++++++++763  (726*)
+2021.03.16 AsymmetryIndex.html:274                             ++++++++161  (709)
+2021.03.16 AsymmetryIndex.html:274                                +++++++++709  (183 706 148 742)
+2021.03.16 AsymmetryIndex.html:274                                   ++++++++++183  (205*)
+2021.03.16 AsymmetryIndex.html:274                                   ++++++++++706  (303)
+2021.03.16 AsymmetryIndex.html:274                                      +++++++++++303  (321 307 336 300 360)
+2021.03.16 AsymmetryIndex.html:274                                         ++++++++++++321  (345* 331)
+2021.03.16 AsymmetryIndex.html:274                                            +++++++++++++331  (353*)
+2021.03.16 AsymmetryIndex.html:274                                         ++++++++++++307  (503 337*)
+2021.03.16 AsymmetryIndex.html:274                                            +++++++++++++503  (150* 574*)
+2021.03.16 AsymmetryIndex.html:274                                         ++++++++++++336  (386)
+2021.03.16 AsymmetryIndex.html:274                                            +++++++++++++386  (395*)
+2021.03.16 AsymmetryIndex.html:274                                         ++++++++++++300  (367* 370* 341)
+2021.03.16 AsymmetryIndex.html:274                                            +++++++++++++341  (389 332*)
+2021.03.16 AsymmetryIndex.html:274                                               ++++++++++++++389  (368*)
+2021.03.16 AsymmetryIndex.html:274                                         ++++++++++++360  (351*)
+2021.03.16 AsymmetryIndex.html:274                                   ++++++++++148  (160)
+2021.03.16 AsymmetryIndex.html:274                                      +++++++++++160  (119* 156 2)
+2021.03.16 AsymmetryIndex.html:274                                         ++++++++++++156  (164)
+2021.03.16 AsymmetryIndex.html:274                                            +++++++++++++164  (197*)
+2021.03.16 AsymmetryIndex.html:274                                         ++++++++++++2  (201)
+2021.03.16 AsymmetryIndex.html:274                                            +++++++++++++201  (221 122 203)
+2021.03.16 AsymmetryIndex.html:274                                               ++++++++++++++221  (227 297*)
+2021.03.16 AsymmetryIndex.html:274                                                  +++++++++++++++227  (214* 265)
+2021.03.16 AsymmetryIndex.html:274                                                     ++++++++++++++++265  (235*)
+2021.03.16 AsymmetryIndex.html:274                                               ++++++++++++++122  (182*)
+2021.03.16 AsymmetryIndex.html:274                                               ++++++++++++++203  (163* 152)
+2021.03.16 AsymmetryIndex.html:274                                                  +++++++++++++++152  (104)
+2021.03.16 AsymmetryIndex.html:274                                                     ++++++++++++++++104  (135*)
+2021.03.16 AsymmetryIndex.html:274                                   ++++++++++742  (778)
+2021.03.16 AsymmetryIndex.html:274                                      +++++++++++778  (751*)
+2021.03.16 AsymmetryIndex.html:274                 ++++70  (93 61*)
+2021.03.16 AsymmetryIndex.html:274                    +++++93  (81*)
+2021.03.16 AsymmetryIndex.html:274 
+Asymmetry Calculations
+
+2021.03.16 AsymmetryIndex.html:274      node 0, subtrees 1
+2021.03.16 AsymmetryIndex.html:274      Expected % 100.00
+2021.03.16 AsymmetryIndex.html:274      Max divergence 0.00
+2021.03.16 AsymmetryIndex.html:274 node 13, subtree size267, % of whole = 99.63
+2021.03.16 AsymmetryIndex.html:274      component divergence 0.37
+2021.03.16 AsymmetryIndex.html:274 sum divergences = 0.37
+2021.03.16 AsymmetryIndex.html:274 Asymmetry Index = Infinity [0..1]
+
+2021.03.16 AsymmetryIndex.html:274  
+2021.03.16 AsymmetryIndex.html:274 node 0 268
+2021.03.16 AsymmetryIndex.html:274 node 2 14
+2021.03.16 AsymmetryIndex.html:274 node 8 261
+2021.03.16 AsymmetryIndex.html:274 node 13 267
+2021.03.16 AsymmetryIndex.html:274 node 70 3
+2021.03.16 AsymmetryIndex.html:274 node 89 266
+2021.03.16 AsymmetryIndex.html:274 node 93 1
+2021.03.16 AsymmetryIndex.html:274 node 101 4
+2021.03.16 AsymmetryIndex.html:274 node 104 1
+2021.03.16 AsymmetryIndex.html:274 node 107 2
+2021.03.16 AsymmetryIndex.html:274 node 109 61
+2021.03.16 AsymmetryIndex.html:274 node 111 69
+2021.03.16 AsymmetryIndex.html:274 node 118 1
+2021.03.16 AsymmetryIndex.html:274 node 122 1
+2021.03.16 AsymmetryIndex.html:274 node 123 1
+2021.03.16 AsymmetryIndex.html:274 node 125 120
+2021.03.16 AsymmetryIndex.html:274 node 147 9
+2021.03.16 AsymmetryIndex.html:274 node 148 20
+2021.03.16 AsymmetryIndex.html:274 node 152 2
+2021.03.16 AsymmetryIndex.html:274 node 155 1
+2021.03.16 AsymmetryIndex.html:274 node 156 2
+2021.03.16 AsymmetryIndex.html:274 node 160 19
+2021.03.16 AsymmetryIndex.html:274 node 161 50
+2021.03.16 AsymmetryIndex.html:274 node 164 1
+2021.03.16 AsymmetryIndex.html:274 node 165 2
+2021.03.16 AsymmetryIndex.html:274 node 167 3
+2021.03.16 AsymmetryIndex.html:274 node 174 119
+2021.03.16 AsymmetryIndex.html:274 node 180 7
+2021.03.16 AsymmetryIndex.html:274 node 183 1
+2021.03.16 AsymmetryIndex.html:274 node 190 103
+2021.03.16 AsymmetryIndex.html:274 node 191 1
+2021.03.16 AsymmetryIndex.html:274 node 195 8
+2021.03.16 AsymmetryIndex.html:274 node 201 13
+2021.03.16 AsymmetryIndex.html:274 node 202 182
+2021.03.16 AsymmetryIndex.html:274 node 203 4
+2021.03.16 AsymmetryIndex.html:274 node 204 257
+2021.03.16 AsymmetryIndex.html:274 node 209 1
+2021.03.16 AsymmetryIndex.html:274 node 221 5
+2021.03.16 AsymmetryIndex.html:274 node 224 1
+2021.03.16 AsymmetryIndex.html:274 node 225 1
+2021.03.16 AsymmetryIndex.html:274 node 227 3
+2021.03.16 AsymmetryIndex.html:274 node 237 2
+2021.03.16 AsymmetryIndex.html:274 node 241 3
+2021.03.16 AsymmetryIndex.html:274 node 245 8
+2021.03.16 AsymmetryIndex.html:274 node 262 2
+2021.03.16 AsymmetryIndex.html:274 node 265 1
+2021.03.16 AsymmetryIndex.html:274 node 300 6
+2021.03.16 AsymmetryIndex.html:274 node 302 7
+2021.03.16 AsymmetryIndex.html:274 node 303 21
+2021.03.16 AsymmetryIndex.html:274 node 306 6
+2021.03.16 AsymmetryIndex.html:274 node 307 4
+2021.03.16 AsymmetryIndex.html:274 node 309 13
+2021.03.16 AsymmetryIndex.html:274 node 312 11
+2021.03.16 AsymmetryIndex.html:274 node 321 3
+2021.03.16 AsymmetryIndex.html:274 node 324 1
+2021.03.16 AsymmetryIndex.html:274 node 331 1
+2021.03.16 AsymmetryIndex.html:274 node 336 2
+2021.03.16 AsymmetryIndex.html:274 node 341 3
+2021.03.16 AsymmetryIndex.html:274 node 360 1
+2021.03.16 AsymmetryIndex.html:274 node 361 10
+2021.03.16 AsymmetryIndex.html:274 node 381 9
+2021.03.16 AsymmetryIndex.html:274 node 386 1
+2021.03.16 AsymmetryIndex.html:274 node 389 1
+2021.03.16 AsymmetryIndex.html:274 node 401 58
+2021.03.16 AsymmetryIndex.html:274 node 403 12
+2021.03.16 AsymmetryIndex.html:274 node 404 9
+2021.03.16 AsymmetryIndex.html:274 node 405 15
+2021.03.16 AsymmetryIndex.html:274 node 406 4
+2021.03.16 AsymmetryIndex.html:274 node 409 258
+2021.03.16 AsymmetryIndex.html:274 node 410 17
+2021.03.16 AsymmetryIndex.html:274 node 419 3
+2021.03.16 AsymmetryIndex.html:274 node 427 11
+2021.03.16 AsymmetryIndex.html:274 node 430 2
+2021.03.16 AsymmetryIndex.html:274 node 432 4
+2021.03.16 AsymmetryIndex.html:274 node 433 11
+2021.03.16 AsymmetryIndex.html:274 node 438 2
+2021.03.16 AsymmetryIndex.html:274 node 441 1
+2021.03.16 AsymmetryIndex.html:274 node 443 9
+2021.03.16 AsymmetryIndex.html:274 node 447 1
+2021.03.16 AsymmetryIndex.html:274 node 449 1
+2021.03.16 AsymmetryIndex.html:274 node 451 14
+2021.03.16 AsymmetryIndex.html:274 node 452 3
+2021.03.16 AsymmetryIndex.html:274 node 454 7
+2021.03.16 AsymmetryIndex.html:274 node 459 1
+2021.03.16 AsymmetryIndex.html:274 node 476 13
+2021.03.16 AsymmetryIndex.html:274 node 478 2
+2021.03.16 AsymmetryIndex.html:274 node 479 1
+2021.03.16 AsymmetryIndex.html:274 node 487 1
+2021.03.16 AsymmetryIndex.html:274 node 490 2
+2021.03.16 AsymmetryIndex.html:274 node 491 1
+2021.03.16 AsymmetryIndex.html:274 node 502 2
+2021.03.16 AsymmetryIndex.html:274 node 503 2
+2021.03.16 AsymmetryIndex.html:274 node 506 5
+2021.03.16 AsymmetryIndex.html:274 node 507 1
+2021.03.16 AsymmetryIndex.html:274 node 545 3
+2021.03.16 AsymmetryIndex.html:274 node 562 1
+2021.03.16 AsymmetryIndex.html:274 node 567 2
+2021.03.16 AsymmetryIndex.html:274 node 600 4
+2021.03.16 AsymmetryIndex.html:274 node 602 3
+2021.03.16 AsymmetryIndex.html:274 node 603 25
+2021.03.16 AsymmetryIndex.html:274 node 604 19
+2021.03.16 AsymmetryIndex.html:274 node 606 68
+2021.03.16 AsymmetryIndex.html:274 node 607 2
+2021.03.16 AsymmetryIndex.html:274 node 608 107
+2021.03.16 AsymmetryIndex.html:274 node 609 4
+2021.03.16 AsymmetryIndex.html:274 node 617 1
+2021.03.16 AsymmetryIndex.html:274 node 619 1
+2021.03.16 AsymmetryIndex.html:274 node 620 2
+2021.03.16 AsymmetryIndex.html:274 node 623 2
+2021.03.16 AsymmetryIndex.html:274 node 626 25
+2021.03.16 AsymmetryIndex.html:274 node 628 37
+2021.03.16 AsymmetryIndex.html:274 node 630 9
+2021.03.16 AsymmetryIndex.html:274 node 634 1
+2021.03.16 AsymmetryIndex.html:274 node 646 11
+2021.03.16 AsymmetryIndex.html:274 node 647 3
+2021.03.16 AsymmetryIndex.html:274 node 649 2
+2021.03.16 AsymmetryIndex.html:274 node 650 2
+2021.03.16 AsymmetryIndex.html:274 node 651 17
+2021.03.16 AsymmetryIndex.html:274 node 654 1
+2021.03.16 AsymmetryIndex.html:274 node 658 3
+2021.03.16 AsymmetryIndex.html:274 node 663 2
+2021.03.16 AsymmetryIndex.html:274 node 669 1
+2021.03.16 AsymmetryIndex.html:274 node 671 1
+2021.03.16 AsymmetryIndex.html:274 node 672 1
+2021.03.16 AsymmetryIndex.html:274 node 678 3
+2021.03.16 AsymmetryIndex.html:274 node 684 1
+2021.03.16 AsymmetryIndex.html:274 node 689 8
+2021.03.16 AsymmetryIndex.html:274 node 690 4
+2021.03.16 AsymmetryIndex.html:274 node 694 4
+2021.03.16 AsymmetryIndex.html:274 node 695 36
+2021.03.16 AsymmetryIndex.html:274 node 698 39
+2021.03.16 AsymmetryIndex.html:274 node 704 4
+2021.03.16 AsymmetryIndex.html:274 node 706 22
+2021.03.16 AsymmetryIndex.html:274 node 709 49
+2021.03.16 AsymmetryIndex.html:274 node 742 2
+2021.03.16 AsymmetryIndex.html:274 node 745 2
+2021.03.16 AsymmetryIndex.html:274 node 763 1
+2021.03.16 AsymmetryIndex.html:274 node 778 1
+2021.03.16 AsymmetryIndex.html:274 node 801 40
+2021.03.16 AsymmetryIndex.html:274 node 803 9
+2021.03.16 AsymmetryIndex.html:274 node 805 1
+2021.03.16 AsymmetryIndex.html:274 node 807 4
+2021.03.16 AsymmetryIndex.html:274 node 809 2
+2021.03.16 AsymmetryIndex.html:274 node 811 14
+2021.03.16 AsymmetryIndex.html:274 node 826 3
+2021.03.16 AsymmetryIndex.html:274 node 828 3
+2021.03.16 AsymmetryIndex.html:274 node 844 1
+2021.03.16 AsymmetryIndex.html:274 node 849 7
+2021.03.16 AsymmetryIndex.html:274 node 854 15
+2021.03.16 AsymmetryIndex.html:274 node 855 1
+2021.03.16 AsymmetryIndex.html:274 node 878 5
+2021.03.16 AsymmetryIndex.html:274 node 879 4
+2021.03.16 AsymmetryIndex.html:274 node 888 13
+2021.03.16 AsymmetryIndex.html:274 node 893 2
+2021.03.16 AsymmetryIndex.html:274 node 899 16
+2021.03.16 AsymmetryIndex.html:274  
+2021.03.16 AsymmetryIndex.html:274 
+ Processing root node 1
+2021.03.16 AsymmetryIndex.html:274        +1  (45* 52)
+2021.03.16 AsymmetryIndex.html:274           ++52  (44 85 84)
+2021.03.16 AsymmetryIndex.html:274              +++44  (6)
+2021.03.16 AsymmetryIndex.html:274                 ++++6  (702)
+2021.03.16 AsymmetryIndex.html:274                    +++++702  (798* 500 776)
+2021.03.16 AsymmetryIndex.html:274                       ++++++500  (563*)
+2021.03.16 AsymmetryIndex.html:274                       ++++++776  (705)
+2021.03.16 AsymmetryIndex.html:274                          +++++++705  (762 713 738)
+2021.03.16 AsymmetryIndex.html:274                             ++++++++762  (743)
+2021.03.16 AsymmetryIndex.html:274                                +++++++++743  (744 731)
+2021.03.16 AsymmetryIndex.html:274                                   ++++++++++744  (728*)
+2021.03.16 AsymmetryIndex.html:274                                   ++++++++++731  (791* 700)
+2021.03.16 AsymmetryIndex.html:274                                      +++++++++++700  (750)
+2021.03.16 AsymmetryIndex.html:274                                         ++++++++++++750  (708*)
+2021.03.16 AsymmetryIndex.html:274                             ++++++++713  (703)
+2021.03.16 AsymmetryIndex.html:274                                +++++++++703  (208)
+2021.03.16 AsymmetryIndex.html:274                                   ++++++++++208  (267 305)
+2021.03.16 AsymmetryIndex.html:274                                      +++++++++++267  (253 281*)
+2021.03.16 AsymmetryIndex.html:274                                         ++++++++++++253  (292 211*)
+2021.03.16 AsymmetryIndex.html:274                                            +++++++++++++292  (254*)
+2021.03.16 AsymmetryIndex.html:274                                      +++++++++++305  (328)
+2021.03.16 AsymmetryIndex.html:274                                         ++++++++++++328  (320* 311)
+2021.03.16 AsymmetryIndex.html:274                                            +++++++++++++311  (317)
+2021.03.16 AsymmetryIndex.html:274                                               ++++++++++++++317  (380*)
+2021.03.16 AsymmetryIndex.html:274                             ++++++++738  (720)
+2021.03.16 AsymmetryIndex.html:274                                +++++++++720  (792*)
+2021.03.16 AsymmetryIndex.html:274              +++85  (46*)
+2021.03.16 AsymmetryIndex.html:274              +++84  (4)
+2021.03.16 AsymmetryIndex.html:274                 ++++4  (59 53)
+2021.03.16 AsymmetryIndex.html:274                    +++++59  (103)
+2021.03.16 AsymmetryIndex.html:274                       ++++++103  (40 189)
+2021.03.16 AsymmetryIndex.html:274                          +++++++40  (29*)
+2021.03.16 AsymmetryIndex.html:274                          +++++++189  (802 192)
+2021.03.16 AsymmetryIndex.html:274                             ++++++++802  (707)
+2021.03.16 AsymmetryIndex.html:274                                +++++++++707  (715)
+2021.03.16 AsymmetryIndex.html:274                                   ++++++++++715  (789 779)
+2021.03.16 AsymmetryIndex.html:274                                      +++++++++++789  (782* 732*)
+2021.03.16 AsymmetryIndex.html:274                                      +++++++++++779  (786*)
+2021.03.16 AsymmetryIndex.html:274                             ++++++++192  (149)
+2021.03.16 AsymmetryIndex.html:274                                +++++++++149  (172 143)
+2021.03.16 AsymmetryIndex.html:274                                   ++++++++++172  (120*)
+2021.03.16 AsymmetryIndex.html:274                                   ++++++++++143  (400 142*)
+2021.03.16 AsymmetryIndex.html:274                                      +++++++++++400  (181 444)
+2021.03.16 AsymmetryIndex.html:274                                         ++++++++++++181  (196*)
+2021.03.16 AsymmetryIndex.html:274                                         ++++++++++++444  (411* 437)
+2021.03.16 AsymmetryIndex.html:274                                            +++++++++++++437  (462)
+2021.03.16 AsymmetryIndex.html:274                                               ++++++++++++++462  (496* 455)
+2021.03.16 AsymmetryIndex.html:274                                                  +++++++++++++++455  (481* 440*)
+2021.03.16 AsymmetryIndex.html:274                    +++++53  (66)
+2021.03.16 AsymmetryIndex.html:274                       ++++++66  (28*)
+2021.03.16 AsymmetryIndex.html:274 
+Asymmetry Calculations
+
+2021.03.16 AsymmetryIndex.html:274      node 1, subtrees 2
+2021.03.16 AsymmetryIndex.html:274      Expected % 50.00
+2021.03.16 AsymmetryIndex.html:274      Max divergence 100.00
+2021.03.16 AsymmetryIndex.html:274 node 45, subtree size0, % of whole = 0.00
+2021.03.16 AsymmetryIndex.html:274      component divergence 50.00
+2021.03.16 AsymmetryIndex.html:274 node 52, subtree size72, % of whole = 97.30
+2021.03.16 AsymmetryIndex.html:274      component divergence 47.30
+2021.03.16 AsymmetryIndex.html:274 sum divergences = 97.30
+2021.03.16 AsymmetryIndex.html:274 Asymmetry Index = 0.97 [0..1]
+
+2021.03.16 AsymmetryIndex.html:274  
+2021.03.16 AsymmetryIndex.html:274 node 1 74
+2021.03.16 AsymmetryIndex.html:274 node 4 33
+2021.03.16 AsymmetryIndex.html:274 node 6 33
+2021.03.16 AsymmetryIndex.html:274 node 40 1
+2021.03.16 AsymmetryIndex.html:274 node 44 34
+2021.03.16 AsymmetryIndex.html:274 node 52 72
+2021.03.16 AsymmetryIndex.html:274 node 53 2
+2021.03.16 AsymmetryIndex.html:274 node 59 29
+2021.03.16 AsymmetryIndex.html:274 node 66 1
+2021.03.16 AsymmetryIndex.html:274 node 84 34
+2021.03.16 AsymmetryIndex.html:274 node 85 1
+2021.03.16 AsymmetryIndex.html:274 node 103 28
+2021.03.16 AsymmetryIndex.html:274 node 143 12
+2021.03.16 AsymmetryIndex.html:274 node 149 15
+2021.03.16 AsymmetryIndex.html:274 node 172 1
+2021.03.16 AsymmetryIndex.html:274 node 181 1
+2021.03.16 AsymmetryIndex.html:274 node 189 25
+2021.03.16 AsymmetryIndex.html:274 node 192 16
+2021.03.16 AsymmetryIndex.html:274 node 208 12
+2021.03.16 AsymmetryIndex.html:274 node 253 3
+2021.03.16 AsymmetryIndex.html:274 node 267 5
+2021.03.16 AsymmetryIndex.html:274 node 292 1
+2021.03.16 AsymmetryIndex.html:274 node 305 5
+2021.03.16 AsymmetryIndex.html:274 node 311 2
+2021.03.16 AsymmetryIndex.html:274 node 317 1
+2021.03.16 AsymmetryIndex.html:274 node 328 4
+2021.03.16 AsymmetryIndex.html:274 node 400 10
+2021.03.16 AsymmetryIndex.html:274 node 437 5
+2021.03.16 AsymmetryIndex.html:274 node 444 7
+2021.03.16 AsymmetryIndex.html:274 node 455 2
+2021.03.16 AsymmetryIndex.html:274 node 462 4
+2021.03.16 AsymmetryIndex.html:274 node 500 1
+2021.03.16 AsymmetryIndex.html:274 node 700 2
+2021.03.16 AsymmetryIndex.html:274 node 702 32
+2021.03.16 AsymmetryIndex.html:274 node 703 13
+2021.03.16 AsymmetryIndex.html:274 node 705 27
+2021.03.16 AsymmetryIndex.html:274 node 707 6
+2021.03.16 AsymmetryIndex.html:274 node 713 14
+2021.03.16 AsymmetryIndex.html:274 node 715 5
+2021.03.16 AsymmetryIndex.html:274 node 720 1
+2021.03.16 AsymmetryIndex.html:274 node 731 4
+2021.03.16 AsymmetryIndex.html:274 node 738 2
+2021.03.16 AsymmetryIndex.html:274 node 743 7
+2021.03.16 AsymmetryIndex.html:274 node 744 1
+2021.03.16 AsymmetryIndex.html:274 node 750 1
+2021.03.16 AsymmetryIndex.html:274 node 762 8
+2021.03.16 AsymmetryIndex.html:274 node 776 28
+2021.03.16 AsymmetryIndex.html:274 node 779 1
+2021.03.16 AsymmetryIndex.html:274 node 789 2
+2021.03.16 AsymmetryIndex.html:274 node 802 7
+2021.03.16 AsymmetryIndex.html:274  
+2021.03.16 AsymmetryIndex.html:274 
+ Processing root node 22
+2021.03.16 AsymmetryIndex.html:274        +22  (35*)
+2021.03.16 AsymmetryIndex.html:274 
+Asymmetry Calculations
+
+2021.03.16 AsymmetryIndex.html:274      node 22, subtrees 1
+2021.03.16 AsymmetryIndex.html:274      Expected % 100.00
+2021.03.16 AsymmetryIndex.html:274      Max divergence 0.00
+2021.03.16 AsymmetryIndex.html:274 node 35, subtree size0, % of whole = 0.00
+2021.03.16 AsymmetryIndex.html:274      component divergence 100.00
+2021.03.16 AsymmetryIndex.html:274 sum divergences = 100.00
+2021.03.16 AsymmetryIndex.html:274 Asymmetry Index = Infinity [0..1]
+
+2021.03.16 AsymmetryIndex.html:274  
+2021.03.16 AsymmetryIndex.html:274 node 22 1
+2021.03.16 AsymmetryIndex.html:274  

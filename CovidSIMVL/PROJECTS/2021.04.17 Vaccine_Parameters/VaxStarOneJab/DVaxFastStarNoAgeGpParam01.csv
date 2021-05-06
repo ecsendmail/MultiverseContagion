@@ -1,0 +1,35 @@
+VAX,T.eff1,14,2,,,,,,,,,
+VAX,Level.P1,0.72,2,,,,,,,,,
+VAX,T.dec,120,2,,,,,,,,,
+VAX,T.res,180,2,,,,,,,,,
+VAX,Level.R,0.25,2,,,,,,,,,
+VAX,T.eff1,14,3,,,,,,,,,
+VAX,Level.P1,0.72,3,,,,,,,,,
+VAX,T.dec,100,3,,,Village2,Village3,Village4,Village5,Village6,Village7,Village8
+VAX,T.res,160,3,,T.eff1,14,14,14,14,14,14,14
+VAX,Level.R,0.25,3,,Level.P1,0.72,0.72,0.72,0.72,0.72,0.72,0.72
+VAX,T.eff1,14,4,,T.dec,120,100,80,60,50,40,30
+VAX,Level.P1,0.72,4,,T.res,180,160,140,120,110,100,90
+VAX,T.dec,80,4,,Level.R,0.25,0.25,0.25,0.25,0.25,0.25,0.25
+VAX,T.res,140,4,,,,,,,,,
+VAX,Level.R,0.25,4,,T.eff1,Time to reach full efficacy after Jab1,,,,,,
+VAX,T.eff1,14,5,,Level.P1,Full efficacy for Jab 1,,,,,,
+VAX,Level.P1,0.72,5,,T.dec,Time at which full Jab1 efficacy starts falling,,,,,,
+VAX,T.dec,60,5,,T.res,Time at which Jab1 efficacy reaches residual level,,,,,,
+VAX,T.res,120,5,,Level.R,Residual efficacy level for Jab1 only,,,,,,
+VAX,Level.R,0.25,5,,,,,,,,,
+VAX,T.eff1,14,6,,,,,,,,,
+VAX,Level.P1,0.72,6,,,,,,,,,
+VAX,T.dec,50,6,,,,,,,,,
+VAX,T.res,110,6,,,,,,,,,
+VAX,Level.R,0.25,6,,,,,,,,,
+VAX,T.eff1,14,7,,,,,,,,,
+VAX,Level.P1,0.72,7,,,,,,,,,
+VAX,T.dec,40,7,,,,,,,,,
+VAX,T.res,100,7,,,,,,,,,
+VAX,Level.R,0.25,7,,,,,,,,,
+VAX,T.eff1,14,8,,,,,,,,,
+VAX,Level.P1,0.72,8,,,,,,,,,
+VAX,T.dec,30,8,,,,,,,,,
+VAX,T.res,90,8,,,,,,,,,
+VAX,Level.R,0.25,8,,,,,,,,,

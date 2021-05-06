@@ -1,0 +1,12 @@
+Parameters,,,,decrease 0 and 1
+population,1000,,,increase village sens
+ID,WaveVax,,,
+HzR,1.85,,,
+mF,0.75,0,,
+sizeF,1,0,,
+RedDays,9.4,,,
+VAX,T.eff1,0,0,
+VAX,Level.P1,80.5,0,
+VAX,T.dec,88,0,
+VAX,T.res,148,0,
+VAX,Level.R,0.25,0,

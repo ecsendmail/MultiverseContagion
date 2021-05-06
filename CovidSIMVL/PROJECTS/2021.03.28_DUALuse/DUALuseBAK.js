@@ -20,7 +20,7 @@ function GetURLParameter(sParam)
     }
 }
 
-var use_html = false;
+var use_html = true;
 
 /*
 try {
@@ -100,17 +100,15 @@ function myLoad(xfname) {
      let i, j;
      var inType = lines[0][0];
      switch (inType){
-             case "Parameters": JSONprocessParam();
+             case "Parameters":
+                 JSONprocessParam();
                  break;
-             case "pID":
-                 if (lines[0][1] == "sno") {
-                     JSONprocessPop()
-                 } else {
-                     if (lines[0][1] == "age-Gp") {
-                         JSONprocessCase()
-                     }
-                 }
+             case "Population":
+                 JSONprocessPop()
                  break;
+             case "Cases":
+                JSONprocessCase();
+                break;
              default:
                console_log("File format error");
                alertX("File Format error");
@@ -118,7 +116,7 @@ function myLoad(xfname) {
  }
 
 function JSONprocessParam(){
-    initializeMV();
+    initMV();
     let i=0;
     lines.shift();
     let lineNo = lines.length;
@@ -127,16 +125,13 @@ function JSONprocessParam(){
       parx = lines[i][0];
       let parN = lines[i][1];
       switch(parx){
-          case "use_html":
-              if (parN == "Y" || parN == "y"){
-                use_html = true
-              } else { use_html = false };
-              break;
           case "population":
               initPopn(parN);
               console_log("Population parameter set to "+parN);
               break;
           case "UN":
+              M.UCt = Number(lines[i][1]);
+              JSONinitUn();
               let p;
               for (p=0;p<M.UCt;p++){
                 UN[p] = lines[i][p+1];
@@ -170,6 +165,7 @@ function JSONprocessParam(){
           default:
               console_log("Error in Parameter File format");
               alertX("Error in parameter file format");
+              break;
       }
     }
 }
@@ -193,6 +189,7 @@ function startCaseFile(){
 
 function JSONprocessPop() {
     lines.shift();
+    lines.shift();
     initTicket();
     let i;                //gets rid of row labels
     let lineNo = lines.length;
@@ -206,6 +203,7 @@ function JSONprocessPop() {
 function JSONprocessCase() {
     let i=0;
     lines.shift();                  //gets rid of row labels
+    lines.shift();
     let lineNo = lines.length;
     for (i = 0; i < lineNo; i++) {
         if (!parseC(lines[i])) break;
@@ -240,16 +238,14 @@ function parseC(lineStr) {
 
 
 var oneTime = 0;
-function initializeMV() {
+function JSONinitUn() {
     let i,j;
     oneTime = 0;
-    initMV();
     for (i = 0; i < M.UCt; i++) {
         U[i] = new CreateUniverse();
         initUniv(U[i], i);
     }
     initEpiCenters();
-    initPopn();
 }
 
 /*************************** END JSON SPECIFIC ROUTINES *******************************************/
@@ -325,11 +321,12 @@ function HTprocessLines() {
         return;
     }
     if (lines[0][0] == "Parameters"){
-        HTprocParam(); }
-    else {
-          GUIstyle("getFile","none");
-          startMain();
-        }
+        lines.shift();
+        HTprocParam();
+      }
+        GUIstyle("getFile","none");
+        startMain();
+
   }
 
 function initSetPopUniv(){
@@ -340,7 +337,7 @@ function initSetPopUniv(){
         for (i=0;i<M.UCt;i++){
           UN[i] = lines[0][i+4]
         }
-        initUniverse();
+        initUniverse();       // use defaults if entry is null
         initPopn(M.PCt);
     }
     console_log("Population specified as: "+M.PCt);
@@ -407,10 +404,43 @@ function procClines(){
     GUIstyle("getFile","block");
     let x = prompt("If parameter file enter Y else enter N");
     if (x=="Y" || x=="y") {
-      return
+//      HTprocParam();
     } else {
       GUIstyle("getFile","none");
       startMain();
+    }
+}
+
+function HTprocParam(){
+    let lineNo = lines.length;
+    let i = 0;
+    let parx;
+    for (i=0;i<lineNo;i++){
+        parx = lines[i][0];
+        let parN = lines[i][1];
+        switch(parx){
+          case "HzR":
+              changeHzR(parN);
+              break;
+          case "sizeF":
+              let univ = lines[i][2];
+              chSizeF(parN,univ);
+              break;
+          case "mF":
+              let u2 = lines[i][2];
+              changeMF(parN,u2);
+              break;
+          case "RedDays":
+              changeRedDays(parN);
+              break;
+          case "STOP":
+              HALTgen = Number(parN);
+              break;
+          case "":
+              break;
+          default:
+              break;
+        }
     }
 }
 
@@ -1098,7 +1128,7 @@ function startMain(){
         this.endBlue = [];
         this.endRed = [];
         this.endOrange = [];
-        this.endRedDelta = [];
+        this.Delta = [];
         this.endCases = [];
         this.endVelocity = [];
         this.endR0 = [];
@@ -1922,11 +1952,11 @@ function startMain(){
 
   function changeMF(newMF,univ){
         GUI("dMingl",newMF);
+        let nu;
         console_log("new Mingle Factor in Universe = "+newMF+" U"+univ);
         if (univ == "" || univ === undefined){ nu = vU }
-        else {
-            let nu = Number(univ);
-        }
+        else {nu = univ};
+
         U[nu].minglf = Number(newMF);
   }
 
@@ -3239,7 +3269,7 @@ function implementVax(ages,vax){
 			if (M.UCt > 8) { MVtable8() };
     }
 
-      if (M.YellowCt==0 && M.BlueCt==0 && M.RedCt==0 && gen>1 && oneTime==0) {
+      if (M.YellowCt==0 && M.BlueCt==0 && M.RedCt==0 && gen>1 && gen>3) {
         HALT();
       }
   }
@@ -4211,7 +4241,7 @@ function implementVax(ages,vax){
                 showInLegend: true,
                 legendMarkerColor: "grey",
                 legendText: "Days since beginning",
-                dataPoints: M.endRedDelta
+                dataPoints: M.Delta
             }]
         });
     }
@@ -4682,10 +4712,90 @@ function HALT(){
       clearInterval(clockTimer);
 }
 
+
+    var wrapGreen = 0;
+    var wrapYellow = 0;
+    var wrapBlue = 0;
+    var wrapRed = 0;
+    var wrapOrange = 0;
+    var totGreen = 0;
+    var totYellow = 0;
+    var totBlue = 0;
+    var totRed = 0;
+    var totOrange = 0;
+
+
     function wrapUp(){
         console_log("\nWRAPUP: gen" +gen);
-        console_log("calculated R0: "+R0.toFixed(2));
+        console_log("calculated R0: "+R0);
+        console_log(" ");
+
+        totGreen = 0;
+        totYellow = 0;
+        totBlue = 0;
+        totRed = 0;
+        totOrange = 0;
+
+
+        wrapCt("Student GpA",0,9);
+        wrapCt("Student GpB",10,19);
+        wrapCt("Student GpC",20,29);
+        wrapCt("Teachers",30,35);
+        wrapCt("Spouses",36,40);
+        wrapCt("Grandparents",41,47);
+        wrapCt("LTC Staff DayShift",48,54);
+        wrapCt("LTC Staff Evenight Shift",55,58);
+        wrapCt("LTC Staff Night Shift",59,61);
+        wrapCt("LTC Residents with Fam",62,71);
+        wrapCt("LTC Residents NO Fam",72,89);
+        wrapCt("Bar Staff",90,99);
+        console_log(" Total G-Y-B-R-O = "+totGreen+" "+totYellow+" "+totBlue+" "+totRed+" "+totOrange);
+
     }
+
+    function wrapCt(a,b,c){
+        wrapGreen = 0;
+        wrapYellow = 0;
+        wrapBlue = 0;
+        wrapRed = 0;
+        wrapOrange = 0;
+
+        let x = (c-b+1);
+        let j;
+        for (j=b; j<c+1; j++){
+            switch(P[j].state){
+                case "green":
+                    wrapGreen++;
+                    break;
+                case "yellow":
+                    wrapYellow++;
+                    break;
+                case "blue":
+                    wrapBlue++;
+                    break;
+                case "red":
+                    wrapRed++;
+                case "orange":
+                    wrapOrange++;
+                    break;
+                default:
+                    break;
+            }
+            totGreen = totGreen + wrapGreen;
+            totYellow = totYellow + wrapYellow;
+            totBlue = totBlue+ wrapBlue;
+            totRed = totRed + wrapRed;
+            totOrange = totOrange + wrapOrange;
+          }
+          console_log(a);
+          console_log("     Green     "+wrapGreen);
+          console_log("     Yellow    "+wrapYellow);
+          console_log("     Blue      "+wrapBlue);
+          console_log("     Red       "+wrapRed);
+          console_log("     Orange    "+wrapOrange);
+          console_log(" ");
+    }
+
 
     function alertX (x){
         console_log("ALERT! "+x);
